@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>TC2 Item Drop Editor</title>
+  <meta content="TC2 Item Drop Editor" property="og:title" />
+  <meta content="A item drop editor for the Roblox game 'Typical Colors 2'." property="og:description" />
+  <meta content="https://rhgx.github.io/tc2-item-drop-editor" property="og:url" />
+  <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
+  <meta content="#a965da" data-react-helmet="true" name="theme-color" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-size: 14px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: url("https://i.imgur.com/pxnXVlZ.png") center center / cover no-repeat;
+       <!--backdrop-filter: blur(10px);-->
+    }
+
+    .container {
+      position: relative;
+    }
+
+    .title {
+      color: white;
+      font-family: Oswald;
+      font-size: 72px;
+      text-align: center;
+      margin-bottom: -100px;
+      z-index: 10;
+    }
+
+    .made-by-rocks {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: white;
+      font-family: Oswald;
+      font-size: 16px;
+    }
+
+    .color-buttons-container {
+      text-align: center;
+    }
+
+    .color-button {
+      display: inline-block;
+      width: auto;
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      font-family: Oswald;
+      font-size: 12px;
+      color: white;
+      text-align: center;
+    }
+
+    .v103_2 {
+      width: 800px;
+      height: 288px;
+      opacity: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .v101_2 {
+      width: 800px;
+      height: 288px;
+      background: rgba(49, 49, 49, 0.5);
+      opacity: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .v101_5,
+    .v101_6,
+    .v101_7,
+    .v101_8 {
+      position: absolute;
+    }
+
+    .v101_5 {
+      width: 780px;
+      height: 272px;
+      background: rgba(110, 110, 110, 1);
+      top: 8px;
+      left: 10px;
+      overflow: hidden;
+    }
+
+    .v101_6 {
+      width: 765px;
+      height: 257px;
+      background: rgba(49, 49, 49, 1);
+      top: 15px;
+      left: 19px;
+      overflow: hidden;
+    }
+
+    .v101_9 {
+      max-width: 550px;
+      color: rgba(255, 255, 255, 1);
+      position: absolute;
+      top: 151px;
+      left: 180px;
+      font-family: Oswald;
+      font-weight: Regular;
+      font-size: 48px;
+      opacity: 1;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .v101_7 {
+      width: 736px;
+      height: 8px;
+      background: rgba(110, 110, 110, 1);
+      top: 106px;
+      left: 30px;
+      overflow: hidden;
+    }
+
+    .v101_8 {
+      width: 425px;
+      color: rgba(255, 255, 255, 1);
+      position: absolute;
+      top: 26px;
+      left: 29px;
+      font-family: Oswald;
+      font-weight: Regular;
+      font-size: 48px;
+      opacity: 1;
+      text-align: left;
+    }
+
+    .v101_10 {
+      width: 136px;
+      height: 141px;
+      background: #507554;
+      opacity: 1;
+      position: absolute;
+      top: 124px;
+      left: 27px;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      overflow: hidden;
+    }
+
+    .v101_11 {
+      width: 124px;
+      height: 129px;
+      background: rgba(101, 102, 123, 1);
+      opacity: 1;
+      position: absolute;
+      top: 130px;
+      left: 33px;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .v101_11 img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    .html-editor {
+      background: #202123;
+      color: white;
+      font-family: Oswald;
+      font-weight: Regular;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="made-by-rocks">
+    Made by Rocks
+  </div>
+
+  <div class="container">
+    <div class="title">TC2 Item Drop Editor</div>
+    <div class="v103_2"></div>
+    <div class="v101_2">
+      <div class="content-box">
+        <div class="v101_5"></div>
+        <div class="v101_6"></div>
+        <span class="v101_9" id="editableContent">Genuine Frying Pan</span>
+        <div class="v101_7"></div>
+        <span class="v101_8">You have found an item!</span>
+        <div class="v101_10" id="editColor"></div>
+        <!-- Input box to edit background color -->
+        <input type="color" id="editBackgroundColor" value="#507554" onchange="changeBackgroundColor()">
+        <div class="v101_11" id="editImageContainer">
+          <img id="editImage"
+            src="https://media.discordapp.net/attachments/781127116531433473/1194999761581899919/Frying_Pan.png?ex=65e9c441&is=65d74f41&hm=c44566e726461b7c88c3409dd73da08f75a541482375b14357cc86db13234f12&=&format=webp&quality=lossless" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- HTML Editor Box -->
+    <div class="html-editor">
+      <label for="editContent">Drop Text:</label>
+      <input type="text" id="editContent" placeholder="Genuine Frying Pan" oninput="changeContent()">
+      <br>
+      <label for="editHTML">Rarity Color:</label>
+      <input type="color" id="editColorInput" value="#507554" onchange="changeColor()">
+      <div>
+        <button class="color-button" style="background-color: #C9C7C8;"
+          onclick="setPresetColor('#C9C7C8')">Normal</button>
+        <button class="color-button" style="background-color: #4C3F34;"
+          onclick="setPresetColor('#4C3F34')">Rented</button>
+        <button class="color-button" style="background-color: #69d732;"
+          onclick="setPresetColor('#69d732')">Experimental</button>
+        <button class="color-button" style="background-color: #FFD700;"
+          onclick="setPresetColor('#FFD700')">Unique</button>
+        <button class="color-button" style="background-color: #CF6A32;"
+          onclick="setPresetColor('#CF6A32')">Strange</button>
+        <button class="color-button" style="background-color: #476291;"
+          onclick="setPresetColor('#476291')">Vintage</button>
+        <button class="color-button" style="background-color: #4D7455;"
+          onclick="setPresetColor('#4D7455')">Genuine</button>
+        <br>
+        <button class="color-button" style="background-color: #8650AC;"
+          onclick="setPresetColor('#8650AC')">Unusual</button>
+        <button class="color-button" style="background-color: #38F3AB;"
+          onclick="setPresetColor('#38F3AB')">Haunted</button>
+        <button class="color-button" style="background-color: #70B04A;"
+          onclick="setPresetColor('#70B04A')">Community</button>
+        <button class="color-button" style="background-color: #70B04A;"
+          onclick="setPresetColor('#70B04A')">Self-Made</button>
+        <button class="color-button" style="background-color: #AA0000;"
+          onclick="setPresetColor('#AA0000')">Collector's</button>
+        <button class="color-button" style="background-color: #A50F79;"
+          onclick="setPresetColor('#A50F79')">ROLVe</button>
+      </div>
+      <br>
+      <label for="editImageURL">Drop Image:</label>
+      <input type="url" id="editImageURL" placeholder="Image URL" oninput="changeImage()">
+      <br>
+      <button class="color-button" style="background-color: #319b00;" onclick="downloadContentBox()">Download Drop As
+        Image</button>
+      <button class="color-button" style="background-color: #970000;" onclick="copyToClipboard()">Copy Drop To
+        Clipboard</button>
+    </div>
+  </div>
+
+  <script>
+
+    function changeContent() {
+      var editableContent = document.getElementById("editableContent");
+      var newContent = document.getElementById("editContent").value;
+      editableContent.innerText = newContent;
+    }
+
+    function changeBackgroundColor() {
+      var editColor = document.getElementById("editColor");
+      var newColor = document.getElementById("editBackgroundColor").value;
+      editColor.style.backgroundColor = newColor;
+    }
+
+    function changeColor() {
+      var editColor = document.getElementById("editColor");
+      var newColor = document.getElementById("editColorInput").value;
+      editColor.style.backgroundColor = newColor;
+    }
+
+    function changeImage() {
+      var editImage = document.getElementById("editImage");
+      var editImageContainer = document.getElementById("editImageContainer");
+      var newImageURL = document.getElementById("editImageURL").value;
+      editImage.src = newImageURL;
+      editImage.style.width = "auto";
+      editImage.style.height = "auto";
+      if (editImage.width > editImageContainer.offsetWidth) {
+        editImage.style.width = "100%";
+      }
+      if (editImage.height > editImageContainer.offsetHeight) {
+        editImage.style.height = "100%";
+      }
+    }
+
+    function setPresetColor(color) {
+      var editColor = document.getElementById("editColor");
+      editColor.style.backgroundColor = color;
+      document.getElementById("editColorInput").value = color;
+    }
+
+    function downloadContentBox() {
+      var v101_2Div = document.querySelector('.v101_2');
+      var v101_11Image = document.getElementById('editImage');
+
+      html2canvas(v101_2Div, { useCORS: true }).then(function (canvas) {
+        var dataURL = canvas.toDataURL();
+
+        var downloadLink = document.createElement('a');
+        downloadLink.href = dataURL;
+        downloadLink.download = 'drop.png';
+
+        downloadLink.click();
+      });
+    }
+    function copyToClipboard() {
+    var v101_2Div = document.querySelector('.v101_2');
+
+    html2canvas(v101_2Div, { useCORS: true }).then(function(canvas) {
+        var dataURL = canvas.toDataURL();
+
+        var blob = dataURLtoBlob(dataURL);
+
+        var clipboardItem = new ClipboardItem({ 'image/png': blob });
+
+        navigator.clipboard.write([clipboardItem]).then(function() {
+            alert('Image copied to clipboard!');
+        }).catch(function(err) {
+            console.error('Unable to copy to clipboard', err);
+        });
+    });
+}
+
+function dataURLtoBlob(dataURL) {
+    var arr = dataURL.split(',');
+    var mime = arr[0].match(/:(.*?);/)[1];
+    var bstr = atob(arr[1]);
+    var n = bstr.length;
+    var u8arr = new Uint8Array(n);
+
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new Blob([u8arr], { type: mime });
+}
+  </script>
+</body>
+
+</html>
