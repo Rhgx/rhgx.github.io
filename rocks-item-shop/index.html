@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocks&apos;s Typical Item Shop</title>
+    <meta content="Rocks's Typical Item Shop" property="og:title" />
+    <meta content="A showcase of the items in my inventory for the Roblox game 'Typical Colors 2'." property="og:description" />
+    <meta content="https://rhgx.github.io/tc2-loadout-generator" property="og:url" />
+    <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
+    <meta content="#a965da" data-react-helmet="true" name="theme-color" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,200">
+    <style>
+    body {
+    font-family: 'Oswald', sans-serif;
+    background-color: #8766c5;
+    color: #ddd;
+    margin: 0;
+    /* background-image: url('https://i.imgur.com/Nk2rDt8.gif');
+    background-repeat: repeat;
+    background-size: auto;
+    height: 100vh; */
+}
+
+.quilt-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.imgur.com/xIV4LlR.png');
+    background-size: 128px 128px;
+    z-index: -1;
+    animation: quilt-animation 10000s linear infinite;
+}
+
+@keyframes quilt-animation {
+    0% {
+        background-position: 0 28500%;
+    }
+
+    100% {
+        background-position: 28500% 0;
+    }
+}
+
+
+.store-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 1;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    background-color: #333;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.store-title-box,
+.tabs-box {
+    background-color: #444;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.store-title {
+    font-size: 2.8rem;
+    margin: 0;
+    color: #ddd;
+}
+
+.store-title-image {
+    width: auto;
+    height: 4.7em;
+    /* Adjust the height to your preference, 2em is a typical height for an h1 */
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    /* Center the image horizontally */
+}
+
+.tabs {
+    display: flex;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background 0.3s, color 0.3s;
+    color: #ddd;
+}
+
+.tab.active {
+    background: #555;
+    color: white;
+    border-radius: 5px;
+}
+
+.tab.pulse {
+    animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.search-container {
+    margin-bottom: 20px;
+    width: 100% -20px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0 auto 20px;
+    max-width: 1200px;
+}
+
+.search-input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #444;
+    color: #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.item-list {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Center the item lists */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.item-list.active {
+    display: grid;
+    max-width: 1200px;
+    margin: 20 auto;
+    /* Center the item lists */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.item {
+    background: #444;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    /* Required for overlay */
+}
+
+.item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.item .name {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: var(--text-color);
+    /* Use CSS variable for text color */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.item .rarity {
+    font-size: 1rem;
+    font-weight: 550;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.item .tag {
+    font-size: 1rem;
+    color: #888;
+    margin-top: 5px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.item .unusual-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.item .tooltip {
+    display: none;
+    position: absolute;
+    top: -48px;
+    /* Adjusted position */
+    left: 50%;
+    /* Center horizontally */
+    transform: translateX(-50%);
+    background: #222;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.item:hover .tooltip {
+    display: block;
+}
+
+.no-items-message {
+    display: none;
+    text-align: center;
+    margin-top: 10px;
+    font-size: x-large;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 0, 0, 0.8);
+    /* Red overlay with transparency */
+    color: white;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    /* Ensure it's above the item image */
+}
+
+#scrollToTopBtn {
+    display: block;
+    opacity: 1;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #444444;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    font-size: 25px;
+    font-family: 'Oswald';
+}
+
+#scrollToTopBtn {
+    background-color: #2b2b2b;
+    /* Darker background on hover */
+}
+
+.material-symbols-rounded {
+    font-family: 'Material Symbols Rounded', sans-serif;
+    font-size: 35px;
+    /* Adjust size as needed */
+    line-height: 1;
+    /* Ensure icon is vertically centered */
+}
+
+.audio-player {
+    background-color: #ffffff;
+    /* Background color of the audio player */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Optional: Add a shadow for better visibility */
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    background-color: transparent;
+    padding: 10px;
+    z-index: 9999;
+    /* Adjust z-index as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer {
+    background-color: #333;
+    color: #ddd;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.footer p {
+    margin: 0;
+    padding: 0;
+}
+
+.twemoji {
+    width: 30px !important; /* Set the desired width */
+    height: 30px !important; /* Set the desired height */
+    border-radius: 0px !important;
+    vertical-align: middle; /* Adjust vertical alignment if needed */
+}
+    </style>
+</head>
+<body>
+    <audio id="button-sound" src="http://sndup.net/6c4xm/d"></audio>
+    <div class="quilt-pattern"></div>
+    <button onclick="topFunction()" id="scrollToTopBtn" title="Go to top"><span class="material-symbols-rounded">&#xe5d8;</span></button>
+    <div class="store-container">
+        <div class="header">
+            <div class="store-title-box">
+                <img src="https://i.imgur.com/aT96Fkn.png" alt="Rocks's Item Shop" class="store-title-image">
+            </div>
+            <div class="tabs-box">
+                <div class="tabs">
+                    <div class="tab active" data-category="weapons">Weapons</div>
+                    <div class="tab" data-category="cosmetics">Cosmetics</div>
+                    <div class="tab" data-category="other">Other</div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search items...">
+        </div>
+        <div id="weapons" class="item-list active"></div>
+        <div id="cosmetics" class="item-list"></div>
+        <div id="other" class="item-list"></div>
+        <div id="no-items-message" class="no-items-message">
+            No items were found.
+        </div>
+    </div>
+    <div class="audio-player">
+        <audio controls>
+            <source src="https://dl.sndup.net/v553j/muffled_sound.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <footer class="footer">
+        <p>Made by Rocks. All item icons belong to the TC2 wiki.</p>
+    </footer>
+    <script>
+        function topFunction() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        document.addEventListener('DOMContentLoaded', async function () {
+    const rarityOrder = ["Dorcey", "Collector's", "Self-Made", "Community", "Haunted", "Unusual", "Genuine", "Vintage", "Strange", "Unique", "Experimental", "Rented", "Normal"];
+    
+    const rarityColors = {
+        "Normal": "#C9C7C8",
+        "Rented": "#4C3F34",
+        "Experimental": "#69d732",
+        "Unique": "#FFD700",
+        "Strange": "#CF6A32",
+        "Vintage": "#476291",
+        "Genuine": "#4D7455",
+        "Unusual": "#8650AC",
+        "Haunted": "#38F3AB",
+        "Community": "#70B04A",
+        "Self-Made": "#70B04A",
+        "Collector's": "#AA0000",
+        "Dorcey": "#A50F79"
+    };
+
+    const itemListContainers = {
+        "weapons": document.getElementById("weapons"),
+        "cosmetics": document.getElementById("cosmetics"),
+        "other": document.getElementById("other")
+    };
+
+    const searchInput = document.querySelector('.search-input');
+    const audio = document.querySelector('.audio-player audio');
+
+    let previousIndex = -1;
+    const playlist = [
+        { name: 'Team Fortress 2 - Upgrade Station [Bossa Nova / Big Band Remix] - Vandoorea', src: 'https://dl.sndup.net/v553j/muffled_sound.mp3' },
+        { name: 'Team Fortress 2 - Mercenary Park [Drum & Bass / Big Band Remix] - Vandoorea', src: 'https://dl.sndup.net/z76nt/merc2.mp3' },
+        { name: 'Magnum Force Theme [Remix] - Vandoorea', src: 'https://dl.sndup.net/g4mw5/magnum2.mp3' },
+        { name: 'Team Fortress 2 - Red Bread [Electronic - Big Band Remix] - Vandoorea', src: 'https://dl.sndup.net/m7q46/bread_muffled.mp3' },
+        { name: 'Team Fortress 2 - MEDIC! (Orchestral - Big Band Remix) - Vandoorea', src: 'https://dl.sndup.net/c4267/med_muffled.mp3' },
+        { name: 'Team Fortress 2 - Right Behind You [Electronic Jazz Noir Remix] - Vandoorea', src: 'https://dl.sndup.net/6n7pf/spy_muffled.mp3' },
+        { name: 'Team Fortress 2 - More Gun (Alex Giudici Remix)', src: 'https://dl.sndup.net/gbbmn/gun_muffled.mp3' },
+    ];
+
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 20) {
+            scrollToTopBtn.style.display = "block";
+            var opacity = Math.min(1, (document.documentElement.scrollTop - 20) / 500);
+            scrollToTopBtn.style.opacity = opacity;
+        } else {
+            scrollToTopBtn.style.display = "none";
+            scrollToTopBtn.style.opacity = "0";
+        }
+    }
+
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/Rhgx/tc2-item-store/main/data/data.json'); // URL to JSON
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const items = await response.json();
+
+        items.sort((a, b) => {
+            const rarityComparison = rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
+            if (rarityComparison !== 0) {
+                return rarityComparison;
+            }
+            return a.name.localeCompare(b.name);
+        });
+
+        items.forEach(item => {
+            const itemElement = document.createElement("div");
+            itemElement.classList.add("item");
+            itemElement.setAttribute('data-name', item.name.toLowerCase());
+
+            const altNames = item.altNames ? item.altNames.join(' ').toLowerCase() : '';
+            itemElement.setAttribute('data-alt-names', altNames);
+
+            itemElement.style.setProperty('--glow-color', rarityColors[item.rarity]);
+            itemElement.style.setProperty('--text-color', rarityColors[item.rarity]);
+
+            const capitalizedCategory = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+            itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" style="filter: drop-shadow(0 0 10px var(--glow-color)) brightness(110%);">
+                    <div class="name">${item.name}</div>
+                    <div class="rarity">${item.rarity}</div>
+                    <div class="tag">${capitalizedCategory}${item["not-tradeable"] ? `<div class="tradeable-tag" style="color: red; font-size:1.5rem;">NFT</div>` : ''}</div>
+                    ${item.unusual ? `<div class="unusual-icon" title="Unusual: ${item.unusual}">🌠</div><div class="tooltip" style="font-size: 1.2rem;">Unusual: ${item.unusual}</div>` : ''}
+                `;
+
+            itemListContainers[item.category].appendChild(itemElement);
+        });
+    } catch (error) {
+        console.error('Failed to fetch items:', error);
+    }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            document.querySelectorAll('.item-list').forEach(list => list.classList.remove('active'));
+            document.getElementById(tab.dataset.category).classList.add('active');
+        });
+    });
+
+    searchInput.addEventListener('input', () => {
+        const searchValue = searchInput.value.toLowerCase();
+        let foundItems = 0; // Track the number of found items
+
+        document.querySelectorAll('.item').forEach(item => {
+            const itemName = item.getAttribute('data-name');
+            const itemAltNames = item.getAttribute('data-alt-names');
+
+            if (itemName.includes(searchValue) || itemAltNames.includes(searchValue)) {
+                item.style.display = 'block';
+                foundItems++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Show message when no items are found
+        const noItemsMessage = document.getElementById('no-items-message');
+        if (foundItems === 0) {
+            noItemsMessage.style.display = 'block';
+        } else {
+            noItemsMessage.style.display = 'none';
+        }
+    });
+
+    let isPlaying = false;
+
+    function playRandomTrack() {
+        let randomIndex = Math.floor(Math.random() * playlist.length);
+        
+        while (randomIndex === previousIndex) {
+            randomIndex = Math.floor(Math.random() * playlist.length);
+        }
+
+        audio.src = playlist[randomIndex].src;
+        audio.play();
+        previousIndex = randomIndex;
+        isPlaying = true;
+    }
+
+    audio.addEventListener('ended', function () {
+        playRandomTrack();
+    });
+
+    audio.addEventListener('play', function () {
+        isPlaying = true;
+    });
+
+    audio.addEventListener('pause', function () {
+        isPlaying = false;
+    });
+
+    function playSound() {
+        const audio = document.getElementById('button-sound');
+        audio.volume = 0.1;
+        audio.currentTime = 0;
+        audio.play();
+    }
+
+    function addVisualCue(button) {
+        button.classList.add('pulse');
+        setTimeout(() => {
+            button.classList.remove('pulse');
+        }, 300);
+    }
+
+    document.querySelectorAll('.tab').forEach(button => {
+        button.addEventListener('click', () => {
+            playSound();
+            addVisualCue(button);
+        });
+    });
+
+    document.querySelectorAll('#scrollToTopBtn').forEach(button => {
+        button.addEventListener('click', () => {
+            playSound();
+        });
+
+        twemoji.parse(document.body, {
+            folder: 'svg',
+            ext: '.svg',
+            className: 'twemoji'
+        });
+    });
+});
+    </script>
+</body>
+</html>
