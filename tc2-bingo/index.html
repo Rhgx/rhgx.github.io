@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC2 Bingo Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Schluber';
+            src: url('files/fonts/Schluber.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'Schluber', sans-serif;
+            background-image: url('files/images/background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            font-weight: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 65px;
+            text-align: center;
+            margin-bottom: 20px;
+            -webkit-text-fill-color: #fff;
+            -webkit-text-stroke-width: 1.5px;
+            -webkit-text-stroke-color: #1f1f1f;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .bingo-card {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            max-width: 100%;
+        }
+
+        .bingo-cell {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            font-size: larger;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+            cursor: pointer;
+            user-select: none;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .free-space {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .crossed {
+            background-color: rgb(0, 110, 255);
+            color: #fff;
+        }
+
+        .completed {
+            background-color: #28a745;
+        }
+        
+        .btn 
+        {
+            font-family: 'Oswald';
+            margin: 10px;
+            font-size: x-large;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>TC2 Bingo Generator</h1>
+
+    <div class="container text-center">
+        <div id="bingo-card" class="bingo-card"></div>
+    </div>
+
+    <button type="button" class="btn btn-success" onclick="generateBingoCard()">Generate</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+
+const prompts = [
+    "Player using {WeaponTest}",
+    "Tryhard",
+    "Toxic player",
+    "Weird usename",
+    "Team Deathmatch",
+    "Doctor drops supercharge",
+    "No teleporter entrance",
+    "Sentry Nest",
+    "Player taunting after kill",
+    "Funny Ragdoll",
+    "{UsernameFlair} in usename",
+    "Stalemate",
+    "No item drops",
+    "Capture the flag",
+    "Paint can drop",
+    "Argument in chat",
+    "Facestab",
+    "{Issue} player",
+    "Overused item name",
+    "W+M1 Arsonist",
+    "Obvious Agent",
+    "Taunt kill",
+    "AFK",
+    "Autobalance",
+    "{KillType} kill",
+    "Unique {RarityWeapons}",
+    "Player wearing Gibus",
+    "Player using shotgun {SClass}",
+    "Player opening crate",
+    "Votekick",
+    "Smurf Account",
+    "Mass {massType}",
+    "{RageType}",
+    "Weapon Reskin"
+];
+
+const replacements = {
+    "{WeaponTest}": ["Shortstop", "Direct Hit", "Gutbuster", "Bikers Blitz", "Spy Camera", "Mercy Kill", "Einsteinium", "Efficient Eliminator", "Phlogistinator", "Kunai", "Sticky Jumper", "Witches Brew"],
+    "{UsernameFlair}" : ["\"TC2\"","\"YT\""],
+    "{Issue}": ["3000 ping", "Console", "Potato PC"],
+    "{KillType}" : ["Wooden Sword", "Stomp", "Lemoblade", "Improvised Innovator", "Fists of Steel", "Gravity Coil"],
+    "{RarityWeapons}" : ["Mule Mauler", "Diggity Dog","Named Item"],
+    "{SClass}" : ["Brute","Trooper"],
+    "{massType}" : ["map pick", "killbind"],
+    "{RageType}" : ["Rage-quit","Rage-switch"]
+};
+
+function replacePlaceholders(prompt) {
+    let modifiedPrompt = prompt;
+    for (const placeholder in replacements) {
+        if (replacements.hasOwnProperty(placeholder)) {
+            const regex = new RegExp(placeholder, 'g');
+            if (regex.test(modifiedPrompt)) {
+                const replacementValues = replacements[placeholder];
+                const randomValue = replacementValues[Math.floor(Math.random() * replacementValues.length)];
+                modifiedPrompt = modifiedPrompt.replace(regex, randomValue);
+            }
+        }
+    }
+    return modifiedPrompt;
+}
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+
+                [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]];
+            }
+
+            return array;
+        }
+
+        function generateBingoCard() {
+            const card = document.getElementById('bingo-card');
+            card.innerHTML = '';
+            let shuffledPrompts = shuffle([...prompts]);
+
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('bingo-cell');
+
+                if (i === 12) {
+                    cell.classList.add('free-space');
+                    cell.textContent = 'Free Space';
+                } else {
+                    let prompt = shuffledPrompts.pop();
+                    prompt = replacePlaceholders(prompt);
+                    cell.textContent = prompt;
+                }
+
+                cell.addEventListener('click', () => {
+                    cell.classList.toggle('crossed');
+                    checkForBingo();
+                });
+
+                card.appendChild(cell);
+            }
+        }
+
+        function checkForBingo() {
+            const cells = document.querySelectorAll('.bingo-cell');
+            const rows = [[], [], [], [], []];
+            const cols = [[], [], [], [], []];
+            const diagonals = [[], []];
+
+            cells.forEach((cell, index) => {
+                const row = Math.floor(index / 5);
+                const col = index % 5;
+
+                rows[row].push(cell);
+                cols[col].push(cell);
+
+                if (row === col) diagonals[0].push(cell);
+                if (row + col === 4) diagonals[1].push(cell);
+            });
+
+            const allLines = [...rows, ...cols, ...diagonals];
+
+            // Remove completed class from all cells first
+            cells.forEach(cell => cell.classList.remove('completed'));
+
+            for (const line of allLines) {
+                if (line.every(cell => cell.classList.contains('crossed'))) {
+                    line.forEach(cell => cell.classList.add('completed'));
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateBingoCard();
+        });
+    </script>
+
+</body>
+
+</html>
