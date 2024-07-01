@@ -361,6 +361,11 @@
                     line.forEach(cell => cell.classList.add('completed'));
                     bingoLocked = true;
                     document.getElementById('overlay').classList.add('visible');
+                     anime({
+                        targets: '.overlay',
+                        scale: [0.5,1],
+                        easing: 'spring(1, 80, 7, 0)',
+                    })
                     triggerConfetti();
                 }
             }
