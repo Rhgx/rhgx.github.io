@@ -83,6 +83,15 @@
                 return R * c;
             }
 
+            var redIcon = new L.Icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     const userLat = position.coords.latitude;
@@ -94,7 +103,7 @@
                         maxZoom: 19,
                     }).addTo(map);
 
-                    L.marker(userLocation).addTo(map).bindPopup(`You are here`).openPopup();
+                    L.marker(userLocation, {icon : redIcon}).addTo(map).bindPopup(`You are here`).openPopup();
 
                     const distances = regions.map(region => {
                         const distanceKm = calculateDistance(userLat, userLon, region.lat, region.lon);
