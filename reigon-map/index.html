@@ -82,20 +82,18 @@
                 return R * c;
             }
 
-            fetch('http://ip-api.com/json/')
-                .then(response => response.json())
-                .then(data => {
-                    const userLat = data.lat;
-                    const userLon = data.lon;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const userLat = position.coords.latitude;
+                    const userLon = position.coords.longitude;
                     const userLocation = [userLat, userLon];
-                    const userCity = data.city;
 
                     const map = L.map('map').setView(userLocation, 4);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         maxZoom: 19,
                     }).addTo(map);
 
-                    L.marker(userLocation).addTo(map).bindPopup(`You are here: ${userCity}`).openPopup();
+                    L.marker(userLocation).addTo(map).bindPopup(`You are here`).openPopup();
 
                     const distances = regions.map(region => {
                         const distanceKm = calculateDistance(userLat, userLon, region.lat, region.lon);
@@ -112,8 +110,13 @@
 
                         L.marker([region.lat, region.lon]).addTo(map).bindPopup(`${region.name}`);
                     });
-                })
-                .catch(error => console.error('Error fetching location:', error));
+                }, error => {
+                    console.error('Error getting location:', error);
+                    alert('Unable to retrieve your location. Please check your browser settings and try again.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
         });
     </script>
 </body>
