@@ -4,21 +4,21 @@
         "description": "A trading server made by sevn.",
         "logo": "../tc2-server-browser/images/7trade.png",
         "code": "7trade.tc",
-        "tags": ["trading", "custom-maps"]
+        "tags": ["trading", "custom-maps","24-7"]
     },
     {
         "title": "2Fort",
-        "description": "A server that hosts FAXEAXIS's 2Fort recreation.",
+        "description": "A server that hosts a re-creation of TF's 2Fort by FAKEAXIS.",
         "logo": "../tc2-server-browser/images/2fort.png",
         "code": "2fortgaming.tc",
         "tags": ["custom-maps", "24-7"]
     },
     {
-        "title": "Server 02",
-        "description": "Praesent commodo cursus magna, vel scelerisque nisl consectetur et.",
-        "logo": "https://picsum.photos/200",
-        "code": "example2.tc",
-        "tags": ["randomizer", "class-wars","24-7"]
+        "title": "Dr Right's Hightower",
+        "description": "A recreation of the the TF2's Hightower by Dr. Right.",
+        "logo": "../tc2-server-browser/images/hightower.png",
+        "code": "ralseii.tc",
+        "tags": ["custom-maps","24-7"]
     },
     {
         "title": "Server 04",
