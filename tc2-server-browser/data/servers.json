@@ -28,11 +28,11 @@
         "tags": ["24-7"]
     },
     {
-        "title": "Server 05",
-        "description": "Vestibulum at eros. Suspendisse potenti. Nulla vitae elit libero, a pharetra augue.",
-        "logo": "https://picsum.photos/200",
-        "code": "example5.tc",
-        "tags": ["capture-the-flag", "player-destruction"]
+        "title": "Map Makers",
+        "description": "A server hosted by Grimisky which has a variety of workshop maps for people to try out.",
+        "logo": "../tc2-server-browser/images/map-makers.png",
+        "code": "mapmakers.tc",
+        "tags": ["standart","payload","koth","control-points","attack-defend","custom-maps","player-destruction"]
     },
     {
         "title": "Server 06",
