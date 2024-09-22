@@ -2,15 +2,15 @@
     {
         "title": "7trade",
         "description": "A trading server made by sevn.",
-        "logo": "https://tr.rbxcdn.com/1f857b77668c57284445c56ee9d09ff2/200/200/Image/Png",
+        "logo": "../images/7trade.png",
         "code": "7trade.tc",
         "tags": ["trading", "custom-maps"]
     },
     {
-        "title": "Server 01",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.",
-        "logo": "https://picsum.photos/200",
-        "code": "example1.tc",
+        "title": "2Fort",
+        "description": "A server that hosts FAXEAXIS's 2Fort recreation.",
+        "logo": "../images/2fort.png",
+        "code": "2fortgaming.tc",
         "tags": ["custom-maps", "24-7"]
     },
     {
