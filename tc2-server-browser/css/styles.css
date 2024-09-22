@@ -1,4 +1,3 @@
-/* General Body Styling */
 body {
     font-family: 'Gotham', sans-serif;
     background-color: #1e1e1e;
@@ -10,15 +9,21 @@ body {
     user-select: none;
 }
 
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
 .filters {
     background-color: #2d2d2d;
     padding: 20px;
-    width: 250px; 
+    width: 250px;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    overflow-y: auto;  
+    overflow-y: auto;
     border-right: 1px solid #444;
 }
 
@@ -35,42 +40,41 @@ body {
 .filters {
     background-color: #2d2d2d;
     padding: 20px;
-    height: 100vh;  /* Full height for filter column */
-    position: fixed;  /* Keep filter box fixed */
+    height: 100vh;
+    position: fixed;
     top: 0;
     left: 0;
-    overflow-y: auto;  /* Scroll filters if they overflow */
+    overflow-y: auto;
     border-right: 1px solid #444;
     z-index: 10;
 }
 
-
 .server-container {
-    margin-left: 250px; 
+    margin-left: 250px;
     margin-top: 60px;
     padding: 20px;
-    width: calc(100% - 250px); 
+    width: calc(100% - 250px);
     display: flex;
     flex-direction: column;
     gap: 10px;
     overflow-y: auto;
-    height: calc(100vh - 60px); 
-    box-sizing: border-box; 
+    height: calc(100vh - 60px);
+    box-sizing: border-box;
 }
 
 .search-header {
     padding: 10px;
     background-color: #2d2d2d;
     border-bottom: 1px solid #444;
-    position: fixed; 
+    position: fixed;
     top: 0;
-    left: 250px; 
+    left: 250px;
     width: calc(100% - 250px);
-    z-index: 10; 
+    z-index: 10;
 }
 
 .col-md-9 {
-    max-width : 100% !important;
+    max-width: 100% !important;
     flex: 0 0 100%;
 }
 
@@ -86,7 +90,7 @@ h5 {
 .filter-toggle {
     background-color: transparent;
     border: none;
-    z-index:5;
+    z-index: 5;
     color: #9f8bc5;
     font-size: 1.1rem;
     text-align: left;
@@ -122,6 +126,7 @@ hr {
     width: 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .server-card img {
     width: 64px;
     height: 64px;
@@ -165,6 +170,7 @@ hr {
     align-items: flex-end;
     position: relative;
     overflow: hidden;
+    max-width: 100%;
 }
 
 .copy-btn {
@@ -179,10 +185,16 @@ hr {
     align-items: center;
     position: relative;
     overflow: hidden;
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    justify-content: space-between;
+    transition: font-size 0.2s ease;
 }
 
 .copy-btn .material-symbols-outlined {
     margin-left: 5px;
+    transition: transform 0.2s ease;
 }
 
 .copy-btn:hover {
@@ -204,8 +216,8 @@ hr {
 
 #search-bar {
     width: 100%;
-    padding: 10px 20px; 
-    border-radius: 30px; 
+    padding: 10px 20px;
+    border-radius: 30px;
     border: 1px solid #444;
     background-color: #333;
     color: #e0e0e0;
@@ -216,7 +228,7 @@ hr {
     border: 1px solid #9f8bc5;
     background-color: #444;
 }
-  
+
 .custom-checkbox {
     display: flex;
     align-items: center;
@@ -253,9 +265,9 @@ hr {
 
 .custom-checkbox label {
     margin-left: 10px;
-    color: #ccc; 
-    font-size: 1rem; 
-    cursor: pointer; 
+    color: #ccc;
+    font-size: 1rem;
+    cursor: pointer;
 }
 
 .custom-checkbox input[type="checkbox"]:hover {
@@ -270,5 +282,77 @@ hr {
     100% {
         transform: translate(-50%, -50%) scale(1);
         opacity: 0;
+    }
+}
+
+@media (max-width: 1068px) {
+    .copy-btn {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
+
+    .copy-btn-container {
+        width: 100%;
+    }
+
+    .copy-btn .material-symbols-outlined {
+        margin-left: 3px;
+        transform: scale(0.8);
+    }
+}
+
+@media (max-width: 768px) {
+    .filters {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        border-right: none;
+    }
+
+    .copy-button {
+        font-size: 0.7rem;
+        padding: 8px 16px;
+    }
+
+    .search-header {
+        left: 0;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .server-container {
+        margin-left: 0;
+        margin-top: 60px;
+        width: 100%;
+        padding: 10px;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+
+    .server-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .server-card img {
+        margin-bottom: 10px;
+    }
+
+    .custom-checkbox {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .copy-btn {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+
+    #search-bar {
+        padding: 8px 15px;
     }
 }
