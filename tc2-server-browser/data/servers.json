@@ -23,7 +23,7 @@
     {
         "title": "friendlies go here",
         "description": "A server hosted by Blockhead, designed to accommodate friendly players.",
-        "logo": "../tc2-server-browswer/images/mariokart.png",
+        "logo": "../tc2-server-browser/images/mariokart.png",
         "code": "friendly.tc",
         "tags": ["24-7"]
     },
