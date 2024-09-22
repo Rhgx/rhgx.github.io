@@ -1,31 +1,31 @@
 [
     {
         "title": "7trade",
-        "description": "A trading server made by sevn.",
+        "description": "A trading server hosted by sevn.",
         "logo": "../tc2-server-browser/images/7trade.png",
         "code": "7trade.tc",
         "tags": ["trading", "custom-maps","24-7"]
     },
     {
         "title": "2Fort",
-        "description": "A server that hosts a re-creation of TF's 2Fort by FAKEAXIS.",
+        "description": "A server hosting a re-creation of TF2's 2Fort by FAKEAXIS.",
         "logo": "../tc2-server-browser/images/2fort.png",
         "code": "2fortgaming.tc",
         "tags": ["custom-maps", "24-7"]
     },
     {
         "title": "Dr Right's Hightower",
-        "description": "A recreation of the the TF2's Hightower by Dr. Right.",
+        "description": "A re-creation of the TF2's Hightower by Dr. Right.",
         "logo": "../tc2-server-browser/images/hightower.png",
         "code": "ralseii.tc",
         "tags": ["custom-maps","24-7"]
     },
     {
-        "title": "Server 04",
-        "description": "Aenean lacinia bibendum nulla sed consectetur.",
-        "logo": "https://picsum.photos/200",
-        "code": "example4.tc",
-        "tags": ["6v6", "team-deathmatch","custom-maps"]
+        "title": "friendlies go here",
+        "description": "A server hosted by Blockhead, designed to accommodate friendly players.",
+        "logo": "../tc2-server-browswer/images/mariokart.png",
+        "code": "friendly.tc",
+        "tags": ["24-7"]
     },
     {
         "title": "Server 05",
