@@ -71,7 +71,10 @@ function getTagColor(tag) {
         'player-destruction': '#f1c40f',
         '24/7': '#f39c12',            
         'custom-maps': '#3498db',     
-        "trading" : "#db5027"
+        "trading" : "#db5027",
+        "payload" : "#4b9922",
+        "control-points" : "#15bd74",
+        "koth" : "#3814b8"
     };
     return colors[tag.toLowerCase()] || '#555';
 }
@@ -79,7 +82,7 @@ function getTagColor(tag) {
 
 function capitalizeTag(tag) {
     if (tag === "24-7") return "24/7";
-    else
+    if (tag === "koth") return "KOTH";
     return tag.replace(/-/g, ' ') 
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
