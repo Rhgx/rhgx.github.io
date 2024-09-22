@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typical Colors 2 Server Browser</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="search-header">
+            <input type="text" id="search-bar" placeholder="Search servers...">
+        </header>
+
+        <div class="row">
+            <!-- Filters Tab -->
+            <aside class="col-md-3 filters">
+                <h5>Filters</h5>
+                <div class="filter-group">
+                    <div class="filter-toggle" data-toggle="collapse" data-target="#gamemodes">Gamemodes</div>
+                    <div id="gamemodes" class="collapse show">
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="standart">
+                            <label for="standart">Standart</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="vs-bosses">
+                            <label for="vs-bosses">VS Bosses</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="randomizer">
+                            <label for="randomizer">Randomizer</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="class-wars">
+                            <label for="class-wars">Class Wars</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="prop-hunt">
+                            <label for="prop-hunt">Prop Hunt</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="highlander">
+                            <label for="highlander">Highlander</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="6v6">
+                            <label for="6v6">6v6</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="team-deathmatch">
+                            <label for="team-deathmatch">Team Deathmatch</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="capture-the-flag">
+                            <label for="capture-the-flag">Capture the Flag</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="player-destruction">
+                            <label for="player-destruction">Player Destruction</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="filter-group">
+                    <div class="filter-toggle" data-toggle="collapse" data-target="#otherfilters">Other</div>
+                    <div id="otherfilters" class="collapse show">
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="custom-maps">
+                            <label for="custom-maps">Custom Maps</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="24-7">
+                            <label for="24-7">24/7</label>
+                        </div>
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="trading">
+                            <label for="trading">Trading</label>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Server List Container -->
+            <div class="col-md-9">
+                <section class="server-container" id="server-container"></section>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
