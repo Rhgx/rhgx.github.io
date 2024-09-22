@@ -50,7 +50,7 @@ function renderServers(serversToRender) {
         translateY: [20, 0],
         duration: 600,
         easing: 'easeOutExpo',
-        delay: anime.stagger(100) 
+        delay: anime.stagger(50) 
     });
 }
 
