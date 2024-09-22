@@ -74,7 +74,8 @@ function getTagColor(tag) {
         "trading" : "#db5027",
         "payload" : "#4b9922",
         "control-points" : "#15bd74",
-        "koth" : "#3814b8"
+        "koth" : "#3814b8",
+        "attack-defend" : "16a085"
     };
     return colors[tag.toLowerCase()] || '#555';
 }
