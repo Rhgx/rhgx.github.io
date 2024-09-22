@@ -2,14 +2,14 @@
     {
         "title": "7trade",
         "description": "A trading server made by sevn.",
-        "logo": "../images/7trade.png",
+        "logo": "../tc2-server-browser/images/7trade.png",
         "code": "7trade.tc",
         "tags": ["trading", "custom-maps"]
     },
     {
         "title": "2Fort",
         "description": "A server that hosts FAXEAXIS's 2Fort recreation.",
-        "logo": "../images/2fort.png",
+        "logo": "../tc2-server-browser/images/2fort.png",
         "code": "2fortgaming.tc",
         "tags": ["custom-maps", "24-7"]
     },
