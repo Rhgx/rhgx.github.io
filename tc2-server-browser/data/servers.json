@@ -1,0 +1,72 @@
+[
+    {
+        "title": "7trade",
+        "description": "A trading server made by sevn.",
+        "logo": "https://tr.rbxcdn.com/1f857b77668c57284445c56ee9d09ff2/200/200/Image/Png",
+        "code": "7trade.tc",
+        "tags": ["trading", "custom-maps"]
+    },
+    {
+        "title": "Server 01",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.",
+        "logo": "https://picsum.photos/200",
+        "code": "example1.tc",
+        "tags": ["custom-maps", "24-7"]
+    },
+    {
+        "title": "Server 02",
+        "description": "Praesent commodo cursus magna, vel scelerisque nisl consectetur et.",
+        "logo": "https://picsum.photos/200",
+        "code": "example2.tc",
+        "tags": ["randomizer", "class-wars","24-7"]
+    },
+    {
+        "title": "Server 04",
+        "description": "Aenean lacinia bibendum nulla sed consectetur.",
+        "logo": "https://picsum.photos/200",
+        "code": "example4.tc",
+        "tags": ["6v6", "team-deathmatch","custom-maps"]
+    },
+    {
+        "title": "Server 05",
+        "description": "Vestibulum at eros. Suspendisse potenti. Nulla vitae elit libero, a pharetra augue.",
+        "logo": "https://picsum.photos/200",
+        "code": "example5.tc",
+        "tags": ["capture-the-flag", "player-destruction"]
+    },
+    {
+        "title": "Server 06",
+        "description": "Curabitur blandit tempus porttitor. Maecenas faucibus mollis interdum.",
+        "logo": "https://picsum.photos/200",
+        "code": "example6.tc",
+        "tags": ["standart", "randomizer"]
+    },
+    {
+        "title": "Server 07",
+        "description": "Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+        "logo": "https://picsum.photos/200",
+        "code": "example7.tc",
+        "tags": ["vs-bosses", "class-wars"]
+    },
+    {
+        "title": "Server 08",
+        "description": "Sed posuere consectetur est at lobortis. Integer posuere erat a ante venenatis dapibus.",
+        "logo": "https://picsum.photos/200",
+        "code": "example8.tc",
+        "tags": ["prop-hunt", "highlander"]
+    },
+    {
+        "title": "Server 09",
+        "description": "Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.",
+        "logo": "https://picsum.photos/200",
+        "code": "example9.tc",
+        "tags": ["6v6", "team-deathmatch"]
+    },
+    {
+        "title": "Server 10",
+        "description": "Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna.",
+        "logo": "https://picsum.photos/200",
+        "code": "example10.tc",
+        "tags": ["capture-the-flag", "player-destruction"]
+    }
+]
