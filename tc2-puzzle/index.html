@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Puzzle Game - Rearrange the pieces and download the image.">
+    <title>Puzzle Game</title>
+    
+    <!-- Google Fonts: Oswald -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- html2canvas CDN (version 1.4.1) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Oswald', sans-serif;
+            background-color: #120e16;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 36px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        #puzzle-container {
+            position: relative;
+            width: 825px;
+            height: 675px;
+            border: 1px solid #ffffff;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .piece {
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        #download-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #2f8be8;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #download-btn:hover {
+            background-color: #1e6aa6;
+        }
+
+        #save-progress-btn, #restore-progress-btn {
+            margin-top: 10px;
+            padding: 8px 15px;
+            font-size: 16px;
+            background-color: #6a52d2;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #hash-input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 400px;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TC2 Image Puzzle</h1>
+        <div id="puzzle-container"></div>
+        <button id="download-btn" class="btn btn-primary">Download Image</button>
+        <button id="save-progress-btn">Save Progress</button>
+        <button id="restore-progress-btn">Restore Progress</button>
+        <input type="text" id="hash-input" placeholder="Paste your saved hash here" />
+    </div>
+
+    <script>
+        const imageUrl = 'https://i.imgur.com/CKfxHv4.png';  // Image source
+        const rows = 9;  // Number of rows (9 pieces along y-axis)
+        const cols = 11;  // Number of columns (11 pieces along x-axis)
+        const pieceSize = 75;  // Size of each piece
+
+        const puzzleContainer = document.getElementById('puzzle-container');
+        const downloadButton = document.getElementById('download-btn');
+        const saveProgressButton = document.getElementById('save-progress-btn');
+        const restoreProgressButton = document.getElementById('restore-progress-btn');
+        const hashInput = document.getElementById('hash-input');
+        let pieces = [];
+
+        // Load images before starting the puzzle pieces
+        const loadImage = (url) => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+            });
+        };
+
+        // Create puzzle pieces and add drag and drop functionality
+        loadImage(imageUrl).then(image => {
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const piece = document.createElement('div');
+                    piece.classList.add('piece');
+                    piece.style.left = `${col * pieceSize}px`;
+                    piece.style.top = `${row * pieceSize}px`;
+                    piece.style.backgroundImage = `url(${imageUrl})`;
+                    piece.style.backgroundPosition = `-${col * pieceSize}px -${row * pieceSize}px`;
+                    piece.dataset.row = row;
+                    piece.dataset.col = col;
+                    piece.setAttribute('draggable', true);
+                    piece.addEventListener('dragstart', dragStart);
+                    piece.addEventListener('dragover', dragOver);
+                    piece.addEventListener('drop', dropPiece);
+
+                    puzzleContainer.appendChild(piece);
+                    pieces.push(piece);
+                }
+            }
+        }).catch(err => {
+            console.error('Failed to load image:', err);
+        });
+
+        // Handle dragging functionality
+        let draggedPiece = null;
+
+        function dragStart(event) {
+            draggedPiece = this;
+            event.dataTransfer.setData('text', '');
+        }
+
+        function dragOver(event) {
+            event.preventDefault();
+        }
+
+        function dropPiece(event) {
+            event.preventDefault();
+            const target = this;
+
+            // Swap positions
+            const draggedRow = parseInt(draggedPiece.dataset.row);
+            const draggedCol = parseInt(draggedPiece.dataset.col);
+            const targetRow = parseInt(target.dataset.row);
+            const targetCol = parseInt(target.dataset.col);
+
+            draggedPiece.style.left = `${targetCol * pieceSize}px`;
+            draggedPiece.style.top = `${targetRow * pieceSize}px`;
+            draggedPiece.dataset.row = targetRow;
+            draggedPiece.dataset.col = targetCol;
+
+            target.style.left = `${draggedCol * pieceSize}px`;
+            target.style.top = `${draggedRow * pieceSize}px`;
+            target.dataset.row = draggedRow;
+            target.dataset.col = draggedCol;
+        }
+
+        // Save progress by generating a unique hash of the current puzzle state
+        saveProgressButton.addEventListener('click', function() {
+            let state = pieces.map(piece => {
+                return `${piece.dataset.row},${piece.dataset.col}`;
+            }).join('|');
+            hashInput.value = btoa(state);  // Encode as Base64
+            hashInput.select();
+            document.execCommand('copy');  // Copy the hash to the clipboard
+            alert("Progress saved! The hash has been copied to your clipboard.");
+        });
+
+        // Restore progress using the hash
+        restoreProgressButton.addEventListener('click', function() {
+            const hash = hashInput.value;
+            if (!hash) {
+                alert("Please enter a valid hash to restore progress.");
+                return;
+            }
+            
+            try {
+                const state = atob(hash).split('|');  // Decode the Base64 hash
+                state.forEach((position, index) => {
+                    const [row, col] = position.split(',');
+                    pieces[index].style.left = `${col * pieceSize}px`;
+                    pieces[index].style.top = `${row * pieceSize}px`;
+                    pieces[index].dataset.row = row;
+                    pieces[index].dataset.col = col;
+                });
+                alert("Progress restored!");
+            } catch (error) {
+                alert("Invalid hash. Please check your input.");
+            }
+        });
+
+        // Download button functionality to download the rearranged image
+        downloadButton.addEventListener('click', function() {
+            html2canvas(puzzleContainer, {
+                useCORS: true,  // Ensure CORS is enabled for external images
+                logging: true   // Optional: for debugging purposes
+            }).then(function(canvas) {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'rearranged_puzzle.png';
+                link.click();
+            }).catch(function(error) {
+                console.error('Error generating image:', error);
+            });
+        });
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
