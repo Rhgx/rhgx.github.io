@@ -554,80 +554,71 @@
         });
       });
 
+      const experimentalWeapons = ["All Sides", "Ranger's Rifle", "Napalmer", "Storage Stuffer", "Immolator", "Agressor", "Feedbacker", "World Champion", "Boomwarden", "Mechanical Warden", "Wrecking Ball", "Barrett's Privateer", "Neuron Connection", "Slick Shot", "Silent Hunter", "Sinister Suit", "Agent Carro", "Trinity", "Wraith", "Afterimage"];
+
       document.getElementById('generate').addEventListener('click', () => {
-        const loadoutContainer = document.getElementById('loadout');
-        let currentClass = selectedClass;
+    const loadoutContainer = document.getElementById('loadout');
+    let currentClass = selectedClass;
 
-        if (currentClass === "Random") {
-          const classKeys = Object.keys(classPortraits);
-          currentClass = classKeys[Math.floor(Math.random() * classKeys.length)];
-        } else if (currentClass === null) {
-          return;
-        }
+    if (currentClass === "Random") {
+      const classKeys = Object.keys(classPortraits);
+      currentClass = classKeys[Math.floor(Math.random() * classKeys.length)];
+    } else if (currentClass === null) {
+      return;
+    }
 
-        document.getElementById('className').textContent = (`Your loadout for ${currentClass} is..`); // Set the class name text
+    document.getElementById('className').textContent = (`Your loadout for ${currentClass} is..`); // Set the class name text
 
-        loadoutContainer.style.display = 'block';
+    loadoutContainer.style.display = 'block';
 
-        const classPortrait = document.getElementById('classPortrait');
-        classPortrait.src = classPortraits[currentClass];
+    const classPortrait = document.getElementById('classPortrait');
+    classPortrait.src = classPortraits[currentClass];
 
-        const primaryWeaponContainer = document.getElementById('primaryWeapon');
-        const primaryWeaponKeys = Object.keys(weapons[currentClass]["Primary"]);
-        const primaryWeapon = primaryWeaponKeys[Math.floor(Math.random() * primaryWeaponKeys.length)];
-        primaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Primary"][primaryWeapon];
-        primaryWeaponContainer.querySelector('p').textContent = primaryWeapon;
+    // Generate Primary Weapon
+    const primaryWeaponContainer = document.getElementById('primaryWeapon');
+    const primaryWeaponKeys = Object.keys(weapons[currentClass]["Primary"]);
+    const primaryWeapon = primaryWeaponKeys[Math.floor(Math.random() * primaryWeaponKeys.length)];
+    primaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Primary"][primaryWeapon];
+    primaryWeaponContainer.querySelector('p').textContent = primaryWeapon;
+    changeColorIfExperimental(primaryWeaponContainer.querySelector('p'), primaryWeapon);
 
-        const secondaryWeaponContainer = document.getElementById('secondaryWeapon');
-        const secondaryWeaponKeys = Object.keys(weapons[currentClass]["Secondary"]);
-        const secondaryWeapon = secondaryWeaponKeys[Math.floor(Math.random() * secondaryWeaponKeys.length)];
-        secondaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Secondary"][secondaryWeapon];
-        secondaryWeaponContainer.querySelector('p').textContent = secondaryWeapon;
+    // Generate Secondary Weapon
+    const secondaryWeaponContainer = document.getElementById('secondaryWeapon');
+    const secondaryWeaponKeys = Object.keys(weapons[currentClass]["Secondary"]);
+    const secondaryWeapon = secondaryWeaponKeys[Math.floor(Math.random() * secondaryWeaponKeys.length)];
+    secondaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Secondary"][secondaryWeapon];
+    secondaryWeaponContainer.querySelector('p').textContent = secondaryWeapon;
+    changeColorIfExperimental(secondaryWeaponContainer.querySelector('p'), secondaryWeapon);
 
-        const meleeWeaponContainer = document.getElementById('meleeWeapon');
-        const meleeWeaponKeys = Object.keys(weapons[currentClass]["Melee"]);
-        const meleeWeapon = meleeWeaponKeys[Math.floor(Math.random() * meleeWeaponKeys.length)];
-        meleeWeaponContainer.querySelector('img').src = weapons[currentClass]["Melee"][meleeWeapon];
-        meleeWeaponContainer.querySelector('p').textContent = meleeWeapon;
+    // Generate Melee Weapon
+    const meleeWeaponContainer = document.getElementById('meleeWeapon');
+    const meleeWeaponKeys = Object.keys(weapons[currentClass]["Melee"]);
+    const meleeWeapon = meleeWeaponKeys[Math.floor(Math.random() * meleeWeaponKeys.length)];
+    meleeWeaponContainer.querySelector('img').src = weapons[currentClass]["Melee"][meleeWeapon];
+    meleeWeaponContainer.querySelector('p').textContent = meleeWeapon;
+    changeColorIfExperimental(meleeWeaponContainer.querySelector('p'), meleeWeapon);
 
-        const pdaContainer = document.getElementById('pda');
-        if (currentClass === "Agent") {
-          pdaContainer.style.display = 'block';
-          const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
-          const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
-          pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
-          pdaContainer.querySelector('p').textContent = pda;
-        } else {
-          pdaContainer.style.display = 'none';
-        }
+    // Generate PDA (if applicable)
+    const pdaContainer = document.getElementById('pda');
+    if (currentClass === "Agent") {
+      pdaContainer.style.display = 'block';
+      const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
+      const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
+      pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
+      pdaContainer.querySelector('p').textContent = pda;
+      changeColorIfExperimental(pdaContainer.querySelector('p'), pda);
+    } else {
+      pdaContainer.style.display = 'none';
+    }
+  });
 
-        clickCount++;
-        if (clickCount >= clickLimit) {
-          button.disabled = true;
-          setTimeout(resetClicks, timePeriod);
-        }
-
-        document.getElementById('loadout').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        var images = document.querySelectorAll('img');
-
-        images.forEach(function (img) {
-          var preloadedImage = new Image();
-          preloadedImage.src = img.src;
-        });
-
-        var elementsWithBackgroundImages = document.querySelectorAll('*');
-        elementsWithBackgroundImages.forEach(function (element) {
-          var backgroundImage = window.getComputedStyle(element).backgroundImage;
-          if (backgroundImage !== 'none') {
-            var url = backgroundImage.slice(5, -2);
-            var preloadedImage = new Image();
-            preloadedImage.src = url;
-          }
-        });
-      });
+  function changeColorIfExperimental(element, weaponName) {
+    if (experimentalWeapons.includes(weaponName)) {
+      element.style.color = "#69d732"; // Change color to green
+    } else {
+      element.style.color = ""; // Reset to default
+    }
+  }
 
     </script>
 </body>
