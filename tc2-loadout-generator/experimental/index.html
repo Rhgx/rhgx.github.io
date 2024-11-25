@@ -1,625 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TC2 Loadout Generator</title>
-  <meta content="TC2 Loadout Generator" property="og:title" />
-  <meta content="A loadout generator for the Roblox game 'Typical Colors 2'. (Now with experimental weapons!)" property="og:description" />
-  <meta content="https://rhgx.github.io/tc2-loadout-generator" property="og:url" />
-  <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
-  <meta content="#2ac94f" data-react-helmet="true" name="theme-color" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap">
-  <style>
-   body {
-      font-family: 'Oswald', sans-serif;
-      background-color: #383838;
-      color: #e0e0e0;
-      background-image: url("../images/background.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC2 Loadout Generator</title>
+    <meta content="TC2 Loadout Generator" property="og:title" />
+    <meta content="A loadout generator for the Roblox game 'Typical Colors 2'. (Now with experimental weapons!)"
+        property="og:description" />
+    <meta content="https://rhgx.github.io/tc2-loadout-generator" property="og:url" />
+    <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
+    <meta content="#2ac94f" data-react-helmet="true" name="theme-color" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Oswald', sans-serif;
+            background-color: #383838;
+            color: #e0e0e0;
+            background-image: url("../images/background.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
 
-    .class-icon {
-      width: 100%;
-      height: auto;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
+        .class-icon {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
 
-    .selected {
-      border-color: #FFD700;
-      border-radius: 2px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.75);
-    }
+        .selected {
+            border-color: #FFD700;
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.75);
+        }
 
-    .loadout-container {
-      display: none;
-      background-color: #1e1e1e;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 10px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+        .loadout-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .item-container img {
-      max-width: 100px;
-      -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-      filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-      height: auto;
-    }
+        .item-container img {
+            max-width: 100px;
+            -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+            height: auto;
+        }
 
-    .btn-gen {
-      font-size: 35px;
-    }
+        .btn-gen {
+            font-size: 35px;
+        }
 
-    .btn-dark {
-      background-color: #333333;
-      border: none;
-    }
+        .btn-dark {
+            background-color: #333333;
+            border: none;
+        }
 
-    .btn-dark:hover {
-      background-color: #444444;
-    }
+        .btn-dark:hover {
+            background-color: #444444;
+        }
 
-    h1 {
-      -webkit-text-fill-color: #fff;
-      -webkit-text-stroke-width: 1.5px;
-      -webkit-text-stroke-color: #1f1f1f;
-    }
+        h1 {
+            -webkit-text-fill-color: #fff;
+            -webkit-text-stroke-width: 1.5px;
+            -webkit-text-stroke-color: #1f1f1f;
+        }
 
-    .class-container {
-      display: flex;
-      justify-content: center;
-      background-color: #1e1e1e;
-      padding: 20px;
-      max-width: 1000px;
-      border-radius: 10px;
-      margin: auto;
-    }
+        .class-container {
+            display: flex;
+            justify-content: center;
+            background-color: #1e1e1e;
+            padding: 20px;
+            max-width: 1000px;
+            border-radius: 10px;
+            margin: auto;
+        }
 
-    .class-icons {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-gap: 10px;
-      max-width: 700px;
-      margin: auto;
-    }
+        .class-icons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 10px;
+            max-width: 700px;
+            margin: auto;
+        }
 
-    .class-icons button {
-      flex: 1 0 20%;
-      max-width: 100px;
-      margin: 5px;
-      padding: 5px;
-    }
+        .class-icons button {
+            flex: 1 0 20%;
+            max-width: 100px;
+            margin: 5px;
+            padding: 5px;
+        }
 
-    .col {
-      width: 100%;
-      margin: auto
-    }
+        .col {
+            width: 100%;
+            margin: auto
+        }
 
-    .portrait {
-      background-color: #333333;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 600px;
-      margin: auto;
-    }
+        .portrait {
+            background-color: #333333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 600px;
+            margin: auto;
+        }
 
-    .class-portrait {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      margin: auto;
-      -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-      filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-    }
+        .class-portrait {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            margin: auto;
+            -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+        }
 
-    .item-container {
-      text-align: center;
-      color: #FFD700;
-      font-size: 25px;
-      background-color: #333333;
-      width: 100%;
-      max-width: 300px;
-      margin: 10px auto;
-      border-radius: 10px;
-      padding: 10px;
-    }
+        .item-container {
+            text-align: center;
+            color: #FFD700;
+            font-size: 25px;
+            background-color: #333333;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            border-radius: 10px;
+            padding: 10px;
+        }
 
-    .class-name {
-      color: #e0e0e0;
-      font-size: 40px;
-      text-align: center;
-      margin-top: 20px;
-    }
+        .class-name {
+            color: #e0e0e0;
+            font-size: 40px;
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .made-by-rocks {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      font-size: 20px;
-      color: white;
-    }
-  </style>
+        .made-by-rocks {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 20px;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="made-by-rocks">Made by Rocks (thx Squiddy for the class portraits)</div>
-  <div class="container py-5">
-    <h1 class="text-center mb-4">TC2 Random Loadout Generator</h1>
-    <div class="class-container mb-4">
-      <div class="class-icons">
-        <button class="btn btn-dark"><img class="class-icon" id="Flanker"
-            src="https://static.wikia.nocookie.net/tc2/images/a/aa/Flankertransparent.png" alt="Flanker" draggable="false"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Trooper"
-            src="https://static.wikia.nocookie.net/tc2/images/b/be/Troopertransparent.png" alt="Trooper" draggable="false"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Arsonist"
-            src="https://static.wikia.nocookie.net/tc2/images/7/7b/Arsonisttransparent.png" alt="Arsonist" draggable="false"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Annihilator" draggable="false"
-            src="https://static.wikia.nocookie.net/tc2/images/3/3c/Annihilatortransparent.png"
-            alt="Annihilator"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Brute" draggable="false"
-            src="https://static.wikia.nocookie.net/tc2/images/2/26/Brutetransparent.png" alt="Brute"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Mechanic" draggable="false"
-            src="https://static.wikia.nocookie.net/tc2/images/a/a2/Mechanictransparent.png" alt="Mechanic"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Doctor" draggable="false"
-            src="https://static.wikia.nocookie.net/tc2/images/d/d1/Doctortransparent.png" alt="Doctor"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Marksman" draggable="false"
-            src="https://static.wikia.nocookie.net/tc2/images/4/46/Marksmantransparent.png" alt="Marksman"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Agent" draggable="false"
-            src="https://static.wikia.nocookie.net/tc2/images/5/56/Agenttransparent.png" alt="Agent"></button>
-        <button class="btn btn-dark"><img class="class-icon" id="Random" draggable="false" src="../images/questionClass.png"
-            alt="Random"></button>
-      </div>
-    </div>
-    <div class="text-center mb-4">
-      <button id="generate" class="btn btn-success btn-gen">Generate</button>
-    </div>
-    <div id="loadout" class="loadout-container">
-      <p id="className" class="class-name"></p>
-      <div class="row">
-        <div class="col">
-          <div class="portrait">
-            <img id="classPortrait" class="class-portrait" src="" alt="" draggable="false">
-          </div>
+    <div class="made-by-rocks">Made by Rocks (thx Squiddy for the class portraits)</div>
+    <div class="container py-5">
+        <h1 class="text-center mb-4">TC2 Random Loadout Generator</h1>
+        <div class="class-container mb-4">
+            <div class="class-icons">
+                <button class="btn btn-dark"><img class="class-icon" id="Flanker"
+                        src="https://static.wikia.nocookie.net/tc2/images/a/aa/Flankertransparent.png" alt="Flanker"
+                        draggable="false"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Trooper"
+                        src="https://static.wikia.nocookie.net/tc2/images/b/be/Troopertransparent.png" alt="Trooper"
+                        draggable="false"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Arsonist"
+                        src="https://static.wikia.nocookie.net/tc2/images/7/7b/Arsonisttransparent.png" alt="Arsonist"
+                        draggable="false"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Annihilator" draggable="false"
+                        src="https://static.wikia.nocookie.net/tc2/images/3/3c/Annihilatortransparent.png"
+                        alt="Annihilator"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Brute" draggable="false"
+                        src="https://static.wikia.nocookie.net/tc2/images/2/26/Brutetransparent.png"
+                        alt="Brute"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Mechanic" draggable="false"
+                        src="https://static.wikia.nocookie.net/tc2/images/a/a2/Mechanictransparent.png"
+                        alt="Mechanic"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Doctor" draggable="false"
+                        src="https://static.wikia.nocookie.net/tc2/images/d/d1/Doctortransparent.png"
+                        alt="Doctor"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Marksman" draggable="false"
+                        src="https://static.wikia.nocookie.net/tc2/images/4/46/Marksmantransparent.png"
+                        alt="Marksman"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Agent" draggable="false"
+                        src="https://static.wikia.nocookie.net/tc2/images/5/56/Agenttransparent.png"
+                        alt="Agent"></button>
+                <button class="btn btn-dark"><img class="class-icon" id="Random" draggable="false"
+                        src="../images/questionClass.png" alt="Random"></button>
+            </div>
         </div>
-        <div class="col">
-          <div class="item-container" id="primaryWeapon">
-            <img src="" alt="" draggable="false">
-            <p></p>
-          </div>
-          <div class="item-container" id="secondaryWeapon">
-            <img src="" alt="" draggable="false">
-            <p></p>
-          </div>
-          <div class="item-container" id="meleeWeapon">
-            <img src="" alt="" draggable="false">
-            <p></p>
-          </div>
-          <div class="item-container" id="pda">
-            <img src="" alt="" draggable="false">
-            <p></p>
-          </div>
+        <div class="text-center mb-4">
+            <button id="generate" class="btn btn-success btn-gen">Generate</button>
         </div>
-      </div>
-    </div>
+        <div id="loadout" class="loadout-container">
+            <p id="className" class="class-name"></p>
+            <div class="row">
+                <div class="col">
+                    <div class="portrait">
+                        <img id="classPortrait" class="class-portrait" src="" alt="" draggable="false">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="item-container" id="primaryWeapon">
+                        <img src="" alt="" draggable="false">
+                        <p></p>
+                    </div>
+                    <div class="item-container" id="secondaryWeapon">
+                        <img src="" alt="" draggable="false">
+                        <p></p>
+                    </div>
+                    <div class="item-container" id="meleeWeapon">
+                        <img src="" alt="" draggable="false">
+                        <p></p>
+                    </div>
+                    <div class="item-container" id="pda">
+                        <img src="" alt="" draggable="false">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script>
-      const classPortraits = {
-      "Flanker": "../images/flankerstare.png",
-      "Trooper": "../images/trooperstare.png",
-      "Arsonist": "../images/arsoniststare.png",
-      "Annihilator": "../images/annihilatorstare.png",
-      "Brute": "../images/brutestare.png",
-      "Mechanic": "../images/mechanicstare.png",
-      "Doctor": "../images/doctorstare.png",
-      "Marksman": "../images/marksmanstare.png",
-      "Agent": "../images/agentstare.png"
-    };
+        const classPortraits = {
+            "Flanker": "../images/flankerstare.png",
+            "Trooper": "../images/trooperstare.png",
+            "Arsonist": "../images/arsoniststare.png",
+            "Annihilator": "../images/annihilatorstare.png",
+            "Brute": "../images/brutestare.png",
+            "Mechanic": "../images/mechanicstare.png",
+            "Doctor": "../images/doctorstare.png",
+            "Marksman": "../images/marksmanstare.png",
+            "Agent": "../images/agentstare.png"
+        };
 
-      const weapons = {
-        "Flanker": {
-          "Primary": {
-            "Lever Shotgun": "https://static.wikia.nocookie.net/tc2/images/7/7a/Lever_Shotgun_render.png",
-            "Baby Face's Blaster": "https://static.wikia.nocookie.net/tc2/images/e/e5/Baby_Face%27s_Blaster.png",
-            "Lupara DB": "https://static.wikia.nocookie.net/tc2/images/d/d1/Lupara_DB_render.png",
-            "Soda Popper": "https://static.wikia.nocookie.net/tc2/images/d/d3/Soda_Popper.png",
-            "Perceptionist": "https://static.wikia.nocookie.net/tc2/images/8/8f/Perceptionist.png",
-            "Shortstop": "https://static.wikia.nocookie.net/tc2/images/9/91/Shortstop.png",
-            "Shotgun Cannon": "https://static.wikia.nocookie.net/tc2/images/3/3c/Shotgun_Cannon.png",
-            "Specialist": "https://static.wikia.nocookie.net/tc2/images/0/06/Specialist.png",
-            "All Sides": "https://static.wikia.nocookie.net/tc2/images/0/05/Dual_M1911s_render.png"
-          },
-          "Secondary": {
-            "Pistol": "https://static.wikia.nocookie.net/tc2/images/a/a2/Pistol.png",
-            "Concealed Carry": "https://static.wikia.nocookie.net/tc2/images/5/55/Concealed_Carry.png",
-            "Conventional": "https://static.wikia.nocookie.net/tc2/images/1/1f/Conventional.png",
-            "Winger": "https://static.wikia.nocookie.net/tc2/images/1/16/Winger.png",
-            "Six Point Shuriken": "https://static.wikia.nocookie.net/tc2/images/c/cd/Six_Point_Shuriken.png",
-            "Bloxy Cola": "https://static.wikia.nocookie.net/tc2/images/b/bd/Bloxy_Cola.png",
-            "Witches Brew": "https://static.wikia.nocookie.net/tc2/images/9/99/Witches_Brew.png",
-            "Mad Milk": "https://static.wikia.nocookie.net/tc2/images/b/bd/Mad_Milk.png",
-            "Super Sneakers": "https://static.wikia.nocookie.net/tc2/images/e/e0/Super_Sneakers.png"
-          },
-          "Melee": {
-            "Bat": "https://static.wikia.nocookie.net/tc2/images/a/ad/Bat.png",
-            "Holy Mackerel": "https://static.wikia.nocookie.net/tc2/images/7/78/Atomizer.png",
-            "Atomizer": "https://static.wikia.nocookie.net/tc2/images/d/da/Holy_Mackerel.png",
-            "Brooklyn Basher": "https://static.wikia.nocookie.net/tc2/images/6/63/Brooklyn_Basher.png",
-            "Candy Cane": "https://static.wikia.nocookie.net/tc2/images/1/13/Candy_Cane.png",
-            "Cold Shoulder": "https://static.wikia.nocookie.net/tc2/images/7/78/Cold_Shoulder.png",
-            "Grill Scout": "https://static.wikia.nocookie.net/tc2/images/0/09/Grill_Scout.png",
-            "Sandman": "https://static.wikia.nocookie.net/tc2/images/d/d1/Sandman.png",
-            "Wooden Sword": "https://static.wikia.nocookie.net/tc2/images/c/cd/Wooden_Sword.png",
-            "Wrap Assassin": "https://static.wikia.nocookie.net/tc2/images/e/ee/Wrap_Assassin.png"
-          }
-        },
-        "Trooper": {
-          "Primary": {
-            "Rocket Launcher": "https://static.wikia.nocookie.net/tc2/images/d/d0/Rocket_Launcher_render.png",
-            "Original": "https://static.wikia.nocookie.net/tc2/images/7/7f/Original.png",
-            "Aerial Bomber": "https://static.wikia.nocookie.net/tc2/images/b/bc/Aerial_Bomber.png",
-            "Blackbox": "https://static.wikia.nocookie.net/tc2/images/4/41/Blackbox.png",
-            "Cow Mangler 5000": "https://static.wikia.nocookie.net/tc2/images/a/a1/Cow_Mangler_5000.png",
-            "Direct Hit": "https://static.wikia.nocookie.net/tc2/images/f/fd/Direct_Hit.png",
-            "Double Trouble": "https://static.wikia.nocookie.net/tc2/images/b/bc/Double_Trouble.png",
-            "G-Bomb": "https://static.wikia.nocookie.net/tc2/images/0/0b/G-Bomb.png",
-            "Liberty Launcher": "https://static.wikia.nocookie.net/tc2/images/e/e2/Liberty_Launcher.png",
-            "Maverick": "https://static.wikia.nocookie.net/tc2/images/7/73/Maverick.png",
-            "Rocket Jumper": "https://static.wikia.nocookie.net/tc2/images/d/d8/Rocket_Jumper.png",
-            "Wrecker's Yard": "https://static.wikia.nocookie.net/tc2/images/a/ad/Wrecker%27s_Yard.png",
-            "Friendly Fire Foiler": "https://static.wikia.nocookie.net/tc2/images/e/eb/Friendly_Fire_Foiler.png"
-          },
-          "Secondary": {
-            "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
-            "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
-            "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
-            "Deathblow": "https://static.wikia.nocookie.net/tc2/images/b/b1/Deathblow.png",
-            "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
-            "Reserve Shooter": "https://static.wikia.nocookie.net/tc2/images/b/b7/Reserve_Shooter.png",
-            "Boonie Blaster": "https://static.wikia.nocookie.net/tc2/images/1/1d/Boonie_Blaster.png",
-            "Personal Death Ray": "https://static.wikia.nocookie.net/tc2/images/2/20/Personal_Death_Ray.png",
-            "Battalion's Backup": "https://static.wikia.nocookie.net/tc2/images/7/7e/Battalion%27s_Backup.png",
-            "Buff Banner": "https://static.wikia.nocookie.net/tc2/images/7/72/Buff_Banner.png",
-            "Concheror": "https://static.wikia.nocookie.net/tc2/images/d/d4/Concheror.png",
-            "Parabomber": "https://static.wikia.nocookie.net/tc2/images/f/ff/Parabomber.png",
-            "Gunboats": "https://static.wikia.nocookie.net/tc2/images/d/d2/Gunboats.png",
-            "Manthreads": "https://static.wikia.nocookie.net/tc2/images/3/31/Mantreads.png",
-            "Ranger's Rifle" : "https://static.wikia.nocookie.net/tc2/images/8/8a/Ranger%27s_Rifle_render.png"
-          },
-          "Melee": {
-            "Crowbar": "https://static.wikia.nocookie.net/tc2/images/c/c0/Crowbar.png",
-            "Disciplinary Action": "https://static.wikia.nocookie.net/tc2/images/2/2f/Disciplinary_Action.png",
-            "Equalizer": "https://static.wikia.nocookie.net/tc2/images/9/96/Equalizer.png",
-            "Escape Plan": "https://static.wikia.nocookie.net/tc2/images/2/27/Escape_Plan.png",
-            "Furious Flagxe": "https://static.wikia.nocookie.net/tc2/images/5/57/Furious_Flagxe.png",
-            "Katana": "https://static.wikia.nocookie.net/tc2/images/e/e9/Katana.png",
-            "Market Gardener": "https://static.wikia.nocookie.net/tc2/images/f/fb/Market_Gardener.png",
-            "Tunnel Rat": "https://static.wikia.nocookie.net/tc2/images/7/7b/Tunnel_Rat.png"
-          }
-        },
-        "Arsonist": {
-          "Primary": {
-            "Flamethrower": "https://static.wikia.nocookie.net/tc2/images/a/ad/Flamethrower.png",
-            "Degreaser": "https://static.wikia.nocookie.net/tc2/images/6/67/Degreaser.png",
-            "Interceptor": "https://static.wikia.nocookie.net/tc2/images/c/cf/Interceptor.png",
-            "Phlogistinator": "https://static.wikia.nocookie.net/tc2/images/1/15/Phlogistinator.png",
-            //"Dragon's Fury": "https://static.wikia.nocookie.net/tc2/images/1/1d/Dragon%27s_Fury.png"
-            "HuangLong's Wrath": "https://static.wikia.nocookie.net/tc2/images/c/c2/HuangLong's_Wrath.png",
-            "Napalmer" : "https://static.wikia.nocookie.net/tc2/images/b/b8/Napalmer_render.png",
-            "Storage Stuffer": "https://static.wikia.nocookie.net/tc2/images/5/57/Storage_Stuffer_render.png",
-            "Immolator": "https://static.wikia.nocookie.net/tc2/images/d/df/Flamethrower21.png"
-          },
-          "Secondary": {
-            "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
-            "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
-            "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
-            "Deathblow": "https://static.wikia.nocookie.net/tc2/images/b/b1/Deathblow.png",
-            "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
-            "Detonator": "https://static.wikia.nocookie.net/tc2/images/a/a3/Detonator.png",
-            "Flare Gun": "https://static.wikia.nocookie.net/tc2/images/5/57/Flare_Gun.png"
-          },
-          "Melee": {
-            "Fire Extinguisher": "https://static.wikia.nocookie.net/tc2/images/0/0a/Fire_Extinguisher.png",
-            "Thousand Degree Axe": "https://static.wikia.nocookie.net/tc2/images/5/5e/Thousand_Degree_Axe.png",
-            "Escapist's Escapade": "https://static.wikia.nocookie.net/tc2/images/a/a7/Escapist%27s_Escapade.png",
-            "Homewrecker": "https://static.wikia.nocookie.net/tc2/images/b/bc/Homewrecker.png",
-            "Improvised Inovator": "https://static.wikia.nocookie.net/tc2/images/7/7a/Improvised_Innovator.png",
-            "Mending Mallet": "https://static.wikia.nocookie.net/tc2/images/f/fb/Mending_Mallet.png"
-          }
-        },
-        "Annihilator": {
-          "Primary": {
-            "Grenade Launcher": "https://static.wikia.nocookie.net/tc2/images/6/67/Grenade_Launcher.png",
-            "Iron Bomber": "https://static.wikia.nocookie.net/tc2/images/5/54/Iron_Bomber.png",
-            "Iron Force": "https://static.wikia.nocookie.net/tc2/images/c/c2/Iron_Force.png",
-            "Loose Canon": "https://static.wikia.nocookie.net/tc2/images/3/36/Loose_Cannon.png",
-            "Ultimatum": "https://static.wikia.nocookie.net/tc2/images/7/79/Ultimatum.png",
-            "Parabomber": "https://static.wikia.nocookie.net/tc2/images/f/ff/Parabomber.png",
-            "Gunboats": "https://static.wikia.nocookie.net/tc2/images/c/c5/Galway_Greaves.png",
-            "Galway Greaves": "https://static.wikia.nocookie.net/tc2/images/d/d2/Gunboats.png",
-            "Squire Boots": "https://static.wikia.nocookie.net/tc2/images/1/1d/Squire_Boots.png",
-            "Agressor" : "https://static.wikia.nocookie.net/tc2/images/e/ee/Aggressor.png"
-          },
-          "Secondary": {
-            "Stickybomb Launcher": "https://static.wikia.nocookie.net/tc2/images/f/f2/Stickybomb_Launcher.png",
-            "Irish Guard": "https://static.wikia.nocookie.net/tc2/images/f/f1/Irish_Guard.png",
-            "Quickiebomb Launcher": "https://static.wikia.nocookie.net/tc2/images/7/78/Quickiebomb_Launcher.png",
-            "Sticky Jumper": "https://static.wikia.nocookie.net/tc2/images/5/5d/Sticky_Jumper.png",
-            "Bloody Bracer": "https://static.wikia.nocookie.net/tc2/images/9/9c/Bloody_Bracer.png",
-            "Chargin' Targe": "https://static.wikia.nocookie.net/tc2/images/c/cb/Chargin%27_Targe.png",
-            "Gladiators Guard": "https://static.wikia.nocookie.net/tc2/images/4/42/Gladiator%27s_Guard.png",
-            "Ragin' Bull": "https://static.wikia.nocookie.net/tc2/images/f/f8/Ragin%27_Bull.png",
-            "Tide Turner": "https://static.wikia.nocookie.net/tc2/images/6/66/Tide_Turner.png"
-          },
-          "Melee": {
-            "Broken Sword": "https://static.wikia.nocookie.net/tc2/images/b/b7/Broken_Sword.png",
-            "Battle Axe": "https://static.wikia.nocookie.net/tc2/images/c/ca/Battle_Axe.png",
-            "Black Death": "https://static.wikia.nocookie.net/tc2/images/2/28/Black_Death.png",
-            "Elegant Blade": "https://static.wikia.nocookie.net/tc2/images/3/30/Elegant_Blade.png",
-            "Furious Flagxe": "https://static.wikia.nocookie.net/tc2/images/5/57/Furious_Flagxe.png",
-            "Golf Club": "https://static.wikia.nocookie.net/tc2/images/5/5d/Golf_Club.png",
-            "Katana": "https://static.wikia.nocookie.net/tc2/images/e/e9/Katana.png",
-            "Shock and Awe": "https://static.wikia.nocookie.net/tc2/images/e/e4/Shock_and_Awe.png",
-            "Spartan Warrior": "https://static.wikia.nocookie.net/tc2/images/8/8c/Spartan_Savior.png"
-          }
-        },
-        "Brute": {
-          "Primary": {
-            "Minigun": "https://static.wikia.nocookie.net/tc2/images/7/7e/Minigun_render.png",
-            "Biker's Blitz": "https://static.wikia.nocookie.net/tc2/images/4/45/Biker%27s_Blitz.png",
-            "First Responder": "https://static.wikia.nocookie.net/tc2/images/8/89/First_Responder.png",
-            "M249": "https://static.wikia.nocookie.net/tc2/images/9/96/M249.png",
-            "Maxine": "https://static.wikia.nocookie.net/tc2/images/f/f8/Maxine.png",
-            "Tomislav": "https://static.wikia.nocookie.net/tc2/images/6/62/Tomislav.png"
-          },
-          "Secondary": {
-            "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
-            "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
-            "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
-            "Deathblow": "https://static.wikia.nocookie.net/tc2/images/b/b1/Deathblow.png",
-            "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
-            "Sub Shotgun": "https://static.wikia.nocookie.net/tc2/images/0/0e/Sub_Shotgun.png",
-            "Battle Burrito": "https://static.wikia.nocookie.net/tc2/images/e/ef/Battle_Burrito.png",
-            "Brash Burger": "https://static.wikia.nocookie.net/tc2/images/7/75/Brash_Burger.png",
-            "Dire Donut": "https://static.wikia.nocookie.net/tc2/images/5/57/Dire_Donut.png",
-            "ROBAR": "https://static.wikia.nocookie.net/tc2/images/8/81/ROBAR.png",
-            "Special-Ops Sushi": "https://static.wikia.nocookie.net/tc2/images/1/17/Special-Ops_Sushi.png",
-            "Tenacious Turkey": "https://static.wikia.nocookie.net/tc2/images/8/83/Tenacious_Turkey.png"
-          },
-          "Melee": {
-            "Fists": "https://static.wikia.nocookie.net/tc2/images/6/6f/Fists.png",
-            "Boxing Gloves": "https://static.wikia.nocookie.net/tc2/images/3/3b/Boxing_Gloves.png",
-            "Eviction Notice": "https://static.wikia.nocookie.net/tc2/images/3/30/Eviction_Notice.png",
-            "Gravity Coil": "https://static.wikia.nocookie.net/tc2/images/6/6e/Gravity_Coil.png",
-            "Fists of Steel": "https://static.wikia.nocookie.net/tc2/images/c/cd/Fists_of_Steel.png",
-            "Speed Coil": "https://static.wikia.nocookie.net/tc2/images/6/64/Speed_Coil.png",
-            "Warrior's Spririt": "https://static.wikia.nocookie.net/tc2/images/f/f6/Warrior%27s_Spirit.png",
-            "Feedbacker" : "https://static.wikia.nocookie.net/tc2/images/9/98/Feedbacker_render.png",
-            "World Champion" : "https://static.wikia.nocookie.net/tc2/images/5/51/World_Champion.png"
-          }
-        },
-        "Mechanic": {
-          "Primary": {
-            "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
-            "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
-            "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
-            "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
-            "Avenger": "https://static.wikia.nocookie.net/tc2/images/5/5c/Avenger.png",
-            "Einsteinium": "https://static.wikia.nocookie.net/tc2/images/5/5b/Einsteinium.png",
-            "Gutbuster": "https://static.wikia.nocookie.net/tc2/images/4/4c/Gutbuster.png",
-            "Rescue Ranger": "https://static.wikia.nocookie.net/tc2/images/d/d2/Rescue_Ranger.png",
-            "Widowmaker": "https://static.wikia.nocookie.net/tc2/images/4/44/Widowmaker.png"
-          },
-          "Secondary": {
-            "Pistol": "https://static.wikia.nocookie.net/tc2/images/a/a2/Pistol.png",
-            "Conventional": "https://static.wikia.nocookie.net/tc2/images/1/1f/Conventional.png",
-            "Noisy Cricker": "https://static.wikia.nocookie.net/tc2/images/5/5d/Noisy_Cricket.png",
-            "Short Circuit": "https://static.wikia.nocookie.net/tc2/images/a/a4/Short_Circuit.png",
-            "Wrangler": "https://static.wikia.nocookie.net/tc2/images/3/3c/Wrangler.png",
-            "Heavy Metal": "https://static.wikia.nocookie.net/tc2/images/2/23/Heavy_Metal.png",
-            "Mechanical Marvel" : "https://static.wikia.nocookie.net/tc2/images/c/c7/Mechanical_Marvel_render.png",
-            "Boomwarden" : "https://static.wikia.nocookie.net/tc2/images/c/c0/Boomwarden.png",
-            "Wrecking Ball" : "https://static.wikia.nocookie.net/tc2/images/f/f5/Revolver_render.png"
-          },
-          "Melee": {
-            "Wrench": "https://static.wikia.nocookie.net/tc2/images/7/7c/Wrench.png",
-            "Eureka Effect": "https://static.wikia.nocookie.net/tc2/images/4/43/Eureka_Effect.png",
-            "Gunslinger": "https://static.wikia.nocookie.net/tc2/images/c/c2/Gunslinger.png",
-            "P.D.Q": "https://static.wikia.nocookie.net/tc2/images/9/9a/P.D.Q.png",
-            "Southern Hospitality": "https://static.wikia.nocookie.net/tc2/images/1/1f/Southern_Hospitality.png"
-          }
-        },
-        "Doctor": {
-          "Primary": {
-            "Syringe Crossbow": "https://static.wikia.nocookie.net/tc2/images/e/ec/Syringe_Crossbow.png",
-            "Syringe SMG": "https://static.wikia.nocookie.net/tc2/images/9/97/Syringe_SMG.png",
-            "Dairy Douser": "https://static.wikia.nocookie.net/tc2/images/a/a9/Dairy_Douser.png",
-            "Mercy Kill": "https://static.wikia.nocookie.net/tc2/images/a/ac/Mercy_Kill.png",
-            "Overdrive": "https://static.wikia.nocookie.net/tc2/images/a/ab/Overdrive.png"
-          },
-          "Secondary": {
-            "Medigun": "https://static.wikia.nocookie.net/tc2/images/1/1f/Medigun.png",
-            "Blood Doctor": "https://static.wikia.nocookie.net/tc2/images/c/cd/Blood_Doctor_render.png",
-            "Kritzkrieg": "https://static.wikia.nocookie.net/tc2/images/d/d5/Kritzkrieg.png",
-            "Rejuvenator": "https://static.wikia.nocookie.net/tc2/images/3/3b/Rejuvenator.png",
-            "Vaccinator": "https://static.wikia.nocookie.net/tc2/images/2/2d/Vaccinator_render.png",
-            "Barrett's Privateer" : "https://static.wikia.nocookie.net/tc2/images/4/47/Barrett%27s_Privateer_render.png",
-            "Neuron Connection" : "https://static.wikia.nocookie.net/tc2/images/e/e7/Neuron_Connection_render.png"
-          },
-          "Melee": {
-            "Saw": "https://static.wikia.nocookie.net/tc2/images/0/0a/Saw.png",
-            "Amputator": "https://static.wikia.nocookie.net/tc2/images/c/ca/Amputator.png",
-            "Dentist's Delight": "https://static.wikia.nocookie.net/tc2/images/a/a0/Dentist%27s_Delight.png",
-            "Pestilence Poker": "https://static.wikia.nocookie.net/tc2/images/4/48/Pestilence_Poker.png",
-            "Supersaw": "https://static.wikia.nocookie.net/tc2/images/2/27/Supersaw.png"
-          }
-        },
-        "Marksman": {
-          "Primary": {
-            "Sniper Rifle": "https://static.wikia.nocookie.net/tc2/images/c/cf/Sniper_Rifle.png",
-            "Classic": "https://static.wikia.nocookie.net/tc2/images/5/57/Classic.png",
-            "Efficient Eliminator": "https://static.wikia.nocookie.net/tc2/images/5/50/Efficient_Eliminator.png",
-            "Huntsman": "https://static.wikia.nocookie.net/tc2/images/7/75/Huntsman.png",
-            "Model IV": "https://static.wikia.nocookie.net/tc2/images/d/d0/Model_IV.png",
-            "Poacher's Pride": "https://static.wikia.nocookie.net/tc2/images/f/f0/Poacher%27s_Pride.png",
-            "Skullbuster": "https://static.wikia.nocookie.net/tc2/images/9/95/Skullbuster.png",
-            "Sour Shots": "https://static.wikia.nocookie.net/tc2/images/a/af/Sour_Shots.png",
-            "Urban Upriser": "https://static.wikia.nocookie.net/tc2/images/3/30/Urban_Upriser.png",
-            "Silent Hunter" : "https://static.wikia.nocookie.net/tc2/images/5/53/Silent_Hunter_render.png",
-            "Slick Shot" : "https://static.wikia.nocookie.net/tc2/images/6/6b/Slick_Shot_render.png"
-          },
-          "Secondary": {
-            "MAC-10": "https://static.wikia.nocookie.net/tc2/images/5/57/MAC-10_render.png",
-            "50-AE": "https://static.wikia.nocookie.net/tc2/images/e/e0/50-AE.png",
-            "Suppressed Solution": "https://static.wikia.nocookie.net/tc2/images/9/98/Suppressed_Solution.png",
-            "Lemonade": "https://static.wikia.nocookie.net/tc2/images/2/2a/Lemonade.png",
-            "Cozy Camper": "https://static.wikia.nocookie.net/tc2/images/2/2e/Cozy_Camper.png",
-            "Razorback": "https://static.wikia.nocookie.net/tc2/images/0/0d/Razorback.png",
-            "Turtle Rock": "https://static.wikia.nocookie.net/tc2/images/1/14/Turtle_Rock.png"
-          },
-          "Melee": {
-            "Machete": "https://static.wikia.nocookie.net/tc2/images/0/0c/Machete.png",
-            "Bushcutter's Blade": "https://static.wikia.nocookie.net/tc2/images/9/95/Bushcutter%27s_Blade.png",
-            "Camper's Climber": "https://static.wikia.nocookie.net/tc2/images/7/7f/Camper%27s_Climber.png",
-            "Mischievous Machete": "https://static.wikia.nocookie.net/tc2/images/8/8c/Mischievous_Machete.png",
-            "Lemoblade": "https://static.wikia.nocookie.net/tc2/images/0/01/Lemoblade.png"
-          }
-        },
-        "Agent": {
-          "Primary": {
-            "Revolver": "https://static.wikia.nocookie.net/tc2/images/f/f5/Revolver_render.png",
-            "Ambassador": "https://static.wikia.nocookie.net/tc2/images/5/51/Ambassador.png",
-            "Block-17": "https://static.wikia.nocookie.net/tc2/images/e/e9/Block-17.png",
-            "Cloak Revolver": "https://static.wikia.nocookie.net/tc2/images/b/b1/Cloak_Revolver.png",
-            "Quick Draw": "https://static.wikia.nocookie.net/tc2/images/3/39/Quick_Draw.png",
-            "Silenced Pistol": "https://static.wikia.nocookie.net/tc2/images/e/e2/Silenced_Pistol.png",
-            "Sinister Suit" : "https://static.wikia.nocookie.net/tc2/images/8/8d/Sinister_Suit_render.png"
-          },
-          "Secondary": {
-            "Invis-Watch": "https://static.wikia.nocookie.net/tc2/images/4/45/Invis-Watch.png",
-            "Cloak and Dagger": "https://static.wikia.nocookie.net/tc2/images/a/a4/Cloak_and_Dagger.png",
-            "Dead Ringer": "https://static.wikia.nocookie.net/tc2/images/e/e2/Dead_Ringer.png",
-            "Afterimage" :  "https://static.wikia.nocookie.net/tc2/images/3/3c/Afterimage.png"
-          },
-          "Melee": {
-            "Knife": "https://static.wikia.nocookie.net/tc2/images/5/58/Knife.png",
-            "Conniver's Kunai": "https://static.wikia.nocookie.net/tc2/images/2/24/Conniver%27s_Kunai.png",
-            "Icicle": "https://static.wikia.nocookie.net/tc2/images/2/23/Icicle.png",
-            "Swift Stiletto": "https://static.wikia.nocookie.net/tc2/images/b/b5/Swift_Stiletto.png",
-            "Your Eternal Reward": "https://static.wikia.nocookie.net/tc2/images/0/05/Your_Eternal_Reward.png",
-            "Trinity": "https://static.wikia.nocookie.net/tc2/images/0/0f/Trinity_render.png",
-            "Argento Carro" : "https://static.wikia.nocookie.net/tc2/images/c/cb/Argento_Carro_render.png",
-            "Wraith" : "https://static.wikia.nocookie.net/tc2/images/7/7c/Wraith.png" 
-          },
-          "PDA": {
-            "Sapper": "https://static.wikia.nocookie.net/tc2/images/7/76/Sapper.png",
-            "Slow Burn": "https://static.wikia.nocookie.net/tc2/images/6/62/Slow_Burn.png",
-            "Stray Reflex": "https://static.wikia.nocookie.net/tc2/images/a/ab/Stray_Reflex.png",
-            "Radius Scanner": "https://static.wikia.nocookie.net/tc2/images/a/af/Radius_Scanner.png",
-            "Spy Camera": "https://static.wikia.nocookie.net/tc2/images/f/f0/Spy_Camera.png",
-          },
+        const weapons = {
+            "Flanker": {
+                "Primary": {
+                    "Lever Shotgun": "https://static.wikia.nocookie.net/tc2/images/7/7a/Lever_Shotgun_render.png",
+                    "Baby Face's Blaster": "https://static.wikia.nocookie.net/tc2/images/e/e5/Baby_Face%27s_Blaster.png",
+                    "Lupara DB": "https://static.wikia.nocookie.net/tc2/images/d/d1/Lupara_DB_render.png",
+                    "Soda Popper": "https://static.wikia.nocookie.net/tc2/images/d/d3/Soda_Popper.png",
+                    "Perceptionist": "https://static.wikia.nocookie.net/tc2/images/8/8f/Perceptionist.png",
+                    "Shortstop": "https://static.wikia.nocookie.net/tc2/images/9/91/Shortstop.png",
+                    "Shotgun Cannon": "https://static.wikia.nocookie.net/tc2/images/3/3c/Shotgun_Cannon.png",
+                    "Specialist": "https://static.wikia.nocookie.net/tc2/images/0/06/Specialist.png",
+                    "All Sides": "https://static.wikia.nocookie.net/tc2/images/0/05/Dual_M1911s_render.png"
+                },
+                "Secondary": {
+                    "Pistol": "https://static.wikia.nocookie.net/tc2/images/a/a2/Pistol.png",
+                    "Concealed Carry": "https://static.wikia.nocookie.net/tc2/images/5/55/Concealed_Carry.png",
+                    "Conventional": "https://static.wikia.nocookie.net/tc2/images/1/1f/Conventional.png",
+                    "Winger": "https://static.wikia.nocookie.net/tc2/images/1/16/Winger.png",
+                    "Six Point Shuriken": "https://static.wikia.nocookie.net/tc2/images/c/cd/Six_Point_Shuriken.png",
+                    "Bloxy Cola": "https://static.wikia.nocookie.net/tc2/images/b/bd/Bloxy_Cola.png",
+                    "Witches Brew": "https://static.wikia.nocookie.net/tc2/images/9/99/Witches_Brew.png",
+                    "Mad Milk": "https://static.wikia.nocookie.net/tc2/images/b/bd/Mad_Milk.png",
+                    "Super Sneakers": "https://static.wikia.nocookie.net/tc2/images/e/e0/Super_Sneakers.png"
+                },
+                "Melee": {
+                    "Bat": "https://static.wikia.nocookie.net/tc2/images/a/ad/Bat.png",
+                    "Holy Mackerel": "https://static.wikia.nocookie.net/tc2/images/7/78/Atomizer.png",
+                    "Atomizer": "https://static.wikia.nocookie.net/tc2/images/d/da/Holy_Mackerel.png",
+                    "Brooklyn Basher": "https://static.wikia.nocookie.net/tc2/images/6/63/Brooklyn_Basher.png",
+                    "Candy Cane": "https://static.wikia.nocookie.net/tc2/images/1/13/Candy_Cane.png",
+                    "Cold Shoulder": "https://static.wikia.nocookie.net/tc2/images/7/78/Cold_Shoulder.png",
+                    "Grill Scout": "https://static.wikia.nocookie.net/tc2/images/0/09/Grill_Scout.png",
+                    "Sandman": "https://static.wikia.nocookie.net/tc2/images/d/d1/Sandman.png",
+                    "Wooden Sword": "https://static.wikia.nocookie.net/tc2/images/c/cd/Wooden_Sword.png",
+                    "Wrap Assassin": "https://static.wikia.nocookie.net/tc2/images/e/ee/Wrap_Assassin.png"
+                }
+            },
+            "Trooper": {
+                "Primary": {
+                    "Rocket Launcher": "https://static.wikia.nocookie.net/tc2/images/d/d0/Rocket_Launcher_render.png",
+                    "Original": "https://static.wikia.nocookie.net/tc2/images/7/7f/Original.png",
+                    "Aerial Bomber": "https://static.wikia.nocookie.net/tc2/images/b/bc/Aerial_Bomber.png",
+                    "Blackbox": "https://static.wikia.nocookie.net/tc2/images/4/41/Blackbox.png",
+                    "Cow Mangler 5000": "https://static.wikia.nocookie.net/tc2/images/a/a1/Cow_Mangler_5000.png",
+                    "Direct Hit": "https://static.wikia.nocookie.net/tc2/images/f/fd/Direct_Hit.png",
+                    "Double Trouble": "https://static.wikia.nocookie.net/tc2/images/b/bc/Double_Trouble.png",
+                    "G-Bomb": "https://static.wikia.nocookie.net/tc2/images/0/0b/G-Bomb.png",
+                    "Liberty Launcher": "https://static.wikia.nocookie.net/tc2/images/e/e2/Liberty_Launcher.png",
+                    "Maverick": "https://static.wikia.nocookie.net/tc2/images/7/73/Maverick.png",
+                    "Rocket Jumper": "https://static.wikia.nocookie.net/tc2/images/d/d8/Rocket_Jumper.png",
+                    "Wrecker's Yard": "https://static.wikia.nocookie.net/tc2/images/a/ad/Wrecker%27s_Yard.png",
+                    "Friendly Fire Foiler": "https://static.wikia.nocookie.net/tc2/images/e/eb/Friendly_Fire_Foiler.png"
+                },
+                "Secondary": {
+                    "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
+                    "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
+                    "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
+                    "Deathblow": "https://static.wikia.nocookie.net/tc2/images/b/b1/Deathblow.png",
+                    "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
+                    "Reserve Shooter": "https://static.wikia.nocookie.net/tc2/images/b/b7/Reserve_Shooter.png",
+                    "Boonie Blaster": "https://static.wikia.nocookie.net/tc2/images/1/1d/Boonie_Blaster.png",
+                    "Personal Death Ray": "https://static.wikia.nocookie.net/tc2/images/2/20/Personal_Death_Ray.png",
+                    "Battalion's Backup": "https://static.wikia.nocookie.net/tc2/images/7/7e/Battalion%27s_Backup.png",
+                    "Buff Banner": "https://static.wikia.nocookie.net/tc2/images/7/72/Buff_Banner.png",
+                    "Concheror": "https://static.wikia.nocookie.net/tc2/images/d/d4/Concheror.png",
+                    "Parabomber": "https://static.wikia.nocookie.net/tc2/images/f/ff/Parabomber.png",
+                    "Gunboats": "https://static.wikia.nocookie.net/tc2/images/d/d2/Gunboats.png",
+                    "Manthreads": "https://static.wikia.nocookie.net/tc2/images/3/31/Mantreads.png",
+                    "Ranger's Rifle": "https://static.wikia.nocookie.net/tc2/images/8/8a/Ranger%27s_Rifle_render.png"
+                },
+                "Melee": {
+                    "Crowbar": "https://static.wikia.nocookie.net/tc2/images/c/c0/Crowbar.png",
+                    "Disciplinary Action": "https://static.wikia.nocookie.net/tc2/images/2/2f/Disciplinary_Action.png",
+                    "Equalizer": "https://static.wikia.nocookie.net/tc2/images/9/96/Equalizer.png",
+                    "Escape Plan": "https://static.wikia.nocookie.net/tc2/images/2/27/Escape_Plan.png",
+                    "Furious Flagxe": "https://static.wikia.nocookie.net/tc2/images/5/57/Furious_Flagxe.png",
+                    "Katana": "https://static.wikia.nocookie.net/tc2/images/e/e9/Katana.png",
+                    "Market Gardener": "https://static.wikia.nocookie.net/tc2/images/f/fb/Market_Gardener.png",
+                    "Tunnel Rat": "https://static.wikia.nocookie.net/tc2/images/7/7b/Tunnel_Rat.png"
+                }
+            },
+            "Arsonist": {
+                "Primary": {
+                    "Flamethrower": "https://static.wikia.nocookie.net/tc2/images/a/ad/Flamethrower.png",
+                    "Degreaser": "https://static.wikia.nocookie.net/tc2/images/6/67/Degreaser.png",
+                    "Interceptor": "https://static.wikia.nocookie.net/tc2/images/c/cf/Interceptor.png",
+                    "Phlogistinator": "https://static.wikia.nocookie.net/tc2/images/1/15/Phlogistinator.png",
+                    //"Dragon's Fury": "https://static.wikia.nocookie.net/tc2/images/1/1d/Dragon%27s_Fury.png"
+                    "HuangLong's Wrath": "https://static.wikia.nocookie.net/tc2/images/c/c2/HuangLong's_Wrath.png",
+                    "Napalmer": "https://static.wikia.nocookie.net/tc2/images/b/b8/Napalmer_render.png",
+                    "Storage Stuffer": "https://static.wikia.nocookie.net/tc2/images/5/57/Storage_Stuffer_render.png",
+                    "Immolator": "https://static.wikia.nocookie.net/tc2/images/d/df/Flamethrower21.png"
+                },
+                "Secondary": {
+                    "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
+                    "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
+                    "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
+                    "Deathblow": "https://static.wikia.nocookie.net/tc2/images/b/b1/Deathblow.png",
+                    "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
+                    "Detonator": "https://static.wikia.nocookie.net/tc2/images/a/a3/Detonator.png",
+                    "Flare Gun": "https://static.wikia.nocookie.net/tc2/images/5/57/Flare_Gun.png"
+                },
+                "Melee": {
+                    "Fire Extinguisher": "https://static.wikia.nocookie.net/tc2/images/0/0a/Fire_Extinguisher.png",
+                    "Thousand Degree Axe": "https://static.wikia.nocookie.net/tc2/images/5/5e/Thousand_Degree_Axe.png",
+                    "Escapist's Escapade": "https://static.wikia.nocookie.net/tc2/images/a/a7/Escapist%27s_Escapade.png",
+                    "Homewrecker": "https://static.wikia.nocookie.net/tc2/images/b/bc/Homewrecker.png",
+                    "Improvised Inovator": "https://static.wikia.nocookie.net/tc2/images/7/7a/Improvised_Innovator.png",
+                    "Mending Mallet": "https://static.wikia.nocookie.net/tc2/images/f/fb/Mending_Mallet.png"
+                }
+            },
+            "Annihilator": {
+                "Primary": {
+                    "Grenade Launcher": "https://static.wikia.nocookie.net/tc2/images/6/67/Grenade_Launcher.png",
+                    "Iron Bomber": "https://static.wikia.nocookie.net/tc2/images/5/54/Iron_Bomber.png",
+                    "Iron Force": "https://static.wikia.nocookie.net/tc2/images/c/c2/Iron_Force.png",
+                    "Loose Canon": "https://static.wikia.nocookie.net/tc2/images/3/36/Loose_Cannon.png",
+                    "Ultimatum": "https://static.wikia.nocookie.net/tc2/images/7/79/Ultimatum.png",
+                    "Parabomber": "https://static.wikia.nocookie.net/tc2/images/f/ff/Parabomber.png",
+                    "Gunboats": "https://static.wikia.nocookie.net/tc2/images/c/c5/Galway_Greaves.png",
+                    "Galway Greaves": "https://static.wikia.nocookie.net/tc2/images/d/d2/Gunboats.png",
+                    "Squire Boots": "https://static.wikia.nocookie.net/tc2/images/1/1d/Squire_Boots.png",
+                    "Agressor": "https://static.wikia.nocookie.net/tc2/images/e/ee/Aggressor.png"
+                },
+                "Secondary": {
+                    "Stickybomb Launcher": "https://static.wikia.nocookie.net/tc2/images/f/f2/Stickybomb_Launcher.png",
+                    "Irish Guard": "https://static.wikia.nocookie.net/tc2/images/f/f1/Irish_Guard.png",
+                    "Quickiebomb Launcher": "https://static.wikia.nocookie.net/tc2/images/7/78/Quickiebomb_Launcher.png",
+                    "Sticky Jumper": "https://static.wikia.nocookie.net/tc2/images/5/5d/Sticky_Jumper.png",
+                    "Bloody Bracer": "https://static.wikia.nocookie.net/tc2/images/9/9c/Bloody_Bracer.png",
+                    "Chargin' Targe": "https://static.wikia.nocookie.net/tc2/images/c/cb/Chargin%27_Targe.png",
+                    "Gladiators Guard": "https://static.wikia.nocookie.net/tc2/images/4/42/Gladiator%27s_Guard.png",
+                    "Ragin' Bull": "https://static.wikia.nocookie.net/tc2/images/f/f8/Ragin%27_Bull.png",
+                    "Tide Turner": "https://static.wikia.nocookie.net/tc2/images/6/66/Tide_Turner.png"
+                },
+                "Melee": {
+                    "Broken Sword": "https://static.wikia.nocookie.net/tc2/images/b/b7/Broken_Sword.png",
+                    "Battle Axe": "https://static.wikia.nocookie.net/tc2/images/c/ca/Battle_Axe.png",
+                    "Black Death": "https://static.wikia.nocookie.net/tc2/images/2/28/Black_Death.png",
+                    "Elegant Blade": "https://static.wikia.nocookie.net/tc2/images/3/30/Elegant_Blade.png",
+                    "Furious Flagxe": "https://static.wikia.nocookie.net/tc2/images/5/57/Furious_Flagxe.png",
+                    "Golf Club": "https://static.wikia.nocookie.net/tc2/images/5/5d/Golf_Club.png",
+                    "Katana": "https://static.wikia.nocookie.net/tc2/images/e/e9/Katana.png",
+                    "Shock and Awe": "https://static.wikia.nocookie.net/tc2/images/e/e4/Shock_and_Awe.png",
+                    "Spartan Warrior": "https://static.wikia.nocookie.net/tc2/images/8/8c/Spartan_Savior.png"
+                }
+            },
+            "Brute": {
+                "Primary": {
+                    "Minigun": "https://static.wikia.nocookie.net/tc2/images/7/7e/Minigun_render.png",
+                    "Biker's Blitz": "https://static.wikia.nocookie.net/tc2/images/4/45/Biker%27s_Blitz.png",
+                    "First Responder": "https://static.wikia.nocookie.net/tc2/images/8/89/First_Responder.png",
+                    "M249": "https://static.wikia.nocookie.net/tc2/images/9/96/M249.png",
+                    "Maxine": "https://static.wikia.nocookie.net/tc2/images/f/f8/Maxine.png",
+                    "Tomislav": "https://static.wikia.nocookie.net/tc2/images/6/62/Tomislav.png"
+                },
+                "Secondary": {
+                    "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
+                    "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
+                    "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
+                    "Deathblow": "https://static.wikia.nocookie.net/tc2/images/b/b1/Deathblow.png",
+                    "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
+                    "Sub Shotgun": "https://static.wikia.nocookie.net/tc2/images/0/0e/Sub_Shotgun.png",
+                    "Battle Burrito": "https://static.wikia.nocookie.net/tc2/images/e/ef/Battle_Burrito.png",
+                    "Brash Burger": "https://static.wikia.nocookie.net/tc2/images/7/75/Brash_Burger.png",
+                    "Dire Donut": "https://static.wikia.nocookie.net/tc2/images/5/57/Dire_Donut.png",
+                    "ROBAR": "https://static.wikia.nocookie.net/tc2/images/8/81/ROBAR.png",
+                    "Special-Ops Sushi": "https://static.wikia.nocookie.net/tc2/images/1/17/Special-Ops_Sushi.png",
+                    "Tenacious Turkey": "https://static.wikia.nocookie.net/tc2/images/8/83/Tenacious_Turkey.png"
+                },
+                "Melee": {
+                    "Fists": "https://static.wikia.nocookie.net/tc2/images/6/6f/Fists.png",
+                    "Boxing Gloves": "https://static.wikia.nocookie.net/tc2/images/3/3b/Boxing_Gloves.png",
+                    "Eviction Notice": "https://static.wikia.nocookie.net/tc2/images/3/30/Eviction_Notice.png",
+                    "Gravity Coil": "https://static.wikia.nocookie.net/tc2/images/6/6e/Gravity_Coil.png",
+                    "Fists of Steel": "https://static.wikia.nocookie.net/tc2/images/c/cd/Fists_of_Steel.png",
+                    "Speed Coil": "https://static.wikia.nocookie.net/tc2/images/6/64/Speed_Coil.png",
+                    "Warrior's Spririt": "https://static.wikia.nocookie.net/tc2/images/f/f6/Warrior%27s_Spirit.png",
+                    "Feedbacker": "https://static.wikia.nocookie.net/tc2/images/9/98/Feedbacker_render.png",
+                    "World Champion": "https://static.wikia.nocookie.net/tc2/images/5/51/World_Champion.png"
+                }
+            },
+            "Mechanic": {
+                "Primary": {
+                    "Shotgun": "https://static.wikia.nocookie.net/tc2/images/c/c6/Shotgun_render.png",
+                    "Bullet-stormer": "https://static.wikia.nocookie.net/tc2/images/7/78/Bullet-stormer.png",
+                    "Crankestein": "https://static.wikia.nocookie.net/tc2/images/f/f6/Crankenstein.png",
+                    "Family Business": "https://static.wikia.nocookie.net/tc2/images/9/9c/Family_Business.png",
+                    "Avenger": "https://static.wikia.nocookie.net/tc2/images/5/5c/Avenger.png",
+                    "Einsteinium": "https://static.wikia.nocookie.net/tc2/images/5/5b/Einsteinium.png",
+                    "Gutbuster": "https://static.wikia.nocookie.net/tc2/images/4/4c/Gutbuster.png",
+                    "Rescue Ranger": "https://static.wikia.nocookie.net/tc2/images/d/d2/Rescue_Ranger.png",
+                    "Widowmaker": "https://static.wikia.nocookie.net/tc2/images/4/44/Widowmaker.png"
+                },
+                "Secondary": {
+                    "Pistol": "https://static.wikia.nocookie.net/tc2/images/a/a2/Pistol.png",
+                    "Conventional": "https://static.wikia.nocookie.net/tc2/images/1/1f/Conventional.png",
+                    "Noisy Cricker": "https://static.wikia.nocookie.net/tc2/images/5/5d/Noisy_Cricket.png",
+                    "Short Circuit": "https://static.wikia.nocookie.net/tc2/images/a/a4/Short_Circuit.png",
+                    "Wrangler": "https://static.wikia.nocookie.net/tc2/images/3/3c/Wrangler.png",
+                    "Heavy Metal": "https://static.wikia.nocookie.net/tc2/images/2/23/Heavy_Metal.png",
+                    "Mechanical Marvel": "https://static.wikia.nocookie.net/tc2/images/c/c7/Mechanical_Marvel_render.png",
+                    "Boomwarden": "https://static.wikia.nocookie.net/tc2/images/c/c0/Boomwarden.png",
+                    "Wrecking Ball": "https://static.wikia.nocookie.net/tc2/images/f/f5/Revolver_render.png"
+                },
+                "Melee": {
+                    "Wrench": "https://static.wikia.nocookie.net/tc2/images/7/7c/Wrench.png",
+                    "Eureka Effect": "https://static.wikia.nocookie.net/tc2/images/4/43/Eureka_Effect.png",
+                    "Gunslinger": "https://static.wikia.nocookie.net/tc2/images/c/c2/Gunslinger.png",
+                    "P.D.Q": "https://static.wikia.nocookie.net/tc2/images/9/9a/P.D.Q.png",
+                    "Southern Hospitality": "https://static.wikia.nocookie.net/tc2/images/1/1f/Southern_Hospitality.png"
+                }
+            },
+            "Doctor": {
+                "Primary": {
+                    "Syringe Crossbow": "https://static.wikia.nocookie.net/tc2/images/e/ec/Syringe_Crossbow.png",
+                    "Syringe SMG": "https://static.wikia.nocookie.net/tc2/images/9/97/Syringe_SMG.png",
+                    "Dairy Douser": "https://static.wikia.nocookie.net/tc2/images/a/a9/Dairy_Douser.png",
+                    "Mercy Kill": "https://static.wikia.nocookie.net/tc2/images/a/ac/Mercy_Kill.png",
+                    "Overdrive": "https://static.wikia.nocookie.net/tc2/images/a/ab/Overdrive.png"
+                },
+                "Secondary": {
+                    "Medigun": "https://static.wikia.nocookie.net/tc2/images/1/1f/Medigun.png",
+                    "Blood Doctor": "https://static.wikia.nocookie.net/tc2/images/c/cd/Blood_Doctor_render.png",
+                    "Kritzkrieg": "https://static.wikia.nocookie.net/tc2/images/d/d5/Kritzkrieg.png",
+                    "Rejuvenator": "https://static.wikia.nocookie.net/tc2/images/3/3b/Rejuvenator.png",
+                    "Vaccinator": "https://static.wikia.nocookie.net/tc2/images/2/2d/Vaccinator_render.png",
+                    "Barrett's Privateer": "https://static.wikia.nocookie.net/tc2/images/4/47/Barrett%27s_Privateer_render.png",
+                    "Neuron Connection": "https://static.wikia.nocookie.net/tc2/images/e/e7/Neuron_Connection_render.png"
+                },
+                "Melee": {
+                    "Saw": "https://static.wikia.nocookie.net/tc2/images/0/0a/Saw.png",
+                    "Amputator": "https://static.wikia.nocookie.net/tc2/images/c/ca/Amputator.png",
+                    "Dentist's Delight": "https://static.wikia.nocookie.net/tc2/images/a/a0/Dentist%27s_Delight.png",
+                    "Pestilence Poker": "https://static.wikia.nocookie.net/tc2/images/4/48/Pestilence_Poker.png",
+                    "Supersaw": "https://static.wikia.nocookie.net/tc2/images/2/27/Supersaw.png"
+                }
+            },
+            "Marksman": {
+                "Primary": {
+                    "Sniper Rifle": "https://static.wikia.nocookie.net/tc2/images/c/cf/Sniper_Rifle.png",
+                    "Classic": "https://static.wikia.nocookie.net/tc2/images/5/57/Classic.png",
+                    "Efficient Eliminator": "https://static.wikia.nocookie.net/tc2/images/5/50/Efficient_Eliminator.png",
+                    "Huntsman": "https://static.wikia.nocookie.net/tc2/images/7/75/Huntsman.png",
+                    "Model IV": "https://static.wikia.nocookie.net/tc2/images/d/d0/Model_IV.png",
+                    "Poacher's Pride": "https://static.wikia.nocookie.net/tc2/images/f/f0/Poacher%27s_Pride.png",
+                    "Skullbuster": "https://static.wikia.nocookie.net/tc2/images/9/95/Skullbuster.png",
+                    "Sour Shots": "https://static.wikia.nocookie.net/tc2/images/a/af/Sour_Shots.png",
+                    "Urban Upriser": "https://static.wikia.nocookie.net/tc2/images/3/30/Urban_Upriser.png",
+                    "Silent Hunter": "https://static.wikia.nocookie.net/tc2/images/5/53/Silent_Hunter_render.png",
+                    "Slick Shot": "https://static.wikia.nocookie.net/tc2/images/6/6b/Slick_Shot_render.png"
+                },
+                "Secondary": {
+                    "MAC-10": "https://static.wikia.nocookie.net/tc2/images/5/57/MAC-10_render.png",
+                    "50-AE": "https://static.wikia.nocookie.net/tc2/images/e/e0/50-AE.png",
+                    "Suppressed Solution": "https://static.wikia.nocookie.net/tc2/images/9/98/Suppressed_Solution.png",
+                    "Lemonade": "https://static.wikia.nocookie.net/tc2/images/2/2a/Lemonade.png",
+                    "Cozy Camper": "https://static.wikia.nocookie.net/tc2/images/2/2e/Cozy_Camper.png",
+                    "Razorback": "https://static.wikia.nocookie.net/tc2/images/0/0d/Razorback.png",
+                    "Turtle Rock": "https://static.wikia.nocookie.net/tc2/images/1/14/Turtle_Rock.png"
+                },
+                "Melee": {
+                    "Machete": "https://static.wikia.nocookie.net/tc2/images/0/0c/Machete.png",
+                    "Bushcutter's Blade": "https://static.wikia.nocookie.net/tc2/images/9/95/Bushcutter%27s_Blade.png",
+                    "Camper's Climber": "https://static.wikia.nocookie.net/tc2/images/7/7f/Camper%27s_Climber.png",
+                    "Mischievous Machete": "https://static.wikia.nocookie.net/tc2/images/8/8c/Mischievous_Machete.png",
+                    "Lemoblade": "https://static.wikia.nocookie.net/tc2/images/0/01/Lemoblade.png"
+                }
+            },
+            "Agent": {
+                "Primary": {
+                    "Revolver": "https://static.wikia.nocookie.net/tc2/images/f/f5/Revolver_render.png",
+                    "Ambassador": "https://static.wikia.nocookie.net/tc2/images/5/51/Ambassador.png",
+                    "Block-17": "https://static.wikia.nocookie.net/tc2/images/e/e9/Block-17.png",
+                    "Cloak Revolver": "https://static.wikia.nocookie.net/tc2/images/b/b1/Cloak_Revolver.png",
+                    "Quick Draw": "https://static.wikia.nocookie.net/tc2/images/3/39/Quick_Draw.png",
+                    "Silenced Pistol": "https://static.wikia.nocookie.net/tc2/images/e/e2/Silenced_Pistol.png",
+                    "Sinister Suit": "https://static.wikia.nocookie.net/tc2/images/8/8d/Sinister_Suit_render.png"
+                },
+                "Secondary": {
+                    "Invis-Watch": "https://static.wikia.nocookie.net/tc2/images/4/45/Invis-Watch.png",
+                    "Cloak and Dagger": "https://static.wikia.nocookie.net/tc2/images/a/a4/Cloak_and_Dagger.png",
+                    "Dead Ringer": "https://static.wikia.nocookie.net/tc2/images/e/e2/Dead_Ringer.png",
+                    "Afterimage": "https://static.wikia.nocookie.net/tc2/images/3/3c/Afterimage.png"
+                },
+                "Melee": {
+                    "Knife": "https://static.wikia.nocookie.net/tc2/images/5/58/Knife.png",
+                    "Conniver's Kunai": "https://static.wikia.nocookie.net/tc2/images/2/24/Conniver%27s_Kunai.png",
+                    "Icicle": "https://static.wikia.nocookie.net/tc2/images/2/23/Icicle.png",
+                    "Swift Stiletto": "https://static.wikia.nocookie.net/tc2/images/b/b5/Swift_Stiletto.png",
+                    "Your Eternal Reward": "https://static.wikia.nocookie.net/tc2/images/0/05/Your_Eternal_Reward.png",
+                    "Trinity": "https://static.wikia.nocookie.net/tc2/images/0/0f/Trinity_render.png",
+                    "Argento Carro": "https://static.wikia.nocookie.net/tc2/images/c/cb/Argento_Carro_render.png",
+                    "Wraith": "https://static.wikia.nocookie.net/tc2/images/7/7c/Wraith.png"
+                },
+                "PDA": {
+                    "Sapper": "https://static.wikia.nocookie.net/tc2/images/7/76/Sapper.png",
+                    "Slow Burn": "https://static.wikia.nocookie.net/tc2/images/6/62/Slow_Burn.png",
+                    "Stray Reflex": "https://static.wikia.nocookie.net/tc2/images/a/ab/Stray_Reflex.png",
+                    "Radius Scanner": "https://static.wikia.nocookie.net/tc2/images/a/af/Radius_Scanner.png",
+                    "Spy Camera": "https://static.wikia.nocookie.net/tc2/images/f/f0/Spy_Camera.png",
+                },
+            }
+        };
+
+        let selectedClass = null;
+
+        const button = document.getElementById('generate');
+        let clickCount = 0;
+        const clickLimit = 1; // Maximum number of clicks
+        const timePeriod = 500; // Time period in milliseconds (e.g., 10000 ms = 10 seconds)
+
+        function resetClicks() {
+            clickCount = 0;
+            button.disabled = false;
         }
-      };
 
-      let selectedClass = null;
-
-      const button = document.getElementById('generate');
-      let clickCount = 0;
-      const clickLimit = 1; // Maximum number of clicks
-      const timePeriod = 500; // Time period in milliseconds (e.g., 10000 ms = 10 seconds)
-
-      function resetClicks() {
-        clickCount = 0;
-        button.disabled = false;
-      }
-
-      document.querySelectorAll('.class-icon').forEach(icon => {
-        icon.addEventListener('click', () => {
-          document.querySelectorAll('.class-icon').forEach(icon => icon.classList.remove('selected'));
-          icon.classList.add('selected');
-          selectedClass = icon.id;
+        document.querySelectorAll('.class-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                document.querySelectorAll('.class-icon').forEach(icon => icon.classList.remove('selected'));
+                icon.classList.add('selected');
+                selectedClass = icon.id;
+            });
         });
-      });
 
-      const experimentalWeapons = ["All Sides", "Ranger's Rifle", "Napalmer", "Storage Stuffer", "Immolator", "Agressor", "Feedbacker", "World Champion", "Boomwarden", "Mechanical Warden", "Wrecking Ball", "Barrett's Privateer", "Neuron Connection", "Slick Shot", "Silent Hunter", "Sinister Suit", "Agent Carro", "Trinity", "Wraith", "Afterimage"];
+        const experimentalWeapons = ["All Sides", "Ranger's Rifle", "Napalmer", "Storage Stuffer", "Immolator", "Agressor", "Feedbacker", "World Champion", "Boomwarden", "Mechanical Warden", "Wrecking Ball", "Barrett's Privateer", "Neuron Connection", "Slick Shot", "Silent Hunter", "Sinister Suit", "Agent Carro", "Trinity", "Wraith", "Afterimage"];
 
-      document.getElementById('generate').addEventListener('click', () => {
-    const loadoutContainer = document.getElementById('loadout');
-    let currentClass = selectedClass;
+        document.getElementById('generate').addEventListener('click', () => {
+            const loadoutContainer = document.getElementById('loadout');
+            let currentClass = selectedClass;
 
-    if (currentClass === "Random") {
-      const classKeys = Object.keys(classPortraits);
-      currentClass = classKeys[Math.floor(Math.random() * classKeys.length)];
-    } else if (currentClass === null) {
-      return;
-    }
+            if (currentClass === "Random") {
+                const classKeys = Object.keys(classPortraits);
+                currentClass = classKeys[Math.floor(Math.random() * classKeys.length)];
+            } else if (currentClass === null) {
+                return;
+            }
 
-    document.getElementById('className').textContent = (`Your loadout for ${currentClass} is..`); // Set the class name text
+            document.getElementById('className').textContent = (`Your loadout for ${currentClass} is..`); // Set the class name text
 
-    loadoutContainer.style.display = 'block';
+            loadoutContainer.style.display = 'block';
 
-    const classPortrait = document.getElementById('classPortrait');
-    classPortrait.src = classPortraits[currentClass];
+            const classPortrait = document.getElementById('classPortrait');
+            classPortrait.src = classPortraits[currentClass];
 
-    // Generate Primary Weapon
-    const primaryWeaponContainer = document.getElementById('primaryWeapon');
-    const primaryWeaponKeys = Object.keys(weapons[currentClass]["Primary"]);
-    const primaryWeapon = primaryWeaponKeys[Math.floor(Math.random() * primaryWeaponKeys.length)];
-    primaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Primary"][primaryWeapon];
-    primaryWeaponContainer.querySelector('p').textContent = primaryWeapon;
-    changeColorIfExperimental(primaryWeaponContainer.querySelector('p'), primaryWeapon);
+            // Generate Primary Weapon
+            const primaryWeaponContainer = document.getElementById('primaryWeapon');
+            const primaryWeaponKeys = Object.keys(weapons[currentClass]["Primary"]);
+            const primaryWeapon = primaryWeaponKeys[Math.floor(Math.random() * primaryWeaponKeys.length)];
+            primaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Primary"][primaryWeapon];
+            primaryWeaponContainer.querySelector('p').textContent = primaryWeapon;
+            changeColorIfExperimental(primaryWeaponContainer.querySelector('p'), primaryWeapon);
 
-    // Generate Secondary Weapon
-    const secondaryWeaponContainer = document.getElementById('secondaryWeapon');
-    const secondaryWeaponKeys = Object.keys(weapons[currentClass]["Secondary"]);
-    const secondaryWeapon = secondaryWeaponKeys[Math.floor(Math.random() * secondaryWeaponKeys.length)];
-    secondaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Secondary"][secondaryWeapon];
-    secondaryWeaponContainer.querySelector('p').textContent = secondaryWeapon;
-    changeColorIfExperimental(secondaryWeaponContainer.querySelector('p'), secondaryWeapon);
+            // Generate Secondary Weapon
+            const secondaryWeaponContainer = document.getElementById('secondaryWeapon');
+            const secondaryWeaponKeys = Object.keys(weapons[currentClass]["Secondary"]);
+            const secondaryWeapon = secondaryWeaponKeys[Math.floor(Math.random() * secondaryWeaponKeys.length)];
+            secondaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Secondary"][secondaryWeapon];
+            secondaryWeaponContainer.querySelector('p').textContent = secondaryWeapon;
+            changeColorIfExperimental(secondaryWeaponContainer.querySelector('p'), secondaryWeapon);
 
-    // Generate Melee Weapon
-    const meleeWeaponContainer = document.getElementById('meleeWeapon');
-    const meleeWeaponKeys = Object.keys(weapons[currentClass]["Melee"]);
-    const meleeWeapon = meleeWeaponKeys[Math.floor(Math.random() * meleeWeaponKeys.length)];
-    meleeWeaponContainer.querySelector('img').src = weapons[currentClass]["Melee"][meleeWeapon];
-    meleeWeaponContainer.querySelector('p').textContent = meleeWeapon;
-    changeColorIfExperimental(meleeWeaponContainer.querySelector('p'), meleeWeapon);
+            // Generate Melee Weapon
+            const meleeWeaponContainer = document.getElementById('meleeWeapon');
+            const meleeWeaponKeys = Object.keys(weapons[currentClass]["Melee"]);
+            const meleeWeapon = meleeWeaponKeys[Math.floor(Math.random() * meleeWeaponKeys.length)];
+            meleeWeaponContainer.querySelector('img').src = weapons[currentClass]["Melee"][meleeWeapon];
+            meleeWeaponContainer.querySelector('p').textContent = meleeWeapon;
+            changeColorIfExperimental(meleeWeaponContainer.querySelector('p'), meleeWeapon);
 
-    // Generate PDA (if applicable)
-    const pdaContainer = document.getElementById('pda');
-    if (currentClass === "Agent") {
-      pdaContainer.style.display = 'block';
-      const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
-      const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
-      pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
-      pdaContainer.querySelector('p').textContent = pda;
-      changeColorIfExperimental(pdaContainer.querySelector('p'), pda);
-    } else {
-      pdaContainer.style.display = 'none';
-    }
-  });
+            // Generate PDA (if applicable)
+            const pdaContainer = document.getElementById('pda');
+            if (currentClass === "Agent") {
+                pdaContainer.style.display = 'block';
+                const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
+                const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
+                pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
+                pdaContainer.querySelector('p').textContent = pda;
+                changeColorIfExperimental(pdaContainer.querySelector('p'), pda);
+            } else {
+                pdaContainer.style.display = 'none';
+            }
+            clickCount++;
+            if (clickCount >= clickLimit) {
+                button.disabled = true;
+                setTimeout(resetClicks, timePeriod);
+            }
 
-  function changeColorIfExperimental(element, weaponName) {
-    if (experimentalWeapons.includes(weaponName)) {
-      element.style.color = "#69d732"; // Change color to green
-    } else {
-      element.style.color = ""; // Reset to default
-    }
-  }
+        });
 
+        function changeColorIfExperimental(element, weaponName) {
+            if (experimentalWeapons.includes(weaponName)) {
+                element.style.color = "#69d732"; // Change color to green
+            } else {
+                element.style.color = ""; // Reset to default
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var images = document.querySelectorAll('img');
+            images.forEach(function (img) {
+                var preloadedImage = new Image();
+                preloadedImage.src = img.src;
+            });
+
+            var elementsWithBackgroundImages = document.querySelectorAll('*');
+            elementsWithBackgroundImages.forEach(function (element) {
+                var backgroundImage = window.getComputedStyle(element).backgroundImage;
+                if (backgroundImage !== 'none') {
+                    var url = backgroundImage.slice(5, -2);
+                    var preloadedImage = new Image();
+                    preloadedImage.src = url;
+                }
+            });
+        });
     </script>
 </body>
 
