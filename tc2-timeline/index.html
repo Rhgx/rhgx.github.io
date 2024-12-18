@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC2 Update Timeline</title>
+    <meta content="Typical Colors 2 Update Timeline" property="og:title" />
+    <meta content="The update timeline for the Roblox game 'Typical Colors 2'." property="og:description" />
+    <meta content="https://rhgx.github.io/tc2-timeline/" property="og:url" />
+    <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
+    <meta content="#a965da" data-react-helmet="true" name="theme-color" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        body {
+            background: url('https://github.com/Rhgx/tc2-item-store/blob/main/data/4k_citrus.png?raw=true') no-repeat center center fixed;
+            background-size: cover;
+            color: #e0e0e0;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #745d8b;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            padding: 1rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+        }
+
+        .timeline-content {
+            position: relative;
+            display: inline-block;
+            max-width: 400px;
+            background: #222;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+
+        .timeline-content img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #a68fbd;
+        }
+
+        .timeline-content p {
+            margin: 0;
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            background-color: #745d8b;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center my-5">Typical Colors 2 Update Timeline</h1>
+        <div class="timeline">
+            <div id="timeline-items"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const updates = [
+            { date: "2018-06-16", name: "TCtully Update", logo: "" },
+            { date: "2018-10-19", name: "Halloween 2018", logo: "" },
+            { date: "2021-02-08", name: "Executive Update", logo: "https://static.wikia.nocookie.net/tc2/images/b/b6/Tc2newicon.webp" },
+            { date: "2021-03-25", name: "Fit with Fitten", logo: "" },
+            { date: "2021-06-11", name: "Summer 2021", logo: "https://static.wikia.nocookie.net/tc2/images/d/d1/Summer_TC2_Thumbnail.png" },
+            { date: "2021-07-31", name: "Total Anarchy", logo: "https://static.wikia.nocookie.net/tc2/images/b/b9/Truckerdadthumbnail.png" },
+            { date: "2021-11-01", name: "Typical Horrors", logo: "https://static.wikia.nocookie.net/tc2/images/a/a0/BruteHalloween.jpg" },
+            { date: "2021-12-18", name: "Holiday 2021", logo: "https://static.wikia.nocookie.net/tc2/images/a/ac/Brutethumbnew.png" },
+            { date: "2021-12-24", name: "Fittmas 2021", logo: "https://static.wikia.nocookie.net/tc2/images/0/09/Fitmas.png" },
+            { date: "2022-01-28", name: "Various Visuals", logo: "https://static.wikia.nocookie.net/tc2/images/5/55/TC2_2022Thumbnail.png" },
+            { date: "2022-03-06", name: "Item Schema", logo: "https://static.wikia.nocookie.net/tc2/images/b/b1/ItemSchema.png" },
+            { date: "2022-04-01", name: "OverColors 3", logo: "https://static.wikia.nocookie.net/tc2/images/0/0b/Overcolors3unofficial.png" },
+            { date: "2022-07-12", name: "A 'Heavy' Update", logo: "https://static.wikia.nocookie.net/tc2/images/6/6e/Summer2022Thumbnail.png" },
+            { date: "2022-10-31", name: "Typical Horrors II", logo: "https://static.wikia.nocookie.net/tc2/images/a/a8/Halloween2022Thumbnail.png" },
+            { date: "2023-07-14", name: "The Update with Patches And Content", logo: "https://static.wikia.nocookie.net/tc2/images/b/b6/Summer_23_Logo.png" },
+            { date: "2023-10-28", name: "Typical Horrors III", logo: "https://static.wikia.nocookie.net/tc2/images/a/a0/Halloween2023Thumbnail.png" },
+            { date: "2023-12-24", name: "Kringle's Annual New Year Expansion", logo: "https://static.wikia.nocookie.net/tc2/images/6/67/Winter2023.png/revision/latest?cb=20231225023702" },
+            { date: "2024-04-20", name: "Spring 2024 Content Patch", logo: "https://static.wikia.nocookie.net/tc2/images/4/43/Spring2024.png/revision/latest?cb=20240420065642" },
+            { date: "2024-07-13", name: "Summer FM", logo: "https://static.wikia.nocookie.net/tc2/images/d/d5/TC2Summer2024Icon.png/revision/latest?cb=20240714020019" },
+            { date: "2024-08-10", name: "Summer AM", logo: "https://i.imgur.com/ihQA5jM.png" },
+            { date: "2024-10-19", name: "Typical Horrors IV", logo: "https://static.wikia.nocookie.net/tc2/images/d/dd/Typical_Horrors_4_Icon.png/revision/latest?cb=20241020040546" },
+        ];
+
+        const formatDate = (dateString) => {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.toLocaleString('en', { month: 'long' });
+            const year = date.getFullYear();
+
+            const suffix = (n) => {
+                const s = ["th", "st", "nd", "rd"];
+                const v = n % 100;
+                return s[(v - 20) % 10] || s[v] || s[0];
+            };
+
+            return `${day}${suffix(day)} of ${month}, ${year}`;
+        };
+
+        const calculateDaysSince = (dateString) => {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+            return diff;
+        };
+
+        const timelineContainer = document.getElementById('timeline-items');
+
+        updates.forEach((update, index) => {
+            const isOdd = index % 2 === 0;
+            const timelineItem = document.createElement('div');
+            timelineItem.className = `timeline-item ${isOdd ? 'align-left' : 'align-right'}`;
+
+            const daysSince = calculateDaysSince(update.date);
+
+            timelineItem.innerHTML = `
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>${update.name}</h3>
+          <p>${formatDate(update.date)}</p>
+          <p><strong>${daysSince} days ago</strong></p>
+          ${update.logo ? `<img src="${update.logo}" alt="${update.name}">` : ''}
+        </div>
+      `;
+
+            timelineContainer.appendChild(timelineItem);
+        });
+
+        const observeAnimations = () => {
+            const items = document.querySelectorAll('.timeline-content');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            items.forEach(item => observer.observe(item));
+        };
+
+        observeAnimations();
+    </script>
+</body>
+
+</html>
