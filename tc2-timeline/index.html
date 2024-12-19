@@ -65,10 +65,8 @@
     }
     .timeline-content {
       display: block;
-      width: 90%; /* Responsive width for small screens */
+      width: 100%; /* Responsive width for small screens */
       max-width: 400px; /* Upper limit for larger screens */
-      height: 50vw; /* Responsive height */
-      max-height: 450px; /* Adjusted for max width */
       background: #222;
       padding: 1rem;
       border-radius: 8px;
@@ -77,6 +75,7 @@
       transform: translateY(20px);
       transition: opacity 0.4s, transform 0.4s;
     }
+
     .timeline-content img {
       width: 100%;
       height: auto;
@@ -109,6 +108,21 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    @media (max-width: 768px) {
+  .timeline-content {
+    height: auto;
+    padding: 1rem;
+  }
+
+  .timeline-content h3 {
+    font-size: 1.1rem; 
+  }
+
+  .timeline-content p {
+    font-size: 0.9rem;
+  }
+}
   </style>
 </head>
 <body>
