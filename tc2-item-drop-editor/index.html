@@ -25,7 +25,7 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background: url("https://i.imgur.com/pxnXVlZ.png") center center / cover no-repeat;
+      background: url("background.png") center center / cover no-repeat;
     }
 
     .container {
@@ -234,7 +234,7 @@
         <!-- Input box to edit background color -->
         <input type="color" id="editBackgroundColor" value="#507554" onchange="changeBackgroundColor()">
         <div class="v101_11" id="editImageContainer">
-          <img id="editImage" src="https://i.imgur.com/NatHDQs.png" alt="">
+          <img id="editImage" src="default.png" alt="">
         </div>
       </div>
     </div>
@@ -292,9 +292,9 @@
       var editableContent = document.getElementById("editableContent");
       var newContent = document.getElementById("editContent").value;
       editableContent.innerText = newContent;
-      twemoji.parse(document.body, {
-            className: 'twemoji'
-          });
+      twemoji.parse(editableContent, {
+        className: 'twemoji'
+      });
     }
 
     function changeBackgroundColor() {
@@ -344,6 +344,7 @@
         downloadLink.click();
       });
     }
+
     function copyToClipboard() {
       var v101_2Div = document.querySelector('.v101_2');
 
@@ -376,7 +377,9 @@
       return new Blob([u8arr], { type: mime });
     }
 
-    
+    twemoji.parse(document.body, {
+      className: 'twemoji'
+    });
   </script>
 </body>
 
