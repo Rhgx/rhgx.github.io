@@ -12,6 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="twemoji.min.js/"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -25,7 +26,6 @@
       justify-content: center;
       height: 100vh;
       background: url("https://i.imgur.com/pxnXVlZ.png") center center / cover no-repeat;
-       <!--backdrop-filter: blur(10px);-->
     }
 
     .container {
@@ -96,6 +96,13 @@
     .v101_7,
     .v101_8 {
       position: absolute;
+    }
+
+    .twemoji {
+      width: 45px !important;
+      height: 45px !important;
+      border-radius: 0px !important;
+      vertical-align: middle;
     }
 
     .v101_5 {
@@ -227,8 +234,7 @@
         <!-- Input box to edit background color -->
         <input type="color" id="editBackgroundColor" value="#507554" onchange="changeBackgroundColor()">
         <div class="v101_11" id="editImageContainer">
-          <img id="editImage"
-            src="https://i.imgur.com/NatHDQs.png" alt="">
+          <img id="editImage" src="https://i.imgur.com/NatHDQs.png" alt="">
         </div>
       </div>
     </div>
@@ -267,7 +273,7 @@
         <button class="color-button" style="background-color: #AA0000;"
           onclick="setPresetColor('#AA0000')">Collector's</button>
         <button class="color-button" style="background-color: #A50F79;"
-          onclick="setPresetColor('#A50F79')">ROLVe</button>
+          onclick="setPresetColor('#A50F79')">Dorcey</button>
       </div>
       <br>
       <label for="editImageURL">Drop Image:</label>
@@ -286,6 +292,9 @@
       var editableContent = document.getElementById("editableContent");
       var newContent = document.getElementById("editContent").value;
       editableContent.innerText = newContent;
+      twemoji.parse(document.body, {
+            className: 'twemoji'
+          });
     }
 
     function changeBackgroundColor() {
@@ -336,36 +345,38 @@
       });
     }
     function copyToClipboard() {
-    var v101_2Div = document.querySelector('.v101_2');
+      var v101_2Div = document.querySelector('.v101_2');
 
-    html2canvas(v101_2Div, { useCORS: true }).then(function(canvas) {
+      html2canvas(v101_2Div, { useCORS: true }).then(function (canvas) {
         var dataURL = canvas.toDataURL();
 
         var blob = dataURLtoBlob(dataURL);
 
         var clipboardItem = new ClipboardItem({ 'image/png': blob });
 
-        navigator.clipboard.write([clipboardItem]).then(function() {
-            alert('Image copied to clipboard!');
-        }).catch(function(err) {
-            console.error('Unable to copy to clipboard', err);
+        navigator.clipboard.write([clipboardItem]).then(function () {
+          alert('Image copied to clipboard!');
+        }).catch(function (err) {
+          console.error('Unable to copy to clipboard', err);
         });
-    });
-}
-
-function dataURLtoBlob(dataURL) {
-    var arr = dataURL.split(',');
-    var mime = arr[0].match(/:(.*?);/)[1];
-    var bstr = atob(arr[1]);
-    var n = bstr.length;
-    var u8arr = new Uint8Array(n);
-
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+      });
     }
 
-    return new Blob([u8arr], { type: mime });
-}
+    function dataURLtoBlob(dataURL) {
+      var arr = dataURL.split(',');
+      var mime = arr[0].match(/:(.*?);/)[1];
+      var bstr = atob(arr[1]);
+      var n = bstr.length;
+      var u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new Blob([u8arr], { type: mime });
+    }
+
+    
   </script>
 </body>
 
