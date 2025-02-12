@@ -422,7 +422,7 @@
           "Secondary": {
             "Pistol": "https://static.wikia.nocookie.net/tc2/images/a/a2/Pistol.png",
             "Conventional": "https://static.wikia.nocookie.net/tc2/images/1/1f/Conventional.png",
-            "Noisy Cricker": "https://static.wikia.nocookie.net/tc2/images/5/5d/Noisy_Cricket.png",
+            "Noisy Cricket": "https://static.wikia.nocookie.net/tc2/images/5/5d/Noisy_Cricket.png",
             "Short Circuit": "https://static.wikia.nocookie.net/tc2/images/a/a4/Short_Circuit.png",
             "Wrangler": "https://static.wikia.nocookie.net/tc2/images/3/3c/Wrangler.png",
             "Heavy Metal": "https://static.wikia.nocookie.net/tc2/images/2/23/Heavy_Metal.png"
@@ -496,7 +496,6 @@
             "Quick Draw": "https://static.wikia.nocookie.net/tc2/images/3/39/Quick_Draw.png",
             "Silenced Pistol": "https://static.wikia.nocookie.net/tc2/images/e/e2/Silenced_Pistol.png",
             "Sinister Suit" : "https://static.wikia.nocookie.net/tc2/images/e/e7/Sinister_Suit.png"
-
           },
           "Secondary": {
             "Invis-Watch": "https://static.wikia.nocookie.net/tc2/images/4/45/Invis-Watch.png",
@@ -599,13 +598,14 @@
       });
 
       document.addEventListener("DOMContentLoaded", function () {
+        // Preload UI images
         var images = document.querySelectorAll('img');
-
         images.forEach(function (img) {
           var preloadedImage = new Image();
           preloadedImage.src = img.src;
         });
 
+        // Preload background images
         var elementsWithBackgroundImages = document.querySelectorAll('*');
         elementsWithBackgroundImages.forEach(function (element) {
           var backgroundImage = window.getComputedStyle(element).backgroundImage;
@@ -614,6 +614,18 @@
             var preloadedImage = new Image();
             preloadedImage.src = url;
           }
+        });
+
+        // Preload all weapon images
+        Object.keys(weapons).forEach(function(className) {
+          ['Primary', 'Secondary', 'Melee', 'PDA'].forEach(function(weaponType) {
+            if (weapons[className][weaponType]) {
+              Object.values(weapons[className][weaponType]).forEach(function(imageUrl) {
+                var preloadedImage = new Image();
+                preloadedImage.src = imageUrl;
+              });
+            }
+          });
         });
       });
 
