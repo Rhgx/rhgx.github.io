@@ -18,14 +18,11 @@
     <style>
         body {
             font-family: 'Oswald', sans-serif;
-            background: linear-gradient(135deg, #b379b7 0%, #8e44ad 100%);
+            background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
             background-attachment: fixed;
             position: relative;
             color: beige;
-
         }
-        
-        /* Add pattern overlay */
         body::before {
             content: '';
             position: fixed;
@@ -43,15 +40,20 @@
             width: 100%;
             -webkit-text-stroke-width: 0px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            filter: brightness(0.8) saturate(1.2);
         }
         .list-group-item {
             -webkit-text-stroke-width: 0px;
             transition: background-color 0.3s;
+            background-color: #333;
+            color: beige;
+            border: 1px solid #444;
         }
         .list-group-item:hover {
-            background-color: #f8f9fa;
+            background-color: #444;
             cursor: pointer;
+            color: beige;
         }
         #loading {
             text-align: center;
@@ -64,6 +66,9 @@
             border-radius: 4px;
             margin: 10px 0;
             background-color: rgba(220, 53, 69, 0.1);
+        }
+        .text-light {
+            color:beige !important;
         }
     </style>
 </head>
