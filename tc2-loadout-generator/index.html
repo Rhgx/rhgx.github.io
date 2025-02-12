@@ -27,13 +27,18 @@
       height: auto;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      transition: all 0.3s ease;
+      border-radius: 5px;
     }
 
     .selected {
       border-color: #FFD700;
-      border-radius: 2px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.75);
+      box-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.3),
+        0 0 30px rgba(255, 215, 0, 0.1),
+        inset 0 0 5px rgba(255, 215, 0, 0.2);
+      transform: scale(1.05);
     }
 
     .loadout-container {
@@ -61,10 +66,14 @@
     .btn-dark {
       background-color: #333333;
       border: none;
+      transition: all 0.3s ease;
+      border-radius: 8px;
     }
 
     .btn-dark:hover {
       background-color: #444444;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     h1 {
