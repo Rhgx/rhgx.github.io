@@ -50,13 +50,45 @@
       max-width: 800px;
       margin-left: auto;
       margin-right: auto;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
     }
 
-    .item-container img {
-      max-width: 100px;
+    .loadout-container.show {
+      opacity: 1;
+    }
+
+    .item-container {
+      text-align: center;
+      color: #FFD700;
+      font-size: 25px;
+      background-color: #333333;
+      width: 100%;
+      max-width: 300px;
+      margin: 10px auto;
+      border-radius: 10px;
+      padding: 10px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .item-container.changing {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+
+    .class-portrait {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      margin: auto;
       -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
       filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-      height: auto;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .class-portrait.changing {
+      transform: scale(0.95);
+      opacity: 0;
     }
 
     .btn-gen {
@@ -122,25 +154,11 @@
       margin: auto;
     }
 
-    .class-portrait {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      margin: auto;
+    .item-container img {
+      max-width: 100px;
       -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
       filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-    }
-
-    .item-container {
-      text-align: center;
-      color: #FFD700;
-      font-size: 25px;
-      background-color: #333333;
-      width: 100%;
-      max-width: 300px;
-      margin: 10px auto;
-      border-radius: 10px;
-      padding: 10px;
+      height: auto;
     }
 
     .class-name {
@@ -150,7 +168,7 @@
       margin-top: 20px;
     }
 
-    .made-by-rocks {
+    .credits {
       position: fixed;
       bottom: 10px;
       left: 10px;
@@ -158,12 +176,13 @@
       color: white;
       text-align: left;
       line-height: 1.6;
+      z-index: 2;
     }
   </style>
 </head>
 
 <body>
-  <div class="made-by-rocks">
+  <div class="credits">
     Site : Rocks<br>
     Class Portraits : Alyssa<br>
     Weapon Icons : TC2 Wiki 
@@ -567,41 +586,57 @@
           return;
         }
 
-        document.getElementById('className').textContent = (`Your loadout for ${currentClass} is..`); // Set the class name text
-
-        loadoutContainer.style.display = 'block';
-
+        // Add changing class to trigger animations
+        const itemContainers = document.querySelectorAll('.item-container');
         const classPortrait = document.getElementById('classPortrait');
-        classPortrait.src = classPortraits[currentClass];
+        itemContainers.forEach(container => container.classList.add('changing'));
+        classPortrait.classList.add('changing');
 
-        const primaryWeaponContainer = document.getElementById('primaryWeapon');
-        const primaryWeaponKeys = Object.keys(weapons[currentClass]["Primary"]);
-        const primaryWeapon = primaryWeaponKeys[Math.floor(Math.random() * primaryWeaponKeys.length)];
-        primaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Primary"][primaryWeapon];
-        primaryWeaponContainer.querySelector('p').textContent = primaryWeapon;
+        // Show container if it's hidden and add show class
+        loadoutContainer.style.display = 'block';
+        setTimeout(() => loadoutContainer.classList.add('show'), 50);
 
-        const secondaryWeaponContainer = document.getElementById('secondaryWeapon');
-        const secondaryWeaponKeys = Object.keys(weapons[currentClass]["Secondary"]);
-        const secondaryWeapon = secondaryWeaponKeys[Math.floor(Math.random() * secondaryWeaponKeys.length)];
-        secondaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Secondary"][secondaryWeapon];
-        secondaryWeaponContainer.querySelector('p').textContent = secondaryWeapon;
+        // Delay the update of content to allow animation to play
+        setTimeout(() => {
+          document.getElementById('className').textContent = (`Your loadout for ${currentClass} is..`);
+          classPortrait.src = classPortraits[currentClass];
 
-        const meleeWeaponContainer = document.getElementById('meleeWeapon');
-        const meleeWeaponKeys = Object.keys(weapons[currentClass]["Melee"]);
-        const meleeWeapon = meleeWeaponKeys[Math.floor(Math.random() * meleeWeaponKeys.length)];
-        meleeWeaponContainer.querySelector('img').src = weapons[currentClass]["Melee"][meleeWeapon];
-        meleeWeaponContainer.querySelector('p').textContent = meleeWeapon;
+          const primaryWeaponContainer = document.getElementById('primaryWeapon');
+          const primaryWeaponKeys = Object.keys(weapons[currentClass]["Primary"]);
+          const primaryWeapon = primaryWeaponKeys[Math.floor(Math.random() * primaryWeaponKeys.length)];
+          primaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Primary"][primaryWeapon];
+          primaryWeaponContainer.querySelector('p').textContent = primaryWeapon;
 
-        const pdaContainer = document.getElementById('pda');
-        if (currentClass === "Agent") {
-          pdaContainer.style.display = 'block';
-          const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
-          const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
-          pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
-          pdaContainer.querySelector('p').textContent = pda;
-        } else {
-          pdaContainer.style.display = 'none';
-        }
+          const secondaryWeaponContainer = document.getElementById('secondaryWeapon');
+          const secondaryWeaponKeys = Object.keys(weapons[currentClass]["Secondary"]);
+          const secondaryWeapon = secondaryWeaponKeys[Math.floor(Math.random() * secondaryWeaponKeys.length)];
+          secondaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Secondary"][secondaryWeapon];
+          secondaryWeaponContainer.querySelector('p').textContent = secondaryWeapon;
+
+          const meleeWeaponContainer = document.getElementById('meleeWeapon');
+          const meleeWeaponKeys = Object.keys(weapons[currentClass]["Melee"]);
+          const meleeWeapon = meleeWeaponKeys[Math.floor(Math.random() * meleeWeaponKeys.length)];
+          meleeWeaponContainer.querySelector('img').src = weapons[currentClass]["Melee"][meleeWeapon];
+          meleeWeaponContainer.querySelector('p').textContent = meleeWeapon;
+
+          const pdaContainer = document.getElementById('pda');
+          if (currentClass === "Agent") {
+            pdaContainer.style.display = 'block';
+            const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
+            const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
+            pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
+            pdaContainer.querySelector('p').textContent = pda;
+          } else {
+            pdaContainer.style.display = 'none';
+          }
+
+          // Remove changing class to trigger reverse animation
+          setTimeout(() => {
+            itemContainers.forEach(container => container.classList.remove('changing'));
+            classPortrait.classList.remove('changing');
+          }, 50);
+
+        }, 300); // Wait for fade out animation
 
         clickCount++;
         if (clickCount >= clickLimit) {
