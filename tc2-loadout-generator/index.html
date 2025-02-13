@@ -815,8 +815,6 @@
         }, 500);
 
         button.addEventListener('click', throttledGenerate);
-
-        // Add this new function for handling arrow key navigation
         function handleArrowKeys(e) {
           if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)) return;
           
@@ -824,7 +822,6 @@
           const currentIndex = icons.findIndex(icon => icon.classList.contains('selected'));
           let newIndex;
           
-          // Grid is 5x2 (10 classes including Random)
           const gridWidth = 5;
           
           switch(e.code) {
@@ -842,10 +839,7 @@
               break;
           }
           
-          // Remove previous selection
           icons.forEach(icon => icon.classList.remove('selected'));
-          
-          // Add new selection
           icons[newIndex].classList.add('selected');
           selectedClass = icons[newIndex].id;
           
