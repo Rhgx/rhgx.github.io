@@ -714,11 +714,18 @@
         const loadoutContainer = document.getElementById('loadout');
         const itemContainers = document.querySelectorAll('.item-container');
         const classPortrait = document.getElementById('classPortrait');
+        
+        // Track previous class
+        const previousClass = classPortrait.dataset.currentClass;
+        classPortrait.dataset.currentClass = currentClass;
 
         // Animation handling
         const animateElements = () => {
           itemContainers.forEach(container => container.classList.add('changing'));
-          classPortrait.classList.add('changing');
+          // Only animate portrait if class changed
+          if (previousClass !== currentClass) {
+            classPortrait.classList.add('changing');
+          }
         };
 
         const updateLoadout = () => {
@@ -753,7 +760,10 @@
           updateLoadout();
           setTimeout(() => {
             itemContainers.forEach(container => container.classList.remove('changing'));
-            classPortrait.classList.remove('changing');
+            // Only remove animation class if it was added
+            if (previousClass !== currentClass) {
+              classPortrait.classList.remove('changing');
+            }
           }, 50);
         }, 300);
       }
