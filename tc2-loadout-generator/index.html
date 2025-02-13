@@ -180,6 +180,61 @@
       line-height: 1.6;
       z-index: 2;
     }
+
+    /* Update loading indicator styles */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .loading-content {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .loading-spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    #loading-progress {
+      color: white;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Accessibility improvements */
+    .btn:focus {
+      outline: 3px solid #2ac94f;
+      outline-offset: 2px;
+    }
+
+    /* Add hover effects */
+    .class-icon:hover {
+      transform: scale(1.1);
+      transition: transform 0.2s ease;
+    }
   </style>
 </head>
 
@@ -577,90 +632,138 @@
         });
       });
 
-      document.getElementById('generate').addEventListener('click', () => {
-        const loadoutContainer = document.getElementById('loadout');
-        let currentClass = selectedClass;
+      // Rate limiting using throttle
+      function throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+          if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+          }
+        }
+      }
 
-        if (currentClass === "Random") {
-          const classKeys = Object.keys(classPortraits);
-          currentClass = classKeys[Math.floor(Math.random() * classKeys.length)];
-        } else if (currentClass === null) {
-          return;
+      // Image preloading with progress tracking
+      class ImagePreloader {
+        constructor() {
+          this.loaded = 0;
+          this.total = 0;
+          this.cache = new Map();
         }
 
-        // Add changing class to trigger animations
-        const itemContainers = document.querySelectorAll('.item-container');
-        const classPortrait = document.getElementById('classPortrait');
-        itemContainers.forEach(container => container.classList.add('changing'));
-        classPortrait.classList.add('changing');
+        async preloadImages(urls) {
+          this.total = urls.size;
+          const loadingOverlay = this.createLoadingOverlay();
+          document.body.appendChild(loadingOverlay);
 
-        // Show container if it's hidden and add show class
-        loadoutContainer.style.display = 'block';
-        setTimeout(() => loadoutContainer.classList.add('show'), 50);
+          try {
+            const promises = Array.from(urls).map(url => this.preloadImage(url));
+            await Promise.allSettled(promises);
+          } finally {
+            loadingOverlay.remove();
+          }
+        }
 
-        // Delay the update of content to allow animation to play
-        setTimeout(() => {
-          document.getElementById('className').textContent = (`Your loadout for ${currentClass} is..`);
-          classPortrait.src = classPortraits[currentClass];
-
-          const primaryWeaponContainer = document.getElementById('primaryWeapon');
-          const primaryWeaponKeys = Object.keys(weapons[currentClass]["Primary"]);
-          const primaryWeapon = primaryWeaponKeys[Math.floor(Math.random() * primaryWeaponKeys.length)];
-          primaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Primary"][primaryWeapon];
-          primaryWeaponContainer.querySelector('p').textContent = primaryWeapon;
-
-          const secondaryWeaponContainer = document.getElementById('secondaryWeapon');
-          const secondaryWeaponKeys = Object.keys(weapons[currentClass]["Secondary"]);
-          const secondaryWeapon = secondaryWeaponKeys[Math.floor(Math.random() * secondaryWeaponKeys.length)];
-          secondaryWeaponContainer.querySelector('img').src = weapons[currentClass]["Secondary"][secondaryWeapon];
-          secondaryWeaponContainer.querySelector('p').textContent = secondaryWeapon;
-
-          const meleeWeaponContainer = document.getElementById('meleeWeapon');
-          const meleeWeaponKeys = Object.keys(weapons[currentClass]["Melee"]);
-          const meleeWeapon = meleeWeaponKeys[Math.floor(Math.random() * meleeWeaponKeys.length)];
-          meleeWeaponContainer.querySelector('img').src = weapons[currentClass]["Melee"][meleeWeapon];
-          meleeWeaponContainer.querySelector('p').textContent = meleeWeapon;
-
-          const pdaContainer = document.getElementById('pda');
-          if (currentClass === "Agent") {
-            pdaContainer.style.display = 'block';
-            const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
-            const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
-            pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
-            pdaContainer.querySelector('p').textContent = pda;
-          } else {
-            pdaContainer.style.display = 'none';
+        preloadImage(url) {
+          if (this.cache.has(url)) {
+            return Promise.resolve();
           }
 
-          // Remove changing class to trigger reverse animation
-          setTimeout(() => {
-            itemContainers.forEach(container => container.classList.remove('changing'));
-            classPortrait.classList.remove('changing');
-          }, 50);
-
-        }, 300); // Wait for fade out animation
-
-        clickCount++;
-        if (clickCount >= clickLimit) {
-          button.disabled = true;
-          setTimeout(resetClicks, timePeriod);
-        }
-
-        document.getElementById('loadout').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        function preloadImage(url) {
           return new Promise((resolve, reject) => {
             const img = new Image();
-            img.onload = () => resolve(img);
-            img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+            img.onload = () => {
+              this.cache.set(url, img);
+              this.loaded++;
+              this.updateLoadingProgress();
+              resolve();
+            };
+            img.onerror = () => {
+              console.warn(`Failed to load image: ${url}`);
+              this.loaded++;
+              this.updateLoadingProgress();
+              reject();
+            };
             img.src = url;
           });
         }
 
+        createLoadingOverlay() {
+          const overlay = document.createElement('div');
+          overlay.className = 'loading-overlay';
+          overlay.innerHTML = `
+            <div class="loading-content">
+              <div class="loading-spinner"></div>
+              <div id="loading-progress">Loading assets... (0%)</div>
+            </div>
+          `;
+          return overlay;
+        }
+
+        updateLoadingProgress() {
+          const progress = document.getElementById('loading-progress');
+          if (progress) {
+            const percentage = Math.round((this.loaded / this.total) * 100);
+            progress.textContent = `Loading assets... (${percentage}%)`;
+          }
+        }
+      }
+
+      // Improved generate function with animation handling
+      function generateLoadout(currentClass) {
+        const loadoutContainer = document.getElementById('loadout');
+        const itemContainers = document.querySelectorAll('.item-container');
+        const classPortrait = document.getElementById('classPortrait');
+
+        // Animation handling
+        const animateElements = () => {
+          itemContainers.forEach(container => container.classList.add('changing'));
+          classPortrait.classList.add('changing');
+        };
+
+        const updateLoadout = () => {
+          document.getElementById('className').textContent = `Your loadout for ${currentClass} is..`;
+          classPortrait.src = classPortraits[currentClass];
+
+          // Update weapons
+          ['Primary', 'Secondary', 'Melee'].forEach(type => {
+            const container = document.getElementById(`${type.toLowerCase()}Weapon`);
+            const weaponKeys = Object.keys(weapons[currentClass][type]);
+            const weapon = weaponKeys[Math.floor(Math.random() * weaponKeys.length)];
+            container.querySelector('img').src = weapons[currentClass][type][weapon];
+            container.querySelector('p').textContent = weapon;
+          });
+
+          // Handle PDA for Agent class
+          const pdaContainer = document.getElementById('pda');
+          pdaContainer.style.display = currentClass === "Agent" ? 'block' : 'none';
+          if (currentClass === "Agent") {
+            const pdaKeys = Object.keys(weapons[currentClass]["PDA"]);
+            const pda = pdaKeys[Math.floor(Math.random() * pdaKeys.length)];
+            pdaContainer.querySelector('img').src = weapons[currentClass]["PDA"][pda];
+            pdaContainer.querySelector('p').textContent = pda;
+          }
+        };
+
+        // Execute animations and updates
+        animateElements();
+        loadoutContainer.style.display = 'block';
+        setTimeout(() => {
+          loadoutContainer.classList.add('show');
+          updateLoadout();
+          setTimeout(() => {
+            itemContainers.forEach(container => container.classList.remove('changing'));
+            classPortrait.classList.remove('changing');
+          }, 50);
+        }, 300);
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", async function () {
+        const preloader = new ImagePreloader();
         const imagesToPreload = new Set();
 
+        // Collect all images
         document.querySelectorAll('img').forEach(img => {
           if (img.src) imagesToPreload.add(img.src);
         });
@@ -685,16 +788,24 @@
           imagesToPreload.add(portraitUrl);
         });
 
-        // Preload all collected images
-        const preloadPromises = Array.from(imagesToPreload).map(url => preloadImage(url));
+        // Preload images with progress indicator
+        await preloader.preloadImages(imagesToPreload);
 
-        Promise.allSettled(preloadPromises).then(results => {
-          const successful = results.filter(r => r.status === 'fulfilled').length;
-          const failed = results.filter(r => r.status === 'rejected').length;
-          console.log(`Preloaded ${successful} images successfully. ${failed} images failed to load.`);
-        });
+        // Setup event listeners
+        const throttledGenerate = throttle(() => {
+          let currentClass = selectedClass;
+          if (currentClass === "Random") {
+            const classKeys = Object.keys(classPortraits);
+            currentClass = classKeys[Math.floor(Math.random() * classKeys.length)];
+          } else if (!currentClass) {
+            return;
+          }
+          generateLoadout(currentClass);
+          document.getElementById('loadout').scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+
+        button.addEventListener('click', throttledGenerate);
       });
-
     </script>
 </body>
 </html>
