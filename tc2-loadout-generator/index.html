@@ -815,6 +815,52 @@
         }, 500);
 
         button.addEventListener('click', throttledGenerate);
+
+        // Add this new function for handling arrow key navigation
+        function handleArrowKeys(e) {
+          if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)) return;
+          
+          const icons = Array.from(document.querySelectorAll('.class-icon'));
+          const currentIndex = icons.findIndex(icon => icon.classList.contains('selected'));
+          let newIndex;
+          
+          // Grid is 5x2 (10 classes including Random)
+          const gridWidth = 5;
+          
+          switch(e.code) {
+            case 'ArrowLeft':
+              newIndex = currentIndex <= 0 ? icons.length - 1 : currentIndex - 1;
+              break;
+            case 'ArrowRight':
+              newIndex = currentIndex >= icons.length - 1 ? 0 : currentIndex + 1;
+              break;
+            case 'ArrowUp':
+              newIndex = currentIndex < gridWidth ? currentIndex + (icons.length - gridWidth) : currentIndex - gridWidth;
+              break;
+            case 'ArrowDown':
+              newIndex = currentIndex >= icons.length - gridWidth ? currentIndex % gridWidth : currentIndex + gridWidth;
+              break;
+          }
+          
+          // Remove previous selection
+          icons.forEach(icon => icon.classList.remove('selected'));
+          
+          // Add new selection
+          icons[newIndex].classList.add('selected');
+          selectedClass = icons[newIndex].id;
+          
+          // Prevent page scrolling
+          e.preventDefault();
+        }
+
+        // Add the event listener for arrow keys
+        document.addEventListener('keydown', (e) => {
+          if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.code)) {
+            handleArrowKeys(e);
+          } else if (e.code === 'Space' || e.code === 'Enter') {
+            throttledGenerate();
+          }
+        });
       });
     </script>
 </body>
