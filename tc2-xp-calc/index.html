@@ -24,6 +24,20 @@
       margin: 0;
     }
 
+    body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%);
+            background-size: 10px 10px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
     .container {
       background-color: #3a2c5a;
       padding: 20px 30px;
@@ -73,80 +87,299 @@
       font-size: 1.1rem;
       color: #b08ed3;
     }
+
+    .invalid-input {
+      border: 2px solid #ff4444 !important;
+    }
+
+    .tooltip-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: #b08ed3;
+      border-radius: 50%;
+      color: white;
+      font-size: 12px;
+      line-height: 16px;
+      margin-left: 5px;
+      cursor: help;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .tooltip.show {
+      opacity: 1 !important;
+    }
+
+    .tooltip-inner {
+      max-width: 200px;
+      padding: 8px 12px;
+      background-color: #2d1e40;
+      font-size: 14px;
+      border: 1px solid #b08ed3;
+    }
+
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .btn-reset {
+      margin-left: 10px;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .error-popup {
+      position: fixed;
+      top: -100px; /* Start off-screen */
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #731515;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      text-align: center;
+      font-size: 1rem;
+      max-width: 300px;
+      width: 90%;
+    }
+
+    .error-popup.success {
+      background-color: #157347;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>TC2 Level-Up Calculator</h1>
     <div class="calculator">
-      <label for="start-level">Starting Level:</label>
-      <input type="number" id="start-level" value="0" min="0">
+      <label for="start-level">Starting Level:
+        <span class="tooltip-icon" title="Your current level in TC2">?</span>
+      </label>
+      <input type="number" id="start-level" value="0" min="0" onkeydown="return event.keyCode !== 69" oninput="this.value = this.value.replace(/[eE+-]/g, '')">
 
-      <label for="goal-level">Goal Level:</label>
-      <input type="number" id="goal-level" value="10" min="1">
+      <label for="goal-level">Goal Level:
+        <span class="tooltip-icon" title="The level you want to reach">?</span>
+      </label>
+      <input type="number" id="goal-level" value="10" min="1" onkeydown="return event.keyCode !== 69" oninput="this.value = this.value.replace(/[eE+-]/g, '')">
 
       <div class="advanced-section">
         <h2>Advanced Settings</h2>
-        <label for="points-per-game">Points per Game:</label>
-        <input type="number" id="points-per-game" value="10" min="1">
+        <label for="points-per-game">Points per Game:
+          <span class="tooltip-icon" title="Average points you earn per game">?</span>
+        </label>
+        <input type="number" id="points-per-game" value="10" min="1" onkeydown="return event.keyCode !== 69" oninput="this.value = this.value.replace(/[eE+-]/g, '')">
 
-        <label for="games-per-hour">Games Played per Hour:</label>
-        <input type="number" id="games-per-hour" value="8" min="1">
+        <label for="games-per-hour">Games Played per Hour:
+          <span class="tooltip-icon" title="How many games you can complete in one hour">?</span>
+        </label>
+        <input type="number" id="games-per-hour" value="8" min="1" onkeydown="return event.keyCode !== 69" oninput="this.value = this.value.replace(/[eE+-]/g, '')">
       </div>
 
-      <button class="btn btn-success mt-3" onclick="calculate()">Calculate</button>
+      <button class="btn btn-success mt-3" onclick="calculate()" id="calc-button">Calculate</button>
+      <button class="btn btn-secondary mt-3 btn-reset" onclick="resetCalculator()">Reset</button>
 
       <div class="results" id="results-section" style="display: none;">
         <p id="xp-required"></p>
-        <p id="time-required-hours"></p>
-        <p id="time-required-days"></p>
+        <p id="time-required"></p>
       </div>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <script>
+    // Load saved values on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedValues();
+      initializeTooltips();
+    });
+
+    function loadSavedValues() {
+      const inputs = ['start-level', 'goal-level', 'points-per-game', 'games-per-hour'];
+      inputs.forEach(id => {
+        const savedValue = localStorage.getItem(id);
+        if (savedValue) {
+          document.getElementById(id).value = savedValue;
+        }
+      });
+    }
+
+    function saveValues() {
+      const inputs = ['start-level', 'goal-level', 'points-per-game', 'games-per-hour'];
+      inputs.forEach(id => {
+        localStorage.setItem(id, document.getElementById(id).value);
+      });
+    }
+
+    function initializeTooltips() {
+      const tooltipTriggerList = document.querySelectorAll('[title]');
+      tooltipTriggerList.forEach(element => {
+        const tooltip = new bootstrap.Tooltip(element, {
+          trigger: 'manual',
+          placement: 'auto',
+          html: true,
+          boundary: 'window'
+        });
+
+        element.addEventListener('mouseenter', () => tooltip.show());
+        element.addEventListener('mouseleave', () => tooltip.hide());
+        element.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          tooltipTriggerList.forEach(el => {
+            if (el !== element) {
+              bootstrap.Tooltip.getInstance(el)?.hide();
+            }
+          });
+          tooltip.show();
+        });
+        element.addEventListener('touchend', () => {
+          setTimeout(() => tooltip.hide(), 2000);
+        });
+
+        document.addEventListener('touchstart', (e) => {
+          if (!element.contains(e.target)) {
+            tooltip.hide();
+          }
+        });
+      });
+    }
+
+    function resetCalculator() {
+      const inputs = ['start-level', 'goal-level', 'points-per-game', 'games-per-hour'];
+      inputs.forEach(id => {
+        document.getElementById(id).value = document.getElementById(id).defaultValue;
+        document.getElementById(id).classList.remove('invalid-input');
+      });
+      document.getElementById('results-section').style.display = 'none';
+      localStorage.clear();
+    }
+
+    function createPopup(message, type = 'error') {
+      // Remove any existing popups
+      const existingPopup = document.querySelector('.error-popup');
+      if (existingPopup) {
+        existingPopup.remove();
+      }
+
+      // Create new popup
+      const popup = document.createElement('div');
+      popup.className = `error-popup ${type}`;
+      popup.textContent = message;
+      document.body.appendChild(popup);
+
+      // Animate in
+      anime({
+        targets: popup,
+        top: 20,
+        duration: 800,
+        easing: 'easeOutElastic(1, .8)',
+        complete: () => {
+          // Animate out after delay
+          setTimeout(() => {
+            anime({
+              targets: popup,
+              top: -100,
+              duration: 600,
+              easing: 'easeInBack',
+              complete: () => popup.remove()
+            });
+          }, 3000);
+        }
+      });
+    }
+
     function calculate() {
-      const startLevel = parseInt(document.getElementById('start-level').value);
-      const goalLevel = parseInt(document.getElementById('goal-level').value);
-      const pointsPerGame = parseInt(document.getElementById('points-per-game').value);
-      const gamesPerHour = parseInt(document.getElementById('games-per-hour').value);
+      const calcButton = document.getElementById('calc-button');
+      calcButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Calculating...';
+      calcButton.disabled = true;
+      document.querySelector('.calculator').classList.add('loading');
 
-      if (startLevel >= goalLevel) {
-        alert("The goal level must be higher than the starting level.");
-        return;
-      }
+      setTimeout(() => {
+        const startLevel = parseInt(document.getElementById('start-level').value);
+        const goalLevel = parseInt(document.getElementById('goal-level').value);
+        const pointsPerGame = parseInt(document.getElementById('points-per-game').value);
+        const gamesPerHour = parseInt(document.getElementById('games-per-hour').value);
 
-      if (gamesPerHour <= 0) {
-        alert("Games per hour must be greater than 0.");
-        return;
-      }
+        // Reset validation states
+        document.querySelectorAll('input').forEach(input => input.classList.remove('invalid-input'));
 
-      let totalXP = 0;
-      for (let level = startLevel; level < goalLevel; level++) {
-        totalXP += 100 + 25 * level;
-      }
+        // Validate inputs with specific messages
+        if (startLevel < 0) {
+          document.getElementById('start-level').classList.add('invalid-input');
+          createPopup('Starting level cannot be negative!');
+          resetCalculationState();
+          return;
+        }
 
-      const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        if (goalLevel <= startLevel) {
+          document.getElementById('goal-level').classList.add('invalid-input');
+          createPopup('Goal level must be higher than starting level!');
+          resetCalculationState();
+          return;
+        }
 
-      const xpPerGame = pointsPerGame * 25;
-      const gamesRequired = Math.ceil(totalXP / xpPerGame);
-      const hoursRequired = gamesRequired / gamesPerHour;
+        if (pointsPerGame <= 0) {
+          document.getElementById('points-per-game').classList.add('invalid-input');
+          createPopup('Points per game must be greater than 0!');
+          resetCalculationState();
+          return;
+        }
 
-      const totalSeconds = Math.ceil(hoursRequired * 3600);
+        if (gamesPerHour <= 0) {
+          document.getElementById('games-per-hour').classList.add('invalid-input');
+          createPopup('Games per hour must be greater than 0!');
+          resetCalculationState();
+          return;
+        }
 
-      const days = Math.floor(totalSeconds / (24 * 3600));
-      const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
+        // If all validations pass, show success message
+        createPopup('Calculation successful!', 'success');
 
-      const timeHours = `${Math.floor(hoursRequired)} hours ${Math.floor((hoursRequired % 1) * 60)} minutes ${Math.floor(((hoursRequired * 3600) % 60))} seconds`;
-      const timeDays = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+        // Save valid values
+        saveValues();
 
-      document.getElementById('results-section').style.display = 'block';
-      document.getElementById('xp-required').innerText = `Total XP Needed: ${formatNumber(totalXP)}`;
-      document.getElementById('time-required-hours').innerText = `Estimated Time Needed: ${timeHours}`;
-      document.getElementById('time-required-days').innerText = `Estimated Time Needed (Days): ${timeDays}`;
+        let totalXP = 0;
+        for (let level = startLevel; level < goalLevel; level++) {
+          totalXP += 100 + 25 * level;
+        }
+
+        const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        const xpPerGame = pointsPerGame * 25;
+        const gamesRequired = Math.ceil(totalXP / xpPerGame);
+        const hoursRequired = gamesRequired / gamesPerHour;
+
+        const totalSeconds = Math.ceil(hoursRequired * 3600);
+        const days = Math.floor(totalSeconds / (24 * 3600));
+        const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        let timeString = '';
+        if (days > 0) {
+          timeString = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+        } else {
+          timeString = `${hours} hours ${minutes} minutes ${seconds} seconds`;
+        }
+
+        document.getElementById('results-section').style.display = 'block';
+        document.getElementById('xp-required').innerText = `Total XP Needed: ${formatNumber(totalXP)}`;
+        document.getElementById('time-required').innerText = `Estimated Time Needed: ${timeString}`;
+
+        resetCalculationState();
+      }, 500);
+    }
+
+    function resetCalculationState() {
+      const calcButton = document.getElementById('calc-button');
+      calcButton.innerHTML = 'Calculate';
+      calcButton.disabled = false;
+      document.querySelector('.calculator').classList.remove('loading');
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
