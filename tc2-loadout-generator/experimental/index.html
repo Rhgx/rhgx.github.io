@@ -239,6 +239,29 @@
     .experimental-weapon {
       color: #69d732 !important;
     }
+
+    @keyframes swing {
+      0% { transform: rotate(-10deg); }
+      50% { transform: rotate(10deg); }
+      100% { transform: rotate(-10deg); }
+    }
+
+    .experimental-tag {
+      display: inline-block;
+      -webkit-text-fill-color: #69d732 !important;
+      font-size: 24px;
+      position: absolute;
+      top: -7px !important;
+      right: -71.3px !important;
+      animation: swing 2s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    /* Add this new style for the title container */
+    .title-container {
+      position: relative;
+      display: inline-block;
+    }
   </style>
 </head>
 
@@ -249,7 +272,12 @@
     Weapon Icons : TC2 Wiki 
   </div>
   <div class="container py-5">
-    <h1 class="text-center mb-4">TC2 Random Loadout Generator</h1>
+    <h1 class="text-center mb-4">
+      <span class="title-container">
+        TC2 Random Loadout Generator
+        <span class="experimental-tag">EXPERIMENTAL</span>
+      </span>
+    </h1>
     <div class="class-container mb-4">
       <div class="class-icons">
         <button class="btn btn-dark"><img class="class-icon" id="Flanker"
