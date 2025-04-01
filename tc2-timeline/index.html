@@ -170,20 +170,37 @@
       const year = date.getFullYear();
 
       const suffix = (n) => {
-        const s = ["th", "st", "nd", "rd"];
-        const v = n % 100;
-        return s[(v - 20) % 10] || s[v] || s[0];
-      };
+    const j = n % 10;
+    const k = n % 100;
+    if (j === 1 && k !== 11) return 'st';
+    if (j === 2 && k !== 12) return 'nd';
+    if (j === 3 && k !== 13) return 'rd';
+    return 'th';
+  };
 
       return `${day}${suffix(day)} of ${month}, ${year}`;
     };
 
-    const calculateDaysSince = (dateString) => {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diff = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-      return diff;
-    };
+    const calculateTimeDifference = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    // Set time to midnight for accurate day difference
+    date.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+
+    const diffTime = date - now; // Difference in milliseconds
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
+
+    if (diffDays < 0 && diffDays >= -1) {
+      return `<strong>Yesterday</strong>`;
+    } else if (diffDays < 0) {
+      return `<strong>${Math.abs(diffDays)} days ago</strong>`;
+    } else if (diffDays > 0) {
+      return `<strong>in ${diffDays} days</strong>`;
+    } else {
+      return `<strong>Today</strong>`;
+    }
+  };
 
     const timelineContainer = document.getElementById('timeline-items');
 
@@ -192,14 +209,14 @@
       const timelineItem = document.createElement('div');
       timelineItem.className = `timeline-item ${isOdd ? 'align-left' : 'align-right'}`;
 
-      const daysSince = calculateDaysSince(update.date);
+      const daysSince = calculateTimeDifference(update.date);
 
       timelineItem.innerHTML = `
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <h3>${update.name}</h3>
           <p>${formatDate(update.date)}</p>
-          <p><strong>${daysSince} days ago</strong></p>
+          <p><strong>${daysSince}</strong></p>
           ${update.logo ? `<img src="${update.logo}" alt="${update.name}">` : ''}
         </div>
       `;
