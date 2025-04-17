@@ -5,7 +5,6 @@ const contentArea = document.getElementById("whitelist-content");
 const pageTitle = document.getElementById("page-title");
 const navLinks = document.querySelectorAll(".nav-link");
 const bsNavbar = document.getElementById('navbarNav');
-// REMOVED: const offclassingInfoDiv = document.getElementById('offclassing-info');
 
 const CLASS_ORDER = [
   "Flanker", "Trooper", "Arsonist", "Annihilator",
@@ -13,17 +12,15 @@ const CLASS_ORDER = [
 ];
 const SLOT_ORDER = ["Primary", "Secondary", "Watches", "Cloak", "Melee", "PDA", "Sapper"];
 
-// *** ADDED: Define typical offclasses ***
-// Adjust this list based on common 6v6 rules or your specific definition
+// Define typical offclasses
 const OFFCLASSES = ['Arsonist', 'Annihilator', 'Brute', 'Mechanic', 'Marksman', 'Agent'];
 
 // Map URL hash fragments to JSON keys and display titles
-// REMOVED: 'offclassing' property
 const MODE_MAP = {
-  "6v6": { key: "status6v6", title: "6v6 Whitelist" },
-  "highlander": { key: "statusHL", title: "Highlander Whitelist" },
-  "prolander": { key: "statusPro", title: "Prolander Whitelist" },
-  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist" }
+  "6v6": { key: "status6v6", title: "6v6 Whitelist", showOffclassIndicator: true }, // Show for 6v6
+  "highlander": { key: "statusHL", title: "Highlander Whitelist", showOffclassIndicator: false }, // Don't show for HL
+  "prolander": { key: "statusPro", title: "Prolander Whitelist", showOffclassIndicator: true }, // Show for Prolander (optional, adjust if needed)
+  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist", showOffclassIndicator: false } // Don't show for 4v4/5v5
 };
 
 // DEFINE BANNED CLASSES PER MODE
@@ -70,6 +67,8 @@ function handleRouteChange() {
     const hash = window.location.hash.substring(1);
     const modeInfo = MODE_MAP[hash];
     const currentModeKey = modeInfo ? modeInfo.key : null;
+    // *** Get the flag for showing the indicator ***
+    const shouldShowOffclassIndicator = modeInfo ? modeInfo.showOffclassIndicator : false;
 
     navLinks.forEach(link => {
         link.classList.toggle('active', link.getAttribute('href') === `#${hash}`);
@@ -80,14 +79,10 @@ function handleRouteChange() {
     requestAnimationFrame(() => {
         contentArea.innerHTML = ''; // Clear previous content
 
-        // REMOVED: Offclassing info display logic
-        // if(offclassingInfoDiv) offclassingInfoDiv.style.display = 'none';
-
         if (whitelistData && modeInfo) {
             pageTitle.textContent = modeInfo.title;
-            // REMOVED: Offclassing info display logic
-            // if(offclassingInfoDiv && modeInfo.offclassing) { ... }
-            displayMode(currentModeKey);
+            // *** Pass the indicator flag to displayMode ***
+            displayMode(currentModeKey, shouldShowOffclassIndicator);
         } else if (!whitelistData && hash) {
             pageTitle.textContent = "Error";
             contentArea.innerHTML = createMessageColumn('error-message-container', 'error-message', `Could not load whitelist data. Cannot display mode: ${hash}`);
@@ -122,7 +117,8 @@ function getStatusClass(statusText) {
 
 
 // --- Content Rendering ---
-function displayMode(modeKey) {
+// *** MODIFIED: Accept shouldShowOffclassIndicator flag ***
+function displayMode(modeKey, shouldShowOffclassIndicator) {
   if (!contentArea || !whitelistData) return;
 
   const fragment = document.createDocumentFragment();
@@ -132,7 +128,8 @@ function displayMode(modeKey) {
     if (!whitelistData[className]) return;
 
     const isClassBanned = bannedClassesForMode.includes(className);
-    const isOffclass = OFFCLASSES.includes(className); // Check if it's an offclass
+    // *** Check offclass status regardless of mode ***
+    const isOffclass = OFFCLASSES.includes(className);
     const classData = whitelistData[className];
     let hasContentForClass = false;
 
@@ -147,15 +144,14 @@ function displayMode(modeKey) {
 
     const cardHeader = document.createElement('div');
     cardHeader.className = 'card-header class-header';
-    // Add class name text node
     cardHeader.appendChild(document.createTextNode(className));
 
-    // *** ADDED: Append offclass indicator if applicable ***
-    if (isOffclass && !isClassBanned) { // Show indicator only if it's an offclass AND not banned
+    // *** MODIFIED: Check mode flag before adding indicator ***
+    if (isOffclass && !isClassBanned && shouldShowOffclassIndicator) {
         const indicatorSpan = document.createElement('span');
         indicatorSpan.className = 'offclass-indicator';
         indicatorSpan.textContent = 'Offclass';
-        cardHeader.appendChild(indicatorSpan); // Append indicator after the name
+        cardHeader.appendChild(indicatorSpan);
     }
     cardDiv.appendChild(cardHeader);
 
