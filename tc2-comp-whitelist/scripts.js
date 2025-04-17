@@ -8,17 +8,16 @@ const CLASS_ORDER = [
   "Flanker", "Trooper", "Arsonist", "Annihilator",
   "Brute", "Mechanic", "Doctor", "Marksman", "Agent"
 ];
-// Include "All-Class" specific slots if they differ, otherwise SLOT_ORDER can be reused
 const SLOT_ORDER = ["Primary", "Secondary", "Watches", "Cloak", "Melee", "PDA", "Sapper"];
-const ALL_CLASS_SLOT_ORDER = ["Melee"]; // Example: Define specific order for All-Class if needed
+const ALL_CLASS_SLOT_ORDER = ["Melee"];
 
 const OFFCLASSES = ['Arsonist', 'Annihilator', 'Brute', 'Mechanic', 'Marksman', 'Agent'];
 
 const MODE_MAP = {
   "6v6": { key: "status6v6", title: "6v6 Whitelist", showOffclassIndicator: true },
   "highlander": { key: "statusHL", title: "Highlander Whitelist", showOffclassIndicator: false },
-  "prolander": { key: "statusPro", title: "Prolander Whitelist", showOffclassIndicator: true },
-  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist", showOffclassIndicator: false }
+  "prolander": { key: "statusPro", title: "Prolander Whitelist", showOffclassIndicator: false },
+  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist", showOffclassIndicator: true }
 };
 
 const BANNED_CLASSES_MAP = {
