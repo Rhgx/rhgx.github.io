@@ -23,7 +23,7 @@ const MODE_MAP = {
 
 // DEFINE BANNED CLASSES PER MODE
 const BANNED_CLASSES_MAP = {
-    "status4v5": ["Brute", "Doctor"],
+    "status4v5": [],
     "status6v6": [],
     "statusHL": [],
     "statusPro": []
