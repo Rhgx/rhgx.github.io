@@ -29,7 +29,7 @@
 
 @font-face {
     font-family: 'Schluber';
-    src: url('/fonts/Schluber.ttf') format('truetype');
+    src: url('fonts/Schluber.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
