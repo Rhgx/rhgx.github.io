@@ -1,0 +1,227 @@
+/* styles.css */
+
+:root {
+    --primary-color: #1b1c28;
+    --secondary-color: #2a2d3f;
+    --accent-color: #4d536e;
+    --text-color: #e0e0e5;
+    --text-darker: #b0b0b5;
+    --border-color: #4d536e;
+    --allowed-color: #5cb85c;
+    --banned-color: #d9534f;
+    --always-color: #f0ad4e;
+    --header-font: 'Schluber', cursive;
+    --body-font: 'Oswald', sans-serif;
+
+    /* Override Bootstrap dark theme variables*/
+    --bs-body-bg: var(--secondary-color);
+    --bs-body-color: var(--text-color);
+    --bs-border-color: var(--border-color);
+    --bs-emphasis-color: var(--text-color);
+    --bs-secondary-bg: var(--primary-color); /* Use primary for card/navbar bg */
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: var(--bs-body-bg); /* Use Bootstrap variable */
+    color: var(--bs-body-color);
+    line-height: 1.6;
+}
+
+/* --- Custom Navbar Styling --- */
+.custom-navbar {
+    background-color: var(--primary-color) !important;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.custom-navbar-brand {
+    font-family: var(--header-font);
+    font-size: 2em !important; /* Ensure size override */
+    color: var(--text-color) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-darker) !important;
+    padding: 0.5rem 0.8rem !important;
+    margin: 0 0.2rem;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 1.1em;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--text-color) !important;
+    background-color: var(--secondary-color);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--text-color) !important;
+    background-color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* --- Main Content & Title --- */
+.main-content-container {
+    background-color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.page-title-custom {
+    font-family: var(--header-font);
+    color: var(--text-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* --- Whitelist Content Area (Bootstrap Row) --- */
+#whitelist-content {
+    /* Row styling is handled by Bootstrap, g-4 adds gutters */
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+}
+
+#whitelist-content.loading {
+    opacity: 0.5;
+}
+
+/* --- Custom Card Styling (Replaces Fieldset) --- */
+.whitelist-card {
+    background-color: var(--secondary-color) !important;
+    border: 1px solid var(--border-color) !important;
+    height: 100%; /* Make cards in a row the same height */
+    opacity: 0; /* Start hidden for animation */
+    transform: translateY(10px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Stagger card animation */
+.whitelist-card:nth-child(1) { animation-delay: 0.05s; }
+.whitelist-card:nth-child(2) { animation-delay: 0.1s; }
+.whitelist-card:nth-child(3) { animation-delay: 0.15s; }
+.whitelist-card:nth-child(4) { animation-delay: 0.2s; }
+.whitelist-card:nth-child(5) { animation-delay: 0.25s; }
+.whitelist-card:nth-child(6) { animation-delay: 0.3s; }
+.whitelist-card:nth-child(7) { animation-delay: 0.35s; }
+.whitelist-card:nth-child(8) { animation-delay: 0.4s; }
+.whitelist-card:nth-child(9) { animation-delay: 0.45s; }
+/* Add more if needed */
+
+
+.card-header.class-header {
+    font-family: var(--header-font);
+    font-size: 1.8em;
+    color: var(--text-color);
+    background-color: var(--accent-color) !important; /* Header distinct color */
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 0.6rem 1rem;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.slot-heading {
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 1.1rem;
+    margin-bottom: 0.6rem;
+    padding-bottom: 5px;   
+    border-bottom: 1.5px solid var(--accent-color);
+    font-size: 1.15em;
+    letter-spacing: 0.5px;
+}
+.card-body .slot-heading:first-of-type {
+    margin-top: 0;
+}
+
+/* Weapon List Styling (inside card-body) */
+.weapon-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.weapon-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0; /* Adjust padding */
+    border-bottom: 1px solid var(--primary-color);
+    min-height: 28px;
+}
+.weapon-item:last-child {
+    border-bottom: none;
+}
+
+.weapon-icon {
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+    margin-right: 10px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.weapon-name {
+    flex-grow: 1;
+    margin-right: 10px;
+    font-size: 0.95em;
+}
+
+.weapon-status {
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    min-width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.status-allowed { color: var(--allowed-color); }
+.status-banned { color: var(--banned-color); }
+.status-always { color: var(--always-color); }
+
+/* --- Loading / Error / Main Page --- */
+.loading-container, .error-message-container, .main-page-content-container {
+    /* These containers will be placed in a .col-12 by JS */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    min-height: 200px;
+    text-align: center;
+}
+.error-message, .main-page-content {
+    font-size: 1.1em;
+    color: var(--text-darker);
+}
+.error-message { color: var(--banned-color); }
+.main-page-content p { font-size: 1.2em; }
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-left-color: var(--text-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Footer --- */
+#footer {
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85em;
+    color: var(--text-darker);
+}
