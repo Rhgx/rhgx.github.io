@@ -1214,8 +1214,8 @@
         "statusHL": "Allowed"
       },
       {
-        "weapon": "Southern Hostpitality",
-        "icon": "southern_hostpitality.png",
+        "weapon": "Southern Hospitality",
+        "icon": "southern_hospitality.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
