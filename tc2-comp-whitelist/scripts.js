@@ -1,3 +1,5 @@
+// scripts.js
+
 let whitelistData = null;
 const contentArea = document.getElementById("whitelist-content");
 const pageTitle = document.getElementById("page-title");
@@ -8,22 +10,21 @@ const CLASS_ORDER = [
   "Flanker", "Trooper", "Arsonist", "Annihilator",
   "Brute", "Mechanic", "Doctor", "Marksman", "Agent"
 ];
+// Include "All-Class" specific slots if they differ, otherwise SLOT_ORDER can be reused
 const SLOT_ORDER = ["Primary", "Secondary", "Watches", "Cloak", "Melee", "PDA", "Sapper"];
+const ALL_CLASS_SLOT_ORDER = ["Melee"]; // Example: Define specific order for All-Class if needed
 
-// Define typical offclasses
 const OFFCLASSES = ['Arsonist', 'Annihilator', 'Brute', 'Mechanic', 'Marksman', 'Agent'];
 
-// Map URL hash fragments to JSON keys and display titles
 const MODE_MAP = {
   "6v6": { key: "status6v6", title: "6v6 Whitelist", showOffclassIndicator: true },
   "highlander": { key: "statusHL", title: "Highlander Whitelist", showOffclassIndicator: false },
-  "prolander": { key: "statusPro", title: "Prolander Whitelist", showOffclassIndicator: false },
-  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist", showOffclassIndicator: true } 
+  "prolander": { key: "statusPro", title: "Prolander Whitelist", showOffclassIndicator: true },
+  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist", showOffclassIndicator: false }
 };
 
-// DEFINE BANNED CLASSES PER MODE
 const BANNED_CLASSES_MAP = {
-    "status4v5": [],
+    "status4v5": ["Brute", "Doctor"],
     "status6v6": [],
     "statusHL": [],
     "statusPro": []
@@ -65,7 +66,6 @@ function handleRouteChange() {
     const hash = window.location.hash.substring(1);
     const modeInfo = MODE_MAP[hash];
     const currentModeKey = modeInfo ? modeInfo.key : null;
-    // *** Get the flag for showing the indicator ***
     const shouldShowOffclassIndicator = modeInfo ? modeInfo.showOffclassIndicator : false;
 
     navLinks.forEach(link => {
@@ -79,7 +79,6 @@ function handleRouteChange() {
 
         if (whitelistData && modeInfo) {
             pageTitle.textContent = modeInfo.title;
-            // *** Pass the indicator flag to displayMode ***
             displayMode(currentModeKey, shouldShowOffclassIndicator);
         } else if (!whitelistData && hash) {
             pageTitle.textContent = "Error";
@@ -115,24 +114,24 @@ function getStatusClass(statusText) {
 
 
 // --- Content Rendering ---
-// *** MODIFIED: Accept shouldShowOffclassIndicator flag ***
 function displayMode(modeKey, shouldShowOffclassIndicator) {
   if (!contentArea || !whitelistData) return;
 
   const fragment = document.createDocumentFragment();
   const bannedClassesForMode = BANNED_CLASSES_MAP[modeKey] || [];
 
+  // --- 1. Render Specific Class Cards ---
   CLASS_ORDER.forEach((className) => {
-    if (!whitelistData[className]) return;
+    if (!whitelistData[className]) return; // Skip if class doesn't exist in data
 
     const isClassBanned = bannedClassesForMode.includes(className);
-    // *** Check offclass status regardless of mode ***
     const isOffclass = OFFCLASSES.includes(className);
     const classData = whitelistData[className];
     let hasContentForClass = false;
 
     const colDiv = document.createElement('div');
-    colDiv.className = 'col-12 col-md-6 col-lg-4 mb-4';
+    // Use specific classes for regular cards if needed for styling/selection
+    colDiv.className = 'col-12 col-md-6 col-lg-4 mb-4 class-column';
     if (isClassBanned) {
         colDiv.classList.add('class-banned');
     }
@@ -144,7 +143,6 @@ function displayMode(modeKey, shouldShowOffclassIndicator) {
     cardHeader.className = 'card-header class-header';
     cardHeader.appendChild(document.createTextNode(className));
 
-    // *** MODIFIED: Check mode flag before adding indicator ***
     if (isOffclass && !isClassBanned && shouldShowOffclassIndicator) {
         const indicatorSpan = document.createElement('span');
         indicatorSpan.className = 'offclass-indicator';
@@ -153,7 +151,6 @@ function displayMode(modeKey, shouldShowOffclassIndicator) {
     }
     cardDiv.appendChild(cardHeader);
 
-
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body';
 
@@ -161,21 +158,18 @@ function displayMode(modeKey, shouldShowOffclassIndicator) {
       if (classData[slotName] && classData[slotName].length > 0) {
         hasContentForClass = true;
         const slotData = classData[slotName];
-
         const slotHeading = document.createElement("h5");
         slotHeading.className = "slot-heading";
         slotHeading.textContent = slotName;
         cardBody.appendChild(slotHeading);
-
         const weaponList = document.createElement("ul");
         weaponList.className = "weapon-list list-unstyled";
-
-        slotData.forEach((item) => {
+        slotData.forEach((item) => { // Weapon item creation loop (keep as before)
           const listItem = document.createElement("li");
           listItem.className = "weapon-item";
-
           if (item.icon) {
             const imgIcon = document.createElement("img");
+            // *** Icon Path Logic ***
             const classFolderName = className.toLowerCase().replace(/\s+/g, '_');
             imgIcon.src = `icons/${classFolderName}/${item.icon}`;
             imgIcon.alt = item.weapon;
@@ -184,37 +178,34 @@ function displayMode(modeKey, shouldShowOffclassIndicator) {
             imgIcon.onerror = function() { this.style.display = 'none'; console.warn(`Icon not found: ${this.src}`); };
             listItem.appendChild(imgIcon);
           }
-
           const weaponNameSpan = document.createElement("span");
           weaponNameSpan.className = "weapon-name";
           weaponNameSpan.textContent = item.weapon;
-
+          listItem.appendChild(weaponNameSpan);
           const weaponStatusSpan = document.createElement("span");
           const status = item[modeKey] || "N/A";
           weaponStatusSpan.textContent = status;
           weaponStatusSpan.className = getStatusClass(status);
-
-          listItem.appendChild(weaponNameSpan);
           listItem.appendChild(weaponStatusSpan);
           weaponList.appendChild(listItem);
-        });
+        }); // End weapon loop
         cardBody.appendChild(weaponList);
-      }
-    });
+      } // End slot content check
+    }); // End slot loop
 
     if (isClassBanned) {
         const overlayDiv = document.createElement('div');
         overlayDiv.className = 'banned-overlay';
         overlayDiv.innerHTML = `<span class="banned-overlay-text">Banned</span>`;
-        colDiv.appendChild(overlayDiv);
+        colDiv.appendChild(overlayDiv); // Add overlay to column
     }
 
     if (hasContentForClass) {
         cardDiv.appendChild(cardBody);
         colDiv.appendChild(cardDiv);
         fragment.appendChild(colDiv);
-    } else if (isClassBanned) {
-         colDiv.innerHTML = '';
+    } else if (isClassBanned) { // Show banned placeholder even if no content
+         colDiv.innerHTML = ''; // Clear potential empty card
          const overlayDiv = document.createElement('div');
          overlayDiv.className = 'banned-overlay';
          overlayDiv.innerHTML = `<span class="banned-overlay-text">Banned</span>`;
@@ -224,7 +215,69 @@ function displayMode(modeKey, shouldShowOffclassIndicator) {
          colDiv.appendChild(overlayDiv);
          fragment.appendChild(colDiv);
     }
-  });
+  }); // --- End CLASS_ORDER loop ---
 
-  contentArea.appendChild(fragment);
+
+  // --- 2. Render All-Class Section ---
+  const allClassData = whitelistData['All-Class'];
+  if (allClassData) {
+    const colDiv = document.createElement('div');
+    colDiv.className = 'col-12 mb-4 all-class-column'; // Full width column
+
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'card whitelist-card'; // Apply animation class
+
+    const cardHeader = document.createElement('div');
+    cardHeader.className = 'card-header class-header';
+    cardHeader.textContent = 'All-Class'; // Header text
+    cardDiv.appendChild(cardHeader);
+
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    // Use specific slot order for All-Class or reuse SLOT_ORDER/Object.keys
+    (ALL_CLASS_SLOT_ORDER || Object.keys(allClassData)).forEach((slotName) => {
+        if (allClassData[slotName] && allClassData[slotName].length > 0) {
+            const slotData = allClassData[slotName];
+            const slotHeading = document.createElement("h5");
+            slotHeading.className = "slot-heading";
+            slotHeading.textContent = slotName;
+            cardBody.appendChild(slotHeading);
+            const weaponList = document.createElement("ul");
+            weaponList.className = "weapon-list list-unstyled";
+            slotData.forEach((item) => { // Weapon item creation loop
+                const listItem = document.createElement("li");
+                listItem.className = "weapon-item";
+                if (item.icon) {
+                    const imgIcon = document.createElement("img");
+                    // *** Icon Path Logic for All-Class ***
+                    imgIcon.src = `icons/all-class/${item.icon}`; // Use 'all-class' folder
+                    imgIcon.alt = item.weapon;
+                    imgIcon.className = "weapon-icon";
+                    imgIcon.loading = "lazy";
+                    imgIcon.onerror = function() { this.style.display = 'none'; console.warn(`Icon not found: ${this.src}`); };
+                    listItem.appendChild(imgIcon);
+                }
+                const weaponNameSpan = document.createElement("span");
+                weaponNameSpan.className = "weapon-name";
+                weaponNameSpan.textContent = item.weapon;
+                listItem.appendChild(weaponNameSpan);
+                const weaponStatusSpan = document.createElement("span");
+                const status = item[modeKey] || "N/A";
+                weaponStatusSpan.textContent = status;
+                weaponStatusSpan.className = getStatusClass(status);
+                listItem.appendChild(weaponStatusSpan);
+                weaponList.appendChild(listItem);
+            }); // End weapon loop
+            cardBody.appendChild(weaponList);
+        } // End slot content check
+    }); // End All-Class slot loop
+
+    cardDiv.appendChild(cardBody);
+    colDiv.appendChild(cardDiv);
+    fragment.appendChild(colDiv); // Add the full-width column to the fragment
+  } // --- End All-Class Section ---
+
+
+  contentArea.appendChild(fragment); // Append all generated content at once
 }

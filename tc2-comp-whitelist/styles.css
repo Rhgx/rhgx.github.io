@@ -240,6 +240,7 @@ body {
 .col-12:nth-child(7) .whitelist-card { animation-delay: 0.35s; }
 .col-12:nth-child(8) .whitelist-card { animation-delay: 0.4s; }
 .col-12:nth-child(9) .whitelist-card { animation-delay: 0.45s; }
+#whitelist-content > .all-class-column .whitelist-card { animation-delay: 0.5s; }
 /* Add more if needed */
 
 @keyframes fadeIn {
