@@ -27,6 +27,13 @@
     --bs-card-inner-border-radius: 0.375rem; /* Default Bootstrap card radius */
 }
 
+@font-face {
+    font-family: 'Schluber';
+    src: url('/fonts/Schluber.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     font-family: var(--body-font);
     background-color: var(--bs-body-bg); /* Use Bootstrap variable */
