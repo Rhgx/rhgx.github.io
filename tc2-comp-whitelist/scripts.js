@@ -1,5 +1,3 @@
-// scripts.js
-
 let whitelistData = null;
 const contentArea = document.getElementById("whitelist-content");
 const pageTitle = document.getElementById("page-title");
