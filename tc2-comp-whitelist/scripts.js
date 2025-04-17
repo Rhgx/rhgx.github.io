@@ -1,17 +1,24 @@
 // scripts.js
 
 let whitelistData = null;
-const contentArea = document.getElementById("whitelist-content"); // This is now the <div class="row">
+const contentArea = document.getElementById("whitelist-content");
 const pageTitle = document.getElementById("page-title");
 const navLinks = document.querySelectorAll(".nav-link");
-const bsNavbar = document.getElementById('navbarNav'); // Get navbar collapse element
+const bsNavbar = document.getElementById('navbarNav');
+// REMOVED: const offclassingInfoDiv = document.getElementById('offclassing-info');
 
 const CLASS_ORDER = [
   "Flanker", "Trooper", "Arsonist", "Annihilator",
   "Brute", "Mechanic", "Doctor", "Marksman", "Agent"
 ];
-const SLOT_ORDER = ["Primary", "Secondary", "Watches", "Melee", "PDA", "Sapper"];
+const SLOT_ORDER = ["Primary", "Secondary", "Watches", "Cloak", "Melee", "PDA", "Sapper"];
 
+// *** ADDED: Define typical offclasses ***
+// Adjust this list based on common 6v6 rules or your specific definition
+const OFFCLASSES = ['Arsonist', 'Annihilator', 'Brute', 'Mechanic', 'Marksman', 'Agent'];
+
+// Map URL hash fragments to JSON keys and display titles
+// REMOVED: 'offclassing' property
 const MODE_MAP = {
   "6v6": { key: "status6v6", title: "6v6 Whitelist" },
   "highlander": { key: "statusHL", title: "Highlander Whitelist" },
@@ -19,25 +26,32 @@ const MODE_MAP = {
   "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist" }
 };
 
+// DEFINE BANNED CLASSES PER MODE
+const BANNED_CLASSES_MAP = {
+    "status4v5": ["Brute", "Doctor"],
+    "status6v6": [],
+    "statusHL": [],
+    "statusPro": []
+};
+
+// --- Event Listeners ---
 document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("hashchange", handleRouteChange);
-  // Add event listener to close mobile navbar on link click
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        if (bsNavbar.classList.contains('show')) {
+        if (bsNavbar && bsNavbar.classList.contains('show')) {
             const toggler = document.querySelector('.navbar-toggler');
-            if (toggler) {
-                toggler.click(); // Simulate click to close
-            }
+            if (toggler) toggler.click();
         }
     });
   });
   loadWhitelistData();
 });
 
+// --- Data Loading ---
 async function loadWhitelistData() {
   if (!contentArea) return;
-  // Initial loading state is handled by static HTML
+  // Initial loading state handled by static HTML
 
   try {
     const response = await fetch("whitelist.json");
@@ -47,54 +61,54 @@ async function loadWhitelistData() {
   } catch (error) {
     console.error("Error loading whitelist data:", error);
     whitelistData = null;
-    handleRouteChange(); // Display error state
+    handleRouteChange();
   }
 }
 
+// --- Routing and Page Update Logic ---
 function handleRouteChange() {
     const hash = window.location.hash.substring(1);
     const modeInfo = MODE_MAP[hash];
+    const currentModeKey = modeInfo ? modeInfo.key : null;
 
     navLinks.forEach(link => {
         link.classList.toggle('active', link.getAttribute('href') === `#${hash}`);
     });
 
-    contentArea.classList.add('loading'); // For potential fade effect
+    contentArea.classList.add('loading');
 
-    // Use rAF for smoother clearing/updating
     requestAnimationFrame(() => {
-        contentArea.innerHTML = ''; // Clear previous cards/messages
+        contentArea.innerHTML = ''; // Clear previous content
+
+        // REMOVED: Offclassing info display logic
+        // if(offclassingInfoDiv) offclassingInfoDiv.style.display = 'none';
 
         if (whitelistData && modeInfo) {
             pageTitle.textContent = modeInfo.title;
-            displayMode(modeInfo.key);
+            // REMOVED: Offclassing info display logic
+            // if(offclassingInfoDiv && modeInfo.offclassing) { ... }
+            displayMode(currentModeKey);
         } else if (!whitelistData && hash) {
-            // Error occurred during load, show error message
             pageTitle.textContent = "Error";
             contentArea.innerHTML = createMessageColumn('error-message-container', 'error-message', `Could not load whitelist data. Cannot display mode: ${hash}`);
         } else if (!whitelistData && !hash) {
-             // Error occurred before initial load finished
              pageTitle.textContent = "Error";
              contentArea.innerHTML = createMessageColumn('error-message-container', 'error-message', 'Failed to load whitelist data.');
         } else if (!modeInfo) {
-            // No hash or invalid hash, show main page content
             pageTitle.textContent = "Welcome";
             contentArea.innerHTML = createMessageColumn('main-page-content-container', 'main-page-content', '<p>Select a game mode from the navigation above to view its specific weapon whitelist.</p>');
         }
-
-        // Remove loading class slightly after potential content update
         setTimeout(() => contentArea.classList.remove('loading'), 50);
     });
 }
 
-// Helper to create full-width columns for messages
+// --- Helper Functions --- (createMessageColumn, getStatusClass remain the same)
 function createMessageColumn(containerClass, messageClass, htmlContent) {
     return `
         <div class="col-12 ${containerClass}">
              <div class="${messageClass}">${htmlContent}</div>
         </div>`;
 }
-
 
 function getStatusClass(statusText) {
   if (!statusText) return "weapon-status";
@@ -104,47 +118,63 @@ function getStatusClass(statusText) {
   if (lowerStatus === "always") return "weapon-status status-always";
   return "weapon-status";
 }
+// --- End Helper Functions ---
 
+
+// --- Content Rendering ---
 function displayMode(modeKey) {
   if (!contentArea || !whitelistData) return;
-  // Content area is already cleared
 
   const fragment = document.createDocumentFragment();
+  const bannedClassesForMode = BANNED_CLASSES_MAP[modeKey] || [];
 
   CLASS_ORDER.forEach((className) => {
     if (!whitelistData[className]) return;
 
+    const isClassBanned = bannedClassesForMode.includes(className);
+    const isOffclass = OFFCLASSES.includes(className); // Check if it's an offclass
     const classData = whitelistData[className];
-    let hasContentForClass = false; // Flag to check if any slot has weapons
+    let hasContentForClass = false;
 
-    // Create elements for the card structure
     const colDiv = document.createElement('div');
-    // Define Bootstrap column classes for responsiveness
-    colDiv.className = 'col-12 col-md-6 col-lg-4 mb-4'; // Full width on small, half on medium, third on large
+    colDiv.className = 'col-12 col-md-6 col-lg-4 mb-4';
+    if (isClassBanned) {
+        colDiv.classList.add('class-banned');
+    }
 
     const cardDiv = document.createElement('div');
-    cardDiv.className = 'card whitelist-card'; // Apply animation class
+    cardDiv.className = 'card whitelist-card';
 
     const cardHeader = document.createElement('div');
     cardHeader.className = 'card-header class-header';
-    cardHeader.textContent = className;
+    // Add class name text node
+    cardHeader.appendChild(document.createTextNode(className));
+
+    // *** ADDED: Append offclass indicator if applicable ***
+    if (isOffclass && !isClassBanned) { // Show indicator only if it's an offclass AND not banned
+        const indicatorSpan = document.createElement('span');
+        indicatorSpan.className = 'offclass-indicator';
+        indicatorSpan.textContent = 'Offclass';
+        cardHeader.appendChild(indicatorSpan); // Append indicator after the name
+    }
     cardDiv.appendChild(cardHeader);
+
 
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body';
 
     SLOT_ORDER.forEach((slotName) => {
       if (classData[slotName] && classData[slotName].length > 0) {
-        hasContentForClass = true; // Mark that this class has content
+        hasContentForClass = true;
         const slotData = classData[slotName];
 
-        const slotHeading = document.createElement("h5"); // Use h5 for card titles/headings
+        const slotHeading = document.createElement("h5");
         slotHeading.className = "slot-heading";
         slotHeading.textContent = slotName;
         cardBody.appendChild(slotHeading);
 
         const weaponList = document.createElement("ul");
-        weaponList.className = "weapon-list list-unstyled"; // Use Bootstrap class
+        weaponList.className = "weapon-list list-unstyled";
 
         slotData.forEach((item) => {
           const listItem = document.createElement("li");
@@ -173,18 +203,34 @@ function displayMode(modeKey) {
           listItem.appendChild(weaponNameSpan);
           listItem.appendChild(weaponStatusSpan);
           weaponList.appendChild(listItem);
-        }); // End weapon loop
+        });
         cardBody.appendChild(weaponList);
-      } // End check if slot has data
-    }); // End SLOT_ORDER loop
+      }
+    });
 
-    // Only add the card to the column if it has content
+    if (isClassBanned) {
+        const overlayDiv = document.createElement('div');
+        overlayDiv.className = 'banned-overlay';
+        overlayDiv.innerHTML = `<span class="banned-overlay-text">Banned</span>`;
+        colDiv.appendChild(overlayDiv);
+    }
+
     if (hasContentForClass) {
         cardDiv.appendChild(cardBody);
         colDiv.appendChild(cardDiv);
-        fragment.appendChild(colDiv); // Add the column wrapper to the fragment
+        fragment.appendChild(colDiv);
+    } else if (isClassBanned) {
+         colDiv.innerHTML = '';
+         const overlayDiv = document.createElement('div');
+         overlayDiv.className = 'banned-overlay';
+         overlayDiv.innerHTML = `<span class="banned-overlay-text">Banned</span>`;
+         colDiv.style.minHeight = '150px';
+         colDiv.style.border = '1px dashed var(--border-color)';
+         colDiv.style.borderRadius = 'var(--bs-card-border-radius)';
+         colDiv.appendChild(overlayDiv);
+         fragment.appendChild(colDiv);
     }
-  }); // End CLASS_ORDER loop
+  });
 
-  contentArea.appendChild(fragment); // Append all columns at once
+  contentArea.appendChild(fragment);
 }
