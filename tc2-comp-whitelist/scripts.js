@@ -1,5 +1,3 @@
-// scripts.js
-
 let whitelistData = null;
 const contentArea = document.getElementById("whitelist-content");
 const pageTitle = document.getElementById("page-title");
@@ -24,7 +22,7 @@ const MODE_MAP = {
 };
 
 const BANNED_CLASSES_MAP = {
-    "status4v5": ["Brute", "Doctor"],
+    "status4v5": [],
     "status6v6": [],
     "statusHL": [],
     "statusPro": []
