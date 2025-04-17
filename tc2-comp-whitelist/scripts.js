@@ -15,10 +15,10 @@ const OFFCLASSES = ['Arsonist', 'Annihilator', 'Brute', 'Mechanic', 'Marksman', 
 
 // Map URL hash fragments to JSON keys and display titles
 const MODE_MAP = {
-  "6v6": { key: "status6v6", title: "6v6 Whitelist", showOffclassIndicator: true }, // Show for 6v6
-  "highlander": { key: "statusHL", title: "Highlander Whitelist", showOffclassIndicator: false }, // Don't show for HL
-  "prolander": { key: "statusPro", title: "Prolander Whitelist", showOffclassIndicator: true }, // Show for Prolander (optional, adjust if needed)
-  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist", showOffclassIndicator: false } // Don't show for 4v4/5v5
+  "6v6": { key: "status6v6", title: "6v6 Whitelist", showOffclassIndicator: true },
+  "highlander": { key: "statusHL", title: "Highlander Whitelist", showOffclassIndicator: false },
+  "prolander": { key: "statusPro", title: "Prolander Whitelist", showOffclassIndicator: false },
+  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Whitelist", showOffclassIndicator: true } 
 };
 
 // DEFINE BANNED CLASSES PER MODE
