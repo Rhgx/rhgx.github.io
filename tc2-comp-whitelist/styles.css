@@ -6,10 +6,14 @@
     --text-color: #e0e0e5;
     --text-darker: #b0b0b5;
     --border-color: #4d536e;
-    --allowed-color: #5cb85c; /* Green */
-    --banned-color: #d9534f;  /* Red */
-    --always-color: #f0ad4e;  /* Orange */
-    --header-font: 'Schluber', cursive; /* Ensure Schluber font is loaded */
+    --allowed-color: #5cb85c;
+    /* Green */
+    --banned-color: #d9534f;
+    /* Red */
+    --always-color: #f0ad4e;
+    /* Orange */
+    --header-font: 'Schluber', cursive;
+    /* Ensure Schluber font is loaded */
     --body-font: 'Oswald', sans-serif;
 
     /* Override Bootstrap dark theme variables */
@@ -17,15 +21,24 @@
     --bs-body-color: var(--text-color);
     --bs-border-color: var(--border-color);
     --bs-emphasis-color: var(--text-color);
-    --bs-secondary-bg: var(--primary-color); /* Use primary for some component bg */
-    --bs-alert-bg: var(--secondary-color); /* Custom alert background */
-    --bs-alert-border-color: var(--border-color); /* Custom alert border */
-    --bs-alert-color: var(--text-darker); /* Custom alert text */
-    --bs-card-bg: var(--secondary-color); /* Ensure card bg matches */
-    --bs-card-border-color: var(--border-color); /* Ensure card border matches */
-    --bs-card-cap-bg: var(--accent-color); /* Use accent for card header */
-    --bs-card-color: var(--text-color); /* Ensure card text matches */
-    --bs-card-inner-border-radius: 0.375rem; /* Default Bootstrap card radius */
+    --bs-secondary-bg: var(--primary-color);
+    /* Use primary for some component bg */
+    --bs-alert-bg: var(--secondary-color);
+    /* Custom alert background */
+    --bs-alert-border-color: var(--border-color);
+    /* Custom alert border */
+    --bs-alert-color: var(--text-darker);
+    /* Custom alert text */
+    --bs-card-bg: var(--secondary-color);
+    /* Ensure card bg matches */
+    --bs-card-border-color: var(--border-color);
+    /* Ensure card border matches */
+    --bs-card-cap-bg: var(--accent-color);
+    /* Use accent for card header */
+    --bs-card-color: var(--text-color);
+    /* Ensure card text matches */
+    --bs-card-inner-border-radius: 0.375rem;
+    /* Default Bootstrap card radius */
 
     /* --- REMOVED Bootstrap Tooltip Variables --- */
     /* Variables below are no longer needed for tooltips */
@@ -52,20 +65,23 @@
 
 body {
     font-family: var(--body-font);
-    background-color: var(--bs-body-bg); /* Use Bootstrap variable */
+    background-color: var(--bs-body-bg);
+    /* Use Bootstrap variable */
     color: var(--bs-body-color);
     line-height: 1.6;
 }
 
 /* --- Custom Navbar Styling --- */
 .custom-navbar {
-    background-color: var(--primary-color) !important; /* Override Bootstrap bg */
+    background-color: var(--primary-color) !important;
+    /* Override Bootstrap bg */
     border-bottom: 2px solid var(--border-color);
 }
 
 .custom-navbar-brand {
     font-family: var(--header-font);
-    font-size: 1.8em !important; /* Ensure size override */
+    font-size: 1.8em !important;
+    /* Ensure size override */
     color: var(--text-color) !important;
 }
 
@@ -96,14 +112,16 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    min-height: 60vh; /* Ensure container has some height */
+    min-height: 60vh;
+    /* Ensure container has some height */
 }
 
 .page-title-custom {
     font-family: var(--header-font);
     color: var(--text-color);
     border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 0.5rem; /* Match Bootstrap heading padding */
+    padding-bottom: 0.5rem;
+    /* Match Bootstrap heading padding */
 }
 
 /* --- Whitelist Content Area (Bootstrap Row) --- */
@@ -114,12 +132,14 @@ body {
 }
 
 #whitelist-content.loading {
-    opacity: 0.5; /* Fade slightly during content switch */
+    opacity: 0.5;
+    /* Fade slightly during content switch */
 }
 
 /* --- Custom Card Styling --- */
 .whitelist-card {
-    height: 100%; /* Make cards in a row the same height */
+    height: 100%;
+    /* Make cards in a row the same height */
     /* Animation properties are applied below */
 }
 
@@ -127,18 +147,24 @@ body {
     font-family: var(--header-font);
     font-size: 1.8em;
     color: var(--text-color);
-    background-color: var(--bs-card-cap-bg) !important; /* Use variable */
+    background-color: var(--bs-card-cap-bg) !important;
+    /* Use variable */
     border-bottom: 1px solid var(--bs-border-color) !important;
     padding: 0.6rem 1rem;
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Vertically align items */
-    justify-content: space-between; /* Push indicator to the right */
+    display: flex;
+    /* Use flexbox for alignment */
+    align-items: center;
+    /* Vertically align items */
+    justify-content: space-between;
+    /* Push indicator to the right */
 }
 
 /* --- Offclass Indicator Styling --- */
 .offclass-indicator {
-    font-family: var(--body-font); /* Match body font */
-    font-size: 0.6em; /* Relative to header font size */
+    font-family: var(--body-font);
+    /* Match body font */
+    font-size: 0.6em;
+    /* Relative to header font size */
     font-weight: normal;
     color: var(--text-darker);
     border: 1px solid var(--border-color);
@@ -148,7 +174,8 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    vertical-align: middle; /* Helps align with the main text */
+    vertical-align: middle;
+    /* Helps align with the main text */
 }
 
 .card-body {
@@ -156,52 +183,77 @@ body {
 }
 
 .slot-heading {
-    font-weight: 700; /* Explicitly set bold weight */
-    color: var(--text-color); /* Use brighter text color */
-    margin-top: 1.1rem; /* Slightly increased top margin */
-    margin-bottom: 0.6rem; /* Slightly increased bottom margin */
-    padding-bottom: 5px;   /* Increased padding */
-    border-bottom: 1px solid var(--accent-color); /* Solid border, maybe accent color */
-    font-size: 1.15em; /* Slightly larger font size */
-    letter-spacing: 0.5px; /* Optional: Add slight letter spacing */
+    font-weight: 700;
+    /* Explicitly set bold weight */
+    color: var(--text-color);
+    /* Use brighter text color */
+    margin-top: 1.1rem;
+    /* Slightly increased top margin */
+    margin-bottom: 0.6rem;
+    /* Slightly increased bottom margin */
+    padding-bottom: 5px;
+    /* Increased padding */
+    border-bottom: 1px solid var(--accent-color);
+    /* Solid border, maybe accent color */
+    font-size: 1.15em;
+    /* Slightly larger font size */
+    letter-spacing: 0.5px;
+    /* Optional: Add slight letter spacing */
 }
+
 /* Target only first heading inside card-body */
 .card-body .slot-heading:first-of-type {
-    margin-top: 0; /* Keep no top margin for the very first slot */
+    margin-top: 0;
+    /* Keep no top margin for the very first slot */
 }
 
 /* Weapon List Styling (inside card-body) */
 .weapon-list {
-    /* list-style: none; */ /* Handled by list-unstyled class in JS */
+    /* list-style: none; */
+    /* Handled by list-unstyled class in JS */
     padding: 0;
     margin: 0;
 }
 
 .weapon-item {
     display: flex;
-    align-items: center; /* Vertically center all items in the row */
-    padding: 5px 0; /* Adjust padding */
-    border-bottom: 1px solid var(--primary-color); /* Use primary as separator inside card */
-    min-height: 28px; /* Ensure consistent minimum height */
+    align-items: center;
+    /* Vertically center all items in the row */
+    padding: 5px 0;
+    /* Adjust padding */
+    border-bottom: 1px solid var(--primary-color);
+    /* Use primary as separator inside card */
+    min-height: 28px;
+    /* Ensure consistent minimum height */
 }
+
 .weapon-item:last-child {
-    border-bottom: none; /* Remove border from last item */
+    border-bottom: none;
+    /* Remove border from last item */
 }
 
 .weapon-icon {
-    width: 60px; /* Adjust icon size as needed */
-    height: 60px; /* Adjust icon size as needed */
-    vertical-align: middle; /* Good practice, though flex align-items handles it */
+    width: 60px;
+    /* Adjust icon size as needed */
+    height: 60px;
+    /* Adjust icon size as needed */
+    vertical-align: middle;
+    /* Good practice, though flex align-items handles it */
     margin-right: 10px;
-    object-fit: contain; /* Prevent distortion */
-    flex-shrink: 0; /* Prevent icon from shrinking */
+    object-fit: contain;
+    /* Prevent distortion */
+    flex-shrink: 0;
+    /* Prevent icon from shrinking */
 }
 
 .weapon-name {
-    flex-grow: 1; /* Allow name to take up remaining space */
-    margin-right: 10px; /* Space before status/indicator */
+    flex-grow: 1;
+    /* Allow name to take up remaining space */
+    margin-right: 10px;
+    /* Space before status/indicator */
     font-size: 0.95em;
-    word-break: break-word; /* Prevent long names from overflowing */
+    word-break: break-word;
+    /* Prevent long names from overflowing */
 }
 
 .weapon-status {
@@ -209,41 +261,66 @@ body {
     padding: 3px 8px;
     border-radius: 3px;
     font-size: 0.9em;
-    min-width: 60px; /* Ensure status text doesn't wrap too easily */
+    min-width: 60px;
+    /* Ensure status text doesn't wrap too easily */
     text-align: center;
-    flex-shrink: 0; /* Prevent status from shrinking */
-    margin-right: 5px; /* Space between status and potential indicator */
+    flex-shrink: 0;
+    /* Prevent status from shrinking */
+    margin-right: 5px;
+    /* Space between status and potential indicator */
 }
 
 /* Status Colors */
-.status-allowed { color: var(--allowed-color); }
-.status-banned { color: var(--banned-color); }
-.status-always { color: var(--always-color); }
+.status-allowed {
+    color: var(--allowed-color);
+}
+
+.status-banned {
+    color: var(--banned-color);
+}
+
+.status-always {
+    color: var(--always-color);
+}
 
 /* --- Ban Reason Indicator Styling --- */
 /* (This style remains the same, just used by Tippy now) */
 .ban-reason-indicator {
-    display: inline-flex; /* Use flex for centering content */
+    display: inline-flex;
+    /* Use flex for centering content */
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    background-color: var(--accent-color); /* Use accent color for background */
-    color: var(--primary-color); /* Darker text for contrast */
-    border-radius: 50%; /* Make it circular */
-    width: 18px;        /* Define size */
-    height: 18px;       /* Define size */
-    font-size: 0.8em;   /* Adjust font size inside circle */
-    line-height: 1;     /* Ensure text is vertically centered */
-    cursor: help;       /* Change cursor to indicate help/info */
-    flex-shrink: 0;     /* Prevent shrinking */
-    margin-left: 3px;   /* Small space after the status text */
+    background-color: var(--accent-color);
+    /* Use accent color for background */
+    color: var(--primary-color);
+    /* Darker text for contrast */
+    border-radius: 50%;
+    /* Make it circular */
+    width: 18px;
+    /* Define size */
+    height: 18px;
+    /* Define size */
+    font-size: 0.8em;
+    /* Adjust font size inside circle */
+    line-height: 1;
+    /* Ensure text is vertically centered */
+    cursor: help;
+    /* Change cursor to indicate help/info */
+    flex-shrink: 0;
+    /* Prevent shrinking */
+    margin-left: 3px;
+    /* Small space after the status text */
     transition: background-color 0.2s, color 0.2s;
-    user-select: none;  /* Prevent selecting the '?' text */
-    vertical-align: middle; /* Align with text */
+    user-select: none;
+    /* Prevent selecting the '?' text */
+    vertical-align: middle;
+    /* Align with text */
 }
 
 .ban-reason-indicator:hover {
-    background-color: var(--text-darker); /* Visual feedback on hover */
+    background-color: var(--text-darker);
+    /* Visual feedback on hover */
     color: var(--primary-color);
 }
 
@@ -255,117 +332,192 @@ body {
 /* --- Tippy.js Customization (NEW) --- */
 /* Style the main tooltip box */
 .tippy-box {
-    background-color: var(--primary-color); /* Use your theme color */
-    color: var(--text-color);           /* Use your theme text color */
-    border-radius: 4px;                 /* Match your general style */
+    background-color: var(--primary-color);
+    /* Use your theme color */
+    color: var(--text-color);
+    /* Use your theme text color */
+    border-radius: 4px;
+    /* Match your general style */
     border: 1px solid var(--border-color);
     font-family: var(--body-font);
-    font-size: 0.85em;                  /* Adjust size */
-    max-width: 220px; /* Set max width for wrapping */
+    font-size: 0.85em;
+    /* Adjust size */
+    max-width: 220px;
+    /* Set max width for wrapping */
 }
 
 /* Style the arrow */
 .tippy-arrow {
-    color: var(--primary-color); /* Match the tooltip background */
+    color: var(--primary-color);
+    /* Match the tooltip background */
 }
+
 /* Style arrow border based on placement */
-.tippy-box[data-placement^='top'] > .tippy-arrow::before {
-  border-top-color: var(--border-color);
+.tippy-box[data-placement^='top']>.tippy-arrow::before {
+    border-top-color: var(--border-color);
 }
-.tippy-box[data-placement^='bottom'] > .tippy-arrow::before {
-  border-bottom-color: var(--border-color);
+
+.tippy-box[data-placement^='bottom']>.tippy-arrow::before {
+    border-bottom-color: var(--border-color);
 }
-.tippy-box[data-placement^='left'] > .tippy-arrow::before {
-  border-left-color: var(--border-color);
+
+.tippy-box[data-placement^='left']>.tippy-arrow::before {
+    border-left-color: var(--border-color);
 }
-.tippy-box[data-placement^='right'] > .tippy-arrow::before {
-  border-right-color: var(--border-color);
+
+.tippy-box[data-placement^='right']>.tippy-arrow::before {
+    border-right-color: var(--border-color);
 }
 
 /* Style the content area inside the tooltip */
 .tippy-content {
-    padding: 8px 12px; /* Adjust padding */
-    white-space: pre-wrap; /* Ensures wrapping and respects newlines */
+    padding: 8px 12px;
+    /* Adjust padding */
+    white-space: pre-wrap;
+    /* Ensures wrapping and respects newlines */
     text-align: left;
 }
 
 /* Optional: Add transition (using Tippy's data attributes) */
 .tippy-box[data-animation='fade'][data-state='visible'] {
     transition-property: opacity;
-    transition-duration: 200ms; /* Adjust speed */
+    transition-duration: 200ms;
+    /* Adjust speed */
 }
+
 .tippy-box[data-animation='fade'][data-state='hidden'] {
     opacity: 0;
 }
 
 
 /* --- Loading / Error / Main Page --- */
-.loading-container, .error-message-container, .main-page-content-container {
+.loading-container,
+.error-message-container,
+.main-page-content-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 40px;
-    min-height: 200px; /* Ensure space for spinner/message */
+    min-height: 200px;
+    /* Ensure space for spinner/message */
     text-align: center;
 }
-.loading-message { /* Specific style for loading text */
+
+.loading-message {
+    /* Specific style for loading text */
     font-size: 1.1em;
     color: var(--text-darker);
-    margin-top: 15px; /* Space below spinner */
+    margin-top: 15px;
+    /* Space below spinner */
 }
-.error-message, .main-page-content {
+
+.error-message,
+.main-page-content {
     font-size: 1.1em;
     color: var(--text-darker);
 }
-.error-message { color: var(--banned-color); } /* Use banned color for errors */
-.main-page-content p { font-size: 1.2em; } /* Style welcome message */
+
+.error-message {
+    color: var(--banned-color);
+}
+
+/* Use banned color for errors */
+.main-page-content p {
+    font-size: 1.2em;
+}
+
+/* Style welcome message */
 
 .spinner {
-    border: 4px solid rgba(255, 255, 255, 0.2); /* Lighter border */
-    border-left-color: var(--text-color); /* Spinner active color */
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    /* Lighter border */
+    border-left-color: var(--text-color);
+    /* Spinner active color */
     border-radius: 50%;
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 /* --- Card Fade-In Animation --- */
 .whitelist-card {
-    opacity: 0; /* Start hidden */
-    transform: translateY(10px); /* Start slightly lower */
-    animation: fadeIn 0.5s ease-out forwards; /* Apply animation */
+    opacity: 0;
+    /* Start hidden */
+    transform: translateY(10px);
+    /* Start slightly lower */
+    animation: fadeIn 0.5s ease-out forwards;
+    /* Apply animation */
 }
+
 /* Stagger card animation based on column position */
 /* Targeting the column wrapper ensures correct staggering */
-.col-12:nth-child(1) .whitelist-card { animation-delay: 0.05s; }
-.col-12:nth-child(2) .whitelist-card { animation-delay: 0.1s; }
-.col-12:nth-child(3) .whitelist-card { animation-delay: 0.15s; }
-.col-12:nth-child(4) .whitelist-card { animation-delay: 0.2s; }
-.col-12:nth-child(5) .whitelist-card { animation-delay: 0.25s; }
-.col-12:nth-child(6) .whitelist-card { animation-delay: 0.3s; }
-.col-12:nth-child(7) .whitelist-card { animation-delay: 0.35s; }
-.col-12:nth-child(8) .whitelist-card { animation-delay: 0.4s; }
-.col-12:nth-child(9) .whitelist-card { animation-delay: 0.45s; }
+.col-12:nth-child(1) .whitelist-card {
+    animation-delay: 0.05s;
+}
+
+.col-12:nth-child(2) .whitelist-card {
+    animation-delay: 0.1s;
+}
+
+.col-12:nth-child(3) .whitelist-card {
+    animation-delay: 0.15s;
+}
+
+.col-12:nth-child(4) .whitelist-card {
+    animation-delay: 0.2s;
+}
+
+.col-12:nth-child(5) .whitelist-card {
+    animation-delay: 0.25s;
+}
+
+.col-12:nth-child(6) .whitelist-card {
+    animation-delay: 0.3s;
+}
+
+.col-12:nth-child(7) .whitelist-card {
+    animation-delay: 0.35s;
+}
+
+.col-12:nth-child(8) .whitelist-card {
+    animation-delay: 0.4s;
+}
+
+.col-12:nth-child(9) .whitelist-card {
+    animation-delay: 0.45s;
+}
+
 /* Ensure All-Class card also animates */
-#whitelist-content > .all-class-column .whitelist-card { animation-delay: 0.5s; }
+#whitelist-content>.all-class-column .whitelist-card {
+    animation-delay: 0.5s;
+}
+
 /* Add more delays if you expect more than 9 class cards + all-class */
 
 @keyframes fadeIn {
     to {
         opacity: 1;
-        transform: translateY(0); /* Move to final position */
+        transform: translateY(0);
+        /* Move to final position */
     }
 }
 
 /* --- Banned Class Styling --- */
 /* Style the column when a class is banned */
 .class-banned .whitelist-card {
-    opacity: 0.4 !important; /* Dim the card significantly */
-    pointer-events: none; /* Prevent interaction with dimmed card */
-    animation: none !important; /* Disable fade-in for banned cards */
+    opacity: 0.4 !important;
+    /* Dim the card significantly */
+    pointer-events: none;
+    /* Prevent interaction with dimmed card */
+    animation: none !important;
+    /* Disable fade-in for banned cards */
 }
 
 /* Overlay for banned classes */
@@ -373,99 +525,143 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%; /* Cover the column */
-    height: 100%; /* Cover the column */
-    background-color: rgba(42, 45, 63, 0.6); /* Semi-transparent overlay using secondary color */
+    width: 100%;
+    /* Cover the column */
+    height: 100%;
+    /* Cover the column */
+    background-color: rgba(42, 45, 63, 0.6);
+    /* Semi-transparent overlay using secondary color */
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10; /* Ensure it's above the card content */
+    z-index: 10;
+    /* Ensure it's above the card content */
     /* Apply border radius matching the card inside the column */
     border-radius: var(--bs-card-inner-border-radius, 0.375rem);
-    overflow: hidden; /* Hide overflowing rotated text */
+    overflow: hidden;
+    /* Hide overflowing rotated text */
     /* Adjust position to account for column padding/gutters (g-4 = 1.5rem total) */
     margin: 0 0.75rem;
-    width: calc(100% - 1.5rem); /* Adjust width for gutters */
-    pointer-events: none; /* Allow clicks to pass through if needed, though card is disabled */
+    width: calc(100% - 1.5rem);
+    /* Adjust width for gutters */
+    pointer-events: none;
+    /* Allow clicks to pass through if needed, though card is disabled */
 }
 
 .banned-overlay-text {
     font-family: var(--header-font);
-    font-size: 9em; /* Make text large */
+    font-size: 9em;
+    /* Make text large */
     font-weight: bold;
-    color: var(--banned-color); /* Use banned color */
+    color: var(--banned-color);
+    /* Use banned color */
     text-transform: uppercase;
-    transform: rotate(-40deg) scale(1.1); /* Rotate and slightly scale */
-    opacity: 0.75; /* Slightly less opaque */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Add shadow for depth */
-    white-space: nowrap; /* Prevent text wrapping */
-    max-width: 150%; /* Allow text to overflow bounds due to rotation */
+    transform: rotate(-40deg) scale(1.1);
+    /* Rotate and slightly scale */
+    opacity: 0.75;
+    /* Slightly less opaque */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    /* Add shadow for depth */
+    white-space: nowrap;
+    /* Prevent text wrapping */
+    max-width: 150%;
+    /* Allow text to overflow bounds due to rotation */
     text-align: center;
 }
 
 /* Ensure the parent column is positioned for the absolute overlay */
-#whitelist-content > .col-12,
-#whitelist-content > .col-md-6,
-#whitelist-content > .col-lg-4 {
-    position: relative; /* Needed for absolute positioning of the overlay */
+#whitelist-content>.col-12,
+#whitelist-content>.col-md-6,
+#whitelist-content>.col-lg-4 {
+    position: relative;
+    /* Needed for absolute positioning of the overlay */
 }
 
 
 /* --- Footer --- */
 #footer {
     border-top: 1px solid var(--border-color);
-    padding-top: 1rem; /* Add some padding above footer */
-    margin-top: 2rem; /* More space above footer */
+    padding-top: 1rem;
+    /* Add some padding above footer */
+    margin-top: 2rem;
+    /* More space above footer */
     font-size: 0.85em;
     color: var(--text-darker);
 }
 
 /* --- Responsive Adjustments --- */
-@media (max-width: 992px) { /* Medium devices (tablets, less than 992px) */
+@media (max-width: 992px) {
+
+    /* Medium devices (tablets, less than 992px) */
     .banned-overlay-text {
-        font-size: 7.5em; /* Slightly smaller banned text */
+        font-size: 7.5em;
+        /* Slightly smaller banned text */
     }
 }
-@media (max-width: 768px) { /* Small devices (landscape phones, less than 768px) */
+
+@media (max-width: 768px) {
+
+    /* Small devices (landscape phones, less than 768px) */
     .banned-overlay-text {
-        font-size: 8em; /* Can be larger again on single column */
+        font-size: 8em;
+        /* Can be larger again on single column */
     }
+
     .banned-overlay {
-         /* Adjust margin/width if gutters change or look off */
-         margin: 0 0.5rem;
-         width: calc(100% - 1rem);
+        /* Adjust margin/width if gutters change or look off */
+        margin: 0 0.5rem;
+        width: calc(100% - 1rem);
     }
+
     .page-title-custom {
-        font-size: 2.2rem; /* Adjust title size */
+        font-size: 2.2rem;
+        /* Adjust title size */
     }
+
     .card-header.class-header {
-        font-size: 1.6em; /* Adjust card header size */
+        font-size: 1.6em;
+        /* Adjust card header size */
     }
 }
-@media (max-width: 480px) { /* Extra small devices (phones, less than 480px) */
+
+@media (max-width: 480px) {
+
+    /* Extra small devices (phones, less than 480px) */
     .banned-overlay-text {
-        font-size: 6em; /* Smaller banned text for small screens */
+        font-size: 6em;
+        /* Smaller banned text for small screens */
     }
+
     .custom-navbar-brand {
-        font-size: 1.5em !important; /* Smaller brand */
+        font-size: 1.5em !important;
+        /* Smaller brand */
     }
+
     .page-title-custom {
-        font-size: 1.8rem; /* Smaller title */
+        font-size: 1.8rem;
+        /* Smaller title */
     }
+
     .card-header.class-header {
-        font-size: 1.4em; /* Smaller card header */
+        font-size: 1.4em;
+        /* Smaller card header */
     }
+
     .weapon-icon {
-        width: 45px; /* Smaller icons */
+        width: 45px;
+        /* Smaller icons */
         height: 45px;
     }
+
     .weapon-name {
         font-size: 0.9em;
     }
+
     .weapon-status {
         font-size: 0.8em;
         min-width: 50px;
     }
+
     .ban-reason-indicator {
         width: 16px;
         height: 16px;
@@ -473,3 +669,44 @@ body {
     }
 }
 
+/* Styles for the hub page cards */
+.hub-link-card {
+    text-decoration: none;
+    /* Remove underline from link */
+    color: inherit;
+    /* Inherit text color */
+    display: block;
+    /* Make the link fill the card */
+    height: 100%;
+}
+
+/* Simple feedback on click */
+.hub-link-card:active .card {
+    transform: scale(0.98);
+    /* Slightly shrink card on click */
+    transition: transform 0.1s ease-out;
+}
+
+.hub-link-card .card {
+    transition: transform 0.1s ease-out;
+    /* Smooth transition back */
+}
+
+.hub-link-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+}
+
+.hub-link-card .card-title {
+    font-family: var(--header-font);
+    font-size: 1.6em;
+    margin-bottom: 0.5rem;
+}
+
+.hub-link-card .card-text {
+    font-size: 0.95em;
+    color: var(--text-darker);
+}
