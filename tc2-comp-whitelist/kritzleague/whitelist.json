@@ -1,0 +1,2224 @@
+{
+  "Flanker": {
+    "Primary": [
+      {
+        "weapon": "Lever Shotgun",
+        "icon": "lever_shotgun.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Mule Mauler 600",
+        "icon": "mule_mauler_600.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Baby Face's Blaster",
+        "icon": "baby_faces_blaster.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Colbat",
+        "icon": "colbat.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Lupara DB",
+        "icon": "lupara_db.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mach-Coach",
+        "icon": "mach_coach.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Soda Popper",
+        "icon": "soda_popper.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Perceptionist",
+        "icon": "perceptionist.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Shotgun Cannon",
+        "icon": "shotgun_cannon.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Specialist",
+        "icon": "specialist.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "Pistol",
+        "icon": "pistol.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Raven",
+        "icon": "raven.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Concealed Carry",
+        "icon": "concealed_carry.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Conventional",
+        "icon": "conventional.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Winger",
+        "icon": "winger.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Batarang",
+        "icon": "batarang.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Bloxy Cola",
+        "icon": "bloxy_cola.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Bloxaide",
+        "icon": "bloxaide.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Goala Cola",
+        "icon": "goala_cola.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Witches Brew",
+        "icon": "witches_brew.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mad Milk",
+        "icon": "mad_milk.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Hot Coco Blast",
+        "icon": "hot_coco_blast.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Super Sneakers",
+        "icon": "super_sneakers.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Bat",
+        "icon": "bat.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Holy Mackerel",
+        "icon": "holy_mackerel.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Rubber Chicken",
+        "icon": "rubber_chicken.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Atomizer",
+        "icon": "atomizer.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Brooklyn Basher",
+        "icon": "brooklyn_basher.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Three-Rune Blade",
+        "icon": "three_rune_blade.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Candy Cane",
+        "icon": "candy_cane.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Cold Shoulder",
+        "icon": "cold_shoulder.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Grill Scout",
+        "icon": "grill_scout.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Sandman",
+        "icon": "sandman.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Rally Racket",
+        "icon": "rally_racket.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Wooden Sword",
+        "icon": "wooden_sword.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Handyman",
+        "icon": "handyman.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Wrap Assasin",
+        "icon": "wrap_assasin.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Spare Hand",
+        "icon": "spare_hand.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ]
+  },
+  "Marksman": {
+    "Primary": [
+      {
+        "weapon": "Sniper Rifle",
+        "icon": "sniper_rifle.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Scythe for Sore Eyes",
+        "icon": "scythe_for_sore_eyes.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Classic",
+        "icon": "classic.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Efficient Eliminator",
+        "icon": "efficient_eliminator.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Huntsman",
+        "icon": "huntsman.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Spider Bite",
+        "icon": "spider_bite.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Model IV",
+        "icon": "model_iv.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Poacher's Pride",
+        "icon": "poachers_pride.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Skullbuster",
+        "icon": "skullbuster.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Sour Shots",
+        "icon": "sour_shots.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Urban Upriser",
+        "icon": "urban_upriser.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "MAC-10",
+        "icon": "mac_10.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "50-AE",
+        "icon": "50_ae.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Supressed Solution",
+        "icon": "supressed_solution.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Citric Reaction",
+        "icon": "citric_reaction.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Lemonade",
+        "icon": "lemonade.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Bottled Lemonade",
+        "icon": "bottled_lemonade.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Cozy Camper",
+        "icon": "cozy_camper.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Razorback",
+        "icon": "razorback.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Turtle Rock",
+        "icon": "turtle_rock.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Machete",
+        "icon": "machete.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Guardian's Oath",
+        "icon": "guardians_oath.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Bushcutter's Blade",
+        "icon": "bushcutters_blade.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Camper's Climber",
+        "icon": "campers_climber.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Lemoblade",
+        "icon": "lemoblade.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mischievous Machete",
+        "icon": "mischievous_machete.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ]
+  },
+  "Annihilator": {
+    "Primary": [
+      {
+        "weapon": "Grenade Launcher",
+        "icon": "grenade_launcher.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Twin-Turbolence",
+        "icon": "twin_turbolence.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Acid Trader",
+        "icon": "acid_trader.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Iron Force",
+        "icon": "iron_force.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Loose Cannon",
+        "icon": "loose_cannon.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Jack-O Roger",
+        "icon": "jack_o_roger.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "M1 Garandier",
+        "icon": "m1_garandier.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Parabomber",
+        "icon": "parabomber.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Gunboats",
+        "icon": "gunboats.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Galway Greaves",
+        "icon": "galway_greaves.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Squire Boots",
+        "icon": "squire_boots.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "Stickybomb Launcher",
+        "icon": "stickybomb_launcher.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Irish Guard",
+        "icon": "irish_guard.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Quickiebomb Launcher",
+        "icon": "quickiebomb_launcher.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Sticky Jumper",
+        "icon": "sticky_jumper.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Bloody Bracer",
+        "icon": "bloody_bracer.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Chargin' Targe",
+        "icon": "chargin_targe.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Gladiator's Guard",
+        "icon": "gladiators_guard.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Ragin' Bull",
+        "icon": "ragin_bull.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Tide Turner",
+        "icon": "tide_turner.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Broken Sword",
+        "icon": "broken_sword.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Battle Axe",
+        "icon": "battle_axe.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Black Death",
+        "icon": "black_death.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Darkness",
+        "icon": "darkness.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Elegant Blade",
+        "icon": "elegant_blade.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Whirlpool Wraith",
+        "icon": "whirlpool_wraith.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Furious Flagxe",
+        "icon": "furious_flagxe.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Golf Club",
+        "icon": "golf_club.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Pirate Cutlass",
+        "icon": "pirate_cutlass.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Katana",
+        "icon": "katana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Rising Sun Katana",
+        "icon": "rising_sun_katana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Shock and Awe",
+        "icon": "shock_and_awe.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Cuteness Overload",
+        "icon": "cuteness_overload.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Spartan Savior",
+        "icon": "spartan_savior.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ]
+  },
+  "Trooper": {
+    "Primary": [
+      {
+        "weapon": "Rocket Launcher",
+        "icon": "rocket_launcher.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Big Bite",
+        "icon": "big_bite.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Original",
+        "icon": "original.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Aerial Bomber",
+        "icon": "aerial_bomber.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Blackbox",
+        "icon": "blackbox.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Cow Mangler 5000",
+        "icon": "cow_mangler_5000.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Direct Hit",
+        "icon": "direct_hit.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Night Sky Ignitor",
+        "icon": "night_sky_ignitor.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Double Trouble",
+        "icon": "double_trouble.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "G-Bomb",
+        "icon": "g_bomb.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Liberty Launcher",
+        "icon": "liberty_launcher.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Maverick",
+        "icon": "maverick.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Rocket Jumper",
+        "icon": "rocket_jumper.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Wrecker's Yard",
+        "icon": "wreckers_yard.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Friendly Fire Foiler",
+        "icon": "friendly_fire_foiler.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "Shotgun",
+        "icon": "shotgun.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Bullet-stormer",
+        "icon": "bullet_stormer.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Crankenstein",
+        "icon": "crankenstein.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Deathblow",
+        "icon": "deathblow.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Family Business",
+        "icon": "family_business.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Reserve Shooter",
+        "icon": "reserve_shooter.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Boonie Blaster",
+        "icon": "boonie_blaster.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Personal Death Ray",
+        "icon": "personal_death_ray.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Battalion's Backup",
+        "icon": "battalions_backup.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Buff Banner",
+        "icon": "buff_banner.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Buffin' Blitz",
+        "icon": "buffin_blitz.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Concheror",
+        "icon": "concheror.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Parabomber",
+        "icon": "parabomber.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Gunboats",
+        "icon": "gunboats.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mantreads",
+        "icon": "mantreads.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Crowbar",
+        "icon": "crowbar.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Disciplinary Action",
+        "icon": "disciplinary_action.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Equalizer",
+        "icon": "equalizer.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Escape Plan",
+        "icon": "escape_plan.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Furious Flagxe",
+        "icon": "furious_flagxe.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Katana",
+        "icon": "katana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Rising Sun Katana",
+        "icon": "rising_sun_katana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Market Gardener",
+        "icon": "market_gardener.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Tunnel Rat",
+        "icon": "tunnel_rat.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ]
+  },
+  "Brute": {
+    "Primary": [
+      {
+        "weapon": "Minigun",
+        "icon": "minigun.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Groovy Grinder",
+        "icon": "groovy_grinder.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Biker's Blitz",
+        "icon": "bikers_blitz.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "First Responder",
+        "icon": "first_responder.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "M249",
+        "icon": "m249.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Maxine",
+        "icon": "maxine.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Monitor of Duty",
+        "icon": "monitor_of_duty.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Tomislav",
+        "icon": "tomislav.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "Shotgun",
+        "icon": "shotgun.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Bullet-stormer",
+        "icon": "bullet_stormer.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Crankenstein",
+        "icon": "crankenstein.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Deathblow",
+        "icon": "deathblow.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Family Business",
+        "icon": "family_business.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Sub Shotgun",
+        "icon": "sub_shotgun.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Battle Burrito",
+        "icon": "battle_burrito.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Diggity Dog",
+        "icon": "diggity_dog.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Second Banana",
+        "icon": "second_banana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Brash Burger",
+        "icon": "brash_burger.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Jolly Gingerbread",
+        "icon": "jolly_gingerbread.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Dire Donut",
+        "icon": "dire_donut.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Tungsten Torus",
+        "icon": "tungsten_torus.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "ROBAR",
+        "icon": "robar.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Special-Ops Sushi",
+        "icon": "special_ops_sushi.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Tenacious Turkey",
+        "icon": "tenacious_turkey.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Fists",
+        "icon": "fists.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Boxing Gloves",
+        "icon": "boxing_gloves.png",
+        "status4v5": "Banned",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Eviction Notice",
+        "icon": "eviction_notice.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Fists of Steel",
+        "icon": "fists_of_steel.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Gravity Coil",
+        "icon": "gravity_coil.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Speed Coil",
+        "icon": "speed_coil.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Squid Coil",
+        "icon": "squid_coil.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Warrior's Spirit",
+        "icon": "warriors_spirit.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ]
+  },
+  "Arsonist": {
+    "Primary": [
+      {
+        "weapon": "Flamethrower",
+        "icon": "flamethrower.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Degreaser",
+        "icon": "degreaser.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Interceptor",
+        "icon": "interceptor.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Phlogistinator",
+        "icon": "phlogistinator.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "HuangLong's Wrath",
+        "icon": "huanglongs_wrath.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "Shotgun",
+        "icon": "shotgun.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Bullet-stormer",
+        "icon": "bullet_stormer.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Crankenstein",
+        "icon": "crankenstein.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Deathblow",
+        "icon": "deathblow.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Family Business",
+        "icon": "family_business.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Detonator",
+        "icon": "detonator.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Flare Gun",
+        "icon": "flare_gun.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Fire Extinguisher",
+        "icon": "fire_extinguisher.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Escapist's Escapade",
+        "icon": "escapists_escapade.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Homewrecker",
+        "icon": "homewrecker.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Improvised Innovator",
+        "icon": "improvised_innovator.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mending Mallet",
+        "icon": "mending_mallet.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Thousand Degree Axe",
+        "icon": "thousand_degree_axe.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ]
+  },
+  "Mechanic": {
+    "Primary": [
+      {
+        "weapon": "Shotgun",
+        "icon": "shotgun.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Avenger",
+        "icon": "avenger.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Bullet-stormer",
+        "icon": "bullet_stormer.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Crankenstein",
+        "icon": "crankenstein.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Einsteinium",
+        "icon": "einsteinium.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Family Business",
+        "icon": "family_business.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Gutbuster",
+        "icon": "gutbuster.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Rescue Ranger",
+        "icon": "rescue_ranger.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Widowmaker",
+        "icon": "widowmaker.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "Pistol",
+        "icon": "pistol.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Raven",
+        "icon": "raven.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Conventional",
+        "icon": "conventional.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Noisy Cricket",
+        "icon": "noisy_cricket.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Short Circuit",
+        "icon": "short_circuit.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Wrangler",
+        "icon": "wrangler.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Heavy Metal",
+        "icon": "heavy_metal.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Wrench",
+        "icon": "wrench.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Doll Maker",
+        "icon": "doll_maker.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Golden Wrench",
+        "icon": "golden_wrench.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Eureka Effect",
+        "icon": "eureka_effect.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Gunslinger",
+        "icon": "gunslinger.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "P.D.Q",
+        "icon": "pdq.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Southern Hospitality",
+        "icon": "southern_hospitality.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ]
+  },
+  "Doctor": {
+    "Primary": [
+      {
+        "weapon": "Syringe Crossbow",
+        "icon": "syringe_crossbow.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Apollo",
+        "icon": "apollo.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Syringe SMG",
+        "icon": "syringe_smg.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Dairy Douser",
+        "icon": "dairy_douser.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mercy Kill",
+        "icon": "mercy_kill.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Overdrive",
+        "icon": "overdrive.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Secondary": [
+      {
+        "weapon": "Medigun",
+        "icon": "medigun.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Malpractitioner",
+        "icon": "malpractitioner.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Blood Doctor",
+        "icon": "blood_doctor.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Kritzkrieg",
+        "icon": "kritzkrieg.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Rejuvenator",
+        "icon": "rejuvenator.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Vaccinator",
+        "icon": "vaccinator.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Saw",
+        "icon": "saw.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Amputator",
+        "icon": "amputator.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Dentist's Delight",
+        "icon": "dentists_delight.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Pestilence Poker",
+        "icon": "pestilence_poker.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Supersaw",
+        "icon": "supersaw.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ]
+  },
+  "Agent": {
+    "Primary": [
+      {
+        "weapon": "Revolver",
+        "icon": "revolver.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Ambassador",
+        "icon": "ambassador.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Block-17",
+        "icon": "block_17.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Cloak Revolver",
+        "icon": "cloak_revolver.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Quick Draw",
+        "icon": "quick_draw.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Silenced Pistol",
+        "icon": "silenced_pistol.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Sinister Suit",
+        "icon": "sinister_suit.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ],
+    "Cloak": [
+      {
+        "weapon": "Invis-Watch",
+        "icon": "invis_watch.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Afterimage",
+        "icon": "afterimage.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Cloak and Dagger",
+        "icon": "cloak_and_dagger.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Dead Ringer",
+        "icon": "dead_ringer.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ],
+    "Melee": [
+      {
+        "weapon": "Knife",
+        "icon": "knife.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Golden Knife",
+        "icon": "golden_knife.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Shadow Blessing",
+        "icon": "shadow_blessing.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Conniver's Kunai",
+        "icon": "connivers_kunai.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Icicle",
+        "icon": "icicle.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Swift Stiletto",
+        "icon": "swift_stiletto.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Your Eternal Reward",
+        "icon": "your_eternal_reward.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Wraith",
+        "icon": "wraith.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ],
+    "PDA": [
+      {
+        "weapon": "Sapper",
+        "icon": "sapper.png",
+        "status4v5": "Always",
+        "status6v6": "Always",
+        "statusPro": "Always",
+        "statusHL": "Always"
+      },
+      {
+        "weapon": "Slow Burn",
+        "icon": "slow_burn.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Stray Reflex",
+        "icon": "stray_reflex.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Radius Scanner",
+        "icon": "radius_scanner.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      },
+      {
+        "weapon": "Spy Camera",
+        "icon": "spy_camera.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned"
+      }
+    ]
+  },
+  "All-Class": {
+    "Melee": [
+      {
+        "weapon": "Bloxy Award",
+        "icon": "bloxy_award.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Frying Pan",
+        "icon": "frying_pan.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Golden Frying Pan",
+        "icon": "golden_frying_pan.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Mod Max",
+        "icon": "mod_max.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      },
+      {
+        "weapon": "Objector",
+        "icon": "objector.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed"
+      }
+    ]
+  }
+}

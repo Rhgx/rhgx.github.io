@@ -2,71 +2,111 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TC2 Competitive Whitelist</title>
-    <meta name="description" content="Overview of allowed and banned weapons for Typical Colors 2 competitive formats.">
-    <meta content="TC2 Competitive Whitelist" property="og:title" />
-    <meta name="description" content="Overview of allowed and banned weapons for Typical Colors 2 competitive formats.">
-    <meta content="Overview of allowed and banned weapons for Typical Colors 2 competitive formats." property="og:description" />
-    <meta content="https://rhgx.github.io/tc2-comp-whitelist/" property="og:url" />
+    <title>TC2 Competitive Hub</title>
+    <meta name="description" content="Central hub for Typical Colors 2 competitive format information, whitelists, and leagues.">
+    <meta content="TC2 Competitive Hub" property="og:title" />
+    <meta content="Central hub for Typical Colors 2 competitive format information, whitelists, and leagues." property="og:description" />
+    <meta content="https://rhgx.github.io/tc2-comp-whitelist/" property="og:url" /> <!-- UPDATE THIS URL -->
     <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
     <meta content="#a965da" data-react-helmet="true" name="theme-color" />
-    <meta name="keywords" content="TC2, Typical Colors 2, whitelist, competitive, comp, ROLVe, 4v4, 5v5, 6v6, Prolander, Highlander">
+    <meta name="keywords" content="TC2, Typical Colors 2, whitelist, competitive, comp, ROLVe, Kritzleague, 6v6, Highlander, Prolander, 4v4, 5v5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Styles for the hub page cards */
+        .hub-link-card {
+            text-decoration: none; /* Remove underline from link */
+            color: inherit; /* Inherit text color */
+            display: block; /* Make the link fill the card */
+            height: 100%;
+        }
+        /* Simple feedback on click */
+        .hub-link-card:active .card {
+            transform: scale(0.98); /* Slightly shrink card on click */
+            transition: transform 0.1s ease-out;
+        }
+        .hub-link-card .card {
+             transition: transform 0.1s ease-out; /* Smooth transition back */
+        }
+        .hub-link-card .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            min-height: 150px; /* Ensure cards have some height */
+        }
+         .hub-link-card .card-title {
+            font-family: var(--header-font);
+            font-size: 1.6em;
+            margin-bottom: 0.5rem;
+         }
+         .hub-link-card .card-text {
+            font-size: 0.95em;
+            color: var(--text-darker);
+         }
+    </style>
 </head>
 <body>
 
 <!-- Bootstrap Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
     <div class="container-fluid nav-container">
-        <a class="navbar-brand custom-navbar-brand" href="#">TC2 Whitelists</a>
+        <a class="navbar-brand custom-navbar-brand" href="/">TC2 Comp Hub</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#6v6" data-mode="status6v6">6v6</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#highlander" data-mode="statusHL">Highlander</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#prolander" data-mode="statusPro">Prolander</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#4v4_5v5" data-mode="status4v5">4v4/5v5</a>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
 
 <!-- Main Content Container -->
 <div class="container main-content-container mt-4">
-    <h1 id="page-title" class="text-center mb-4 pb-3 page-title-custom">Welcome</h1>
+    <h1 id="page-title" class="text-center mb-4 pb-3 page-title-custom">Welcome to the TC2 Competitive Hub</h1>
 
     <!-- Content Area using Bootstrap Grid -->
-    <div id="whitelist-content" class="row g-4">
-        <!-- Initial Loading State -->
-        <div class="col-12 loading-container">
-             <div class="spinner"></div>
-             <p class="loading-message mt-3">Loading whitelist data...</p>
+    <div id="hub-content" class="row g-4 justify-content-center">
+
+        <!-- Card linking to Kritz League -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <a href="/kritzleague/" class="hub-link-card">
+                <div class="card whitelist-card h-100"> <!-- Use whitelist-card for consistent base style -->
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Kritzleague Whitelists</h5>
+                        <p class="card-text">View the official weapon whitelists for Kritzleague formats (6v6, HL, Prolander, 4v4/5v5).</p>
+                    </div>
+                </div>
+            </a>
         </div>
-        <!-- Content dynamically added here as columns -->
-    </div>
+
+        <!-- Add more cards for other sections/leagues here -->
+        <!-- Example Placeholder Card -->
+        <!--
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <a href="/another-league/" class="hub-link-card">
+                <div class="card whitelist-card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Another League Info</h5>
+                        <p class="card-text">Information and rules for Another Competitive League.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        -->
+
+    </div> <!-- End of row -->
 
     <footer id="footer" class="mt-5 pt-4 text-center">
-        Website developed by Rocks. Typical Colors 2 is a property of Dorcus Digital<sup>™</sup> and is not affiliated with this site. Weapon icons are sourced from the official TC2 Wiki.
+        Website developed by Rocks. This site provides information on various TC2 competitive formats. Typical Colors 2 is a property of Dorcus Digital<sup>™</sup> and is not affiliated with this site.
     </footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="scripts.js"></script>
+<!-- No custom scripts.js needed for this static page -->
 
 </body>
 </html>

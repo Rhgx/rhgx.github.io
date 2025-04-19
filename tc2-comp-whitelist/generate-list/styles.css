@@ -1,0 +1,445 @@
+/* generate-list/styles.css */
+
+:root {
+    --primary-color: #1b1c28;
+    --secondary-color: #2a2d3f;
+    --accent-color: #4d536e;
+    --text-color: #e0e0e5;
+    --text-darker: #b0b0b5;
+    --border-color: #4d536e;
+    --allowed-color: #5cb85c;
+    --banned-color: #d9534f;
+    --always-color: #f0ad4e;
+    --header-font: 'Schluber', cursive;
+    --body-font: 'Oswald', sans-serif;
+
+    /* Override Bootstrap dark theme variables */
+    --bs-body-bg: var(--secondary-color);
+    --bs-body-color: var(--text-color);
+    --bs-border-color: var(--border-color);
+    --bs-emphasis-color: var(--text-color);
+    --bs-secondary-bg: var(--primary-color); /* Use primary for some component bg */
+    --bs-alert-bg: var(--secondary-color); /* Custom alert background */
+    --bs-alert-border-color: var(--border-color); /* Custom alert border */
+    --bs-alert-color: var(--text-darker); /* Custom alert text */
+    --bs-card-bg: var(--secondary-color); /* Ensure card bg matches */
+    --bs-card-border-color: var(--border-color); /* Ensure card border matches */
+    --bs-card-cap-bg: var(--accent-color); /* Use accent for card header */
+    --bs-card-color: var(--text-color); /* Ensure card text matches */
+    --bs-card-inner-border-radius: 0.375rem; /* Default Bootstrap card radius */
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: var(--bs-body-bg); /* Use Bootstrap variable */
+    color: var(--bs-body-color);
+    line-height: 1.6;
+}
+
+/* --- Custom Navbar Styling --- */
+.custom-navbar {
+    background-color: var(--primary-color) !important; /* Override Bootstrap bg */
+    border-bottom: 2px solid var(--border-color);
+}
+
+.custom-navbar-brand {
+    font-family: var(--header-font);
+    font-size: 1.8em !important; /* Ensure size override */
+    color: var(--text-color) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-darker) !important;
+    padding: 0.5rem 0.8rem !important;
+    margin: 0 0.2rem;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 1.1em;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--text-color) !important;
+    background-color: var(--secondary-color);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--text-color) !important;
+    background-color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* --- Main Content & Title --- */
+.main-content-container {
+    background-color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    min-height: 60vh;
+}
+
+/* --- Actions Header Area --- */
+.actions-header {
+    position: relative; /* Context for absolute positioning */
+    padding-top: 10px; /* Base padding */
+    padding-bottom: 1.5rem; /* Space below generate button */
+    border-bottom: 1px solid var(--border-color); /* Separator line */
+    min-height: 60px; /* Ensure enough height for positioned buttons */
+}
+
+/* Positioned Allow/Ban Buttons */
+.allow-ban-buttons {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    display: flex;
+    gap: 0.5rem; /* Space between buttons */
+    z-index: 10; /* Keep above other content if overlap occurs */
+}
+
+#allow-all-button,
+#ban-all-button {
+    font-family: var(--body-font);
+    white-space: nowrap;
+    /* Using btn-sm from Bootstrap */
+}
+
+/* Centered Content in Header */
+.page-title-custom {
+    font-family: var(--header-font);
+    color: var(--text-color);
+    /* border-bottom: none; */ /* Removed border */
+    padding-bottom: 0;
+    margin-bottom: 0.5rem !important; /* Reduce bottom margin */
+    /* Ensure title doesn't overlap buttons - adjust if needed */
+    /* padding-left: 150px; */
+    /* padding-right: 150px; */
+}
+
+.instructions-text {
+    margin-top: 0.5rem !important;
+    margin-bottom: 1rem !important;
+    color: var(--text-color); /* Ensure standard text color */
+     /* Ensure text doesn't overlap buttons */
+    /* padding-left: 50px; */
+    /* padding-right: 50px; */
+}
+
+#generate-button {
+    font-family: var(--header-font);
+    font-size: 1.2em;
+    padding: 10px 25px;
+}
+
+
+/* --- Whitelist Content Area --- */
+#whitelist-content {
+    margin-top: 1.5rem; /* Add space below the actions header */
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+}
+#whitelist-content.loading { opacity: 0.5; }
+
+/* --- Custom Card Styling --- */
+.whitelist-card {
+    /* background-color set by --bs-card-bg override */
+    /* border set by --bs-card-border-color override */
+    height: 100%; /* Make cards in a row the same height */
+    /* Animation applied directly in JS or via specific class */
+}
+
+.card-header.class-header {
+    font-family: var(--header-font);
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: var(--bs-card-cap-bg) !important; /* Use variable */
+    border-bottom: 1px solid var(--bs-border-color) !important;
+    padding: 0.6rem 1rem;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align items */
+    justify-content: space-between; /* Push indicator to the right */
+}
+
+/* --- Offclass Indicator Styling --- */
+.offclass-indicator {
+    font-size: 0.9em; /* Increased size (0.6 * 1.5) */
+    font-weight: normal;
+    color: var(--text-darker);
+    border: 1px solid var(--border-color);
+    padding: 2px 6px; /* Slightly increased padding */
+    border-radius: 3px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    vertical-align: middle; /* Helps align with the main text */
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.slot-heading {
+    font-weight: 700; /* Explicitly set bold weight */
+    color: var(--text-color); /* Use brighter text color */
+    margin-top: 1.1rem; /* Slightly increased top margin */
+    margin-bottom: 0.6rem; /* Slightly increased bottom margin */
+    padding-bottom: 5px;   /* Increased padding */
+    border-bottom: 1px solid var(--accent-color); /* Solid border, maybe accent color */
+    font-size: 1.15em; /* Slightly larger font size */
+    letter-spacing: 0.5px; /* Optional: Add slight letter spacing */
+}
+.card-body .slot-heading:first-of-type { /* Target only first heading inside card-body */
+    margin-top: 0; /* Keep no top margin for the very first slot */
+}
+
+/* Weapon List Styling (inside card-body) */
+.weapon-list {
+    /* list-style: none; */ /* Handled by list-unstyled */
+    padding: 0;
+    margin: 0;
+}
+
+.weapon-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0; /* Adjust padding */
+    border-bottom: 1px solid var(--primary-color); /* Use primary as separator inside card */
+    min-height: 28px;
+    cursor: pointer; /* Indicate clickability */
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+.weapon-item:last-child {
+    border-bottom: none;
+}
+.weapon-item:hover {
+    background-color: rgba(255, 255, 255, 0.08); /* Slightly stronger hover */
+}
+.weapon-item:active {
+     transform: scale(0.98); /* Slight shrink on click */
+}
+
+.weapon-icon {
+    width: 60;
+    height: 60px;
+    vertical-align: middle;
+    margin-right: 10px;
+    object-fit: contain;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.weapon-name {
+    flex-grow: 1; /* Allows name to take up remaining space */
+    margin-right: 10px; /* Keep space before status */
+    font-size: 0.95em;
+}
+
+.weapon-status {
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    min-width: 60px;
+    text-align: center;
+    flex-shrink: 0; /* Prevent status from shrinking */
+}
+
+.status-allowed { color: var(--allowed-color); }
+.status-banned { color: var(--banned-color); }
+.status-always { color: var(--always-color); }
+
+/* Style for non-toggleable 'Always' status */
+.weapon-status.status-always {
+    cursor: not-allowed; /* Indicate non-interactive */
+    opacity: 0.7;
+}
+/* Ensure the parent list item isn't clickable if status is always */
+.weapon-item:has(.status-always) {
+    cursor: not-allowed;
+}
+.weapon-item:has(.status-always):hover {
+    background-color: transparent; /* Remove hover effect */
+}
+.weapon-item:has(.status-always):active {
+    transform: none; /* Remove click effect */
+}
+
+
+/* --- Loading / Error / Main Page --- */
+.loading-container, .error-message-container, .main-page-content-container {
+    /* These containers will be placed in a .col-12 by JS */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    min-height: 200px;
+    text-align: center;
+}
+.loading-message { /* Specific style for loading text */
+    font-size: 1.1em;
+    color: var(--text-darker);
+    margin-top: 15px; /* Space below spinner */
+}
+.error-message, .main-page-content {
+    font-size: 1.1em;
+    color: var(--text-darker);
+}
+.error-message { color: var(--banned-color); }
+.main-page-content p { font-size: 1.2em; }
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-left-color: var(--text-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Card Fade-In Animation --- */
+.whitelist-card {
+    opacity: 0; /* Start hidden */
+    transform: translateY(10px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+/* Stagger card animation based on column position */
+/* Targeting the column wrapper ensures correct staggering */
+#whitelist-content > .col-12:nth-child(1) .whitelist-card { animation-delay: 0.05s; }
+#whitelist-content > .col-12:nth-child(2) .whitelist-card { animation-delay: 0.1s; }
+#whitelist-content > .col-12:nth-child(3) .whitelist-card { animation-delay: 0.15s; }
+#whitelist-content > .col-12:nth-child(4) .whitelist-card { animation-delay: 0.2s; }
+#whitelist-content > .col-12:nth-child(5) .whitelist-card { animation-delay: 0.25s; }
+#whitelist-content > .col-12:nth-child(6) .whitelist-card { animation-delay: 0.3s; }
+#whitelist-content > .col-12:nth-child(7) .whitelist-card { animation-delay: 0.35s; }
+#whitelist-content > .col-12:nth-child(8) .whitelist-card { animation-delay: 0.4s; }
+#whitelist-content > .col-12:nth-child(9) .whitelist-card { animation-delay: 0.45s; }
+/* All-Class card animation (assuming it's the 10th column overall) */
+#whitelist-content > .all-class-column .whitelist-card { animation-delay: 0.5s; }
+
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Banned Class Styling --- */
+.class-banned .whitelist-card {
+    opacity: 0.4 !important; /* Dim the card significantly */
+    pointer-events: none; /* Prevent interaction */
+    animation: none !important; /* Disable fade-in for banned cards */
+}
+/* Ensure list items within banned cards are not clickable */
+.class-banned .weapon-item {
+    cursor: not-allowed !important;
+}
+.class-banned .weapon-item:hover {
+    background-color: transparent !important;
+}
+.class-banned .weapon-item:active {
+    transform: none !important;
+}
+
+
+.banned-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(42, 45, 63, 0.6); /* Semi-transparent overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10; /* Ensure it's above the card content */
+    border-radius: var(--bs-card-inner-border-radius, 0.375rem); /* Match card border radius */
+    overflow: hidden; /* Hide overflowing text */
+    /* Align with column gutter (g-4 -> 1.5rem total, half is 0.75rem) */
+    margin: 0 0.75rem;
+    width: calc(100% - 1.5rem); /* Adjust width for gutters */
+    pointer-events: none; /* Allow clicks to pass through overlay if needed, though parent is blocked */
+}
+
+.banned-overlay-text {
+    font-family: var(--header-font);
+    font-size: 9em; /* Drastically increased size */
+    font-weight: bold;
+    color: var(--banned-color);
+    text-transform: uppercase;
+    transform: rotate(-40deg) scale(1.1); /* Rotate and slightly scale */
+    opacity: 0.75; /* Slightly less opaque */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Stronger shadow */
+    white-space: nowrap; /* Prevent text wrapping */
+    max-width: 150%; /* Allow some overflow due to rotation */
+    text-align: center;
+}
+
+/* Ensure the parent column is positioned for the absolute overlay */
+#whitelist-content > .col-12,
+#whitelist-content > .col-md-6,
+#whitelist-content > .col-lg-4 {
+    position: relative; /* Needed for absolute positioning of overlay */
+}
+
+
+/* --- Footer --- */
+#footer {
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85em;
+    color: var(--text-darker);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .actions-header {
+        padding-top: 10px;
+        padding-bottom: 1rem;
+        min-height: auto; /* Reset min height */
+        text-align: center; /* Center align all content */
+    }
+    .allow-ban-buttons {
+        position: static; /* Revert to normal flow */
+        justify-content: center; /* Center buttons */
+        margin-bottom: 1rem; /* Space below buttons */
+        order: 2; /* Place below title/instructions */
+    }
+    .page-title-custom {
+         margin-top: 0;
+         order: 0; /* Ensure title comes first */
+         padding-left: 0; /* Reset padding */
+         padding-right: 0;
+    }
+    .instructions-text {
+        order: 1; /* Instructions second */
+        padding-left: 0; /* Reset padding */
+        padding-right: 0;
+    }
+    .generate-button-container {
+        order: 3; /* Generate button last */
+    }
+
+    .banned-overlay-text {
+        font-size: 8em; /* Adjust for single column */
+    }
+    .banned-overlay {
+         margin: 0 0.5rem; /* Adjust margin for potentially smaller gutters */
+         width: calc(100% - 1rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .banned-overlay-text {
+        font-size: 6em; /* Smaller on very small screens */
+    }
+}
+
+@media (min-width: 1400px) {
+    .banned-overlay-text {
+        font-size: 10em; /* Even larger on wide screens */
+    }
+}

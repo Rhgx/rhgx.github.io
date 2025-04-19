@@ -168,7 +168,7 @@ function displayMode(modeKey, shouldShowOffclassIndicator) {
             const imgIcon = document.createElement("img");
             // *** Icon Path Logic ***
             const classFolderName = className.toLowerCase().replace(/\s+/g, '_');
-            imgIcon.src = `icons/${classFolderName}/${item.icon}`;
+            imgIcon.src = `../icons/${classFolderName}/${item.icon}`;
             imgIcon.alt = item.weapon;
             imgIcon.className = "weapon-icon";
             imgIcon.loading = "lazy";

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TC2 Whitelist Generator</title>
+    <meta name="description" content="Generate custom weapon whitelists for Typical Colors 2 competitive formats.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Schluber&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Generator Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+     <div class="container-fluid nav-container">
+        <a class="navbar-brand custom-navbar-brand" href="../">TC2 Whitelist Generator</a>
+         <!-- Link back to main display page -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link mode-select active" href="#" data-mode="status6v6">Edit 6v6</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mode-select" href="#" data-mode="statusHL">Edit Highlander</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mode-select" href="#" data-mode="statusPro">Edit Prolander</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mode-select" href="#" data-mode="status4v5">Edit 4v4/5v5</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content Container -->
+<div class="container main-content-container mt-4">
+
+    <!-- Actions Header Area -->
+    <div class="actions-header mb-4">
+        <!-- Positioned Allow/Ban Buttons -->
+        <div class="allow-ban-buttons">
+            <button id="allow-all-button" class="btn btn-sm btn-success">Allow All</button>
+            <button id="ban-all-button" class="btn btn-sm btn-danger">Ban All</button>
+        </div>
+
+        <!-- Centered Content -->
+        <h1 id="page-title" class="text-center page-title-custom mb-2">Edit Whitelist</h1>
+        <!-- REMOVED text-muted class from paragraph below -->
+        <p class="text-center mb-3 instructions-text">Select a mode above. Click on a weapon's status ('Allowed' or 'Banned') to toggle it for the selected mode. 'Always' cannot be changed.</p>
+        <div class="text-center generate-button-container">
+            <button id="generate-button" class="btn btn-success btn-lg">Generate & Download whitelist.json</button>
+        </div>
+    </div>
+    <!-- END Actions Header Area -->
+
+
+    <!-- Content Area using Bootstrap Grid -->
+    <div id="whitelist-content" class="row g-4">
+        <!-- Initial Loading State -->
+        <div class="col-12 loading-container">
+             <div class="spinner"></div>
+             <p class="loading-message mt-3">Loading default weapons...</p>
+        </div>
+        <!-- Content dynamically added here as columns -->
+    </div>
+
+    <footer id="footer" class="mt-5 pt-4 text-center">
+        Generator based on default TC2 competitive settings.
+    </footer>
+</div>
+
+<!-- Bootstrap JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<!-- Generator Custom JS -->
+<script src="scripts.js"></script>
+
+</body>
+</html>
