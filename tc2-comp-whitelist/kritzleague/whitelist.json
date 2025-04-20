@@ -208,8 +208,8 @@
         "statusHL": "Always"
       },
       {
-        "weapon": "Holy Mackeral",
-        "icon": "holy_mackeral.png",
+        "weapon": "Holy Mackerel",
+        "icon": "holy_mackerel.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -266,8 +266,8 @@
         "banReason": "Blinds you and overall is a general pain to fight against."
       },
       {
-        "weapon": "Grill Flanker",
-        "icon": "grill_Flanker.png",
+        "weapon": "Grill Scout",
+        "icon": "grill_scout.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -330,8 +330,8 @@
   "Marksman": {
     "Primary": [
       {
-        "weapon": "Marksman Rifle",
-        "icon": "Marksman_rifle.png",
+        "weapon": "Sniper Rifle",
+        "icon": "sniper_rifle.png",
         "status4v5": "Always",
         "status6v6": "Always",
         "statusPro": "Always",
