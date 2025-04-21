@@ -8,19 +8,30 @@
     --border-color: #4d536e;
 
     /* Weapon Status Colors */
-    --allowed-color: #5cb85c; /* Green */
-    --banned-color: #d9534f;  /* Red */
-    --always-color: #f0ad4e; /* Orange */
-    --testing-color: #5bc0de; /* Light Blue */
-    --under-review-color: #777; /* Grey */
-    --not-used-color: #a0a0a5; /* Dim Grey */
+    --allowed-color: #5cb85c;
+    /* Green */
+    --banned-color: #d9534f;
+    /* Red */
+    --always-color: #f0ad4e;
+    /* Orange */
+    --testing-color: #5bc0de;
+    /* Light Blue */
+    --under-review-color: #777;
+    /* Grey */
+    --not-used-color: #a0a0a5;
+    /* Dim Grey */
 
     /* Map Status Colors */
-    --in-rotation-color: #add8e6; /* Light Blue */
-    --out-of-rotation-color: #f5eaaa; /* Beige/Light Orange */
-    --undecided-color: #d3d3d3; /* Light Grey */
-    --anchor-color: #808080; /* Dark Grey */
-    --vaulted-color: #a52a2a; /* Brown/Dark Red */
+    --in-rotation-color: #add8e6;
+    /* Light Blue */
+    --out-of-rotation-color: #f5eaaa;
+    /* Beige/Light Orange */
+    --undecided-color: #d3d3d3;
+    /* Light Grey */
+    --anchor-color: #808080;
+    /* Dark Grey */
+    --vaulted-color: #a52a2a;
+    /* Brown/Dark Red */
 
     --header-font: 'Schluber', cursive;
     --body-font: 'Oswald', sans-serif;
@@ -85,6 +96,7 @@ body {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
+
 .main-nav-link.active {
     font-weight: bold;
 }
@@ -144,19 +156,22 @@ body {
 .sub-navbar .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.2);
 }
+
 .sub-navbar .navbar-toggler-icon {
-     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28224, 224, 229, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28224, 224, 229, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 
 /* --- Whitelist & Map Content Area Styling --- */
-#whitelist-content, #maps-content {
+#whitelist-content,
+#maps-content {
     opacity: 1;
     transition: opacity 0.4s ease-in-out;
     position: relative;
 }
 
-#whitelist-content.loading, #maps-content.loading {
+#whitelist-content.loading,
+#maps-content.loading {
     opacity: 0.5;
     min-height: 200px;
 }
@@ -167,6 +182,7 @@ body {
     transform: translateY(10px);
     animation: fadeIn 0.5s ease-out forwards;
 }
+
 .card-header.class-header {
     font-family: var(--header-font);
     font-size: 1.8em;
@@ -178,6 +194,7 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+
 .offclass-indicator {
     font-family: var(--body-font);
     font-size: 0.6em;
@@ -192,7 +209,11 @@ body {
     white-space: nowrap;
     vertical-align: middle;
 }
-.card-body { padding: 1rem; }
+
+.card-body {
+    padding: 1rem;
+}
+
 .slot-heading {
     font-weight: 700;
     color: var(--text-color);
@@ -203,8 +224,16 @@ body {
     font-size: 1.15em;
     letter-spacing: 0.5px;
 }
-.card-body .slot-heading:first-of-type { margin-top: 0; }
-.weapon-list { padding: 0; margin: 0; }
+
+.card-body .slot-heading:first-of-type {
+    margin-top: 0;
+}
+
+.weapon-list {
+    padding: 0;
+    margin: 0;
+}
+
 .weapon-item {
     display: flex;
     align-items: center;
@@ -212,7 +241,11 @@ body {
     border-bottom: 1px solid var(--primary-color);
     min-height: 28px;
 }
-.weapon-item:last-child { border-bottom: none; }
+
+.weapon-item:last-child {
+    border-bottom: none;
+}
+
 .weapon-icon {
     width: 60px;
     height: 60px;
@@ -221,42 +254,83 @@ body {
     object-fit: contain;
     flex-shrink: 0;
 }
+
 .weapon-name {
     flex-grow: 1;
     margin-right: 10px;
     font-size: 0.95em;
     word-break: break-word;
 }
-.weapon-status { /* Base style for all status spans */
+
+.weapon-status {
+    /* Base style for all status spans */
     font-weight: bold;
     padding: 3px 8px;
     border-radius: 3px;
     font-size: 0.9em;
-    min-width: 60px; /* Adjust as needed */
+    min-width: 60px;
+    /* Adjust as needed */
     text-align: center;
     flex-shrink: 0;
     margin-right: 5px;
     display: inline-block;
     vertical-align: baseline;
     line-height: 1.4;
-    color: var(--primary-color); /* Default dark text */
-    background-color: var(--text-darker); /* Default background */
+    color: var(--primary-color);
+    /* Default dark text */
+    background-color: var(--text-darker);
+    /* Default background */
 }
 
 /* Weapon Status Colors */
-.status-allowed { background-color: var(--allowed-color); }
-.status-banned { background-color: var(--banned-color); color: var(--text-color); }
-.status-always { background-color: var(--always-color); }
-.status-testing { background-color: var(--testing-color); }
-.status-under-review { background-color: var(--under-review-color); color: var(--text-color); }
-.status-not-used { background-color: var(--not-used-color); }
+.status-allowed {
+    background-color: var(--allowed-color);
+}
+
+.status-banned {
+    background-color: var(--banned-color);
+    color: var(--text-color);
+}
+
+.status-always {
+    background-color: var(--always-color);
+}
+
+.status-testing {
+    background-color: var(--testing-color);
+}
+
+.status-under-review {
+    background-color: var(--under-review-color);
+    color: var(--text-color);
+}
+
+.status-not-used {
+    background-color: var(--not-used-color);
+}
 
 /* Map Status Colors */
-.status-in-rotation { background-color: var(--in-rotation-color); }
-.status-out-of-rotation { background-color: var(--out-of-rotation-color); }
-.status-undecided { background-color: var(--undecided-color); }
-.status-anchor { background-color: var(--anchor-color); color: var(--text-color); }
-.status-vaulted { background-color: var(--vaulted-color); color: var(--text-color); }
+.status-in-rotation {
+    background-color: var(--in-rotation-color);
+}
+
+.status-out-of-rotation {
+    background-color: var(--out-of-rotation-color);
+}
+
+.status-undecided {
+    background-color: var(--undecided-color);
+}
+
+.status-anchor {
+    background-color: var(--anchor-color);
+    color: var(--text-color);
+}
+
+.status-vaulted {
+    background-color: var(--vaulted-color);
+    color: var(--text-color);
+}
 
 
 .ban-reason-indicator {
@@ -278,6 +352,7 @@ body {
     user-select: none;
     vertical-align: middle;
 }
+
 .ban-reason-indicator:hover {
     background-color: var(--text-darker);
     color: var(--primary-color);
@@ -321,7 +396,8 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.map-status .weapon-status { /* Reuse base style */
+.map-status .weapon-status {
+    /* Reuse base style */
     font-size: 0.85em;
     margin-left: 5px;
 }
@@ -335,9 +411,11 @@ body {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
 }
+
 .gamemode-heading-col:first-of-type {
     margin-top: 0;
 }
+
 h3.gamemode-heading {
     font-family: var(--header-font);
     color: var(--text-darker);
@@ -361,19 +439,28 @@ h3.gamemode-heading {
     min-height: 200px;
     text-align: center;
 }
+
 .loading-message {
     font-size: 1.1em;
     color: var(--text-darker);
     margin-top: 15px;
 }
+
 .error-message,
 .main-page-content,
 .info-message {
     font-size: 1.1em;
     color: var(--text-darker);
 }
-.error-message { color: var(--banned-color); }
-.main-page-content p { font-size: 1.2em; }
+
+.error-message {
+    color: var(--banned-color);
+}
+
+.main-page-content p {
+    font-size: 1.2em;
+}
+
 .spinner {
     border: 4px solid rgba(255, 255, 255, 0.2);
     border-left-color: var(--text-color);
@@ -382,7 +469,12 @@ h3.gamemode-heading {
     height: 40px;
     animation: spin 1s linear infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 /* --- Card Fade-In Animation --- */
 @keyframes fadeIn {
@@ -393,21 +485,61 @@ h3.gamemode-heading {
 }
 
 /* Stagger card animation */
-#whitelist-content > .col-12:nth-child(1) .whitelist-card { animation-delay: 0.05s; }
-#whitelist-content > .col-12:nth-child(2) .whitelist-card { animation-delay: 0.1s; }
-#whitelist-content > .col-12:nth-child(3) .whitelist-card { animation-delay: 0.15s; }
-#whitelist-content > .col-12:nth-child(4) .whitelist-card { animation-delay: 0.2s; }
-#whitelist-content > .col-12:nth-child(5) .whitelist-card { animation-delay: 0.25s; }
-#whitelist-content > .col-12:nth-child(6) .whitelist-card { animation-delay: 0.3s; }
-#whitelist-content > .col-12:nth-child(7) .whitelist-card { animation-delay: 0.35s; }
-#whitelist-content > .col-12:nth-child(8) .whitelist-card { animation-delay: 0.4s; }
-#whitelist-content > .col-12:nth-child(9) .whitelist-card { animation-delay: 0.45s; }
-#whitelist-content > .all-class-column .whitelist-card { animation-delay: 0.5s; }
+#whitelist-content>.col-12:nth-child(1) .whitelist-card {
+    animation-delay: 0.05s;
+}
 
-#maps-content > .map-column:nth-child(1) .map-card { animation-delay: 0.05s; }
-#maps-content > .map-column:nth-child(2) .map-card { animation-delay: 0.1s; }
-#maps-content > .map-column:nth-child(3) .map-card { animation-delay: 0.15s; }
-#maps-content > .map-column:nth-child(4) .map-card { animation-delay: 0.2s; }
+#whitelist-content>.col-12:nth-child(2) .whitelist-card {
+    animation-delay: 0.1s;
+}
+
+#whitelist-content>.col-12:nth-child(3) .whitelist-card {
+    animation-delay: 0.15s;
+}
+
+#whitelist-content>.col-12:nth-child(4) .whitelist-card {
+    animation-delay: 0.2s;
+}
+
+#whitelist-content>.col-12:nth-child(5) .whitelist-card {
+    animation-delay: 0.25s;
+}
+
+#whitelist-content>.col-12:nth-child(6) .whitelist-card {
+    animation-delay: 0.3s;
+}
+
+#whitelist-content>.col-12:nth-child(7) .whitelist-card {
+    animation-delay: 0.35s;
+}
+
+#whitelist-content>.col-12:nth-child(8) .whitelist-card {
+    animation-delay: 0.4s;
+}
+
+#whitelist-content>.col-12:nth-child(9) .whitelist-card {
+    animation-delay: 0.45s;
+}
+
+#whitelist-content>.all-class-column .whitelist-card {
+    animation-delay: 0.5s;
+}
+
+#maps-content>.map-column:nth-child(1) .map-card {
+    animation-delay: 0.05s;
+}
+
+#maps-content>.map-column:nth-child(2) .map-card {
+    animation-delay: 0.1s;
+}
+
+#maps-content>.map-column:nth-child(3) .map-card {
+    animation-delay: 0.15s;
+}
+
+#maps-content>.map-column:nth-child(4) .map-card {
+    animation-delay: 0.2s;
+}
 
 
 /* --- Banned Class Styling (Weapons Page) --- */
@@ -416,6 +548,7 @@ h3.gamemode-heading {
     pointer-events: none;
     animation: none !important;
 }
+
 .banned-overlay {
     position: absolute;
     top: 0;
@@ -433,6 +566,7 @@ h3.gamemode-heading {
     width: calc(100% - 1.5rem);
     pointer-events: none;
 }
+
 .banned-overlay-text {
     font-family: var(--header-font);
     font-size: 9em;
@@ -446,9 +580,10 @@ h3.gamemode-heading {
     max-width: 150%;
     text-align: center;
 }
-#whitelist-content > .col-12,
-#whitelist-content > .col-md-6,
-#whitelist-content > .col-lg-4 {
+
+#whitelist-content>.col-12,
+#whitelist-content>.col-md-6,
+#whitelist-content>.col-lg-4 {
     position: relative;
 }
 
@@ -462,12 +597,28 @@ h3.gamemode-heading {
     font-size: 0.85em;
     max-width: 220px;
 }
-.tippy-box[data-theme~='custom-dark'][data-placement^='top'] > .tippy-arrow::before { border-top-color: var(--border-color); }
-.tippy-box[data-theme~='custom-dark'][data-placement^='bottom'] > .tippy-arrow::before { border-bottom-color: var(--border-color); }
-.tippy-box[data-theme~='custom-dark'][data-placement^='left'] > .tippy-arrow::before { border-left-color: var(--border-color); }
-.tippy-box[data-theme~='custom-dark'][data-placement^='right'] > .tippy-arrow::before { border-right-color: var(--border-color); }
-.tippy-box[data-theme~='custom-dark'] > .tippy-arrow { color: var(--primary-color); }
-.tippy-box[data-theme~='custom-dark'] > .tippy-content {
+
+.tippy-box[data-theme~='custom-dark'][data-placement^='top']>.tippy-arrow::before {
+    border-top-color: var(--border-color);
+}
+
+.tippy-box[data-theme~='custom-dark'][data-placement^='bottom']>.tippy-arrow::before {
+    border-bottom-color: var(--border-color);
+}
+
+.tippy-box[data-theme~='custom-dark'][data-placement^='left']>.tippy-arrow::before {
+    border-left-color: var(--border-color);
+}
+
+.tippy-box[data-theme~='custom-dark'][data-placement^='right']>.tippy-arrow::before {
+    border-right-color: var(--border-color);
+}
+
+.tippy-box[data-theme~='custom-dark']>.tippy-arrow {
+    color: var(--primary-color);
+}
+
+.tippy-box[data-theme~='custom-dark']>.tippy-content {
     padding: 8px 12px;
     white-space: pre-wrap;
     text-align: left;
@@ -485,39 +636,141 @@ h3.gamemode-heading {
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 992px) {
-    .banned-overlay-text { font-size: 7.5em; }
-    .main-nav-link { font-size: 1.1em; }
+    .banned-overlay-text {
+        font-size: 7.5em;
+    }
+
+    .main-nav-link {
+        font-size: 1.1em;
+    }
 }
 
 @media (max-width: 768px) {
-    .banned-overlay-text { font-size: 8em; }
-    .banned-overlay { margin: 0 0.5rem; width: calc(100% - 1rem); }
-    .page-title-custom { font-size: 2.2rem; }
-    .card-header.class-header { font-size: 1.6em; }
-    .sub-navbar .navbar-text { display: none; }
-    .mode-nav-links .nav-link { font-size: 0.9em; padding: 0.3rem 0.6rem !important; }
-    .map-name { font-size: 1.1em; }
-    h3.gamemode-heading { font-size: 1.4em; }
+    .banned-overlay-text {
+        font-size: 8em;
+    }
+
+    .banned-overlay {
+        margin: 0 0.5rem;
+        width: calc(100% - 1rem);
+    }
+
+    .page-title-custom {
+        font-size: 2.2rem;
+    }
+
+    .card-header.class-header {
+        font-size: 1.6em;
+    }
+
+    .sub-navbar .navbar-text {
+        display: none;
+    }
+
+    .mode-nav-links .nav-link {
+        font-size: 0.9em;
+        padding: 0.3rem 0.6rem !important;
+    }
+
+    .map-name {
+        font-size: 1.1em;
+    }
+
+    h3.gamemode-heading {
+        font-size: 1.4em;
+    }
 }
 
 @media (max-width: 480px) {
-    .banned-overlay-text { font-size: 6em; }
-    .custom-navbar-brand { font-size: 1.5em !important; }
-    .page-title-custom { font-size: 1.8rem; }
-    .card-header.class-header { font-size: 1.4em; }
-    .weapon-icon { width: 45px; height: 45px; }
-    .weapon-name { font-size: 0.9em; }
-    .weapon-status { font-size: 0.8em; min-width: 50px; padding: 2px 6px; }
-    .ban-reason-indicator { width: 16px; height: 16px; font-size: 0.7em; }
-    .main-nav-link { font-size: 1em; }
-    .map-image { height: 120px; }
-    h3.gamemode-heading { font-size: 1.3em; }
+    .banned-overlay-text {
+        font-size: 6em;
+    }
+
+    .custom-navbar-brand {
+        font-size: 1.5em !important;
+    }
+
+    .page-title-custom {
+        font-size: 1.8rem;
+    }
+
+    .card-header.class-header {
+        font-size: 1.4em;
+    }
+
+    .weapon-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .weapon-name {
+        font-size: 0.9em;
+    }
+
+    .weapon-status {
+        font-size: 0.8em;
+        min-width: 50px;
+        padding: 2px 6px;
+    }
+
+    .ban-reason-indicator {
+        width: 16px;
+        height: 16px;
+        font-size: 0.7em;
+    }
+
+    .main-nav-link {
+        font-size: 1em;
+    }
+
+    .map-image {
+        height: 120px;
+    }
+
+    h3.gamemode-heading {
+        font-size: 1.3em;
+    }
 }
 
-/* Styles for the hub page cards (If used elsewhere) */
-.hub-link-card { text-decoration: none; color: inherit; display: block; height: 100%; }
-.hub-link-card:active .card { transform: scale(0.98); transition: transform 0.1s ease-out; }
-.hub-link-card .card { transition: transform 0.1s ease-out; }
-.hub-link-card .card-body { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 150px; }
-.hub-link-card .card-title { font-family: var(--header-font); font-size: 1.6em; margin-bottom: 0.5rem; }
-.hub-link-card .card-text { font-size: 0.95em; color: var(--text-darker); }
+.hub-link-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.hub-link-card:active .card {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
+}
+
+.hub-link-card .card {
+    transition: transform 0.1s ease-out;
+}
+
+.hub-link-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+}
+
+.hub-link-card .card-title {
+    font-family: var(--header-font);
+    font-size: 1.6em;
+    margin-bottom: 0.5rem;
+}
+
+.hub-link-card .card-text {
+    font-size: 0.95em;
+    color: var(--text-darker);
+}
+
+
+.league-logo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+}
