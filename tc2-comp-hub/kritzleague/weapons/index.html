@@ -25,7 +25,6 @@
 <!-- Main Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
     <div class="container-fluid nav-container">
-        <!-- Link brand to root or hub page if desired -->
         <a class="navbar-brand custom-navbar-brand" href="../">TC2 Comp Hub</a>
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavContent" aria-controls="mainNavContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -33,11 +32,9 @@
          <div class="collapse navbar-collapse" id="mainNavContent">
              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                  <li class="nav-item">
-                     <!-- Weapons link is active on this page -->
                      <a class="nav-link main-nav-link active" aria-current="page" href="#">Weapons</a>
                  </li>
                  <li class="nav-item">
-                     <!-- Maps link points to the maps directory -->
                      <a class="nav-link main-nav-link" href="../maps/#6v6">Maps</a>
                  </li>
              </ul>
@@ -49,8 +46,7 @@
 <div class="container main-content-container mt-4">
 
     <!-- Weapons Content Area -->
-    <div> <!-- Removed ID and active class, it's the only content -->
-        <!-- Game Mode Sub-Navigation -->
+    <div>
         <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 rounded sub-navbar">
              <div class="container-fluid">
                  <span class="navbar-text me-3">Select Game Mode:</span>
@@ -76,16 +72,13 @@
              </div>
         </nav>
 
-        <h2 id="page-title" class="text-center mb-4 pb-3 page-title-custom">Welcome</h2> <!-- Title will be updated by JS -->
+        <h2 id="page-title" class="text-center mb-4 pb-3 page-title-custom">Welcome</h2>
 
-        <!-- Weapon Whitelist Content Area -->
         <div id="whitelist-content" class="row g-4">
-            <!-- Initial Loading State or Welcome Message -->
             <div class="col-12 loading-container">
                  <div class="spinner"></div>
                  <p class="loading-message mt-3">Loading weapon data...</p>
             </div>
-            <!-- Weapon content dynamically added here -->
         </div>
     </div>
     <!-- End Weapons Content Area -->
