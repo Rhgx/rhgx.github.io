@@ -6,14 +6,23 @@
     --text-color: #e0e0e5;
     --text-darker: #b0b0b5;
     --border-color: #4d536e;
-    --allowed-color: #5cb85c;
-    /* Green */
-    --banned-color: #d9534f;
-    /* Red */
-    --always-color: #f0ad4e;
-    /* Orange */
+
+    /* Weapon Status Colors */
+    --allowed-color: #5cb85c; /* Green */
+    --banned-color: #d9534f;  /* Red */
+    --always-color: #f0ad4e; /* Orange */
+    --testing-color: #5bc0de; /* Light Blue */
+    --under-review-color: #777; /* Grey */
+    --not-used-color: #a0a0a5; /* Dim Grey */
+
+    /* Map Status Colors */
+    --in-rotation-color: #add8e6; /* Light Blue */
+    --out-of-rotation-color: #f5eaaa; /* Beige/Light Orange */
+    --undecided-color: #d3d3d3; /* Light Grey */
+    --anchor-color: #808080; /* Dark Grey */
+    --vaulted-color: #a52a2a; /* Brown/Dark Red */
+
     --header-font: 'Schluber', cursive;
-    /* Ensure Schluber font is loaded */
     --body-font: 'Oswald', sans-serif;
 
     /* Override Bootstrap dark theme variables */
@@ -22,43 +31,28 @@
     --bs-border-color: var(--border-color);
     --bs-emphasis-color: var(--text-color);
     --bs-secondary-bg: var(--primary-color);
-    /* Use primary for some component bg */
     --bs-alert-bg: var(--secondary-color);
-    /* Custom alert background */
     --bs-alert-border-color: var(--border-color);
-    /* Custom alert border */
     --bs-alert-color: var(--text-darker);
-    /* Custom alert text */
     --bs-card-bg: var(--secondary-color);
-    /* Ensure card bg matches */
     --bs-card-border-color: var(--border-color);
-    /* Ensure card border matches */
     --bs-card-cap-bg: var(--accent-color);
-    /* Use accent for card header */
     --bs-card-color: var(--text-color);
-    /* Ensure card text matches */
     --bs-card-inner-border-radius: 0.375rem;
-    /* Default Bootstrap card radius */
 
-    /* --- REMOVED Bootstrap Tooltip Variables --- */
-    /* Variables below are no longer needed for tooltips */
-    /* --bs-tooltip-bg: var(--primary-color); */
-    /* --bs-tooltip-color: var(--text-color); */
-    /* --bs-tooltip-opacity: 1; */
-    /* --bs-tooltip-border-radius: 0.25rem; */
-    /* --bs-tooltip-max-width: 200px; */
-    /* --bs-tooltip-padding-x: 0.75rem; */
-    /* --bs-tooltip-padding-y: 0.5rem; */
-    /* --bs-tooltip-font-size: 0.85em; */
-    /* --bs-tooltip-arrow-width: 0.8rem; */
-    /* --bs-tooltip-arrow-height: 0.4rem; */
+    /* Link colors */
+    --bs-link-color: var(--text-darker);
+    --bs-link-hover-color: var(--text-color);
+    --bs-nav-link-color: var(--text-darker);
+    --bs-nav-link-hover-color: var(--text-color);
+    --bs-navbar-active-color: var(--text-color);
 }
 
+/* --- Font Face --- */
 @font-face {
     font-family: 'Schluber';
-    /* ** IMPORTANT: Adjust the path to your font file ** */
-    /* This assumes 'fonts' is in the same directory as styles.css */
-    src: url('fonts/Schluber.ttf') format('truetype');
+    /* Adjusted path relative to css/ folder */
+    src: url('../fonts/Schluber.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -66,44 +60,35 @@
 body {
     font-family: var(--body-font);
     background-color: var(--bs-body-bg);
-    /* Use Bootstrap variable */
     color: var(--bs-body-color);
     line-height: 1.6;
 }
 
-/* --- Custom Navbar Styling --- */
+/* --- Main Navbar Styling --- */
 .custom-navbar {
     background-color: var(--primary-color) !important;
-    /* Override Bootstrap bg */
     border-bottom: 2px solid var(--border-color);
 }
 
 .custom-navbar-brand {
     font-family: var(--header-font);
     font-size: 1.8em !important;
-    /* Ensure size override */
     color: var(--text-color) !important;
+    /* Link to root or hub page if you have one */
+    /* href="#" is fine if it just stays on the current page section */
 }
 
-.navbar-nav .nav-link {
-    color: var(--text-darker) !important;
-    padding: 0.5rem 0.8rem !important;
-    margin: 0 0.2rem;
-    border-radius: 4px;
-    transition: background-color 0.2s, color 0.2s;
-    font-size: 1.1em;
+/* Style for the main nav links */
+.main-nav-link {
+    font-family: var(--header-font);
+    font-size: 1.2em;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }
-
-.navbar-nav .nav-link:hover {
-    color: var(--text-color) !important;
-    background-color: var(--secondary-color);
-}
-
-.navbar-nav .nav-link.active {
-    color: var(--text-color) !important;
-    background-color: var(--accent-color);
+.main-nav-link.active {
     font-weight: bold;
 }
+
 
 /* --- Main Content & Title --- */
 .main-content-container {
@@ -113,7 +98,6 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     min-height: 60vh;
-    /* Ensure container has some height */
 }
 
 .page-title-custom {
@@ -121,50 +105,82 @@ body {
     color: var(--text-color);
     border-bottom: 2px solid var(--accent-color);
     padding-bottom: 0.5rem;
-    /* Match Bootstrap heading padding */
 }
 
-/* --- Whitelist Content Area (Bootstrap Row) --- */
-#whitelist-content {
-    /* Row styling is handled by Bootstrap, g-4 adds gutters */
+/* --- Game Mode Sub-Navbar Styling (Weapons Page) --- */
+.sub-navbar {
+    background-color: var(--secondary-color) !important;
+    border: 1px solid var(--border-color);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.sub-navbar .navbar-text {
+    color: var(--text-darker);
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.mode-nav-links .nav-link {
+    color: var(--text-darker) !important;
+    padding: 0.4rem 0.8rem !important;
+    margin: 0 0.1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 1em;
+}
+
+.mode-nav-links .nav-link:hover {
+    color: var(--text-color) !important;
+    background-color: var(--accent-color);
+}
+
+.mode-nav-links .nav-link.active {
+    color: var(--primary-color) !important;
+    background-color: var(--text-color);
+    font-weight: bold;
+}
+
+.sub-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.sub-navbar .navbar-toggler-icon {
+     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28224, 224, 229, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+/* --- Whitelist & Map Content Area Styling --- */
+#whitelist-content, #maps-content {
     opacity: 1;
     transition: opacity 0.4s ease-in-out;
+    position: relative;
 }
 
-#whitelist-content.loading {
+#whitelist-content.loading, #maps-content.loading {
     opacity: 0.5;
-    /* Fade slightly during content switch */
+    min-height: 200px;
 }
 
-/* --- Custom Card Styling --- */
+/* --- Weapon Card Styling --- */
 .whitelist-card {
-    height: 100%;
-    /* Make cards in a row the same height */
-    /* Animation properties are applied below */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.5s ease-out forwards;
 }
-
 .card-header.class-header {
     font-family: var(--header-font);
     font-size: 1.8em;
     color: var(--text-color);
     background-color: var(--bs-card-cap-bg) !important;
-    /* Use variable */
     border-bottom: 1px solid var(--bs-border-color) !important;
     padding: 0.6rem 1rem;
     display: flex;
-    /* Use flexbox for alignment */
     align-items: center;
-    /* Vertically align items */
     justify-content: space-between;
-    /* Push indicator to the right */
 }
-
-/* --- Offclass Indicator Styling --- */
 .offclass-indicator {
     font-family: var(--body-font);
-    /* Match body font */
     font-size: 0.6em;
-    /* Relative to header font size */
     font-weight: normal;
     color: var(--text-darker);
     border: 1px solid var(--border-color);
@@ -175,406 +191,286 @@ body {
     letter-spacing: 0.5px;
     white-space: nowrap;
     vertical-align: middle;
-    /* Helps align with the main text */
 }
-
-.card-body {
-    padding: 1rem;
-}
-
+.card-body { padding: 1rem; }
 .slot-heading {
     font-weight: 700;
-    /* Explicitly set bold weight */
     color: var(--text-color);
-    /* Use brighter text color */
     margin-top: 1.1rem;
-    /* Slightly increased top margin */
     margin-bottom: 0.6rem;
-    /* Slightly increased bottom margin */
     padding-bottom: 5px;
-    /* Increased padding */
     border-bottom: 1px solid var(--accent-color);
-    /* Solid border, maybe accent color */
     font-size: 1.15em;
-    /* Slightly larger font size */
     letter-spacing: 0.5px;
-    /* Optional: Add slight letter spacing */
 }
-
-/* Target only first heading inside card-body */
-.card-body .slot-heading:first-of-type {
-    margin-top: 0;
-    /* Keep no top margin for the very first slot */
-}
-
-/* Weapon List Styling (inside card-body) */
-.weapon-list {
-    /* list-style: none; */
-    /* Handled by list-unstyled class in JS */
-    padding: 0;
-    margin: 0;
-}
-
+.card-body .slot-heading:first-of-type { margin-top: 0; }
+.weapon-list { padding: 0; margin: 0; }
 .weapon-item {
     display: flex;
     align-items: center;
-    /* Vertically center all items in the row */
     padding: 5px 0;
-    /* Adjust padding */
     border-bottom: 1px solid var(--primary-color);
-    /* Use primary as separator inside card */
     min-height: 28px;
-    /* Ensure consistent minimum height */
 }
-
-.weapon-item:last-child {
-    border-bottom: none;
-    /* Remove border from last item */
-}
-
+.weapon-item:last-child { border-bottom: none; }
 .weapon-icon {
     width: 60px;
-    /* Adjust icon size as needed */
     height: 60px;
-    /* Adjust icon size as needed */
     vertical-align: middle;
-    /* Good practice, though flex align-items handles it */
     margin-right: 10px;
     object-fit: contain;
-    /* Prevent distortion */
     flex-shrink: 0;
-    /* Prevent icon from shrinking */
 }
-
 .weapon-name {
     flex-grow: 1;
-    /* Allow name to take up remaining space */
     margin-right: 10px;
-    /* Space before status/indicator */
     font-size: 0.95em;
     word-break: break-word;
-    /* Prevent long names from overflowing */
 }
-
-.weapon-status {
+.weapon-status { /* Base style for all status spans */
     font-weight: bold;
     padding: 3px 8px;
     border-radius: 3px;
     font-size: 0.9em;
-    min-width: 60px;
-    /* Ensure status text doesn't wrap too easily */
+    min-width: 60px; /* Adjust as needed */
     text-align: center;
     flex-shrink: 0;
-    /* Prevent status from shrinking */
     margin-right: 5px;
-    /* Space between status and potential indicator */
+    display: inline-block;
+    vertical-align: baseline;
+    line-height: 1.4;
+    color: var(--primary-color); /* Default dark text */
+    background-color: var(--text-darker); /* Default background */
 }
 
-/* Status Colors */
-.status-allowed {
-    color: var(--allowed-color);
-}
+/* Weapon Status Colors */
+.status-allowed { background-color: var(--allowed-color); }
+.status-banned { background-color: var(--banned-color); color: var(--text-color); }
+.status-always { background-color: var(--always-color); }
+.status-testing { background-color: var(--testing-color); }
+.status-under-review { background-color: var(--under-review-color); color: var(--text-color); }
+.status-not-used { background-color: var(--not-used-color); }
 
-.status-banned {
-    color: var(--banned-color);
-}
+/* Map Status Colors */
+.status-in-rotation { background-color: var(--in-rotation-color); }
+.status-out-of-rotation { background-color: var(--out-of-rotation-color); }
+.status-undecided { background-color: var(--undecided-color); }
+.status-anchor { background-color: var(--anchor-color); color: var(--text-color); }
+.status-vaulted { background-color: var(--vaulted-color); color: var(--text-color); }
 
-.status-always {
-    color: var(--always-color);
-}
 
-/* --- Ban Reason Indicator Styling --- */
-/* (This style remains the same, just used by Tippy now) */
 .ban-reason-indicator {
     display: inline-flex;
-    /* Use flex for centering content */
     align-items: center;
     justify-content: center;
     font-weight: bold;
     background-color: var(--accent-color);
-    /* Use accent color for background */
     color: var(--primary-color);
-    /* Darker text for contrast */
     border-radius: 50%;
-    /* Make it circular */
     width: 18px;
-    /* Define size */
     height: 18px;
-    /* Define size */
     font-size: 0.8em;
-    /* Adjust font size inside circle */
     line-height: 1;
-    /* Ensure text is vertically centered */
     cursor: help;
-    /* Change cursor to indicate help/info */
     flex-shrink: 0;
-    /* Prevent shrinking */
     margin-left: 3px;
-    /* Small space after the status text */
     transition: background-color 0.2s, color 0.2s;
     user-select: none;
-    /* Prevent selecting the '?' text */
     vertical-align: middle;
-    /* Align with text */
 }
-
 .ban-reason-indicator:hover {
     background-color: var(--text-darker);
-    /* Visual feedback on hover */
     color: var(--primary-color);
 }
 
-/* --- REMOVED Bootstrap Tooltip Customization --- */
-/* .tooltip { ... } */
-/* .tooltip .tooltip-arrow::before { ... } */
-/* .tooltip-inner { ... } */
-
-/* --- Tippy.js Customization (NEW) --- */
-/* Style the main tooltip box */
-.tippy-box {
-    background-color: var(--primary-color);
-    /* Use your theme color */
-    color: var(--text-color);
-    /* Use your theme text color */
-    border-radius: 4px;
-    /* Match your general style */
-    border: 1px solid var(--border-color);
-    font-family: var(--body-font);
-    font-size: 0.85em;
-    /* Adjust size */
-    max-width: 220px;
-    /* Set max width for wrapping */
-}
-
-/* Style the arrow */
-.tippy-arrow {
-    color: var(--primary-color);
-    /* Match the tooltip background */
-}
-
-/* Style arrow border based on placement */
-.tippy-box[data-placement^='top']>.tippy-arrow::before {
-    border-top-color: var(--border-color);
-}
-
-.tippy-box[data-placement^='bottom']>.tippy-arrow::before {
-    border-bottom-color: var(--border-color);
-}
-
-.tippy-box[data-placement^='left']>.tippy-arrow::before {
-    border-left-color: var(--border-color);
-}
-
-.tippy-box[data-placement^='right']>.tippy-arrow::before {
-    border-right-color: var(--border-color);
-}
-
-/* Style the content area inside the tooltip */
-.tippy-content {
-    padding: 8px 12px;
-    /* Adjust padding */
-    white-space: pre-wrap;
-    /* Ensures wrapping and respects newlines */
-    text-align: left;
-}
-
-/* Optional: Add transition (using Tippy's data attributes) */
-.tippy-box[data-animation='fade'][data-state='visible'] {
-    transition-property: opacity;
-    transition-duration: 200ms;
-    /* Adjust speed */
-}
-
-.tippy-box[data-animation='fade'][data-state='hidden'] {
+/* --- Map Card Styling --- */
+.map-card {
+    background-color: var(--bs-card-bg);
+    border: 1px solid var(--bs-card-border-color);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     opacity: 0;
+    transform: translateY(10px);
+}
+
+.map-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.map-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background-color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.map-image-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: var(--primary-color);
+    color: var(--text-darker);
+    font-size: 0.9em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.map-name {
+    font-family: var(--header-font);
+    font-size: 1.3em;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.map-status .weapon-status { /* Reuse base style */
+    font-size: 0.85em;
+    margin-left: 5px;
+}
+
+.map-status .ban-reason-indicator {
+    vertical-align: middle;
+}
+
+/* Map Gamemode Heading */
+.gamemode-heading-col {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.gamemode-heading-col:first-of-type {
+    margin-top: 0;
+}
+h3.gamemode-heading {
+    font-family: var(--header-font);
+    color: var(--text-darker);
+    border-bottom: 1px solid var(--accent-color);
+    padding-top: 0.5rem;
+    padding-bottom: 0.3rem;
+    font-size: 1.6em;
 }
 
 
 /* --- Loading / Error / Main Page --- */
 .loading-container,
 .error-message-container,
-.main-page-content-container {
+.main-page-content-container,
+.info-message-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 40px;
     min-height: 200px;
-    /* Ensure space for spinner/message */
     text-align: center;
 }
-
 .loading-message {
-    /* Specific style for loading text */
     font-size: 1.1em;
     color: var(--text-darker);
     margin-top: 15px;
-    /* Space below spinner */
 }
-
 .error-message,
-.main-page-content {
+.main-page-content,
+.info-message {
     font-size: 1.1em;
     color: var(--text-darker);
 }
-
-.error-message {
-    color: var(--banned-color);
-}
-
-/* Use banned color for errors */
-.main-page-content p {
-    font-size: 1.2em;
-}
-
-/* Style welcome message */
-
+.error-message { color: var(--banned-color); }
+.main-page-content p { font-size: 1.2em; }
 .spinner {
     border: 4px solid rgba(255, 255, 255, 0.2);
-    /* Lighter border */
     border-left-color: var(--text-color);
-    /* Spinner active color */
     border-radius: 50%;
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
 }
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* --- Card Fade-In Animation --- */
-.whitelist-card {
-    opacity: 0;
-    /* Start hidden */
-    transform: translateY(10px);
-    /* Start slightly lower */
-    animation: fadeIn 0.5s ease-out forwards;
-    /* Apply animation */
-}
-
-/* Stagger card animation based on column position */
-/* Targeting the column wrapper ensures correct staggering */
-.col-12:nth-child(1) .whitelist-card {
-    animation-delay: 0.05s;
-}
-
-.col-12:nth-child(2) .whitelist-card {
-    animation-delay: 0.1s;
-}
-
-.col-12:nth-child(3) .whitelist-card {
-    animation-delay: 0.15s;
-}
-
-.col-12:nth-child(4) .whitelist-card {
-    animation-delay: 0.2s;
-}
-
-.col-12:nth-child(5) .whitelist-card {
-    animation-delay: 0.25s;
-}
-
-.col-12:nth-child(6) .whitelist-card {
-    animation-delay: 0.3s;
-}
-
-.col-12:nth-child(7) .whitelist-card {
-    animation-delay: 0.35s;
-}
-
-.col-12:nth-child(8) .whitelist-card {
-    animation-delay: 0.4s;
-}
-
-.col-12:nth-child(9) .whitelist-card {
-    animation-delay: 0.45s;
-}
-
-/* Ensure All-Class card also animates */
-#whitelist-content>.all-class-column .whitelist-card {
-    animation-delay: 0.5s;
-}
-
-/* Add more delays if you expect more than 9 class cards + all-class */
-
 @keyframes fadeIn {
     to {
         opacity: 1;
         transform: translateY(0);
-        /* Move to final position */
     }
 }
 
-/* --- Banned Class Styling --- */
-/* Style the column when a class is banned */
+/* Stagger card animation */
+#whitelist-content > .col-12:nth-child(1) .whitelist-card { animation-delay: 0.05s; }
+#whitelist-content > .col-12:nth-child(2) .whitelist-card { animation-delay: 0.1s; }
+#whitelist-content > .col-12:nth-child(3) .whitelist-card { animation-delay: 0.15s; }
+#whitelist-content > .col-12:nth-child(4) .whitelist-card { animation-delay: 0.2s; }
+#whitelist-content > .col-12:nth-child(5) .whitelist-card { animation-delay: 0.25s; }
+#whitelist-content > .col-12:nth-child(6) .whitelist-card { animation-delay: 0.3s; }
+#whitelist-content > .col-12:nth-child(7) .whitelist-card { animation-delay: 0.35s; }
+#whitelist-content > .col-12:nth-child(8) .whitelist-card { animation-delay: 0.4s; }
+#whitelist-content > .col-12:nth-child(9) .whitelist-card { animation-delay: 0.45s; }
+#whitelist-content > .all-class-column .whitelist-card { animation-delay: 0.5s; }
+
+#maps-content > .map-column:nth-child(1) .map-card { animation-delay: 0.05s; }
+#maps-content > .map-column:nth-child(2) .map-card { animation-delay: 0.1s; }
+#maps-content > .map-column:nth-child(3) .map-card { animation-delay: 0.15s; }
+#maps-content > .map-column:nth-child(4) .map-card { animation-delay: 0.2s; }
+
+
+/* --- Banned Class Styling (Weapons Page) --- */
 .class-banned .whitelist-card {
     opacity: 0.4 !important;
-    /* Dim the card significantly */
     pointer-events: none;
-    /* Prevent interaction with dimmed card */
     animation: none !important;
-    /* Disable fade-in for banned cards */
 }
-
-/* Overlay for banned classes */
 .banned-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    /* Cover the column */
     height: 100%;
-    /* Cover the column */
     background-color: rgba(42, 45, 63, 0.6);
-    /* Semi-transparent overlay using secondary color */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
-    /* Ensure it's above the card content */
-    /* Apply border radius matching the card inside the column */
     border-radius: var(--bs-card-inner-border-radius, 0.375rem);
     overflow: hidden;
-    /* Hide overflowing rotated text */
-    /* Adjust position to account for column padding/gutters (g-4 = 1.5rem total) */
     margin: 0 0.75rem;
     width: calc(100% - 1.5rem);
-    /* Adjust width for gutters */
     pointer-events: none;
-    /* Allow clicks to pass through if needed, though card is disabled */
 }
-
 .banned-overlay-text {
     font-family: var(--header-font);
     font-size: 9em;
-    /* Make text large */
     font-weight: bold;
     color: var(--banned-color);
-    /* Use banned color */
     text-transform: uppercase;
     transform: rotate(-40deg) scale(1.1);
-    /* Rotate and slightly scale */
     opacity: 0.75;
-    /* Slightly less opaque */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    /* Add shadow for depth */
     white-space: nowrap;
-    /* Prevent text wrapping */
     max-width: 150%;
-    /* Allow text to overflow bounds due to rotation */
     text-align: center;
 }
-
-/* Ensure the parent column is positioned for the absolute overlay */
-#whitelist-content>.col-12,
-#whitelist-content>.col-md-6,
-#whitelist-content>.col-lg-4 {
+#whitelist-content > .col-12,
+#whitelist-content > .col-md-6,
+#whitelist-content > .col-lg-4 {
     position: relative;
-    /* Needed for absolute positioning of the overlay */
+}
+
+/* --- Tippy.js Customization --- */
+.tippy-box[data-theme~='custom-dark'] {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: var(--body-font);
+    font-size: 0.85em;
+    max-width: 220px;
+}
+.tippy-box[data-theme~='custom-dark'][data-placement^='top'] > .tippy-arrow::before { border-top-color: var(--border-color); }
+.tippy-box[data-theme~='custom-dark'][data-placement^='bottom'] > .tippy-arrow::before { border-bottom-color: var(--border-color); }
+.tippy-box[data-theme~='custom-dark'][data-placement^='left'] > .tippy-arrow::before { border-left-color: var(--border-color); }
+.tippy-box[data-theme~='custom-dark'][data-placement^='right'] > .tippy-arrow::before { border-right-color: var(--border-color); }
+.tippy-box[data-theme~='custom-dark'] > .tippy-arrow { color: var(--primary-color); }
+.tippy-box[data-theme~='custom-dark'] > .tippy-content {
+    padding: 8px 12px;
+    white-space: pre-wrap;
+    text-align: left;
 }
 
 
@@ -582,131 +478,46 @@ body {
 #footer {
     border-top: 1px solid var(--border-color);
     padding-top: 1rem;
-    /* Add some padding above footer */
     margin-top: 2rem;
-    /* More space above footer */
     font-size: 0.85em;
     color: var(--text-darker);
 }
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 992px) {
-
-    /* Medium devices (tablets, less than 992px) */
-    .banned-overlay-text {
-        font-size: 7.5em;
-        /* Slightly smaller banned text */
-    }
+    .banned-overlay-text { font-size: 7.5em; }
+    .main-nav-link { font-size: 1.1em; }
 }
 
 @media (max-width: 768px) {
-
-    /* Small devices (landscape phones, less than 768px) */
-    .banned-overlay-text {
-        font-size: 8em;
-        /* Can be larger again on single column */
-    }
-
-    .banned-overlay {
-        /* Adjust margin/width if gutters change or look off */
-        margin: 0 0.5rem;
-        width: calc(100% - 1rem);
-    }
-
-    .page-title-custom {
-        font-size: 2.2rem;
-        /* Adjust title size */
-    }
-
-    .card-header.class-header {
-        font-size: 1.6em;
-        /* Adjust card header size */
-    }
+    .banned-overlay-text { font-size: 8em; }
+    .banned-overlay { margin: 0 0.5rem; width: calc(100% - 1rem); }
+    .page-title-custom { font-size: 2.2rem; }
+    .card-header.class-header { font-size: 1.6em; }
+    .sub-navbar .navbar-text { display: none; }
+    .mode-nav-links .nav-link { font-size: 0.9em; padding: 0.3rem 0.6rem !important; }
+    .map-name { font-size: 1.1em; }
+    h3.gamemode-heading { font-size: 1.4em; }
 }
 
 @media (max-width: 480px) {
-
-    /* Extra small devices (phones, less than 480px) */
-    .banned-overlay-text {
-        font-size: 6em;
-        /* Smaller banned text for small screens */
-    }
-
-    .custom-navbar-brand {
-        font-size: 1.5em !important;
-        /* Smaller brand */
-    }
-
-    .page-title-custom {
-        font-size: 1.8rem;
-        /* Smaller title */
-    }
-
-    .card-header.class-header {
-        font-size: 1.4em;
-        /* Smaller card header */
-    }
-
-    .weapon-icon {
-        width: 45px;
-        /* Smaller icons */
-        height: 45px;
-    }
-
-    .weapon-name {
-        font-size: 0.9em;
-    }
-
-    .weapon-status {
-        font-size: 0.8em;
-        min-width: 50px;
-    }
-
-    .ban-reason-indicator {
-        width: 16px;
-        height: 16px;
-        font-size: 0.7em;
-    }
+    .banned-overlay-text { font-size: 6em; }
+    .custom-navbar-brand { font-size: 1.5em !important; }
+    .page-title-custom { font-size: 1.8rem; }
+    .card-header.class-header { font-size: 1.4em; }
+    .weapon-icon { width: 45px; height: 45px; }
+    .weapon-name { font-size: 0.9em; }
+    .weapon-status { font-size: 0.8em; min-width: 50px; padding: 2px 6px; }
+    .ban-reason-indicator { width: 16px; height: 16px; font-size: 0.7em; }
+    .main-nav-link { font-size: 1em; }
+    .map-image { height: 120px; }
+    h3.gamemode-heading { font-size: 1.3em; }
 }
 
-/* Styles for the hub page cards */
-.hub-link-card {
-    text-decoration: none;
-    /* Remove underline from link */
-    color: inherit;
-    /* Inherit text color */
-    display: block;
-    /* Make the link fill the card */
-    height: 100%;
-}
-
-/* Simple feedback on click */
-.hub-link-card:active .card {
-    transform: scale(0.98);
-    /* Slightly shrink card on click */
-    transition: transform 0.1s ease-out;
-}
-
-.hub-link-card .card {
-    transition: transform 0.1s ease-out;
-    /* Smooth transition back */
-}
-
-.hub-link-card .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 150px;
-}
-
-.hub-link-card .card-title {
-    font-family: var(--header-font);
-    font-size: 1.6em;
-    margin-bottom: 0.5rem;
-}
-
-.hub-link-card .card-text {
-    font-size: 0.95em;
-    color: var(--text-darker);
-}
+/* Styles for the hub page cards (If used elsewhere) */
+.hub-link-card { text-decoration: none; color: inherit; display: block; height: 100%; }
+.hub-link-card:active .card { transform: scale(0.98); transition: transform 0.1s ease-out; }
+.hub-link-card .card { transition: transform 0.1s ease-out; }
+.hub-link-card .card-body { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 150px; }
+.hub-link-card .card-title { font-family: var(--header-font); font-size: 1.6em; margin-bottom: 0.5rem; }
+.hub-link-card .card-text { font-size: 0.95em; color: var(--text-darker); }

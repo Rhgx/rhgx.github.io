@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TC2 Comp Hub - Weapons</title>
+    <meta name="description" content="Overview of allowed and banned weapons for Kritzleague.">
+    <meta content="Kritzleague Weapon Whitelist" property="og:title" />
+    <meta name="description" content="Overview of allowed and banned weapons for Kritzleague.">
+    <meta content="Overview of allowed and banned weapons for Kritzleague." property="og:description" />
+    <meta content="https://rhgx.github.io/tc2-comp-whitelist/kritzleague/" property="og:url" />
+    <meta content="https://raw.githubusercontent.com/Rhgx/rhgx.github.io/refs/heads/main/tc2-comp-whitelist/images/kritzleague.png" property="og:image" />
+    <meta content="#e2492f" data-react-helmet="true" name="theme-color" />
+    <meta name="keywords" content="TC2, Typical Colors 2, whitelist, competitive, comp, Dorcus Digital, Dorcus, 4v4, 5v5, 6v6, Prolander, Highlander, Kritzleague">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Link to shared CSS -->
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+</head>
+<body>
+
+<!-- Main Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+    <div class="container-fluid nav-container">
+        <!-- Link brand to root or hub page if desired -->
+        <a class="navbar-brand custom-navbar-brand" href="../">TC2 Comp Hub</a>
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavContent" aria-controls="mainNavContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+         <div class="collapse navbar-collapse" id="mainNavContent">
+             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                 <li class="nav-item">
+                     <!-- Weapons link is active on this page -->
+                     <a class="nav-link main-nav-link active" aria-current="page" href="#">Weapons</a>
+                 </li>
+                 <li class="nav-item">
+                     <!-- Maps link points to the maps directory -->
+                     <a class="nav-link main-nav-link" href="../maps/#6v6">Maps</a>
+                 </li>
+             </ul>
+         </div>
+    </div>
+</nav>
+
+<!-- Main Content Container -->
+<div class="container main-content-container mt-4">
+
+    <!-- Weapons Content Area -->
+    <div> <!-- Removed ID and active class, it's the only content -->
+        <!-- Game Mode Sub-Navigation -->
+        <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 rounded sub-navbar">
+             <div class="container-fluid">
+                 <span class="navbar-text me-3">Select Game Mode:</span>
+                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modeNav" aria-controls="modeNav" aria-expanded="false" aria-label="Toggle mode navigation">
+                     <span class="navbar-toggler-icon"></span>
+                 </button>
+                 <div class="collapse navbar-collapse" id="modeNav">
+                     <ul class="navbar-nav me-auto mb-2 mb-md-0 mode-nav-links">
+                         <li class="nav-item">
+                             <a class="nav-link mode-link" href="#6v6" data-mode="status6v6">6v6</a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link mode-link" href="#highlander" data-mode="statusHL">Highlander</a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link mode-link" href="#prolander" data-mode="statusPro">Prolander</a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link mode-link" href="#4v4_5v5" data-mode="status4v5">4v4/5v5</a>
+                         </li>
+                     </ul>
+                 </div>
+             </div>
+        </nav>
+
+        <h2 id="page-title" class="text-center mb-4 pb-3 page-title-custom">Welcome</h2> <!-- Title will be updated by JS -->
+
+        <!-- Weapon Whitelist Content Area -->
+        <div id="whitelist-content" class="row g-4">
+            <!-- Initial Loading State or Welcome Message -->
+            <div class="col-12 loading-container">
+                 <div class="spinner"></div>
+                 <p class="loading-message mt-3">Loading weapon data...</p>
+            </div>
+            <!-- Weapon content dynamically added here -->
+        </div>
+    </div>
+    <!-- End Weapons Content Area -->
+
+    <footer id="footer" class="mt-5 pt-4 text-center">
+        Website developed by Rocks. Typical Colors 2 is a property of Dorcus Digital<sup>™</sup> and is not affiliated with this site. Weapon icons sourced from the official TC2 Wiki.
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<!-- Link to weapons-specific JS -->
+<script src="scripts.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,482 @@
+[
+  {
+    "name": "Lakeside",
+    "image": "lakeside.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Skyfall",
+    "image": "skyfall.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Himalaya",
+    "image": "himalaya.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Orange",
+    "image": "koth_orange.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Warmtic",
+    "image": "warmtic.png",
+    "gamemode": "koth",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Sawmill",
+    "image": "sawmill.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Rooftop (Old)",
+    "image": "rooftop_old.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Rooftops (New)",
+    "image": "rooftops_new.png",
+    "gamemode": "koth",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Product",
+    "image": "product.png",
+    "gamemode": "koth",
+    "status4v5": "Anchor",
+    "status6v6": "Anchor",
+    "statusPro": "Anchor",
+    "statusHL": "Anchor",
+    "reason": ""
+  },
+  {
+    "name": "Harvest",
+    "image": "harvest.png",
+    "gamemode": "koth",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Defrost",
+    "image": "defrost.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Snoduct",
+    "image": "snoduct.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Arctic",
+    "image": "arctic.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Americana",
+    "image": "americana.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Bagel",
+    "image": "bagel.png",
+    "gamemode": "koth",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Argyle",
+    "image": "argyle.png",
+    "gamemode": "koth",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Citrus",
+    "image": "citrus.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Petra",
+    "image": "petra.png",
+    "gamemode": "koth",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Power Plant",
+    "image": "power_plant.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Shiverift",
+    "image": "shiverift.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Smog",
+    "image": "smog.png",
+    "gamemode": "koth",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Yellowvalley",
+    "image": "ad_yellowvalley.png",
+    "gamemode": "ad",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Cliffhanger",
+    "image": "cliffhanger.png",
+    "gamemode": "ad",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Isolated",
+    "image": "isolated.png",
+    "gamemode": "ad",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Solarpower",
+    "image": "solarpower.png",
+    "gamemode": "ad",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Tropical",
+    "image": "tropical.png",
+    "gamemode": "ad",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Gorge",
+    "image": "gorge.png",
+    "gamemode": "ad",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Liana",
+    "image": "liana.png",
+    "gamemode": "ad",
+    "status4v5": "In Rotation",
+    "status6v6": "In Rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Calamity",
+    "image": "calamity.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Boundary",
+    "image": "boundary.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Vaulted",
+    "statusHL": "Vaulted",
+    "reason": ""
+  },
+  {
+    "name": "Upward",
+    "image": "upward.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Anchor",
+    "statusHL": "Anchor",
+    "reason": ""
+  },
+  {
+    "name": "Badwater",
+    "image": "badwater.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Anchor",
+    "statusHL": "Anchor",
+    "reason": ""
+  },
+  {
+    "name": "Blastport",
+    "image": "blastport.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Banana Shore",
+    "image": "banana_shore.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Manufacturing",
+    "image": "manufacturing.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "Out of rotation",
+    "statusHL": "Out of rotation",
+    "reason": ""
+  },
+  {
+    "name": "Taiga",
+    "image": "taiga.png",
+    "gamemode": "pl",
+    "status4v5": "Out of rotation",
+    "status6v6": "Out of rotation",
+    "statusPro": "In Rotation",
+    "statusHL": "In Rotation",
+    "reason": ""
+  },
+  {
+    "name": "Frost",
+    "image": "cp_frost.png",
+    "gamemode": "cp",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Yellowvalley",
+    "image": "cp_yellowvalley.png",
+    "gamemode": "cp",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "3cp Yellowvalley",
+    "image": "3cp_yellowvalley.png",
+    "gamemode": "cp",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Orange",
+    "image": "cp_orange.png",
+    "gamemode": "cp",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Dam",
+    "image": "dam.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Doublefort",
+    "image": "doublefort.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Mach",
+    "image": "mach.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Rig",
+    "image": "rig.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Runnel",
+    "image": "runnel.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Turbine Pro",
+    "image": "turbine_pro.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Warmlane",
+    "image": "warmlane.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  },
+  {
+    "name": "Whitelane",
+    "image": "whitelane.png",
+    "gamemode": "ctf",
+    "status4v5": "Undecided",
+    "status6v6": "Undecided",
+    "statusPro": "Undecided",
+    "statusHL": "Undecided",
+    "reason": ""
+  }
+]
