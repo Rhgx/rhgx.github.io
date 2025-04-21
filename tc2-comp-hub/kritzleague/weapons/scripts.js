@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (toggler) {
             const collapseInstance = bootstrap.Collapse.getInstance(modeNavbarCollapse);
             if (collapseInstance) collapseInstance.hide();
-            else toggler.click();
+            else toggler.click(); // Fallback if instance isn't found
         }
       }
     });
@@ -74,13 +74,20 @@ document.addEventListener("DOMContentLoaded", () => {
    // Listener for main navbar collapse (optional, good UX)
    const mainNavbarCollapse = document.getElementById('mainNavContent');
    const mainToggler = document.querySelector('.navbar-toggler[data-bs-target="#mainNavContent"]');
-   if (mainNavbarCollapse && mainToggler) {
-       mainNavLinks.forEach(link => { // Assuming mainNavLinks might be needed if you add more links later
+   // Adjust the selector ('#mainNavContent .nav-link') if your main nav links have a different structure or class.
+   const mainNavLinks = mainNavbarCollapse ? mainNavbarCollapse.querySelectorAll('.nav-link') : [];
+
+   if (mainNavbarCollapse && mainToggler && mainNavLinks.length > 0) {
+       mainNavLinks.forEach(link => {
            link.addEventListener('click', () => {
                if (mainNavbarCollapse.classList.contains('show')) {
                    const collapseInstance = bootstrap.Collapse.getInstance(mainNavbarCollapse);
-                   if (collapseInstance) collapseInstance.hide();
-                   else mainToggler.click();
+                   if (collapseInstance) {
+                       collapseInstance.hide();
+                   } else if (mainToggler) {
+                       // Fallback if Bootstrap JS isn't fully loaded or instance isn't attached
+                       mainToggler.click();
+                   }
                }
            });
        });
@@ -101,8 +108,7 @@ async function loadWeaponData() {
 
   try {
     // Fetch ONLY weapon data
-   // const response = await fetch("weapons-whitelist.json"); // old
-      const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/weapons-whitelist.json");
+    const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/weapons-whitelist.json");
 
     if (response.ok) {
         whitelistData = await response.json();
