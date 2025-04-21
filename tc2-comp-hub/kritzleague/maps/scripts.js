@@ -110,7 +110,8 @@ async function loadMapData() {
 
   try {
     // Fetch ONLY map data
-    const response = await fetch("maps-whitelist.json"); // Adjusted path
+    // const response = await fetch("maps-whitelist.json"); // old
+    const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/maps-whitelist.json");
 
     if (response.ok) {
         mapData = await response.json();

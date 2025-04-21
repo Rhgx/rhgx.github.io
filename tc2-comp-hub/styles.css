@@ -468,6 +468,7 @@ h3.gamemode-heading {
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
+    margin: 0 auto;
 }
 
 @keyframes spin {
@@ -745,7 +746,7 @@ h3.gamemode-heading {
 }
 
 .hub-link-card .card {
-    transition: transform 0.1s ease-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .hub-link-card .card-body {
@@ -767,6 +768,10 @@ h3.gamemode-heading {
     color: var(--text-darker);
 }
 
+.hub-link-card:hover .card {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
 .league-logo {
     width: 110px;

@@ -101,7 +101,8 @@ async function loadWeaponData() {
 
   try {
     // Fetch ONLY weapon data
-    const response = await fetch("whitelist.json"); // Adjusted path
+   // const response = await fetch("weapons-whitelist.json"); // old
+      const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/weapons-whitelist.json");
 
     if (response.ok) {
         whitelistData = await response.json();
