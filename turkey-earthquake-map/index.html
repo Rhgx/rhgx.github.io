@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Türkiye'deki Son Depremler</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts - Material Symbols -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <span class="material-symbols-outlined align-middle me-1">
+            earthquake </span
+          ><!-- Changed icon, removed text -->
+          Türkiye Deprem Takipçisi
+        </a>
+        <span class="navbar-text ms-auto" id="dataSourceIndicator">
+          Kaynak: USGS
+        </span>
+      </div>
+    </nav>
+
+    <main class="container mt-4">
+      <h1 class="mb-4 text-center">En Son Depremler</h1>
+
+      <!-- Filters -->
+      <div class="card card-body mb-4 shadow-sm filter-card">
+        <div
+          class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3"
+        >
+          <h5 class="card-title mb-0 me-3">
+            <span class="material-symbols-outlined align-middle me-1">
+              filter_list
+            </span>
+            Filtreler
+          </h5>
+          <div class="d-flex gap-3 flex-wrap align-items-center">
+            <!-- Source Selector (Button Group) -->
+            <div
+              class="btn-group"
+              role="group"
+              aria-label="Data source selection"
+            >
+              <input
+                type="radio"
+                class="btn-check"
+                name="sourceOptions"
+                id="sourceUsgs"
+                value="usgs"
+                autocomplete="off"
+                checked
+              />
+              <label class="btn btn-sm btn-outline-primary" for="sourceUsgs"
+                >USGS</label
+              >
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="sourceOptions"
+                id="sourceKandilli"
+                value="kandilli"
+                autocomplete="off"
+              />
+              <label
+                class="btn btn-sm btn-outline-primary"
+                for="sourceKandilli"
+                >Kandilli</label
+              >
+            </div>
+
+            <!-- View Toggle Switch -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="viewToggleSwitch"
+              />
+              <label class="form-check-label" for="viewToggleSwitch">
+                <span
+                  class="material-symbols-outlined align-middle view-icon"
+                >
+                  map
+                </span>
+                Harita
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 align-items-end">
+          <!-- Magnitude Filter -->
+          <div class="col-md-6 col-lg-3">
+            <label for="magnitudeRange" class="form-label">
+              Min Büyüklük: <span id="magnitudeValue">3.5</span>
+            </label>
+            <div class="d-flex align-items-center">
+              <span class="material-symbols-outlined me-2 filter-icon">
+                waves
+              </span>
+              <input
+                type="range"
+                class="form-range"
+                min="0"
+                max="8"
+                step="0.1"
+                value="3.5"
+                id="magnitudeRange"
+              />
+            </div>
+          </div>
+          <!-- Depth Filter -->
+          <div class="col-md-6 col-lg-3">
+            <label for="depthRange" class="form-label">
+              Maks Derinlik (km): <span id="depthValue">20</span>
+            </label>
+            <div class="d-flex align-items-center">
+              <span class="material-symbols-outlined me-2 filter-icon">
+                vertical_align_bottom
+              </span>
+              <input
+                type="range"
+                class="form-range"
+                min="0"
+                max="100"
+                step="1"
+                value="20"
+                id="depthRange"
+              />
+            </div>
+          </div>
+          <!-- Start Date Filter -->
+          <div class="col-md-6 col-lg-3">
+            <label for="startDate" class="form-label">Başlangıç Tarihi:</label>
+            <input type="date" class="form-control" id="startDate" />
+          </div>
+          <!-- End Date Filter -->
+          <div class="col-md-6 col-lg-3">
+            <label for="endDate" class="form-label">Bitiş Tarihi:</label>
+            <input type="date" class="form-control" id="endDate" />
+          </div>
+        </div>
+        <small class="text-muted mt-2" id="dateFilterNote">
+          Not: Tarih filtresi yalnızca seçili kaynaktan yüklenen en son 100
+          deprem için geçerlidir.
+        </small>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="loading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+        <p class="mt-2">Deprem verileri alınıyor...</p>
+      </div>
+      <!-- Error Message Area -->
+      <div
+        id="error"
+        class="alert alert-danger d-none"
+        role="alert"
+      ></div>
+
+      <!-- View Containers -->
+      <div id="list-view">
+        <div id="earthquake-list" class="row"></div>
+        <p id="no-results-list" class="text-center text-muted mt-3 d-none">
+          Mevcut filtrelere uyan deprem bulunamadı. Filtreleri ayarlamayı
+          deneyin.
+        </p>
+      </div>
+      <div id="map-view" class="d-none">
+        <div id="map"></div>
+        <p id="no-results-map" class="text-center text-muted mt-3 d-none">
+          Mevcut filtrelere uyan deprem bulunamadı. Haritada gösterilecek veri
+          yok.
+        </p>
+      </div>
+
+      <p class="text-muted text-center mt-4" id="attributionText">
+        <small>
+          Veriler
+          <a
+            href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="usgsLink"
+            >USGS</a
+          >
+          ve
+          <a
+            href="http://www.koeri.boun.edu.tr/scripts/lst5.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="kandilliLink"
+            >Kandilli</a
+          >
+          kaynaklarından alınmıştır. Seçili kaynağın en son olayları
+          gösterilmektedir.
+        </small>
+      </p>
+    </main>
+
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05)">
+        © 2025 Türkiye Deprem Takipçisi
+      </div>
+    </footer>
+
+    <!-- JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <!-- Main script, now using modules -->
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
