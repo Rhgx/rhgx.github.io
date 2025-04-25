@@ -40,12 +40,12 @@
         <a class="navbar-brand" href="#">
           <span class="material-symbols-outlined align-middle me-1">
             earthquake </span
-          >
-          Türkiye Deprem Takipçisi
+          >Türkiye Deprem Takipçisi
         </a>
         <span class="navbar-text ms-auto" id="dataSourceIndicator">
           Kaynak: USGS
         </span>
+        <!-- Dark mode toggle removed from here -->
       </div>
     </nav>
 
@@ -64,7 +64,6 @@
             Filtreler
           </h5>
           <div class="d-flex gap-3 flex-wrap align-items-center">
-            <!-- Source Selector (Button Group) -->
             <div
               class="btn-group"
               role="group"
@@ -98,7 +97,6 @@
               >
             </div>
 
-            <!-- View Toggle Switch -->
             <div class="form-check form-switch">
               <input
                 class="form-check-input"
@@ -119,7 +117,6 @@
         </div>
 
         <div class="row g-3 align-items-end">
-          <!-- Magnitude Filter -->
           <div class="col-md-6 col-lg-3">
             <label for="magnitudeRange" class="form-label">
               Min Büyüklük: <span id="magnitudeValue">3.5</span>
@@ -139,10 +136,9 @@
               />
             </div>
           </div>
-          <!-- Depth Filter -->
           <div class="col-md-6 col-lg-3">
             <label for="depthRange" class="form-label">
-              Maks Derinlik (km): <span id="depthValue">20</span>
+              Maks Derinlik (km): <span id="depthValue">100</span>
             </label>
             <div class="d-flex align-items-center">
               <span class="material-symbols-outlined me-2 filter-icon">
@@ -154,17 +150,15 @@
                 min="0"
                 max="100"
                 step="1"
-                value="20"
+                value="100"
                 id="depthRange"
               />
             </div>
           </div>
-          <!-- Start Date Filter -->
           <div class="col-md-6 col-lg-3">
             <label for="startDate" class="form-label">Başlangıç Tarihi:</label>
             <input type="date" class="form-control" id="startDate" />
           </div>
-          <!-- End Date Filter -->
           <div class="col-md-6 col-lg-3">
             <label for="endDate" class="form-label">Bitiş Tarihi:</label>
             <input type="date" class="form-control" id="endDate" />
@@ -176,21 +170,17 @@
         </small>
       </div>
 
-      <!-- Loading Indicator -->
       <div id="loading" class="text-center my-5">
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Yükleniyor...</span>
         </div>
         <p class="mt-2">Deprem verileri alınıyor...</p>
       </div>
-      <!-- Error Message Area -->
       <div
         id="error"
         class="alert alert-danger d-none"
         role="alert"
       ></div>
-
-      <!-- View Containers -->
       <div id="list-view">
         <div id="earthquake-list" class="row"></div>
         <p id="no-results-list" class="text-center text-muted mt-3 d-none">
@@ -206,6 +196,7 @@
         </p>
       </div>
 
+      <!-- Attribution -->
       <p class="text-muted text-center mt-4" id="attributionText">
         <small>
           Veriler
@@ -218,7 +209,7 @@
           >
           ve
           <a
-            href="http://www.koeri.boun.edu.tr/scripts/lst5.asp"
+            href="https://www.koeri.boun.edu.tr/scripts/lst0.asp"
             target="_blank"
             rel="noopener noreferrer"
             id="kandilliLink"
@@ -236,6 +227,19 @@
       </div>
     </footer>
 
+    <!-- Floating Theme Toggle Button -->
+    <button
+      type="button"
+      class="btn btn-primary rounded-circle shadow-sm position-fixed bottom-0 end-0 m-3"
+      id="themeToggleButton"
+      title="Koyu/Açık Mod Değiştir"
+      aria-label="Koyu veya açık tema modunu değiştir"
+    >
+      <span class="material-symbols-outlined" id="themeToggleIcon">
+        <!-- Icon will be set by JS -->
+      </span>
+    </button>
+
     <!-- JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -247,7 +251,7 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <!-- Main script, now using modules -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="script.js"></script>
   </body>
 </html>

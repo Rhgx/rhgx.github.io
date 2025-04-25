@@ -1,4 +1,9 @@
+// modules/dom.js
 // DOM Element References
+
+export const htmlElement = document.documentElement; // Add HTML element
+export const themeToggleButton = document.getElementById("themeToggleButton"); // Add Theme button
+export const themeToggleIcon = document.getElementById("themeToggleIcon"); // Add Theme button icon
 
 export const earthquakeListContainer = document.getElementById("earthquake-list");
 export const listView = document.getElementById("list-view");
@@ -13,9 +18,9 @@ export const depthValueSpan = document.getElementById("depthValue");
 export const startDateInput = document.getElementById("startDate");
 export const endDateInput = document.getElementById("endDate");
 export const viewToggleSwitch = document.getElementById("viewToggleSwitch");
-export const sourceUsgsRadio = document.getElementById("sourceUsgs"); // New
-export const sourceKandilliRadio = document.getElementById("sourceKandilli"); // New
-export const sourceRadioGroup = document.querySelectorAll('input[name="sourceOptions"]'); // New
+export const sourceUsgsRadio = document.getElementById("sourceUsgs");
+export const sourceKandilliRadio = document.getElementById("sourceKandilli");
+export const sourceRadioGroup = document.querySelectorAll('input[name="sourceOptions"]');
 export const dataSourceIndicator = document.getElementById("dataSourceIndicator");
 export const noResultsList = document.getElementById("no-results-list");
 export const noResultsMap = document.getElementById("no-results-map");

@@ -1,8 +1,11 @@
+// modules/api.js
+// API Fetching and Data Parsing
 import { state, setAllEarthquakes } from './state.js';
 import { USGS_API_URL, KANDILLI_API_URL } from './config.js';
-import { showLoading, showError } from './ui.js'; 
-import { applyFiltersAndDisplay } from './filters.js';
+import { showLoading, showError } from './ui.js';
+import { applyFiltersAndDisplay } from './filters.js'; // Import filter logic
 
+/** Parses USGS GeoJSON data into the standardized format. */
 function parseUsgsData(usgsData) {
     if (!usgsData || !usgsData.features) return [];
     return usgsData.features.map(feature => {
@@ -15,8 +18,9 @@ function parseUsgsData(usgsData) {
     }).filter(item => item !== null);
 }
 
+/** Parses Kandilli API data into the standardized format. */
 function parseKandilliData(kandilliData) {
-     if (!kandilliData || !kandilliData.result) return [];
+    if (!kandilliData || !kandilliData.result) return [];
     return kandilliData.result.map(item => {
         let timeMs = null;
         if (item.created_at && typeof item.created_at === 'number') { timeMs = item.created_at * 1000; }
@@ -32,9 +36,13 @@ function parseKandilliData(kandilliData) {
     }).filter(item => item !== null);
 }
 
+/** Fetches earthquake data from the selected source API. */
 export async function fetchEarthquakes() {
   showLoading(true);
   showError(null);
+  // Display functions will clear old content
+  // if (dom.earthquakeListContainer) dom.earthquakeListContainer.innerHTML = ""; // Not needed here
+  // if (state.earthquakeLayer) state.earthquakeLayer.clearLayers(); // Handled by display functions
 
   const apiUrl = state.currentSource === 'kandilli' ? KANDILLI_API_URL : USGS_API_URL;
   console.log(`Fetching data from: ${state.currentSource.toUpperCase()}`);
@@ -52,16 +60,16 @@ export async function fetchEarthquakes() {
     } else {
         parsedData = parseUsgsData(rawData);
     }
-    setAllEarthquakes(parsedData);
+    setAllEarthquakes(parsedData); // Update state with standardized data
 
     console.log(`Parsed ${state.allEarthquakes.length} earthquakes from ${state.currentSource.toUpperCase()}`);
-    applyFiltersAndDisplay();
+    applyFiltersAndDisplay(); // Now call the filter/display logic
 
   } catch (err) {
     console.error(`Deprem verileri (${state.currentSource.toUpperCase()}) alınamadı:`, err);
     showError(`Deprem verileri (${state.currentSource.toUpperCase()}) yüklenemedi. Lütfen daha sonra tekrar deneyin veya kaynağı değiştirin. (${err.message})`);
-    setAllEarthquakes([]);
-    applyFiltersAndDisplay();
+    setAllEarthquakes([]); // Clear data in state on error
+    applyFiltersAndDisplay(); // Show no results message
   } finally {
     showLoading(false);
   }

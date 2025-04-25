@@ -1,3 +1,4 @@
+// modules/state.js
 // Application State Management
 
 export const state = {
@@ -8,14 +9,16 @@ export const state = {
         startDate: null,
         endDate: null,
     },
-    map: null,
-    earthquakeLayer: null,
+    map: null, // Leaflet map instance L.map()
+    earthquakeLayer: null, // Leaflet layer group L.layerGroup() for markers
     mapInitialized: false,
     currentView: "list", // 'list' or 'map'
     currentSource: "usgs", // 'usgs' or 'kandilli'
+    currentTheme: 'light', // Add current theme state ('light' or 'dark')
+    tileLayerInstance: null, // Add instance for the current L.tileLayer
 };
 
-// Function to update magnitude filter (example of state mutation)
+// --- Filter State Setters ---
 export function setMinMagnitude(value) {
     state.currentFilters.minMagnitude = value;
 }
@@ -32,6 +35,7 @@ export function setEndDate(value) {
     state.currentFilters.endDate = value;
 }
 
+// --- Source & View State Setters ---
 export function setCurrentSource(value) {
     state.currentSource = value;
 }
@@ -40,10 +44,12 @@ export function setCurrentView(value) {
     state.currentView = value;
 }
 
+// --- Data State Setter ---
 export function setAllEarthquakes(data) {
     state.allEarthquakes = data;
 }
 
+// --- Map State Setters ---
 export function setMapInstance(mapInstance) {
     state.map = mapInstance;
 }
@@ -52,10 +58,15 @@ export function setEarthquakeLayer(layer) {
     state.earthquakeLayer = layer;
 }
 
-export function setAoeLayer(layer) {
-    state.aoeLayer = layer;
-}
-
 export function setMapInitialized(value) {
     state.mapInitialized = value;
+}
+
+export function setTileLayerInstance(layer) {
+    state.tileLayerInstance = layer;
+}
+
+// --- Theme State Setter ---
+export function setCurrentTheme(theme) {
+    state.currentTheme = theme;
 }

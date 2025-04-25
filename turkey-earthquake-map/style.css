@@ -1,7 +1,29 @@
 /* General Styles */
+:root {
+  --app-bg-color: #f8f9fa; /* Bootstrap light gray */
+  --app-text-color: #212529; /* Bootstrap default text */
+  --app-card-bg: #ffffff;
+  --app-card-border: #dee2e6;
+  --app-footer-bg: rgba(0, 0, 0, 0.05);
+  --app-filter-icon-color: #6c757d;
+  --app-muted-text-color: #6c757d;
+}
+
+[data-bs-theme="dark"] {
+  --app-bg-color: #212529; /* Bootstrap dark */
+  --app-text-color: #dee2e6; /* Bootstrap light gray text */
+  --app-card-bg: #343a40; /* Bootstrap gray-800 */
+  --app-card-border: #495057; /* Bootstrap gray-700 */
+  --app-footer-bg: rgba(255, 255, 255, 0.05);
+  --app-filter-icon-color: #adb5bd; /* Bootstrap gray-500 */
+  --app-muted-text-color: #adb5bd;
+}
+
 body {
   font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--app-bg-color);
+  color: var(--app-text-color);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
 /* Navbar */
@@ -15,14 +37,18 @@ body {
 
 /* Filter Card */
 .filter-card {
-  background-color: #ffffff;
-  border: none;
+  background-color: var(--app-card-bg);
+  border-color: var(--app-card-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .filter-icon {
-  color: #6c757d;
+  color: var(--app-filter-icon-color);
 }
 .form-range {
   cursor: pointer;
+}
+.filter-card .text-muted {
+    color: var(--app-muted-text-color) !important; /* Override Bootstrap */
 }
 
 /* View & Source Toggles */
@@ -31,20 +57,22 @@ body {
   margin-right: 4px;
   vertical-align: text-bottom;
 }
-/* Ensure button group fits well */
 .filter-card .btn-group {
   vertical-align: middle; /* Align with switch */
 }
 
 /* Earthquake Card Styles */
 .earthquake-card {
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  border: 1px solid #dee2e6;
-  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease;
+  border: 1px solid var(--app-card-border);
+  background-color: var(--app-card-bg);
 }
 .earthquake-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+[data-bs-theme="dark"] .earthquake-card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.08);
 }
 .card-title .material-symbols-outlined {
   vertical-align: text-bottom;
@@ -55,12 +83,17 @@ body {
   vertical-align: middle;
   margin-right: 8px;
   font-size: 1.2em;
-  color: #0d6efd;
+  /* Color handled by Bootstrap text color now */
 }
 .magnitude-badge {
   font-size: 1rem;
   font-weight: bold;
+  /* Background/color set via inline style */
 }
+.earthquake-card .text-muted {
+    color: var(--app-muted-text-color) !important; /* Override Bootstrap */
+}
+
 
 /* Loading Spinner */
 #loading .spinner-border {
@@ -73,22 +106,16 @@ body {
   height: 600px;
   width: 100%;
   border-radius: 0.375rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--app-card-border); /* Use variable */
   margin-bottom: 1rem;
   cursor: default;
-}
-
-/* AOE Circle Style */
-.aoe-circle {
-  fill-opacity: 0;
-  stroke: false;
-  color: #ff0000;
-  weight: 0;
+  transition: border-color 0.3s ease;
 }
 
 /* Leaflet Popup Customization */
 .leaflet-popup-content-wrapper {
   border-radius: 0.375rem;
+  /* Dark mode popup background/text handled by Leaflet/browser */
 }
 .leaflet-popup-content {
   font-size: 0.9rem;
@@ -97,31 +124,87 @@ body {
   display: block;
   margin-bottom: 5px;
   font-size: 1rem;
-  color: #333;
+  /* Color handled by browser/Leaflet */
 }
 .leaflet-popup-content p {
   margin: 2px 0;
 }
 .leaflet-popup-content small.text-muted {
   font-size: 0.8em;
+  color: var(--app-muted-text-color); /* Style muted text in popup */
 }
+.leaflet-popup-content .badge {
+    /* Ensure badge styles apply in popup */
+    font-size: 0.9em;
+    padding: 0.3em 0.5em;
+    vertical-align: middle;
+}
+
+
+/* Footer */
+footer.bg-light { /* Target specific footer */
+    background-color: var(--app-footer-bg) !important; /* Override Bootstrap */
+    transition: background-color 0.3s ease;
+}
+footer .p-3 {
+    background-color: transparent !important; /* Make inner div transparent */
+}
+
+/* General muted text */
+.text-muted {
+    color: var(--app-muted-text-color) !important;
+}
+
+/* --- Floating Theme Toggle Button --- */
+#themeToggleButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1055; /* Above most content, below modals */
+  width: 56px;   /* Standard FAB size */
+  height: 56px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem; /* Icon size */
+  overflow: hidden; /* Hide icon during animation transition if needed */
+}
+
+#themeToggleButton .material-symbols-outlined {
+  vertical-align: middle; /* Helps sometimes, but flex center is better */
+  line-height: 1; /* Ensure icon is vertically centered */
+}
+
+/* Optional: Adjust button color in dark mode */
+[data-bs-theme="dark"] #themeToggleButton {
+    background-color: var(--bs-secondary-bg); /* Lighter gray in dark mode */
+    border-color: var(--bs-secondary-border-subtle);
+    color: var(--bs-emphasis-color); /* Ensure icon color contrasts */
+}
+[data-bs-theme="dark"] #themeToggleButton:hover {
+    background-color: var(--bs-tertiary-bg);
+}
+
+/* --- Dark Mode Range Slider Track --- */
+[data-bs-theme="dark"] .form-range::-webkit-slider-runnable-track {
+  background-color: #495057; /* Bootstrap gray-700 - A visible dark gray */
+}
+
+[data-bs-theme="dark"] .form-range::-moz-range-track {
+  background-color: #495057; /* Bootstrap gray-700 - A visible dark gray */
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
-  .filter-card .col-lg-3 {
-    margin-top: 0.5rem;
-  }
+  .filter-card .col-lg-3 { margin-top: 0.5rem; }
 }
 @media (max-width: 768px) {
-  h1 {
-    font-size: 1.8rem;
-  }
-  .filter-card .col-md-6 {
-    margin-bottom: 1rem;
-  }
-  #map {
-    height: 450px;
-  }
+  h1 { font-size: 1.8rem; }
+  .filter-card .col-md-6 { margin-bottom: 1rem; }
+  #map { height: 450px; }
 }
 
 /* Material Symbols default style */

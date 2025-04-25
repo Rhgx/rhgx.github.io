@@ -1,9 +1,10 @@
-// Event Listener Setup
+// modules/events.js
 import * as dom from './dom.js';
 import { state, setMinMagnitude, setMaxDepth, setStartDate, setEndDate, setCurrentSource, setCurrentView } from './state.js';
 import { fetchEarthquakes } from './api.js';
 import { applyFiltersAndDisplay } from './filters.js';
 import { updateDataSourceUI } from './ui.js';
+import { toggleTheme, initializeTheme } from './theme.js';
 
 export function setupEventListeners() {
     // Filter Changes
@@ -22,53 +23,54 @@ export function setupEventListeners() {
       setCurrentView(newView);
       dom.listView.classList.toggle("d-none", newView === "map");
       dom.mapView.classList.toggle("d-none", newView === "list");
-      applyFiltersAndDisplay(); // Re-render in the new view
+      applyFiltersAndDisplay();
     });
 
-    // Source Radio Button Change (using event delegation on the group is possible, but direct listeners are fine here)
+    // Source Radio Button Change
     dom.sourceRadioGroup.forEach(radio => {
         radio.addEventListener('change', (e) => {
             if (e.target.checked) {
-                setCurrentSource(e.target.value); // Update state
-                updateDataSourceUI(); // Update UI indicator
-                fetchEarthquakes(); // Fetch data from the new source
+                setCurrentSource(e.target.value);
+                updateDataSourceUI();
+                fetchEarthquakes();
             }
         });
     });
 
+    // Theme Toggle Button Click
+    dom.themeToggleButton.addEventListener('click', toggleTheme);
 
-    // Click Listener for List Items (Event Delegation)
+    // Click Listener for List Items (Event Delegation) - AOE removed
     dom.earthquakeListContainer.addEventListener('click', (e) => {
         const card = e.target.closest('.earthquake-card');
         if (!card) return;
         const quakeId = card.dataset.quakeId;
         if (!quakeId) return;
-
         const quakeData = state.allEarthquakes.find(q => q.id === quakeId);
         if (!quakeData) return;
-
         const lat = quakeData.lat;
         const lon = quakeData.lon;
-        const magnitude = quakeData.mag;
-
-        if (lat == null || lon == null || magnitude == null) return;
+        if (lat == null || lon == null) return;
 
         if (state.currentView !== 'map') {
             dom.viewToggleSwitch.checked = true;
-            dom.viewToggleSwitch.dispatchEvent(new Event('change')); // Trigger view switch
+            // Manually trigger change event to ensure view switch logic runs
+            dom.viewToggleSwitch.dispatchEvent(new Event('change'));
             setTimeout(() => {
-                if (state.mapInitialized) {
-                     if(state.map) state.map.flyTo([lat, lon], Math.max(state.map.getZoom(), 8)); // Use state.map
+                // Check map is initialized *after* potential view switch
+                if (state.mapInitialized && state.map) {
+                     state.map.flyTo([lat, lon], Math.max(state.map.getZoom(), 8));
                 }
-            }, 200);
+            }, 200); // Delay allows map init/display
         } else {
-             if(state.map) state.map.flyTo([lat, lon], Math.max(state.map.getZoom(), 8)); // Use state.map
+             if(state.map) state.map.flyTo([lat, lon], Math.max(state.map.getZoom(), 8));
         }
     });
 }
 
 // Initial setup function
 export function initializeApp() {
+    initializeTheme(); // Initialize theme FIRST
     // Set initial filter display values
     dom.magnitudeValueSpan.textContent = parseFloat(dom.magnitudeRange.value).toFixed(1);
     dom.depthValueSpan.textContent = parseInt(dom.depthRange.value, 10);
@@ -76,7 +78,7 @@ export function initializeApp() {
     setMinMagnitude(parseFloat(dom.magnitudeRange.value));
     setMaxDepth(parseInt(dom.depthRange.value, 10));
 
-    updateDataSourceUI(); // Set initial source indicator
+    updateDataSourceUI(); // Set initial source indicator text/highlight
     setupEventListeners(); // Attach all listeners
-    fetchEarthquakes(); // Fetch initial data
+    fetchEarthquakes(); // Fetch initial data (map init happens inside if needed)
 }
