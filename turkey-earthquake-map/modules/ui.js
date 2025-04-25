@@ -238,44 +238,57 @@ export function displayEarthquakesOnList(earthquakes) {
 
 /** Displays earthquakes on the Leaflet map. */
 export function displayEarthquakesOnMap(earthquakes) {
-  if (!state.mapInitialized || !state.earthquakeLayer) return;
-  state.earthquakeLayer.clearLayers();
-  dom.noResultsMap.classList.toggle("d-none", earthquakes.length === 0);
-
-  earthquakes.forEach((quake) => {
-    const lat = quake.lat;
-    const lon = quake.lon;
-    const depth = quake.depth.toFixed(1);
-    const magnitude = quake.mag !== null ? quake.mag : -1;
-    const displayMag = magnitude >= 0 ? magnitude.toFixed(1) : "Yok";
-    const absoluteTime = formatTime(quake.time); // Get absolute time
-    const relativeTime = formatRelativeTime(quake.time); // Get relative time
-    const location = translateLocationString(quake.locationString, quake.source);
-    const url = quake.url;
-
-    if (magnitude < 0 || lat == null || lon == null) return;
-
-    const badgeStyle = getMagnitudeBadgeStyle(magnitude);
-
-    const marker = L.circleMarker([lat, lon], {
-      radius: getMagnitudeRadius(magnitude),
-      fillColor: getMagnitudeColor(magnitude),
-      color: "#000000", // Black border for light map
-      weight: 0.5, opacity: 1, fillOpacity: 0.7,
-    });
-
-    // Update popup content
-    let popupContent = `<b>${location}</b><p>Büyüklük: <span class="badge" style="${badgeStyle}">${displayMag}</span></p><p>Derinlik: ${depth} km</p><p>Zaman: ${absoluteTime} <small class="text-muted">(${relativeTime})</small></p>`; // Combined time display
-    if (url) {
-        popupContent += `<a href="${url}" target="_blank" rel="noopener noreferrer">Daha Fazla Detay (${quake.source.toUpperCase()})</a>`;
-    } else {
-        popupContent += `<small class="text-muted">Kaynak: ${quake.source.toUpperCase()}</small>`;
+    // Ensure map and layer are ready
+    if (!state.mapInitialized || !state.earthquakeLayer) {
+        console.warn("Map not ready for displaying markers.");
+        return;
     }
-
-    marker.bindPopup(popupContent);
-    state.earthquakeLayer.addLayer(marker);
-  });
-}
+    // Clear previous markers
+    state.earthquakeLayer.clearLayers();
+  
+    // --- Corrected Logic for "No Results" Message ---
+    // Hide the message if there ARE earthquakes (length > 0 is true)
+    // Show the message if there are NO earthquakes (length > 0 is false)
+    dom.noResultsMap.classList.toggle("d-none", earthquakes.length > 0);
+    // --- End Correction ---
+  
+    // Add markers for each earthquake
+    earthquakes.forEach((quake) => {
+      const lat = quake.lat;
+      const lon = quake.lon;
+      const depth = quake.depth.toFixed(1);
+      const magnitude = quake.mag !== null ? quake.mag : -1;
+      const displayMag = magnitude >= 0 ? magnitude.toFixed(1) : "Yok";
+      const absoluteTime = formatTime(quake.time);
+      const relativeTime = formatRelativeTime(quake.time);
+      const location = translateLocationString(quake.locationString, quake.source);
+      const url = quake.url;
+  
+      // Skip if data is invalid
+      if (magnitude < 0 || lat == null || lon == null) return;
+  
+      const badgeStyle = getMagnitudeBadgeStyle(magnitude);
+  
+      // Use global L from Leaflet script tag
+      const marker = L.circleMarker([lat, lon], {
+        radius: getMagnitudeRadius(magnitude),
+        fillColor: getMagnitudeColor(magnitude),
+        color: "#000000", // Black border for light map
+        weight: 0.5, opacity: 1, fillOpacity: 0.7,
+      });
+  
+      // Popup content
+      let popupContent = `<b>${location}</b><p>Büyüklük: <span class="badge" style="${badgeStyle}">${displayMag}</span></p><p>Derinlik: ${depth} km</p><p>Zaman: ${absoluteTime} <small class="text-muted">(${relativeTime})</small></p>`;
+      if (url) {
+          popupContent += `<a href="${url}" target="_blank" rel="noopener noreferrer">Daha Fazla Detay (${quake.source.toUpperCase()})</a>`;
+      } else {
+          popupContent += `<small class="text-muted">Kaynak: ${quake.source.toUpperCase()}</small>`;
+      }
+  
+      marker.bindPopup(popupContent);
+      state.earthquakeLayer.addLayer(marker);
+    });
+  }
 
 /** Shows or hides the loading indicator. */
 export function showLoading(isLoading) {
