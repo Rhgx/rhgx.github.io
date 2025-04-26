@@ -28,7 +28,6 @@ const SLOT_ORDER = [
 const ALL_CLASS_SLOT_ORDER = ["Melee"];
 const OFFCLASSES = [
   "Arsonist",
-  "Annihilator",
   "Brute",
   "Mechanic",
   "Marksman",
