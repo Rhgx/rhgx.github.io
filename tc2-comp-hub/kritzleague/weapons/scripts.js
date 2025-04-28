@@ -281,7 +281,6 @@ function displayWeaponMode(modeKey, shouldShowOffclassIndicator) {
           if (item.icon) {
             const imgIcon = document.createElement("img");
             const classFolderName = className.toLowerCase().replace(/\s+/g, "_");
-            // Adjusted icon path
             imgIcon.src = `../../icons/${classFolderName}/${item.icon}`;
             imgIcon.alt = item.weapon;
             imgIcon.className = "weapon-icon";
@@ -302,14 +301,47 @@ function displayWeaponMode(modeKey, shouldShowOffclassIndicator) {
           weaponStatusSpan.className = getStatusClass(status);
           listItem.appendChild(weaponStatusSpan);
 
-          // Show reason indicator if banReason exists, regardless of status
+          // --- MODIFIED REASON LOGIC START ---
           if (item.banReason && item.banReason.trim() !== "") {
-            const reasonIndicator = document.createElement("span");
-            reasonIndicator.className = "ban-reason-indicator";
-            reasonIndicator.textContent = "?";
-            reasonIndicator.setAttribute("data-tippy-content", item.banReason);
-            listItem.appendChild(reasonIndicator);
+            let isBannedInAnyMode = false;
+            let isAllowedInAllModes = true; // Assume allowed until proven otherwise
+
+            // Check status across all defined modes
+            for (const mapKey in MODE_MAP) {
+              const checkModeKey = MODE_MAP[mapKey].key;
+              const modeStatus = item[checkModeKey]?.toLowerCase(); // Use optional chaining and lowercase
+
+              if (modeStatus === "banned") {
+                isBannedInAnyMode = true;
+              }
+              // If it's not explicitly 'allowed' in any mode, it's not allowed in all
+              // Treat undefined/null/other statuses as 'not allowed' for this check
+              if (modeStatus !== "allowed") {
+                isAllowedInAllModes = false;
+              }
+            }
+
+            const currentStatusLower = status.toLowerCase();
+
+            // Determine if the indicator should be shown for the *current* view
+            const shouldShowReason =
+              // Rule 1: Banned in at least one mode? Show ONLY if banned in THIS mode.
+              (isBannedInAnyMode && currentStatusLower === "banned") ||
+              // Rule 2: Allowed in ALL modes? Show always.
+              isAllowedInAllModes;
+
+            if (shouldShowReason) {
+              const reasonIndicator = document.createElement("span");
+              reasonIndicator.className = "ban-reason-indicator";
+              reasonIndicator.textContent = "?";
+              reasonIndicator.setAttribute(
+                "data-tippy-content",
+                item.banReason
+              );
+              listItem.appendChild(reasonIndicator);
+            }
           }
+          // --- MODIFIED REASON LOGIC END ---
 
           weaponList.appendChild(listItem);
         });
@@ -357,7 +389,6 @@ function displayWeaponMode(modeKey, shouldShowOffclassIndicator) {
           listItem.className = "weapon-item";
           if (item.icon) {
             const imgIcon = document.createElement("img");
-            // Adjusted icon path
             imgIcon.src = `../../icons/all-class/${item.icon}`;
             imgIcon.alt = item.weapon;
             imgIcon.className = "weapon-icon";
@@ -378,14 +409,47 @@ function displayWeaponMode(modeKey, shouldShowOffclassIndicator) {
           weaponStatusSpan.className = getStatusClass(status);
           listItem.appendChild(weaponStatusSpan);
 
-          // Show reason indicator if banReason exists, regardless of status
+          // --- DUPLICATED MODIFIED REASON LOGIC START ---
           if (item.banReason && item.banReason.trim() !== "") {
-            const reasonIndicator = document.createElement("span");
-            reasonIndicator.className = "ban-reason-indicator";
-            reasonIndicator.textContent = "?";
-            reasonIndicator.setAttribute("data-tippy-content", item.banReason);
-            listItem.appendChild(reasonIndicator);
+            let isBannedInAnyMode = false;
+            let isAllowedInAllModes = true; // Assume allowed until proven otherwise
+
+            // Check status across all defined modes
+            for (const mapKey in MODE_MAP) {
+              const checkModeKey = MODE_MAP[mapKey].key;
+              const modeStatus = item[checkModeKey]?.toLowerCase(); // Use optional chaining and lowercase
+
+              if (modeStatus === "banned") {
+                isBannedInAnyMode = true;
+              }
+              // If it's not explicitly 'allowed' in any mode, it's not allowed in all
+              // Treat undefined/null/other statuses as 'not allowed' for this check
+              if (modeStatus !== "allowed") {
+                isAllowedInAllModes = false;
+              }
+            }
+
+            const currentStatusLower = status.toLowerCase();
+
+            // Determine if the indicator should be shown for the *current* view
+            const shouldShowReason =
+              // Rule 1: Banned in at least one mode? Show ONLY if banned in THIS mode.
+              (isBannedInAnyMode && currentStatusLower === "banned") ||
+              // Rule 2: Allowed in ALL modes? Show always.
+              isAllowedInAllModes;
+
+            if (shouldShowReason) {
+              const reasonIndicator = document.createElement("span");
+              reasonIndicator.className = "ban-reason-indicator";
+              reasonIndicator.textContent = "?";
+              reasonIndicator.setAttribute(
+                "data-tippy-content",
+                item.banReason
+              );
+              listItem.appendChild(reasonIndicator);
+            }
           }
+          // --- DUPLICATED MODIFIED REASON LOGIC END ---
 
           weaponList.appendChild(listItem);
         });
