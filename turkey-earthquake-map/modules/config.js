@@ -27,3 +27,6 @@ export const TILE_ATTRIBUTION_DARK = '&copy; <a href="https://www.openstreetmap.
 // Translation Data
 export const directionMap = { N: "K", S: "G", E: "D", W: "B", NE: "KD", SE: "GD", SW: "GB", NW: "KB", NNE: "KKD", ENE: "DKD", ESE: "DGD", SSE: "GGD", SSW: "GGB", WSW: "BGB", WNW: "BKB", NNW: "KKB" };
 export const countryMap = { Turkey: "Türkiye", Greece: "Yunanistan", Georgia: "Gürcistan", Armenia: "Ermenistan", Azerbaijan: "Azerbaycan", Iran: "İran", Iraq: "Irak", Syria: "Suriye", Bulgaria: "Bulgaristan", Cyprus: "Kıbrıs", "Dodecanese Islands, Greece": "Oniki Adalar, Yunanistan" };
+
+// --- Fault Line Filtering Buffer ---
+export const FAULT_BUFFER_DEGREES = 1.5; // Degrees to extend bounding box for filtering faults
