@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Variable to store the interval ID for relative time updates
   let relativeTimeIntervalId = null;
 
-  // Hardcoded Standard Timezone Offsets (No DST Handling!)
+  // Hardcoded Standard Timezone Offsets (Hours from UTC)
   const standardTzOffsets = {
     ACDT: 10.5, // Australian Central Daylight Time (UTC+10:30)
     ACST: 9.5, // Australian Central Standard Time (UTC+09:30)
@@ -224,108 +224,235 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   
 
-  // --- Main Parsing Function ---
+  // --- Main Parsing Function (Stricter Native Check) ---
   function parseDateTime(inputStr) {
     inputStr = inputStr.trim();
     let parsedDate = null;
-    try { /* Native Parsing */
-      const potentialDate = new Date(inputStr);
-      if (!isNaN(potentialDate.getTime())) {
-        const year = potentialDate.getFullYear();
-        if (year > 1900 && year < 3000) {
-          const likelyDateChars = /[/-]|(@)|(^\d{4})/;
-          if ( likelyDateChars.test(inputStr) || potentialDate.getFullYear() >= 1971 ) {
-            console.log("Parser: Used native Date() constructor.");
-            return potentialDate;
-          } else { console.log( "Parser: Native Date() resulted in old date for time-like input, trying custom." ); }
-        }
-      }
-    } catch (e) { /* Ignore */ }
+
+    // --- Attempt 1: Native Date Parsing (ONLY for full ISO8601 with offset/Z) ---
+    // Examples: 2025-05-03T13:30:00Z, 2025-05-03T10:30:00-03:00, 2025-05-03T15:30:00+0200
+    const isoWithOffsetRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/i;
+    if (isoWithOffsetRegex.test(inputStr)) {
+        try {
+            const potentialDate = new Date(inputStr);
+            if (!isNaN(potentialDate.getTime())) {
+                const year = potentialDate.getFullYear();
+                if (year > 1900 && year < 3000) {
+                    console.log("Parser: Used native Date() constructor for ISO8601 w/ Offset/Z.");
+                    return potentialDate;
+                }
+            }
+        } catch (e) { /* Ignore native parsing errors */ }
+    }
+
+    // --- Attempt 2: Custom Parsing for "Time @ D/M/Y" ---
     const europeanDateTimeMatch = inputStr.match(/^(.*?)\s*@\s*(\d{1,2}[./-]\d{1,2}[./-]\d{4})$/i);
-    if (europeanDateTimeMatch) { /* Time @ D/M/Y */
+    if (europeanDateTimeMatch) {
       console.log("Parser: Matched Time @ D/M/Y format.");
       const timePartStr = europeanDateTimeMatch[1].trim();
       const datePartStr = europeanDateTimeMatch[2];
       parsedDate = parseEuropeanDateAndTime(datePartStr, timePartStr);
       if (parsedDate) return parsedDate;
     }
-    if (!parsedDate) { /* Time-only */
+
+    // --- Attempt 3: Time-only formats (apply to today) ---
+    if (!parsedDate) {
       console.log("Parser: Attempting time-only format.");
       parsedDate = parseTimeOnly(inputStr);
       if (parsedDate) return parsedDate;
     }
+
+    // --- Fallback ---
     console.log("Parser: All parsing attempts failed.");
-    return null;
+    return null; // Could not parse
   }
 
   // --- Helper: Parse European Date + Time Part ---
   function parseEuropeanDateAndTime(dateStr, timeStr) {
     const dateParts = dateStr.split(/[./-]/);
     if (dateParts.length !== 3) return null;
-    const day = parseInt(dateParts[0], 10);
-    const month = parseInt(dateParts[1], 10) - 1;
-    const year = parseInt(dateParts[2], 10);
+    const day = parseInt(dateParts[0], 10); const month = parseInt(dateParts[1], 10) - 1; const year = parseInt(dateParts[2], 10);
     const tempDateCheck = new Date(Date.UTC(year, month, day));
     if ( isNaN(tempDateCheck.getTime()) || tempDateCheck.getUTCFullYear() !== year || tempDateCheck.getUTCMonth() !== month || tempDateCheck.getUTCDate() !== day ) return null;
-    const timeResult = parseTimeComponents(timeStr);
+    const timeResult = parseTimeComponents(timeStr); // Use updated parser
     if (!timeResult) return null;
-    const { hours, minutes, seconds, timeZoneStr } = timeResult;
-    return constructDate( year, month, day, hours, minutes, seconds, timeZoneStr );
+    const { hours, minutes, seconds, offsetInfo } = timeResult; // Get offsetInfo
+    return constructDate( year, month, day, hours, minutes, seconds, offsetInfo ); // Pass offsetInfo
   }
 
   // --- Helper: Parse Time-Only (Apply to Today) ---
   function parseTimeOnly(timeStr) {
-    const timeResult = parseTimeComponents(timeStr);
+    const timeResult = parseTimeComponents(timeStr); // Use updated parser
     if (!timeResult) return null;
-    const { hours, minutes, seconds, timeZoneStr } = timeResult;
-    const today = new Date();
-    const year = today.getUTCFullYear();
-    const month = today.getUTCMonth();
-    const day = today.getUTCDate();
-    return constructDate( year, month, day, hours, minutes, seconds, timeZoneStr );
+    const { hours, minutes, seconds, offsetInfo } = timeResult; // Get offsetInfo
+    const today = new Date(); const year = today.getUTCFullYear(); const month = today.getUTCMonth(); const day = today.getUTCDate();
+    return constructDate( year, month, day, hours, minutes, seconds, offsetInfo ); // Pass offsetInfo
   }
 
-  // --- Helper: Parse Time String into Components (Handles : and ., and H AM/PM) ---
+  // --- Helper: Parse Time String into Components (REVISED for Combined TZN/Offset) ---
    function parseTimeComponents(timeStr) {
     timeStr = timeStr.toUpperCase().trim();
-    let hours = 0, minutes = 0, seconds = 0, timeZoneStr = null, isPM = false;
-    const timePatternRegex = /^(\d{1,2})([:.])(\d{2})(?:\\2(\d{2}))?/;
-    const timeMatch = timeStr.match(timePatternRegex);
+    console.log("Parsing time components for:", timeStr);
+    let hours = 0, minutes = 0, seconds = 0;
+    let offsetInfo = null; // Default: assume local time
+
+    // Regex V1: Match H:M[:S] or H.M[:S] at the start
+    const timeHMS_Regex = /^(\d{1,2})([:.])(\d{2})(?:\\2(\d{2}))?/;
+    // Regex V2: Match H AM/PM or HH AM/PM at the start
+    const timeH_AmPm_Regex = /^(\d{1,2})\s*(AM|PM)$/;
+
+    let timeMatch = timeStr.match(timeHMS_Regex);
+    let amPmOnlyMatch = !timeMatch ? timeStr.match(timeH_AmPm_Regex) : null;
+
+    let coreTimeLength = 0;
+
     if (timeMatch) {
-      hours = parseInt(timeMatch[1], 10); minutes = parseInt(timeMatch[3], 10); seconds = timeMatch[4] ? parseInt(timeMatch[4], 10) : 0;
-      const remainingStr = timeStr.substring(timeMatch[0].length).trim();
-      if (remainingStr === "AM" || remainingStr === "PM") {
-        isPM = remainingStr === "PM"; timeZoneStr = null;
-        if (hours < 1 || hours > 12) return null;
+        coreTimeLength = timeMatch[0].length;
+        hours = parseInt(timeMatch[1], 10); minutes = parseInt(timeMatch[3], 10); seconds = timeMatch[4] ? parseInt(timeMatch[4], 10) : 0;
+        if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) { console.error("Invalid HMS components"); return null; }
+    } else if (amPmOnlyMatch) {
+        coreTimeLength = amPmOnlyMatch[0].length;
+        hours = parseInt(amPmOnlyMatch[1], 10); const isPM = amPmOnlyMatch[2] === "PM"; minutes = 0; seconds = 0;
+        if (hours < 1 || hours > 12) { console.error("Invalid H for AM/PM"); return null; }
         if (isPM && hours !== 12) hours += 12; else if (!isPM && hours === 12) hours = 0;
-      } else if (/^[A-Z]+$/.test(remainingStr)) { timeZoneStr = remainingStr; if (hours < 0 || hours > 23) return null; }
-      else if (remainingStr === "") { timeZoneStr = null; if (hours < 0 || hours > 23) return null; }
-      else { return null; }
-    } else {
-      const hourAmPmRegex = /^(\d{1,2})\s*(AM|PM)$/; const hourAmPmMatch = timeStr.match(hourAmPmRegex);
-      if (hourAmPmMatch) {
-        hours = parseInt(hourAmPmMatch[1], 10); isPM = hourAmPmMatch[2] === "PM"; minutes = 0; seconds = 0; timeZoneStr = null;
-        if (hours < 1 || hours > 12) return null;
-        if (isPM && hours !== 12) hours += 12; else if (!isPM && hours === 12) hours = 0;
-      } else { return null; }
+        offsetInfo = null; // This format implies local time
+    } else { console.error("No core time pattern matched."); return null; }
+
+    // --- Analyze the part AFTER the core time ---
+    let remainingStr = timeStr.substring(coreTimeLength).trim();
+    console.log(`Remainder after core time: "${remainingStr}"`);
+
+    let baseOffsetHours = 0; // Start with UTC as base if no standard TZN found
+    let standardTznFound = false;
+
+    // Check for Standard TZN at the beginning of the remainder
+    for (const tzn in standardTzOffsets) {
+        if (remainingStr.startsWith(tzn)) {
+            baseOffsetHours = standardTzOffsets[tzn];
+            remainingStr = remainingStr.substring(tzn.length).trim(); // Remove TZN
+            standardTznFound = true;
+            console.log(`Found standard TZN: ${tzn}, Base Offset: ${baseOffsetHours}, New Remainder: "${remainingStr}"`);
+            break; // Found one, stop looking
+        }
     }
-    if (minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) return null;
-    return { hours, minutes, seconds, timeZoneStr };
+
+    // Now check the (potentially modified) remainder for explicit offset, UTC, AM/PM etc.
+    let explicitOffsetHours = 0;
+    let explicitOffsetMinutes = 0;
+    let explicitOffsetFound = false;
+
+    if (remainingStr) {
+        const explicitOffsetRegex = /^(?:UTC|GMT)?([+-])(\d{1,2})(?::?(\d{2}))?$/;
+        const explicitOffsetMatch = remainingStr.match(explicitOffsetRegex);
+        const hhmmOffsetRegex = /^[+-]\d{4}$/;
+        const hhmmOffsetMatch = !explicitOffsetMatch && remainingStr.match(hhmmOffsetRegex);
+
+        if (explicitOffsetMatch) {
+            const sign = explicitOffsetMatch[1] === '+' ? 1 : -1;
+            explicitOffsetHours = sign * parseInt(explicitOffsetMatch[2], 10);
+            explicitOffsetMinutes = sign * (explicitOffsetMatch[3] ? parseInt(explicitOffsetMatch[3], 10) : 0);
+            if (Math.abs(explicitOffsetHours) > 14 || Math.abs(explicitOffsetMinutes) > 59) { console.error("Invalid explicit offset values"); return null; }
+            explicitOffsetFound = true;
+            console.log("Remainder matched explicit offset:", { H: explicitOffsetHours, M: explicitOffsetMinutes });
+        } else if (hhmmOffsetMatch) {
+            const sign = remainingStr[0] === '+' ? 1 : -1;
+            explicitOffsetHours = sign * parseInt(remainingStr.substring(1, 3), 10);
+            explicitOffsetMinutes = sign * parseInt(remainingStr.substring(3, 5), 10);
+            if (Math.abs(explicitOffsetHours) > 14 || Math.abs(explicitOffsetMinutes) > 59) { console.error("Invalid HHMM offset values"); return null; }
+            explicitOffsetFound = true;
+            console.log("Remainder matched HHMM offset:", { H: explicitOffsetHours, M: explicitOffsetMinutes });
+        } else if (!standardTznFound && (remainingStr === 'Z' || remainingStr === 'UTC' || remainingStr === 'GMT')) {
+            // Only treat as UTC if no standard TZN was found before it
+            offsetInfo = { type: 'utc' };
+            console.log("Remainder matched UTC/GMT/Z");
+        } else if (!standardTznFound && !explicitOffsetFound && (remainingStr === 'AM' || remainingStr === 'PM')) {
+            // Handle AM/PM following H:M:S only if no TZN/Offset was found
+            if (!timeMatch) { console.error("AM/PM found but not after H:M:S"); return null; }
+            const isPM = remainingStr === "PM";
+            if (hours < 1 || hours > 12) { console.error(`Hour ${hours} invalid for AM/PM after H:M:S`); return null; }
+            if (isPM && hours !== 12) hours += 12; else if (!isPM && hours === 12) hours = 0;
+            offsetInfo = null; // AM/PM implies local
+            console.log(`Remainder matched AM/PM after H:M:S, adjusted H=${hours}, assuming local.`);
+        } else if (remainingStr !== "") {
+             // If there's still something left that wasn't parsed as TZN or Offset
+             console.warn(`Unrecognized trailing string: "${remainingStr}". Ignoring.`);
+             // Keep existing offsetInfo (might be from standard TZN or null)
+        }
+    }
+
+    // --- Determine final offsetInfo ---
+    if (offsetInfo?.type === 'utc') {
+        // Already set as UTC
+    } else if (standardTznFound || explicitOffsetFound) {
+        // Combine base (from TZN, defaults to 0) and explicit offsets
+        const finalOffsetHours = baseOffsetHours + explicitOffsetHours;
+        const finalOffsetMinutes = explicitOffsetMinutes; // Explicit minutes override base
+        // Basic validation for combined offset
+        if (Math.abs(finalOffsetHours) > 14 || Math.abs(finalOffsetMinutes) > 59) {
+             console.error(`Resulting combined offset H:${finalOffsetHours} M:${finalOffsetMinutes} is invalid.`);
+             return null;
+        }
+        const totalMinutes = (finalOffsetHours * 60) + finalOffsetMinutes;
+        offsetInfo = { type: 'offset', totalMinutes: totalMinutes };
+        console.log("Final combined offset info:", offsetInfo);
+    }
+    // Else: offsetInfo remains null (local time)
+
+    // Final validation on potentially adjusted hours
+     if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
+        console.error(`Final time validation failed: H=${hours} M=${minutes} S=${seconds}`);
+        return null;
+    }
+
+    console.log("parseTimeComponents successful:", { hours, minutes, seconds, offsetInfo });
+    return { hours, minutes, seconds, offsetInfo };
   }
 
-  // --- Helper: Construct Date Object from Components and Timezone ---
-  function constructDate( year, month, day, hours, minutes, seconds, timeZoneStr ) {
-    let finalDate; const hardcodedOffset = standardTzOffsets[timeZoneStr];
-    if (timeZoneStr === "UTC" || timeZoneStr === "GMT") { finalDate = new Date( Date.UTC(year, month, day, hours, minutes, seconds, 0) ); }
-    else if (hardcodedOffset !== undefined) { const targetHourUTC = hours - hardcodedOffset; finalDate = new Date( Date.UTC(year, month, day, targetHourUTC, minutes, seconds, 0) ); }
-    else { finalDate = new Date(year, month, day, hours, minutes, seconds, 0); if (timeZoneStr) console.warn( `Unrecognized timezone "${timeZoneStr}". Interpreting time as local. DST not handled.` ); }
-    if (isNaN(finalDate.getTime())) return null;
-    return finalDate;
+  // --- Helper: Construct Date Object from Components and Timezone (REVISED) ---
+  function constructDate( year, month, day, hours, minutes, seconds, offsetInfo ) {
+    let finalDate;
+    console.log("Constructing date with:", { year, month, day, hours, minutes, seconds, offsetInfo });
+
+    try {
+        if (offsetInfo?.type === 'offset') {
+            // Explicit or combined offset provided (offset is total minutes from UTC)
+            const totalOffsetMinutes = offsetInfo.totalMinutes;
+            const timestampInputZone = Date.UTC(year, month, day, hours, minutes, seconds, 0);
+            if (isNaN(timestampInputZone)) throw new Error("Intermediate UTC timestamp is NaN");
+            const targetUTCTimestamp = timestampInputZone - (totalOffsetMinutes * 60 * 1000);
+            finalDate = new Date(targetUTCTimestamp);
+            console.log(`Offset Calculation: Input TS ${timestampInputZone}, Offset Min ${totalOffsetMinutes}, Target UTC TS ${targetUTCTimestamp}`);
+
+        } else if (offsetInfo?.type === 'utc') {
+            // Explicit UTC/GMT/Z
+            finalDate = new Date( Date.UTC(year, month, day, hours, minutes, seconds, 0) );
+            console.log("Constructed as UTC");
+
+        } else {
+            // Assume LOCAL time (offsetInfo is null)
+            finalDate = new Date(year, month, day, hours, minutes, seconds, 0);
+            console.log("Constructed as Local Time");
+        }
+
+        // Final validation
+        if (isNaN(finalDate.getTime())) {
+          throw new Error("Constructed date resulted in NaN");
+        }
+        console.log("Constructed Date:", finalDate.toISOString());
+        return finalDate;
+
+    } catch (error) {
+        console.error("Error during date construction:", error);
+        return null; // Return null if construction fails
+    }
   }
 
-  // --- Formatting Logic ---
+
+  // --- Formatting Logic (Unchanged) ---
   function formatDateTime(date) {
+    if (!date || isNaN(date.getTime())) { console.error("Invalid date passed to formatDateTime:", date); return Object.keys(outputFields).reduce((acc, key) => { acc[key] = { display: "Error", copy: "Error" }; return acc; }, {}); }
     const locale = undefined; const timestamp = Math.floor(date.getTime() / 1000);
+     if (isNaN(timestamp)) { console.error("Calculated timestamp is NaN in formatDateTime"); return Object.keys(outputFields).reduce((acc, key) => { acc[key] = { display: "Error", copy: "Error" }; return acc; }, {}); }
     const previewOptions = { t: { timeStyle: "short" }, T: { timeStyle: "medium" }, d: { dateStyle: "short" }, D: { dateStyle: "long" }, f: { dateStyle: "long", timeStyle: "short" }, F: { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" }, R: {} };
     try {
       const discordFormats = { t: `<t:${timestamp}:t>`, T: `<t:${timestamp}:T>`, d: `<t:${timestamp}:d>`, D: `<t:${timestamp}:D>`, f: `<t:${timestamp}:f>`, F: `<t:${timestamp}:F>`, R: `<t:${timestamp}:R>` };
@@ -334,103 +461,48 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) { console.error("Error formatting date:", error); return Object.keys(outputFields).reduce((acc, key) => { acc[key] = { display: "Error", copy: "Error" }; return acc; }, {}); }
   }
 
-  // --- Relative Time Logic ---
+  // --- Relative Time Logic (Unchanged) ---
   function getRelativeTime(date) {
+     if (!date || isNaN(date.getTime())) return "Invalid Date";
     const now = new Date(); const diffSeconds = Math.round((date.getTime() - now.getTime()) / 1000);
     if ("RelativeTimeFormat" in Intl) { const rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" }); const absSeconds = Math.abs(diffSeconds); if (absSeconds < 60) return rtf.format(diffSeconds, "second"); const diffMinutes = Math.round(diffSeconds / 60); if (absSeconds < 3600) return rtf.format(diffMinutes, "minute"); const diffHours = Math.round(diffMinutes / 60); if (absSeconds < 86400) return rtf.format(diffHours, "hour"); const diffDays = Math.round(diffHours / 24); if (absSeconds < 2592000) return rtf.format(diffDays, "day"); const diffMonths = Math.round(diffDays / 30.44); if (absSeconds < 31536000) return rtf.format(diffMonths, "month"); const diffYears = Math.round(diffDays / 365.25); return rtf.format(diffYears, "year"); }
     else { /* Fallback */ if (diffSeconds === 0) return "just now"; const tense = diffSeconds < 0 ? "ago" : "from now"; const absSeconds = Math.abs(diffSeconds); if (absSeconds < 60) return `${absSeconds} seconds ${tense}`; const minutes = Math.round(absSeconds / 60); if (minutes < 60) return `${minutes} minutes ${tense}`; const hours = Math.round(minutes / 60); if (hours < 24) return `${hours} hours ${tense}`; const days = Math.round(hours / 24); return `${days} days ${tense}`; }
   }
 
-  // --- Event Listeners ---
+  // --- Event Listeners (Unchanged structure, updated error/placeholder text) ---
   convertBtn.addEventListener("click", () => {
-    // Clear existing interval
-    if (relativeTimeIntervalId) {
-      clearInterval(relativeTimeIntervalId);
-      relativeTimeIntervalId = null;
-      console.log("Cleared previous relative time interval.");
-    }
-
+    if (relativeTimeIntervalId) { clearInterval(relativeTimeIntervalId); relativeTimeIntervalId = null; console.log("Cleared previous relative time interval."); }
     const inputStr = dateTimeInput.value;
-    if (!inputStr) {
-      errorAlert.textContent = "Please enter a date/time value.";
-      errorAlert.classList.remove("d-none");
-      outputArea.classList.add("d-none");
-      return;
-    }
-
+    if (!inputStr) { errorAlert.textContent = "Please enter a date/time value."; errorAlert.classList.remove("d-none"); outputArea.classList.add("d-none"); return; }
+    console.log("--- Starting Conversion ---");
     const parsedDate = parseDateTime(inputStr);
-
-    if (parsedDate) {
+    console.log("Parsed Date Object:", parsedDate);
+    if (parsedDate && !isNaN(parsedDate.getTime())) {
+      console.log("Formatting valid date...");
       const formattedResults = formatDateTime(parsedDate);
-
-      // Populate fields
-      for (const key in outputFields) {
-        if ( outputFields.hasOwnProperty(key) && formattedResults.hasOwnProperty(key) ) {
-          const field = outputFields[key];
-          const result = formattedResults[key];
-          field.value = result.display;
-          field.dataset.copyValue = result.copy;
-        }
-      }
-
-      // Start interval for relative time
+      console.log("Formatted Results:", formattedResults);
+      let hasError = false;
+      for (const key in outputFields) { if ( outputFields.hasOwnProperty(key) && formattedResults.hasOwnProperty(key) ) { const field = outputFields[key]; const result = formattedResults[key]; if (result.display === "Error") hasError = true; field.value = result.display; field.dataset.copyValue = result.copy; } else if (outputFields.hasOwnProperty(key)) { outputFields[key].value = "N/A"; outputFields[key].dataset.copyValue = "N/A"; } }
+      if (hasError) { console.error("Error occurred during formatting step."); errorAlert.textContent = "An error occurred while formatting the date."; errorAlert.classList.remove("d-none"); outputArea.classList.add("d-none"); return; }
       const relativeOutputElement = outputFields.relative;
-      if (relativeOutputElement) { // Check if element exists
-          relativeTimeIntervalId = setInterval(() => {
-            if (document.body.contains(relativeOutputElement)) {
-                const currentRelativeString = getRelativeTime(parsedDate);
-                relativeOutputElement.value = currentRelativeString; // Update display ONLY
-            } else {
-                clearInterval(relativeTimeIntervalId);
-                relativeTimeIntervalId = null;
-                console.log("Relative output element removed, clearing interval.");
-            }
-          }, 1000); // Update every second
-          console.log("Started relative time interval:", relativeTimeIntervalId);
-      }
-
-
-      outputArea.classList.remove("d-none");
-      errorAlert.classList.add("d-none");
+      if (relativeOutputElement) { relativeTimeIntervalId = setInterval(() => { if (document.body.contains(relativeOutputElement) && parsedDate && !isNaN(parsedDate.getTime())) { const currentRelativeString = getRelativeTime(parsedDate); relativeOutputElement.value = currentRelativeString; } else { clearInterval(relativeTimeIntervalId); relativeTimeIntervalId = null; console.log("Relative output element removed or date invalid, clearing interval."); } }, 1000); console.log("Started relative time interval:", relativeTimeIntervalId); }
+      outputArea.classList.remove("d-none"); errorAlert.classList.add("d-none");
     } else {
-      // Error: Clear fields
-      for (const key in outputFields) {
-        if (outputFields.hasOwnProperty(key)) {
-          outputFields[key].value = "";
-          delete outputFields[key].dataset.copyValue;
-        }
-      }
-      errorAlert.textContent =
-        "Could not parse date/time. Check format (e.g., '14:30', '2 PM', '10.00 CST @ 3/5/2025', '2025-05-03T10:00Z').";
-      errorAlert.classList.remove("d-none");
-      outputArea.classList.add("d-none");
+      console.error("Parsing failed or resulted in invalid date.");
+      for (const key in outputFields) { if (outputFields.hasOwnProperty(key)) { outputFields[key].value = ""; delete outputFields[key].dataset.copyValue; } }
+      errorAlert.textContent = "Could not parse date/time. Check format (e.g., '14:30 UTC+3', '2 PM', '10.00 CST+2 @ 3/5/2025', '2025-05-03T10:00:00-04:00')."; // Updated example
+      errorAlert.classList.remove("d-none"); outputArea.classList.add("d-none");
     }
+     console.log("--- Conversion Finished ---");
   });
 
-  // Copy Button Listeners
-  document.querySelectorAll(".copy-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-      const targetInputId = button.getAttribute("data-target");
-      const targetInput = document.getElementById(targetInputId);
-      const valueToCopy = targetInput ? targetInput.dataset.copyValue : null;
-      if (valueToCopy && navigator.clipboard) {
-        navigator.clipboard.writeText(valueToCopy).then(() => {
-            const originalIcon = button.innerHTML; button.innerHTML = '<i class="bi bi-check-lg"></i> Copied!'; button.disabled = true; button.classList.add("btn-success"); button.classList.remove("btn-outline-secondary");
-            setTimeout(() => { button.innerHTML = originalIcon; button.disabled = false; button.classList.remove("btn-success"); button.classList.add("btn-outline-secondary"); }, 1500);
-          }).catch((err) => { console.error("Failed to copy text: ", err); alert("Failed to copy. Please copy manually."); });
-      } else if (valueToCopy) { /* Fallback */
-        const tempTextArea = document.createElement("textarea"); tempTextArea.value = valueToCopy; tempTextArea.style.position = "absolute"; tempTextArea.style.left = "-9999px"; document.body.appendChild(tempTextArea); tempTextArea.select();
-        try { document.execCommand("copy"); } catch (err) { alert("Failed to copy. Please copy manually."); } finally { document.body.removeChild(tempTextArea); }
-      } else { console.error("Could not find value to copy for target:", targetInputId); }
-    });
-  });
+  // Copy Button Listeners (Unchanged)
+  document.querySelectorAll(".copy-btn").forEach((button) => { button.addEventListener("click", () => { const targetInputId = button.getAttribute("data-target"); const targetInput = document.getElementById(targetInputId); const valueToCopy = targetInput ? targetInput.dataset.copyValue : null; if (valueToCopy && valueToCopy !== "Error" && valueToCopy !== "N/A" && navigator.clipboard) { navigator.clipboard.writeText(valueToCopy).then(() => { const originalIcon = button.innerHTML; button.innerHTML = '<i class="bi bi-check-lg"></i> Copied!'; button.disabled = true; button.classList.add("btn-success"); button.classList.remove("btn-outline-secondary"); setTimeout(() => { button.innerHTML = originalIcon; button.disabled = false; button.classList.remove("btn-success"); button.classList.add("btn-outline-secondary"); }, 1500); }).catch((err) => { console.error("Failed to copy text: ", err); alert("Failed to copy. Please copy manually."); }); } else if (valueToCopy && valueToCopy !== "Error" && valueToCopy !== "N/A") { /* Fallback */ const tempTextArea = document.createElement("textarea"); tempTextArea.value = valueToCopy; tempTextArea.style.position = "absolute"; tempTextArea.style.left = "-9999px"; document.body.appendChild(tempTextArea); tempTextArea.select(); try { document.execCommand("copy"); } catch (err) { alert("Failed to copy. Please copy manually."); } finally { document.body.removeChild(tempTextArea); } } else { console.error("Could not find valid value to copy for target:", targetInputId); } }); });
 
-  // Enter Key Listener
-  dateTimeInput.addEventListener("keypress", (event) => {
-    if (event.key === "Enter") { event.preventDefault(); convertBtn.click(); }
-  });
+  // Enter Key Listener (Unchanged)
+  dateTimeInput.addEventListener("keypress", (event) => { if (event.key === "Enter") { event.preventDefault(); convertBtn.click(); } });
 
-  // Placeholder Text
-  dateTimeInput.placeholder = "e.g., 14:30, 2 PM, 14.30.15, 10.00 CST @ 3/5/2025, 2025-05-03T10:00Z";
+  // Placeholder Text (Updated)
+  dateTimeInput.placeholder = "e.g., 14:30 UTC+3, 2 PM, 10.00 CST+2 @ 3/5/2025, 2025-05-03T10:00-0400";
 
 }); // End DOMContentLoaded
