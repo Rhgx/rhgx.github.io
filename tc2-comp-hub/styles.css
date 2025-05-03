@@ -206,7 +206,8 @@ body {
     border: 1px solid var(--border-color);
     padding: 2px 6px;
     border-radius: 3px;
-    margin-left: 150px;
+    margin-left: 12px;
+    margin-right: 4px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -790,17 +791,19 @@ h3.gamemode-heading {
 /* --- Map Legend Styling --- */
 #map-legend {
     position: fixed;
-    /* top: 80px; */ /* REMOVE or comment out this line */
-    bottom: 15px; /* ADD this line - Adjust value for spacing from bottom */
+    bottom: 15px;
     right: 15px;
-    width: 220px; /* Adjust width as needed */
-    background-color: var(--primary-color); /* Darker background */
+    width: 220px;
+    background-color: var(--primary-color);
     border: 1px solid var(--border-color);
     border-radius: 5px;
     padding: 10px 15px;
-    z-index: 1050; /* Ensure it's above most content but potentially below modals */
+    z-index: 1050;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-    font-size: 0.85em; /* Smaller font for the legend */
+    font-size: 0.85em;
+    opacity: 0; /* ADD: Start hidden */
+    transform: translateY(15px); /* ADD: Start slightly lower */
+    /* pointer-events: none; */ /* Optional: Disable interaction until visible */
 }
 
 #map-legend .legend-title {

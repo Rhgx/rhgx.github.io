@@ -1,9 +1,9 @@
 // /kritzleague/maps/scripts.js
 let mapData = null;
 const mapContentArea = document.getElementById("maps-content");
-const mapPageTitle = document.getElementById("map-page-title"); // Added
-const modeNavLinks = document.querySelectorAll(".mode-link"); // Added
-const modeNavbarCollapse = document.getElementById("modeNav"); // Added
+const mapPageTitle = document.getElementById("map-page-title");
+const modeNavLinks = document.querySelectorAll(".mode-link");
+const modeNavbarCollapse = document.getElementById("modeNav");
 
 // --- Constants for Map Modes ---
 const MAP_MODE_MAP = {
@@ -64,6 +64,30 @@ function getStatusClass(statusText) {
 
 // --- Event Listeners ---
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM Loaded. Initializing animations and data loading."); // Debug log
+
+  // **** START: Animate Map Legend ****
+  anime({
+      targets: '#map-legend',
+      opacity: [0, 1],        // Fade in
+      translateY: [15, 0],    // Slide up (match initial CSS transform)
+      duration: 600,          // Animation duration in ms
+      delay: 200,             // Wait a bit before starting (optional)
+      easing: 'easeOutQuad',  // Smooth easing
+      begin: () => {
+          // Optional: Re-enable pointer events when animation starts if disabled initially
+          // const legend = document.getElementById('map-legend');
+          // if (legend) legend.style.pointerEvents = 'auto';
+          console.log("Map legend animation starting."); // Debug log
+      },
+      complete: () => {
+          console.log("Map legend animation complete."); // Debug log
+      }
+  });
+  // **** END: Animate Map Legend ****
+
+
+  // --- Existing Initialization Code ---
   loadMapData();
   window.addEventListener("hashchange", handleMapRouteChange); // Listen for hash changes
 
@@ -98,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
            });
        });
    }
+   // --- End Existing Initialization Code ---
 });
 // --- End Event Listeners ---
 
@@ -113,8 +138,7 @@ async function loadMapData() {
 
   try {
     // Fetch ONLY map data
-    // const response = await fetch("maps-whitelist.json");
-   const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/maps-whitelist.json");
+    const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/maps-whitelist.json");
 
     if (response.ok) {
         mapData = await response.json();
@@ -294,7 +318,12 @@ function displayMaps(modeKey) {
                     reasonIndicator.className = "ban-reason-indicator ms-2";
                     reasonIndicator.textContent = "?";
                     reasonIndicator.setAttribute("data-tippy-content", map.reason);
-                    statusSpan.parentNode.appendChild(reasonIndicator);
+                    // Append after statusSpan
+                    if (statusSpan.parentNode) {
+                        statusSpan.parentNode.appendChild(reasonIndicator);
+                    } else {
+                        mapStatus.appendChild(reasonIndicator); // Fallback
+                    }
                 }
                 cardDiv.appendChild(cardBody);
                 colDiv.appendChild(cardDiv);
@@ -311,7 +340,7 @@ function displayMaps(modeKey) {
          allowHTML: true, placement: 'top', animation: 'fade', theme: 'custom-dark'
      });
 
-    // ADD Anime.js Animation Call
+    // ADD Anime.js Animation Call for Map Cards
     anime({
         targets: '#maps-content .map-card', // Target the cards just added
         opacity: [0, 1],        // Fade in

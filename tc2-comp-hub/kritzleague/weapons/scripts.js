@@ -306,7 +306,6 @@ function displayWeapons(modeKey) {
       const classData = weaponData[className];
       const colDiv = document.createElement("div");
 
-      // --- START MODIFICATION ---
       // Default column classes for standard class cards
       let columnClasses = `col-12 col-md-6 col-lg-4 mb-4 class-column ${className.toLowerCase()}-column`;
 
@@ -318,7 +317,6 @@ function displayWeapons(modeKey) {
       }
 
       colDiv.className = columnClasses; // Apply the determined classes
-      // --- END MODIFICATION ---
 
 
       const cardDiv = document.createElement("div");
@@ -326,32 +324,44 @@ function displayWeapons(modeKey) {
 
       const cardHeader = document.createElement("div");
       cardHeader.className = "card-header class-header";
-      // Add space before caps, handle "All-Class" specifically
-      cardHeader.textContent = className === "All-Class" ? "All Class" : className.replace(/([A-Z])/g, ' $1').trim();
 
-      // Add Off-Class and Restriction Indicator (using safe navigation)
+      // --- START HEADER MODIFICATION ---
+      // 1. Create span for the class name text
+      const classNameSpan = document.createElement("span");
+      classNameSpan.textContent = className === "All-Class" ? "All Class" : className.replace(/([A-Z])/g, ' $1').trim();
+      cardHeader.appendChild(classNameSpan); // Append the name span first
+
+      // 2. Check for Off-Class/Banned status
       const classStatusInfo = classRestrictionData?.[className];
       const currentClassStatus = classStatusInfo?.[modeKey];
 
       if (currentClassStatus === "Off-Class" || currentClassStatus === "Banned") {
-          const offClassSpan = document.createElement("span");
-          offClassSpan.className = "offclass-indicator";
-          offClassSpan.textContent = currentClassStatus;
-          cardHeader.appendChild(offClassSpan);
+          // 3. Create a container for the indicator and tooltip
+          const indicatorGroup = document.createElement('div');
+          // Optional: Add flex alignment if needed within the group, though parent align-items might suffice
+          // indicatorGroup.className = 'd-flex align-items-center';
 
+          // 4. Create and add the Off-Class/Banned indicator to the group
+          const offClassSpan = document.createElement("span");
+          offClassSpan.className = "offclass-indicator"; // No margin needed here now
+          offClassSpan.textContent = currentClassStatus;
+          indicatorGroup.appendChild(offClassSpan);
+
+          // 5. Create and add the tooltip indicator to the group (if info exists)
           if (classStatusInfo?.info && classStatusInfo.info.trim() !== "") {
               const restrictionInfoSpan = document.createElement("span");
+              // Add margin *within* the group to space it from the text indicator
               restrictionInfoSpan.className = "restriction-info-indicator ms-1";
               restrictionInfoSpan.textContent = "?";
               restrictionInfoSpan.setAttribute("data-tippy-content", classStatusInfo.info);
-              // Append after the offClassSpan using insertBefore for robustness
-               if (offClassSpan.parentNode) { // Ensure parent exists
-                   offClassSpan.parentNode.insertBefore(restrictionInfoSpan, offClassSpan.nextSibling);
-               } else {
-                   cardHeader.appendChild(restrictionInfoSpan); // Fallback
-               }
+              indicatorGroup.appendChild(restrictionInfoSpan);
           }
+
+          // 6. Append the entire group to the header
+          cardHeader.appendChild(indicatorGroup);
       }
+      // --- END HEADER MODIFICATION ---
+
 
       cardDiv.appendChild(cardHeader);
 
@@ -465,6 +475,8 @@ function displayWeapons(modeKey) {
     complete: () => console.log("Card animation complete."), // Debug log
   });
 }
+
+
 // Function to handle greying out banned classes
 function handleClassRestrictions(modeKey) {
   console.log("Entering handleClassRestrictions for mode:", modeKey); // Debug log
