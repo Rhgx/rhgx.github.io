@@ -1,21 +1,17 @@
 // modules/parser.js
 import { determineOffsetInfo } from "./timezoneUtils.js";
 
-// Keep DEBUG flag and debugLog function
 const DEBUG = false;
 function debugLog(...args) {
   if (DEBUG) console.log(...args);
 }
 
-// --- Helper: Extract Timezone Identifier from the end of a string ---
-// Updated to handle long-form keys first
 function extractTimezoneIdentifier(inputStr, ianaMap) {
-  let originalInput = inputStr; // Keep original for case-insensitive matching
+  let originalInput = inputStr;
   let cleanedStr = inputStr.trim();
   let tzIdentifier = null;
   let foundTzLength = 0;
 
-  // --- Priority 1: Explicit Offsets ---
   const explicitOffsetRegex =
     /(?:UTC|GMT)?([+-])(\d{1,2})(?::?(\d{2}))?\s*$/i;
   const hhmmOffsetRegex = /([+-]\d{4})\s*$/i;
@@ -48,70 +44,53 @@ function extractTimezoneIdentifier(inputStr, ianaMap) {
     }
   }
 
-  // If an explicit offset was found, return immediately
   if (tzIdentifier) {
     cleanedStr = cleanedStr.substring(0, cleanedStr.length - foundTzLength);
     return { cleanedStr: cleanedStr.trim(), extractedTzIdentifier: tzIdentifier };
   }
 
-  // --- Priority 2: Explicit Long-Form Keys (e.g., "IST (Ireland)") ---
   if (ianaMap) {
-    // Get keys containing spaces or parentheses, sort by length descending
     const longKeys = Object.keys(ianaMap)
       .filter((key) => key.includes(" ") || key.includes("("))
       .sort((a, b) => b.length - a.length);
 
     for (const longKey of longKeys) {
-      // Case-insensitive check if the input ENDS WITH the long key
-      if (
-        originalInput
-          .toLowerCase()
-          .endsWith(" " + longKey.toLowerCase()) || // Check with preceding space
-        originalInput.toLowerCase().endsWith(longKey.toLowerCase()) // Check if it's the whole string end
-      ) {
-        // Find the actual start index of the match in the trimmed string
-        const matchIndex = cleanedStr
-          .toLowerCase()
-          .lastIndexOf(longKey.toLowerCase());
-        if (matchIndex !== -1 && matchIndex + longKey.length === cleanedStr.length) {
-           // Ensure it's at the very end
+       // Use a regex to ensure the long key is at the end, potentially preceded by space
+       // Escape parentheses in the key for the regex
+       const escapedKey = longKey.replace(/[()]/g, '\\$&');
+       const longKeyRegex = new RegExp(`(?:\\s|^)${escapedKey}\\s*$`, "i");
+       match = cleanedStr.match(longKeyRegex);
+
+       if (match) {
+           // Find the actual matched string length (including potential leading space)
+           const matchedString = match[0];
            tzIdentifier = longKey; // Use the exact key from the map
-           foundTzLength = longKey.length;
-           // Adjust length if there was a space before it that we should remove
-           if (matchIndex > 0 && cleanedStr[matchIndex - 1] === ' ') {
-               foundTzLength++;
-           }
+           foundTzLength = matchedString.length;
            debugLog(`Extractor: Found long-form key: ${tzIdentifier}`);
-           break; // Found the longest possible match
-        }
-      }
+           break;
+       }
     }
   }
 
-  // If a long-form key was found, return
+
   if (tzIdentifier) {
      cleanedStr = cleanedStr.substring(0, cleanedStr.length - foundTzLength);
      return { cleanedStr: cleanedStr.trim(), extractedTzIdentifier: tzIdentifier };
   }
 
-
-  // --- Priority 3: Standard Abbreviations (3-5 letters) ---
-  // Use word boundary \b to avoid matching parts of words. Check at the end.
   const abbrRegex = /\b([A-Z]{3,5})\s*$/i;
   match = cleanedStr.match(abbrRegex);
   if (match) {
-    // Verify this abbreviation is actually in our map before accepting it
     const potentialAbbr = match[1].toUpperCase();
     if (ianaMap && ianaMap[potentialAbbr]) {
       tzIdentifier = potentialAbbr;
-      foundTzLength = match[0].length; // Length of abbreviation + trailing space
+      foundTzLength = match[0].length;
       debugLog(`Extractor: Found standard abbreviation: ${tzIdentifier}`);
     } else {
         debugLog(`Extractor: Found potential abbr "${potentialAbbr}" but it's not in the map.`);
     }
   }
 
-  // Final cleanup and return
   if (tzIdentifier) {
      cleanedStr = cleanedStr.substring(0, cleanedStr.length - foundTzLength);
   }
@@ -123,25 +102,19 @@ function extractTimezoneIdentifier(inputStr, ianaMap) {
   return { cleanedStr: cleanedStr.trim(), extractedTzIdentifier: tzIdentifier };
 }
 
-// --- Main Parsing Function ---
-// Pass loadedData (which contains ianaMap) down
 export function parseDateTime(inputStr, loadedData) {
-  if (!loadedData || !loadedData.ianaMap) { // Check specifically for ianaMap now
+  if (!loadedData || !loadedData.ianaMap) {
     console.error("IANA map data not available for parsing.");
     return null;
   }
   inputStr = inputStr.trim();
   let parsedDate = null;
 
-  // --- Step 1: Extract potential timezone identifier from the end ---
-  // Pass the ianaMap to the extractor
   const { cleanedStr, extractedTzIdentifier } = extractTimezoneIdentifier(
     inputStr,
     loadedData.ianaMap,
   );
 
-  // --- Attempt 1: Native Date Parsing (ONLY for full ISO8601 on original string) ---
-  // (Keep this logic as is)
   const isoWithOffsetRegex =
     /^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(Z|[+-]\d{2}:?\d{2}|[+-]\d{4})?$/i;
   if (isoWithOffsetRegex.test(inputStr)) {
@@ -159,9 +132,6 @@ export function parseDateTime(inputStr, loadedData) {
     } catch (e) { /* Ignore native parsing errors */ }
   }
 
-
-  // --- Attempt 2: Custom Parsing for "Time @ D/M/Y" (using cleaned string) ---
-  // (Keep this logic as is, it passes the extractedTzIdentifier down)
   const europeanDateTimeMatch = cleanedStr.match(
     /^(.*?)\s*@\s*(\d{1,2}[./-]\d{1,2}[./-]\d{4})$/i,
   );
@@ -173,95 +143,81 @@ export function parseDateTime(inputStr, loadedData) {
       datePartStr,
       timePartStr,
       extractedTzIdentifier,
-      loadedData, // Pass full loadedData
+      loadedData,
     );
     if (parsedDate) return parsedDate;
   }
 
-  // --- Attempt 3: Time-only formats (using cleaned string) ---
-   // (Keep this logic as is, it passes the extractedTzIdentifier down)
   if (!parsedDate) {
     debugLog("Parser: Attempting time-only format.");
     parsedDate = parseTimeOnly(
       cleanedStr,
       extractedTzIdentifier,
-      loadedData, // Pass full loadedData
+      loadedData,
     );
     if (parsedDate) return parsedDate;
   }
 
-  // --- Fallback ---
   debugLog("Parser: All parsing attempts failed.");
   return null;
 }
 
-// --- Helper: Parse European Date + Time Part ---
-// No changes needed here, already passes identifier and loadedData
 function parseEuropeanDateAndTime(
   dateStr,
   timeStr,
   initialTzIdentifier,
-  loadedData, // Receive full loadedData
+  loadedData,
 ) {
-  // ... (date validation logic remains the same) ...
   const dateParts = dateStr.split(/[./-]/);
   if (dateParts.length !== 3) return null;
+
   const day = parseInt(dateParts[0], 10);
   const month = parseInt(dateParts[1], 10) - 1;
   const year = parseInt(dateParts[2], 10);
+
   if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
   if (month < 0 || month > 11) return null;
   if (year < 1900 || year > 3000) return null;
-  const daysInMonth = [31, year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const daysInMonth = [ 31, year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
   if (day < 1 || day > daysInMonth[month]) return null;
   const tempDateCheck = new Date(Date.UTC(year, month, day));
-  if (isNaN(tempDateCheck.getTime()) || tempDateCheck.getUTCFullYear() !== year || tempDateCheck.getUTCMonth() !== month || tempDateCheck.getUTCDate() !== day) {
-      return null;
+  if ( isNaN(tempDateCheck.getTime()) || tempDateCheck.getUTCFullYear() !== year || tempDateCheck.getUTCMonth() !== month || tempDateCheck.getUTCDate() !== day ) {
+    return null;
   }
 
-  // Pass initial identifier down
   const timeResult = parseTimeComponents(timeStr, initialTzIdentifier);
   if (!timeResult) return null;
 
   const { hours, minutes, seconds, finalTzIdentifier } = timeResult;
   const dateComponents = { year, month, day, hours, minutes, seconds };
 
-  // Determine offset using the utility, passing the final identifier and loadedData
   const finalOffsetInfo = determineOffsetInfo(
     finalTzIdentifier,
     dateComponents,
-    loadedData, // Pass full loadedData here
+    loadedData,
   );
 
   return constructDate(year, month, day, hours, minutes, seconds, finalOffsetInfo);
 }
 
-// --- Helper: Parse Time-Only (Apply to Today) ---
-// No changes needed here, already passes identifier and loadedData
-function parseTimeOnly(
-    timeStr,
-    initialTzIdentifier,
-    loadedData // Receive full loadedData
-) {
+function parseTimeOnly(timeStr, initialTzIdentifier, loadedData) {
   const timeResult = parseTimeComponents(timeStr, initialTzIdentifier);
   if (!timeResult) return null;
 
   const { hours, minutes, seconds, finalTzIdentifier } = timeResult;
 
-  // Determine offset *first* to know which 'today' to use
   const preliminaryOffsetInfo = determineOffsetInfo(
     finalTzIdentifier,
     { year: new Date().getFullYear(), month: 0, day: 1, hours, minutes, seconds },
-    loadedData, // Pass full loadedData
+    loadedData,
   );
 
   let today;
-  // ... (logic for determining 'today' based on preliminaryOffsetInfo remains the same) ...
   if (preliminaryOffsetInfo?.type === "offset") {
     const nowUtc = new Date();
-    const targetTimeNow = new Date(nowUtc.getTime() + preliminaryOffsetInfo.totalMinutes * 60000);
+    const targetTimeNow = new Date( nowUtc.getTime() + preliminaryOffsetInfo.totalMinutes * 60000, );
     today = targetTimeNow;
-    debugLog("parseTimeOnly: Using today's date adjusted for target offset:", today.toISOString());
+    debugLog( "parseTimeOnly: Using today's date adjusted for target offset:", today.toISOString(), );
   } else if (preliminaryOffsetInfo?.type === "utc") {
     today = new Date();
     debugLog("parseTimeOnly: Using today's UTC date");
@@ -274,25 +230,18 @@ function parseTimeOnly(
   const month = preliminaryOffsetInfo?.type === "utc" ? today.getUTCMonth() : today.getMonth();
   const day = preliminaryOffsetInfo?.type === "utc" ? today.getUTCDate() : today.getDate();
 
-
   const dateComponents = { year, month, day, hours, minutes, seconds };
-  // Re-determine offset info with the *actual* date components
+
   const finalOffsetInfo = determineOffsetInfo(
     finalTzIdentifier,
     dateComponents,
-    loadedData, // Pass full loadedData here
+    loadedData,
   );
 
   return constructDate(year, month, day, hours, minutes, seconds, finalOffsetInfo);
 }
 
-
-// --- Helper: Parse Time String into Components ---
-// (No changes needed in its internal logic, still returns finalTzIdentifier)
 function parseTimeComponents(timeStr, initialTzIdentifier) {
-    // ... (Keep the existing logic from the previous step) ...
-    // It should correctly prioritize timePartTzIdentifier over initialTzIdentifier
-    // and return { hours, minutes, seconds, finalTzIdentifier }
     timeStr = timeStr.toUpperCase().trim();
     debugLog("Parsing time components for:", timeStr, "Initial Identifier:", initialTzIdentifier);
     let hours = 0, minutes = 0, seconds = 0;
@@ -375,11 +324,7 @@ function parseTimeComponents(timeStr, initialTzIdentifier) {
     return { hours, minutes, seconds, finalTzIdentifier };
 }
 
-
-// --- Helper: Construct Date Object ---
-// (No changes needed here)
 function constructDate(year, month, day, hours, minutes, seconds, offsetInfo) {
-  // ... (Keep the existing logic from the previous step) ...
     let finalDate;
     debugLog("Constructing date with:", { year, month, day, hours, minutes, seconds, offsetInfo });
 
