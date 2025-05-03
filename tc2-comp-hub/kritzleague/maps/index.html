@@ -1,16 +1,17 @@
+<!-- /kritzleague/maps/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>TC2 Comp Hub - Maps</title>
     <meta name="description" content="Overview of allowed and banned maps for Kritzleague.">
-    <meta content="Kritzleague Weapon Whitelist" property="og:title" />
+    <meta content="Kritzleague Map Pool" property="og:title" /> <!-- Updated OG Title -->
     <meta name="description" content="Overview of allowed and banned maps for Kritzleague.">
     <meta content="Overview of allowed and banned maps for Kritzleague." property="og:description" />
     <meta content="https://rhgx.github.io/tc2-comp-hub/kritzleague/maps" property="og:url" />
     <meta content="https://raw.githubusercontent.com/Rhgx/rhgx.github.io/refs/heads/main/tc2-comp-hub/images/kritzleague.png" property="og:image" />
     <meta content="#e2492f" data-react-helmet="true" name="theme-color" />
-    <meta name="keywords" content="TC2, Typical Colors 2, whitelist, competitive, comp, Dorcus Digital, Dorcus, 4v4, 5v5, 6v6, Prolander, Highlander, Kritzleague">
+    <meta name="keywords" content="TC2, Typical Colors 2, whitelist, competitive, comp, Dorcus Digital, Dorcus, 4v4, 5v5, 6v6, Prolander, Highlander, Kritzleague, Maps"> <!-- Added Maps keyword -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
@@ -39,7 +40,30 @@
              </ul>
          </div>
     </div>
-</nav>
+</nav> <!-- End Main Navbar -->
+
+<!-- **** START: Map Status Legend **** -->
+<div id="map-legend">
+    <h6 class="legend-title">Map Status Meanings</h6>
+    <dl>
+        <dt class="weapon-status status-anchor">Anchor</dt>
+        <dd>Permanently in the map pool.</dd>
+
+        <dt class="weapon-status status-in-rotation">In Rotation</dt>
+        <dd>Currently in the map pool.</dd>
+
+        <dt class="weapon-status status-out-of-rotation">Out of rotation</dt>
+        <dd>Not currently in the map pool.</dd>
+
+        <dt class="weapon-status status-testing">Experimenting</dt>
+        <dd>Under review.</dd>
+
+        <dt class="weapon-status status-vaulted">Vaulted</dt>
+        <dd>Permanently out of the map pool (until further notice).</dd>
+    </dl>
+</div>
+<!-- **** END: Map Status Legend **** -->
+
 
 <!-- Main Content Container -->
 <div class="container main-content-container mt-4">
@@ -89,7 +113,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="scripts.js"></script>
 
 </body>

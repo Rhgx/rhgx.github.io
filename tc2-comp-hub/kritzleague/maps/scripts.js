@@ -1,4 +1,4 @@
-// maps/scripts.js
+// /kritzleague/maps/scripts.js
 let mapData = null;
 const mapContentArea = document.getElementById("maps-content");
 const mapPageTitle = document.getElementById("map-page-title"); // Added
@@ -46,11 +46,14 @@ function getStatusClass(statusText) {
   if (lowerStatus === "undecided") return "weapon-status status-undecided";
   if (lowerStatus === "anchor") return "weapon-status status-anchor";
   if (lowerStatus === "vaulted") return "weapon-status status-vaulted";
+  if (lowerStatus === "experimenting") return "weapon-status status-testing"; // Added mapping
 
-  // Fallback for older/other statuses if needed
+  // Fallback/Weapon Statuses (Keep for potential reuse/consistency)
   if (lowerStatus === "allowed") return "weapon-status status-allowed";
   if (lowerStatus === "banned") return "weapon-status status-banned";
-  if (lowerStatus === "review") return "weapon-status status-under-review";
+  if (lowerStatus === "always") return "weapon-status status-always";
+  if (lowerStatus === "testing") return "weapon-status status-testing";
+  if (lowerStatus === "under-review" || lowerStatus === "review") return "weapon-status status-under-review";
   if (lowerStatus === "not-used") return "weapon-status status-not-used";
 
 
@@ -110,8 +113,8 @@ async function loadMapData() {
 
   try {
     // Fetch ONLY map data
-    // const response = await fetch("maps-whitelist.json"); // old
-    const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/maps-whitelist.json");
+    const response = await fetch("maps-whitelist.json");
+   // const response = await fetch("https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/maps-whitelist.json");
 
     if (response.ok) {
         mapData = await response.json();

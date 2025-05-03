@@ -1,3 +1,6 @@
+/* Root Directory styles.css */
+
+
 /* --- Base Variables and Font Setup --- */
 :root {
     --primary-color: #1b1c28;
@@ -203,7 +206,7 @@ body {
     border: 1px solid var(--border-color);
     padding: 2px 6px;
     border-radius: 3px;
-    margin-left: 10px;
+    margin-left: 150px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -298,6 +301,7 @@ body {
 
 .status-testing {
     background-color: var(--testing-color);
+    color: var(--primary-color); /* Added for better contrast */
 }
 
 .status-under-review {
@@ -333,7 +337,8 @@ body {
 }
 
 
-.ban-reason-indicator {
+.ban-reason-indicator,
+.restriction-info-indicator { /* Combined rule */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -353,7 +358,8 @@ body {
     vertical-align: middle;
 }
 
-.ban-reason-indicator:hover {
+.ban-reason-indicator:hover,
+.restriction-info-indicator:hover { /* Combined rule */
     background-color: var(--text-darker);
     color: var(--primary-color);
 }
@@ -546,7 +552,7 @@ h3.gamemode-heading {
 /* --- Banned Class Styling (Weapons Page) --- */
 .class-banned .whitelist-card {
     opacity: 0.4 !important;
-    pointer-events: none;
+    /* pointer-events: none; */ /* Keep pointer events for tooltip */
     animation: none !important;
 }
 
@@ -565,7 +571,7 @@ h3.gamemode-heading {
     overflow: hidden;
     margin: 0 0.75rem;
     width: calc(100% - 1.5rem);
-    pointer-events: none;
+    pointer-events: none; /* Overlay should not block interactions */
 }
 
 .banned-overlay-text {
@@ -714,7 +720,8 @@ h3.gamemode-heading {
         padding: 2px 6px;
     }
 
-    .ban-reason-indicator {
+    .ban-reason-indicator,
+    .restriction-info-indicator { /* Combined rule */
         width: 16px;
         height: 16px;
         font-size: 0.7em;
@@ -779,3 +786,84 @@ h3.gamemode-heading {
     border-radius: 50%;
     object-fit: cover;
 }
+
+/* --- Map Legend Styling --- */
+#map-legend {
+    position: fixed;
+    /* top: 80px; */ /* REMOVE or comment out this line */
+    bottom: 15px; /* ADD this line - Adjust value for spacing from bottom */
+    right: 15px;
+    width: 220px; /* Adjust width as needed */
+    background-color: var(--primary-color); /* Darker background */
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px 15px;
+    z-index: 1050; /* Ensure it's above most content but potentially below modals */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    font-size: 0.85em; /* Smaller font for the legend */
+}
+
+#map-legend .legend-title {
+    font-family: var(--header-font);
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--accent-color);
+    text-align: center;
+}
+
+#map-legend dl {
+    margin: 0; /* Remove default dl margin */
+}
+
+#map-legend dt {
+    /* Use existing weapon-status styles for consistency */
+    display: inline-block; /* Allow padding and margins */
+    margin-bottom: 4px;
+    padding: 3px 8px; /* Match weapon status padding */
+    border-radius: 3px; /* Match weapon status radius */
+    font-weight: bold;
+    width: auto; /* Override potential min-width from weapon-status */
+    text-align: center;
+    line-height: 1.4; /* Match weapon status line-height */
+}
+
+/* Ensure text color contrasts with background for each status */
+#map-legend dt.status-anchor,
+#map-legend dt.status-vaulted,
+#map-legend dt.status-banned, /* Add other dark backgrounds if needed */
+#map-legend dt.status-under-review {
+    color: var(--text-color);
+}
+
+#map-legend dt.status-in-rotation,
+#map-legend dt.status-out-of-rotation,
+#map-legend dt.status-testing,
+#map-legend dt.status-allowed, /* Add other light backgrounds if needed */
+#map-legend dt.status-always,
+#map-legend dt.status-undecided {
+     color: var(--primary-color);
+}
+
+
+#map-legend dd {
+    margin-left: 0; /* Reset description indent */
+    margin-bottom: 10px;
+    color: var(--text-darker);
+    font-size: 0.95em;
+    line-height: 1.3;
+}
+
+#map-legend dd:last-of-type {
+    margin-bottom: 0; /* No margin after the last item */
+}
+
+/* Hide legend on smaller screens where it might overlap too much */
+@media (max-width: 992px) { /* Adjust breakpoint if needed */
+    #map-legend {
+        display: none;
+    }
+}
+
+/* --- Rest of your styles.css --- */

@@ -1,0 +1,66 @@
+{
+    "Flanker": {
+      "status4v5": "Allowed",
+      "status6v6": "Allowed",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": "(All Classes) Max of 2 at all times, 1 in Pro/Highlander"
+    },
+    "Marksman": {
+      "status4v5": "Off-Class",
+      "status6v6": "Off-Class",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": "1 Life Offclass Per Team Per Round"
+    },
+    "Annihilator": {
+      "status4v5": "Allowed",
+      "status6v6": "Allowed",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": "No more than 1 Anni"
+    },
+    "Trooper": {
+      "status4v5": "Allowed",
+      "status6v6": "Allowed",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": ""
+    },
+    "Brute": {
+      "status4v5": "Allowed",
+      "status6v6": "Off-Class",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": "No more than 1 Brute"
+    },
+    "Arsonist": {
+      "status4v5": "Off-Class",
+      "status6v6": "Off-Class",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": "No more than 1 Arsonist"
+    },
+    "Mechanic": {
+      "status4v5": "Off-Class",
+      "status6v6": "Off-Class",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": ""
+    },
+    "Doctor": {
+      "status4v5": "Allowed",
+      "status6v6": "Allowed",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": "No more than 1 Doc"
+    },
+    "Agent": {
+      "status4v5": "Off-Class",
+      "status6v6": "Off-Class",
+      "statusPro": "Allowed",
+      "statusHL": "Allowed",
+      "info": ""
+    }
+  }
+  
