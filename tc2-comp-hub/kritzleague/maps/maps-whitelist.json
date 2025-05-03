@@ -220,7 +220,7 @@
     "reason": ""
   },
   {
-    "name": "Yellow Valley",
+    "name": "Yellowvalley",
     "image": "ad_yellowvalley.png",
     "gamemode": "ad",
     "status4v5": "Vaulted",
@@ -390,7 +390,7 @@
     "reason": ""
   },
   {
-    "name": "3CP Yellow Valley",
+    "name": "3CP Yellowvalley",
     "image": "3cp_yellowvalley.png",
     "gamemode": "cp",
     "status4v5": "Experimenting",
