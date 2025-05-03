@@ -3,6 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- === Discord Embed Meta Tags === -->
+    <meta property="og:title" content="Discord Unix Timestamp Converter" />
+    <meta
+      property="og:description"
+      content="Convert dates/times into Unix timestamps and Discord markdown formats (<t:ts:F>, <t:ts:R>, etc.). Supports various input styles."
+    />
+    <meta property="og:type" content="website" />
+    <!-- Sets the embed color strip on Discord -->
+    <meta name="theme-color" content="#ffc107" />
+    <!-- Optional: Add an og:image meta tag here if you have a preview image URL -->
+    <!-- <meta property="og:image" content="URL_TO_YOUR_PREVIEW_IMAGE.png"> -->
+    <!-- === End Discord Embed Meta Tags === -->
+
     <title>Unix Timestamp Converter (Discord Format)</title>
     <!-- Bootstrap CSS -->
     <link
@@ -40,6 +54,7 @@
         --link-color: var(--primary-yellow);
         --code-color: var(--primary-yellow);
         --code-bg: rgba(255, 193, 7, 0.1);
+        --muted-text-color: #aaa; /* Added for clarity */
 
         background-color: var(--bg-color);
         color: var(--text-color);
@@ -168,6 +183,9 @@
       }
       .theme-dark-yellow #outputArea label {
         font-weight: 500;
+      }
+      .theme-dark-yellow .btn { /* Add this rule */
+        font-family: inherit; /* Inherit the monospace font */
       }
 
     </style>
@@ -322,6 +340,6 @@
       crossorigin="anonymous"
     ></script>
     <!-- Custom JS -->
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
