@@ -11,6 +11,15 @@
         "banReason": ""
       },
       {
+        "weapon": "Mule Mauler 600",
+        "icon": "mule_mauler_600.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Baby Face's Blaster",
         "icon": "baby_faces_blaster.png",
         "status4v5": "Allowed",
@@ -31,6 +40,15 @@
       {
         "weapon": "Lupara DB",
         "icon": "lupara_db.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Mach-Coach",
+        "icon": "mach_coach.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -85,6 +103,15 @@
         "banReason": ""
       },
       {
+        "weapon": "Raven",
+        "icon": "raven.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Concealed Carry",
         "icon": "concealed_carry.png",
         "status4v5": "Banned",
@@ -130,6 +157,24 @@
         "banReason": "Rechargeable get out of jail free card."
       },
       {
+        "weapon": "Bloxaide",
+        "icon": "bloxaide.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Rechargeable get out of jail free card."
+      },
+      {
+        "weapon": "Goala Cola",
+        "icon": "goala_cola.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Rechargeable get out of jail free card."
+      },
+      {
         "weapon": "Witches Brew",
         "icon": "witches_brew.png",
         "status4v5": "Banned",
@@ -141,10 +186,19 @@
       {
         "weapon": "Mad Milk",
         "icon": "mad_milk.png",
-        "status4v5": "Allowed",
-        "status6v6": "Allowed",
-        "statusPro": "Allowed",
-        "statusHL": "Allowed",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Free healing for the team with a large splash radius."
+      },
+      {
+        "weapon": "Hot Coco Blast",
+        "icon": "hot_coco_blast.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
         "banReason": "Free healing for the team with a large splash radius."
       },
       {
@@ -168,17 +222,44 @@
         "banReason": ""
       },
       {
+        "weapon": "Holy Mackerel",
+        "icon": "holy_mackerel.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Rubber Chicken",
+        "icon": "rubber_chicken.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Atomizer",
         "icon": "atomizer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Lets the flanker get to places he shouldn't without needing to take any flank routes or risky positions."
+        "banReason": "Gives excessive extra height."
       },
       {
         "weapon": "Brooklyn Basher",
         "icon": "brooklyn_basher.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Three-Rune Blade",
+        "icon": "three_rune_blade.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -201,7 +282,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Blinds you for free, essentially putting you out of the fight until it wears off."
+        "banReason": "Blinds you and overall is a general pain to fight against."
       },
       {
         "weapon": "Grill Scout",
@@ -219,11 +300,29 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Slows the enemy which can make focus fire and engagements significantly easier without sacrificing anything meaningful for it."
+        "banReason": "Pain to fight against. The fact it makes you flinch is annoying enough for it to be banned."
+      },
+      {
+        "weapon": "Rally Racket",
+        "icon": "rally_racket.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Pain to fight against. The fact it makes you flinch is annoying enough for it to be banned."
       },
       {
         "weapon": "Wooden Sword",
         "icon": "wooden_sword.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Handyman",
+        "icon": "handyman.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -237,7 +336,16 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Spammy chip damage projectile that can be thrown out constantly without sacrificing anything."
+        "banReason": "Spammy chip damage projectile."
+      },
+      {
+        "weapon": "Spare Hand",
+        "icon": "spare_hand.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Spammy chip damage projectile."
       }
     ]
   },
@@ -253,13 +361,22 @@
         "banReason": ""
       },
       {
+        "weapon": "Scythe for Sore Eyes",
+        "icon": "scythe_for_sore_eyes.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Classic",
         "icon": "classic.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Lets the marksman charge a shot that does almost full damage without having any tunnel vision."
+        "banReason": "You can charge a shot at no risk and oneshot all classes short of a buffed heavy. Very overpowered when in the hands of a competent sniper."
       },
       {
         "weapon": "Efficient Eliminator",
@@ -268,11 +385,20 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Direct upgrade to stock due to the fact most kills are done via quickscoping anyways."
+        "banReason": "Direct upgrade to stock."
       },
       {
         "weapon": "Huntsman",
         "icon": "huntsman.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Spider Bite",
+        "icon": "spider_bite.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -293,9 +419,9 @@
         "icon": "poachers_pride.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
-        "statusPro": "Banned",
-        "statusHL": "Banned",
-        "banReason": "Lets the marksman do insane amounts of damage and 2 shot 7/9 classes even at full overheal, and lets him do this constantly and consistently. (rip my goat)"
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
       },
       {
         "weapon": "Skullbuster",
@@ -354,13 +480,31 @@
         "banReason": "Banned when paired with the lemoblade."
       },
       {
+        "weapon": "Citric Reaction",
+        "icon": "citric_reaction.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": "Banned when paired with the lemoblade."
+      },
+      {
         "weapon": "Lemonade",
         "icon": "lemonade.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Free minicrits for no effort, allowing for easy high damage for the entire team."
+        "banReason": "Free minicrits."
+      },
+      {
+        "weapon": "Bottled Lemonade",
+        "icon": "bottled_lemonade.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Free minicrits."
       },
       {
         "weapon": "Cozy Camper",
@@ -378,7 +522,7 @@
         "status6v6": "Allowed",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Gives you full backstab immunity, denying Agent counters."
+        "banReason": "Gives you full backstab immunity."
       },
       {
         "weapon": "Turtle Rock",
@@ -387,7 +531,7 @@
         "status6v6": "Allowed",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Gives you full afterburn immunity, denying Arsonist punishing bad positioning."
+        "banReason": "Gives you full afterburn immunity. Denies pyro."
       }
     ],
     "Melee": [
@@ -398,6 +542,24 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Guardian's Oath",
+        "icon": "guardians_oath.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -450,13 +612,22 @@
         "banReason": ""
       },
       {
+        "weapon": "Twin-Turbolence",
+        "icon": "twin_turbolence.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Acid Trader",
         "icon": "acid_trader.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Free minicrits from anywhere simply for spamming pipes."
+        "banReason": "Free minicrits from anywhere."
       },
       {
         "weapon": "Iron Force",
@@ -474,7 +645,16 @@
         "status6v6": "Allowed",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Double donks extremely easy against large groups, making it very easy to one-shot light classes simply by spamming."
+        "banReason": "Recent buff (Typical Horrors IV) makes it easier to consistently double donk"
+      },
+      {
+        "weapon": "Jack-O Roger",
+        "icon": "jack_o_roger.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Recent buff (Typical Horrors IV) makes it easier to consistently double donk"
       },
       {
         "weapon": "M1 Garandier",
@@ -557,7 +737,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Lets the annihilator pose a constant threat from the backline for 0 cost."
+        "banReason": "Allows the annihilator to easily bomb in for no self damage."
       },
       {
         "weapon": "Bloody Bracer",
@@ -566,7 +746,7 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Mobile players are prohibited from using shields due to the turning bugs."
+        "banReason": "Mobile players are prohibited from using shields"
       },
       {
         "weapon": "Chargin' Targe",
@@ -575,7 +755,7 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Mobile players are prohibited from using shields due to the turning bugs. Banned if paired with any Grenade Launchers (under review)"
+        "banReason": "Mobile players are prohibited from using shields. Banned if paired with any Grenade Launchers"
       },
       {
         "weapon": "Gladiator's Guard",
@@ -584,7 +764,7 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Mobile players are prohibited from using shields due to the turning bugs."
+        "banReason": "Mobile players are prohibited from using shields"
       },
       {
         "weapon": "Ragin' Bull",
@@ -593,7 +773,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Lets the annihilator instantly kill anyone he wants for no cost."
+        "banReason": "You can pretty much drop anyone with this with no real penalty. (also bugged on mobile via turning)"
       },
       {
         "weapon": "Tide Turner",
@@ -602,7 +782,7 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Mobile players are prohibited from using shields due to the turning bugs. Banned if paired with any Grenade Launchers (under review)"
+        "banReason": "Mobile players are prohibited from using shields. Banned if paired with any Grenade Launchers"
       }
     ],
     "Melee": [
@@ -613,6 +793,15 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -634,8 +823,26 @@
         "banReason": ""
       },
       {
+        "weapon": "Darkness",
+        "icon": "darkness.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Elegant Blade",
         "icon": "elegant_blade.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Whirlpool Wraith",
+        "icon": "whirlpool_wraith.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -649,11 +856,20 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Free speed and a 2x cap rate on a power class, busted when stacked."
+        "banReason": "Free speed and a 2x cap rate on a power class."
       },
       {
         "weapon": "Golf Club",
         "icon": "golf_club.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Pirate Cutlass",
+        "icon": "pirate_cutlass.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -670,8 +886,26 @@
         "banReason": ""
       },
       {
+        "weapon": "Rising Sun Katana",
+        "icon": "rising_sun_katana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Shock and Awe",
         "icon": "shock_and_awe.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Cuteness Overload",
+        "icon": "cuteness_overload.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -685,7 +919,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Infinite charge simply for getting kills."
+        "banReason": "Inf charge"
       }
     ]
   },
@@ -698,6 +932,24 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Big Bite",
+        "icon": "big_bite.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Original",
+        "icon": "original.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -725,11 +977,20 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Banned purely due to how busted the charge shot is."
+        "banReason": "Busted charge shot."
       },
       {
         "weapon": "Direct Hit",
         "icon": "direct_hit.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Night Sky Ignitor",
+        "icon": "night_sky_ignitor.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -761,7 +1022,7 @@
         "status6v6": "Banned",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Allows the user to bomb extremely easily and for little health, with an additional rocket on top of that."
+        "banReason": "Push force allows for easy bombs along with the extra rocket."
       },
       {
         "weapon": "Maverick",
@@ -779,7 +1040,7 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": ""
+        "banReason": "You removed your rocket launcher for this?"
       },
       {
         "weapon": "Wrecker's Yard",
@@ -808,6 +1069,24 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -880,11 +1159,20 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "A teamwide uber that denies crits entirely."
+        "banReason": "Pretty much an uber, Denies Kritz."
       },
       {
         "weapon": "Buff Banner",
         "icon": "buff_banner.png",
+        "status4v5": "Banned",
+        "status6v6": "Banned",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "banReason": "Instant fight winner that charges by taking damage."
+      },
+      {
+        "weapon": "Buffin' Blitz",
+        "icon": "buffin_blitz.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -939,6 +1227,15 @@
         "banReason": ""
       },
       {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Disciplinary Action",
         "icon": "disciplinary_action.png",
         "status4v5": "Banned",
@@ -984,13 +1281,22 @@
         "banReason": ""
       },
       {
+        "weapon": "Rising Sun Katana",
+        "icon": "rising_sun_katana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Market Gardener",
         "icon": "market_gardener.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Banned if paired with Liberty Launcher"
+        "banReason": "A weird case. 108-135 crit is fully up for debate."
       },
       {
         "weapon": "Tunnel Rat",
@@ -1015,13 +1321,22 @@
         "banReason": ""
       },
       {
+        "weapon": "Groovy Grinder",
+        "icon": "groovy_grinder.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Biker's Blitz",
         "icon": "bikers_blitz.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Too difficult to take down with the smaller teamsizes."
+        "banReason": ""
       },
       {
         "weapon": "First Responder",
@@ -1048,6 +1363,15 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
+        "banReason": "Recently nerfed, so it is unbanned"
+      },
+      {
+        "weapon": "Monitor of Duty",
+        "icon": "monitor_of_duty.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -1068,6 +1392,24 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -1125,6 +1467,24 @@
         "banReason": ""
       },
       {
+        "weapon": "Diggity Dog",
+        "icon": "diggity_dog.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Second Banana",
+        "icon": "second_banana.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Brash Burger",
         "icon": "brash_burger.png",
         "status4v5": "Allowed",
@@ -1134,8 +1494,26 @@
         "banReason": ""
       },
       {
+        "weapon": "Jolly Gingerbread",
+        "icon": "jolly_gingerbread.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Dire Donut",
         "icon": "dire_donut.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Tungsten Torus",
+        "icon": "tungsten_torus.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -1158,7 +1536,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Overheal for the doctor, screws with damage calling and when to bomb."
+        "banReason": "Overheal for the doctor."
       },
       {
         "weapon": "Tenacious Turkey",
@@ -1187,7 +1565,7 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Free Crits which can easily delete unprepared teams."
+        "banReason": "Free Crits."
       },
       {
         "weapon": "Eviction Notice",
@@ -1205,7 +1583,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": ""
+        "banReason": "Significant damage resistance."
       },
       {
         "weapon": "Gravity Coil",
@@ -1219,6 +1597,15 @@
       {
         "weapon": "Speed Coil",
         "icon": "speed_coil.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Squid Coil",
+        "icon": "squid_coil.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -1281,7 +1668,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Insanely high DPS at the cost of airblast, lets the arsonist be a better flanker."
+        "banReason": "This weapon is overpowered. This weapon is able to shutdown a rejuvenator ubered brute."
       }
     ],
     "Secondary": [
@@ -1292,6 +1679,24 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -1337,7 +1742,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": ""
+        "banReason": "Gets Arsonist into places they shouldn't really be in."
       },
       {
         "weapon": "Flare Gun",
@@ -1357,6 +1762,15 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Mummy Khopesh",
+        "icon": "mummy_khopesh.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -1418,6 +1832,24 @@
         "banReason": ""
       },
       {
+        "weapon": "Armington",
+        "icon": "armington.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Eyes of Bermuda",
+        "icon": "eyes_of_bermuda.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Avenger",
         "icon": "avenger.png",
         "status4v5": "Allowed",
@@ -1451,7 +1883,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Lets the mechanic take potshots and do burn damage from any range."
+        "banReason": "Annoying weapon to play against because you can burn anyone from any range."
       },
       {
         "weapon": "Family Business",
@@ -1469,7 +1901,7 @@
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Gutbuster + Gunslinger combo banned (under review). With the gunslinger, a mech has a significant amount of health and speed with essentially the stock shotgun, plus the minicrits on sentry target are insane."
+        "banReason": "Gutbuster + Gunslinger combo banned. With the gunslinger, a mech has a significant amount of health and speed with essentially the stock shotgun, plus the minicrits on sentry target are insane."
       },
       {
         "weapon": "Rescue Ranger",
@@ -1498,6 +1930,15 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Raven",
+        "icon": "raven.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -1557,13 +1998,31 @@
         "banReason": ""
       },
       {
+        "weapon": "Doll Maker",
+        "icon": "doll_maker.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Golden Wrench",
+        "icon": "golden_wrench.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Eureka Effect",
         "icon": "eureka_effect.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Free metal and a Get out of jail free card, the best wrench hands down."
+        "banReason": "Free metal and a Get out of jail free card."
       },
       {
         "weapon": "Gunslinger",
@@ -1577,11 +2036,11 @@
       {
         "weapon": "P.D.Q",
         "icon": "pdq.png",
-        "status4v5": "Banned",
+        "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
         "statusHL": "Allowed",
-        "banReason": "Lets the mechanic have leveled sentries be as replaceable as mini's against a team that cannot deal with it."
+        "banReason": ""
       },
       {
         "weapon": "Southern Hospitality",
@@ -1603,6 +2062,15 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Apollo",
+        "icon": "apollo.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -1653,13 +2121,22 @@
         "banReason": ""
       },
       {
+        "weapon": "Malpractitioner",
+        "icon": "malpractitioner.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
         "weapon": "Blood Doctor",
         "icon": "blood_doctor.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Lets the doctor heal targets from ridiculoulsy far away, charges extremely fast, and gives minicrits allowing for easy kills even with spam."
+        "banReason": ""
       },
       {
         "weapon": "Kritzkrieg",
@@ -1677,7 +2154,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Essentially a full supercharge only countered by a marksman or insanely heavy focus fire, and it charges faster."
+        "banReason": "Charges too fast, almost better than stock. Needs further testing."
       },
       {
         "weapon": "Vaccinator",
@@ -1686,7 +2163,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Take no damage free card that is easy to use and abuse, as well as denying crits."
+        "banReason": "Negates too much damage."
       }
     ],
     "Melee": [
@@ -1782,7 +2259,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "The Diamondback but in TC2, insane DPS simply for doing what an agent is supposed to do."
+        "banReason": "You get rewarded for playing spy correctly."
       },
       {
         "weapon": "Silenced Pistol",
@@ -1800,7 +2277,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Annoying chip damage and bleed from anywhere, can genuinely bleed entire teams to backing off."
+        "banReason": "Annoying chip damage and bleed from anywhere."
       }
     ],
     "Cloak": [
@@ -1820,7 +2297,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "A better deadringer; charges faster, instantly cloaks, and dashes forward which can be trimped and bhopped with, only costing the damage resistance."
+        "banReason": "Better Dead Ringer."
       },
       {
         "weapon": "Cloak and Dagger",
@@ -1849,6 +2326,24 @@
         "status6v6": "Always",
         "statusPro": "Always",
         "statusHL": "Always",
+        "banReason": ""
+      },
+      {
+        "weapon": "Golden Knife",
+        "icon": "golden_knife.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": "Stock Downgrade."
+      },
+      {
+        "weapon": "Shadow Blessing",
+        "icon": "shadow_blessing.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "banReason": ""
       },
       {
@@ -1894,7 +2389,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Overheal for the doctor, insane burst healing, and very easy to get charges for."
+        "banReason": "Busted when used correctly and the spells are a nightmare to fight against."
       }
     ],
     "PDA": [
@@ -1932,7 +2427,7 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Free wallhacks allowing for easy comms to the team about all enemy positions."
+        "banReason": "You get rid of your sapper for free wallhacks."
       },
       {
         "weapon": "Spy Camera",
@@ -1941,7 +2436,56 @@
         "status6v6": "Banned",
         "statusPro": "Banned",
         "statusHL": "Banned",
-        "banReason": "Full team wallhacks on a single target that if killed gives the agent a free crit. Encourages easy focus fire with a 180 damage shot coming right after."
+        "banReason": "Highlight anybody from anywhere and if the person that is highlighted gets killed you get a free crit. Generally annoying to fight against."
+      }
+    ]
+  },
+  "All-Class": {
+    "Melee": [
+      {
+        "weapon": "Bloxy Award",
+        "icon": "bloxy_award.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Frying Pan",
+        "icon": "frying_pan.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Golden Frying Pan",
+        "icon": "golden_frying_pan.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Mod Max",
+        "icon": "mod_max.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
+      },
+      {
+        "weapon": "Objector",
+        "icon": "objector.png",
+        "status4v5": "Allowed",
+        "status6v6": "Allowed",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
+        "banReason": ""
       }
     ]
   }

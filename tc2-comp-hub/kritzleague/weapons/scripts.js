@@ -120,9 +120,8 @@ async function loadWhitelistData() {
 
   try {
     const weaponUrl =
-      "https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/weapons-whitelist.json";
-    // *** IMPORTANT: Verify this path is correct! ***
-    // This assumes class-restrictions.json is in the SAME directory as the weapons/index.html page
+      "weapons-whitelist.json";
+    // This assumes class-restrictions.json is in the SAME directory as the weapons/index.html page (https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/)
     const classUrl = "class-restrictions.json";
 
     console.log(`Fetching weapon data from: ${weaponUrl}`); // Debug log
