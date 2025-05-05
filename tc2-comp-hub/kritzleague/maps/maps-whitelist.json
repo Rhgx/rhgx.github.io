@@ -90,36 +90,6 @@
     "reason": ""
   },
   {
-    "name": "Harvest Alpine",
-    "image": "harvest_alpine.png",
-    "gamemode": "koth",
-    "status4v5": "Vaulted",
-    "status6v6": "Vaulted",
-    "statusPro": "Out of rotation",
-    "statusHL": "Out of rotation",
-    "reason": "Summer"
-  },
-  {
-    "name": "Harvest Winter",
-    "image": "harvest_winter.png",
-    "gamemode": "koth",
-    "status4v5": "Vaulted",
-    "status6v6": "Vaulted",
-    "statusPro": "Out of rotation",
-    "statusHL": "Out of rotation",
-    "reason": "Christmas"
-  },
-  {
-    "name": "Reap",
-    "image": "reap.png",
-    "gamemode": "koth",
-    "status4v5": "Vaulted",
-    "status6v6": "Vaulted",
-    "statusPro": "Vaulted",
-    "statusHL": "Vaulted",
-    "reason": "Crumpkins"
-  },
-  {
     "name": "Defrost",
     "image": "defrost.png",
     "gamemode": "koth",
@@ -128,26 +98,6 @@
     "statusPro": "Vaulted",
     "statusHL": "Vaulted",
     "reason": ""
-  },
-  {
-    "name": "Snoduct",
-    "image": "snoduct.png",
-    "gamemode": "koth",
-    "status4v5": "Out of rotation",
-    "status6v6": "Out of rotation",
-    "statusPro": "Out of rotation",
-    "statusHL": "Out of rotation",
-    "reason": "Christmas"
-  },
-  {
-    "name": "Arctic",
-    "image": "arctic.png",
-    "gamemode": "koth",
-    "status4v5": "Out of rotation",
-    "status6v6": "Out of rotation",
-    "statusPro": "Out of rotation",
-    "statusHL": "Out of rotation",
-    "reason": "Christmas"
   },
   {
     "name": "Bagel",
@@ -488,15 +438,5 @@
     "statusPro": "Experimenting",
     "statusHL": "Experimenting",
     "reason": ""
-  },
-  {
-    "name": "Whitelane",
-    "image": "whitelane.png",
-    "gamemode": "ctf",
-    "status4v5": "Vaulted",
-    "status6v6": "Vaulted",
-    "statusPro": "Vaulted",
-    "statusHL": "Vaulted",
-    "reason": "Christmas"
   }
 ]
