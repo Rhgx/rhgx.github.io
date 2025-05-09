@@ -24,7 +24,7 @@ const CLASS_ORDER = [
   "Doctor",
   "Marksman",
   "Agent",
-  "All-Class", // Keep All-Class last
+  // "All-Class", // Keep All-Class last // Commented out All-Class from explicit order
 ];
 
 // --- End Constants ---
@@ -120,7 +120,7 @@ async function loadWhitelistData() {
 
   try {
     const weaponUrl =
-      "https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/weapons-whitelist.json";
+      "weapons-whitelist.json";
     // This assumes class-restrictions.json is in the SAME directory as the weapons/index.html page
     const classUrl = "class-restrictions.json";
 
@@ -197,9 +197,9 @@ async function loadWhitelistData() {
     if (weaponPageTitle) weaponPageTitle.textContent = "Error Loading Data";
     // Ensure spinner is removed on error
     if (whitelistContentArea) {
-        whitelistContentArea.classList.remove("loading"); // Remove loading class here on error
-        const spinner = whitelistContentArea.querySelector('.loading-container');
-        if(spinner) spinner.remove(); // Remove the specific loading container
+      whitelistContentArea.classList.remove("loading"); // Remove loading class here on error
+      const spinner = whitelistContentArea.querySelector(".loading-container");
+      if (spinner) spinner.remove(); // Remove the specific loading container
     }
   }
 }
@@ -209,7 +209,9 @@ async function loadWhitelistData() {
 function handleWeaponRouteChange() {
   console.log("handleWeaponRouteChange triggered"); // Debug log
   if (!whitelistContentArea || !weaponPageTitle) {
-    console.error("Missing critical HTML elements (whitelistContentArea or weaponPageTitle)");
+    console.error(
+      "Missing critical HTML elements (whitelistContentArea or weaponPageTitle)",
+    );
     return;
   }
 
@@ -221,9 +223,6 @@ function handleWeaponRouteChange() {
   modeNavLinks.forEach((link) => {
     link.classList.toggle("active", link.getAttribute("href") === `#${hash}`);
   });
-
-  // Don't add loading class here, it's added initially and removed in the 'finally' block
-  // whitelistContentArea.classList.add("loading");
 
   requestAnimationFrame(() => {
     console.log("requestAnimationFrame callback executing..."); // Debug log
@@ -251,7 +250,7 @@ function handleWeaponRouteChange() {
           "error-message",
           "Failed to load weapon data.",
         );
-         console.warn("Weapon data missing, no mode selected."); // Debug log
+        console.warn("Weapon data missing, no mode selected."); // Debug log
       } else {
         weaponPageTitle.textContent = "Weapon Whitelist";
         whitelistContentArea.innerHTML = createMessageColumn(
@@ -271,18 +270,16 @@ function handleWeaponRouteChange() {
         );
       }
     } finally {
-      // Ensure loading class is removed AFTER content is potentially set/updated
       console.log("Removing loading class (finally block).");
-      // Use a minimal timeout to allow DOM updates to potentially finish rendering
       setTimeout(() => {
-          if (whitelistContentArea) {
-              whitelistContentArea.classList.remove("loading");
-              // Also remove the initial loading container if it's still there
-              const initialLoader = whitelistContentArea.querySelector('.loading-container');
-              if (initialLoader && whitelistContentArea.children.length > 1) { // Remove only if other content was added
-                  initialLoader.remove();
-              }
+        if (whitelistContentArea) {
+          whitelistContentArea.classList.remove("loading");
+          const initialLoader =
+            whitelistContentArea.querySelector(".loading-container");
+          if (initialLoader && whitelistContentArea.children.length > 1) {
+            initialLoader.remove();
           }
+        }
       }, 0);
     }
   });
@@ -291,7 +288,11 @@ function handleWeaponRouteChange() {
 function displayWeapons(modeKey) {
   console.log("Entering displayWeapons for mode:", modeKey); // Debug log
   if (!whitelistContentArea || !weaponData || !modeKey) {
-    console.error("displayWeapons called with invalid state:", { hasArea: !!whitelistContentArea, hasData: !!weaponData, modeKey });
+    console.error("displayWeapons called with invalid state:", {
+      hasArea: !!whitelistContentArea,
+      hasData: !!weaponData,
+      modeKey,
+    });
     if (whitelistContentArea && !modeKey) {
       console.warn("displayWeapons called without a valid modeKey.");
     }
@@ -308,15 +309,16 @@ function displayWeapons(modeKey) {
       // Default column classes for standard class cards
       let columnClasses = `col-12 col-md-6 col-lg-4 mb-4 class-column ${className.toLowerCase()}-column`;
 
+      /* // Commented out All-Class specific column width override
       // Check if it's the All-Class card
       if (className === "All-Class") {
           // Override default column classes for full width
           columnClasses = `col-12 mb-4 class-column all-class-column`; // Use col-12 for full width
           console.log("Applying full-width (col-12) to All-Class card."); // Debug log
       }
+      */
 
       colDiv.className = columnClasses; // Apply the determined classes
-
 
       const cardDiv = document.createElement("div");
       cardDiv.className = "card whitelist-card h-100";
@@ -327,7 +329,13 @@ function displayWeapons(modeKey) {
       // --- START HEADER MODIFICATION ---
       // 1. Create span for the class name text
       const classNameSpan = document.createElement("span");
-      classNameSpan.textContent = className === "All-Class" ? "All Class" : className.replace(/([A-Z])/g, ' $1').trim();
+      /* // Commented out All-Class specific name display
+      classNameSpan.textContent =
+        className === "All-Class"
+          ? "All Class"
+          : className.replace(/([A-Z])/g, " $1").trim();
+      */
+      classNameSpan.textContent = className.replace(/([A-Z])/g, " $1").trim(); // Default name display
       cardHeader.appendChild(classNameSpan); // Append the name span first
 
       // 2. Check for Off-Class/Banned status
@@ -335,44 +343,37 @@ function displayWeapons(modeKey) {
       const currentClassStatus = classStatusInfo?.[modeKey];
 
       if (currentClassStatus === "Off-Class" || currentClassStatus === "Banned") {
-          // 3. Create a container for the indicator and tooltip
-          const indicatorGroup = document.createElement('div');
-          // Optional: Add flex alignment if needed within the group, though parent align-items might suffice
-          // indicatorGroup.className = 'd-flex align-items-center';
+        const indicatorGroup = document.createElement("div");
+        const offClassSpan = document.createElement("span");
+        offClassSpan.className = "offclass-indicator";
+        offClassSpan.textContent = currentClassStatus;
+        indicatorGroup.appendChild(offClassSpan);
 
-          // 4. Create and add the Off-Class/Banned indicator to the group
-          const offClassSpan = document.createElement("span");
-          offClassSpan.className = "offclass-indicator"; // No margin needed here now
-          offClassSpan.textContent = currentClassStatus;
-          indicatorGroup.appendChild(offClassSpan);
-
-          // 5. Create and add the tooltip indicator to the group (if info exists)
-          if (classStatusInfo?.info && classStatusInfo.info.trim() !== "") {
-              const restrictionInfoSpan = document.createElement("span");
-              // Add margin *within* the group to space it from the text indicator
-              restrictionInfoSpan.className = "restriction-info-indicator ms-1";
-              restrictionInfoSpan.textContent = "?";
-              restrictionInfoSpan.setAttribute("data-tippy-content", classStatusInfo.info);
-              indicatorGroup.appendChild(restrictionInfoSpan);
-          }
-
-          // 6. Append the entire group to the header
-          cardHeader.appendChild(indicatorGroup);
+        if (classStatusInfo?.info && classStatusInfo.info.trim() !== "") {
+          const restrictionInfoSpan = document.createElement("span");
+          restrictionInfoSpan.className = "restriction-info-indicator ms-1";
+          restrictionInfoSpan.textContent = "?";
+          restrictionInfoSpan.setAttribute(
+            "data-tippy-content",
+            classStatusInfo.info,
+          );
+          indicatorGroup.appendChild(restrictionInfoSpan);
+        }
+        cardHeader.appendChild(indicatorGroup);
       }
       // --- END HEADER MODIFICATION ---
-
 
       cardDiv.appendChild(cardHeader);
 
       const cardBody = document.createElement("div");
       cardBody.className = "card-body";
 
-      // Process slots
       Object.keys(classData).forEach((slot) => {
-        // Skip if slot data is not an array (safety check)
         if (!Array.isArray(classData[slot])) {
-            console.warn(`Invalid data for ${className} -> ${slot}, expected array.`);
-            return;
+          console.warn(
+            `Invalid data for ${className} -> ${slot}, expected array.`,
+          );
+          return;
         }
 
         const slotHeading = document.createElement("h6");
@@ -384,20 +385,30 @@ function displayWeapons(modeKey) {
         weaponList.className = "list-unstyled weapon-list";
 
         classData[slot].forEach((weapon) => {
-          // Basic check for weapon object structure
-          if (!weapon || typeof weapon !== 'object' || !weapon.weapon || !weapon.icon) {
-              console.warn(`Skipping invalid weapon entry in ${className} -> ${slot}:`, weapon);
-              return;
+          if (
+            !weapon ||
+            typeof weapon !== "object" ||
+            !weapon.weapon ||
+            !weapon.icon
+          ) {
+            console.warn(
+              `Skipping invalid weapon entry in ${className} -> ${slot}:`,
+              weapon,
+            );
+            return;
           }
 
           const weaponItem = document.createElement("li");
           weaponItem.className = "weapon-item";
 
           const icon = document.createElement("img");
-          // Construct path carefully - ensure className is lowercase
           const lowerClassName = className.toLowerCase();
+          /* // Commented out All-Class specific icon path
           // *** Special case for "All Class" icon path ***
-          const iconPathClass = lowerClassName === 'all-class' ? 'all-class' : lowerClassName;
+          const iconPathClass =
+            lowerClassName === 'all-class' ? 'all-class' : lowerClassName;
+          */
+          const iconPathClass = lowerClassName; // Default icon path based on className
           icon.src = `../../icons/${iconPathClass}/${weapon.icon}`;
           icon.alt = weapon.weapon;
           icon.className = "weapon-icon";
@@ -420,16 +431,21 @@ function displayWeapons(modeKey) {
           weaponItem.appendChild(nameSpan);
           weaponItem.appendChild(statusSpan);
 
-          // Add ban reason tooltip
-          const banReason = weapon.banReason || ""; // Use empty string if undefined/null
-          if (
-            currentStatus.toLowerCase() === "banned" &&
-            banReason.trim() !== ""
-          ) {
+          const banReason = weapon.banReason || "";
+          const notes = weapon.notes || "";
+          let tooltipContent = "";
+
+          if (currentStatus.toLowerCase() === "banned" && banReason.trim() !== "") {
+            tooltipContent = banReason;
+          } else if (notes.trim() !== "") {
+            tooltipContent = notes;
+          }
+
+          if (tooltipContent) {
             const reasonIndicator = document.createElement("span");
             reasonIndicator.className = "ban-reason-indicator";
             reasonIndicator.textContent = "?";
-            reasonIndicator.setAttribute("data-tippy-content", banReason);
+            reasonIndicator.setAttribute("data-tippy-content", tooltipContent);
             weaponItem.appendChild(reasonIndicator);
           }
 
@@ -442,28 +458,20 @@ function displayWeapons(modeKey) {
       colDiv.appendChild(cardDiv);
       fragment.appendChild(colDiv);
     } else {
-        console.warn(`No weapon data found for class: ${className}`); // Debug log
+      console.warn(`No weapon data found for class: ${className}`);
     }
   });
 
   whitelistContentArea.appendChild(fragment);
-  console.log("Finished appending weapon cards to DOM."); // Debug log
+  console.log("Finished appending weapon cards to DOM.");
 
-  // Initialize Tippy tooltips
-  console.log("Initializing Tippy tooltips..."); // Debug log
   tippy("#whitelist-content [data-tippy-content]", {
     allowHTML: true,
     placement: "top",
     animation: "fade",
     theme: "custom-dark",
-    onCreate(instance) {
-      // Optional: Log when tooltips are created
-      // console.log('Tippy instance created for:', instance.reference);
-    }
   });
 
-  // Trigger card animation
-  console.log("Starting card animation..."); // Debug log
   anime({
     targets: "#whitelist-content .whitelist-card",
     opacity: [0, 1],
@@ -471,25 +479,24 @@ function displayWeapons(modeKey) {
     duration: 400,
     delay: anime.stagger(50),
     easing: "easeOutQuad",
-    complete: () => console.log("Card animation complete."), // Debug log
+    complete: () => console.log("Card animation complete."),
   });
 }
 
-
-// Function to handle greying out banned classes
 function handleClassRestrictions(modeKey) {
-  console.log("Entering handleClassRestrictions for mode:", modeKey); // Debug log
+  console.log("Entering handleClassRestrictions for mode:", modeKey);
   if (!classRestrictionData) {
-      console.warn("Cannot apply class restrictions: classRestrictionData is missing.");
-      return;
+    console.warn(
+      "Cannot apply class restrictions: classRestrictionData is missing.",
+    );
+    return;
   }
 
   CLASS_ORDER.forEach((className) => {
     const classStatusInfo = classRestrictionData[className];
-    // If classStatusInfo is missing for a class in CLASS_ORDER, skip it
     if (!classStatusInfo) {
-        console.warn(`No restriction info found for class: ${className}`);
-        return;
+      console.warn(`No restriction info found for class: ${className}`);
+      return;
     }
 
     const currentStatus = classStatusInfo[modeKey];
@@ -497,31 +504,27 @@ function handleClassRestrictions(modeKey) {
     const columnDiv = whitelistContentArea.querySelector(columnSelector);
 
     if (columnDiv) {
-      // Remove previous overlays first
       const existingOverlay = columnDiv.querySelector(".banned-overlay");
       if (existingOverlay) {
-        console.log(`Removing existing overlay for ${className}`); // Debug log
         existingOverlay.remove();
       }
-      columnDiv.classList.remove("class-banned"); // Remove banned class styling
+      columnDiv.classList.remove("class-banned");
 
-      // Apply banned styling and overlay ONLY if status is "Banned"
       if (currentStatus === "Banned") {
-        console.log(`Applying 'Banned' overlay to ${className}`); // Debug log
+        console.log(`Applying 'Banned' overlay to ${className}`);
         columnDiv.classList.add("class-banned");
         const overlayDiv = document.createElement("div");
         overlayDiv.className = "banned-overlay";
         overlayDiv.innerHTML = `<span class="banned-overlay-text">BANNED</span>`;
         columnDiv.appendChild(overlayDiv);
-      } else {
-         // console.log(`Class ${className} is not banned in mode ${modeKey} (Status: ${currentStatus})`); // Debug log
       }
     } else {
-        // This might happen if the weapon data didn't include this class, which is odd but possible
-        console.warn(`Could not find column element for class: ${className} (${columnSelector})`);
+      console.warn(
+        `Could not find column element for class: ${className} (${columnSelector})`,
+      );
     }
   });
-   console.log("Finished applying class restrictions."); // Debug log
+  console.log("Finished applying class restrictions.");
 }
 
 // --- End Display Logic ---
