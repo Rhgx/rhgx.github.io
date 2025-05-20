@@ -1187,7 +1187,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bulletstormer.png",
+        "icon": "bullet_stormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1435,7 +1435,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bulletstormer.png",
+        "icon": "bullet_stormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1581,7 +1581,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bulletstormer.png",
+        "icon": "bullet_stormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
