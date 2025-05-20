@@ -8,10 +8,10 @@ const modeNavbarCollapse = document.getElementById("modeNav");
 
 // --- Constants for Weapon Modes ---
 const WEAPON_MODE_MAP = {
-  "6v6": { key: "status6v6", title: "6v6 Weapon Whitelist" },
-  "highlander": { key: "statusHL", title: "Highlander Weapon Whitelist" },
-  "prolander": { key: "statusPro", title: "Prolander Weapon Whitelist" },
-  "4v4_5v5": { key: "status4v5", title: "4v4/5v5 Weapon Whitelist" },
+  "6v6": { key: "status_6v6", title: "6v6 Weapon Whitelist" },
+  "highlander": { key: "status_hl", title: "Highlander Weapon Whitelist" },
+  "prolander": { key: "status_pro", title: "Prolander Weapon Whitelist" },
+  "4v4_5v5": { key: "status_4v5", title: "4v4/5v5 Weapon Whitelist" },
 };
 
 const CLASS_ORDER = [
@@ -24,7 +24,7 @@ const CLASS_ORDER = [
   "Doctor",
   "Marksman",
   "Agent",
-  // "All-Class", // Keep All-Class last // Commented out All-Class from explicit order
+  // "All-Class", // Keep All-Class last // Uncomment if "All-Class" items exist and should be displayed
 ];
 
 // --- End Constants ---
@@ -120,8 +120,7 @@ async function loadWhitelistData() {
 
   try {
     const weaponUrl =
-      "https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/weapons-whitelist.json"; // temporary, will change later.
-    // This assumes class-restrictions.json is in the SAME directory as the weapons/index.html page
+      "https://raw.githubusercontent.com/Battlelamb/testrepo/refs/heads/main/test.json"; // temporary, will change later.
     const classUrl = "class-restrictions.json";
 
     console.log(`Fetching weapon data from: ${weaponUrl}`); // Debug log
@@ -141,11 +140,88 @@ async function loadWhitelistData() {
     // Process Weapon Data
     if (weaponResponse.ok) {
       try {
-        weaponData = await weaponResponse.json();
+        const rawWeaponArray = await weaponResponse.json(); // Expecting an array
+        const transformedWeaponData = {}; // Initialize the target structure
+
+        rawWeaponArray.forEach(item => {
+          // Destructure all relevant fields from the item
+          const {
+            class: itemClassName, // Rename 'class' to avoid keyword clash
+            slot: itemSlot,
+            weapon_name: itemName,
+            icon: itemIcon,
+            notes: itemNotes,
+            ban_reason: itemBanReason,
+            weapon_id: itemWeaponId, // Keep weapon_id for sorting
+            status_hl: itemStatusHl,
+            status_4v5: itemStatus4v5,
+            status_6v6: itemStatus6v6,
+            status_pro: itemStatusPro
+          } = item;
+
+          // Basic validation for required fields from the new structure
+          if (!itemClassName || !itemSlot || !itemName || typeof itemIcon === 'undefined' || typeof itemWeaponId === 'undefined') {
+            console.warn("Skipping weapon item with missing class, slot, weapon_name, icon, or weapon_id property:", item);
+            return;
+          }
+
+          // Ensure the class exists in the transformed data
+          if (!transformedWeaponData[itemClassName]) {
+            transformedWeaponData[itemClassName] = {};
+          }
+          // Ensure the slot exists for the class
+          if (!transformedWeaponData[itemClassName][itemSlot]) {
+            transformedWeaponData[itemClassName][itemSlot] = [];
+          }
+
+          // Create the weapon object in the format expected by displayWeapons
+          const weaponEntry = {
+            weapon: itemName,
+            icon: itemIcon,
+            notes: itemNotes || "",
+            banReason: itemBanReason || "",
+            weapon_id: itemWeaponId, // Store weapon_id for sorting
+
+            status_hl: itemStatusHl,
+            status_4v5: itemStatus4v5,
+            status_6v6: itemStatus6v6,
+            status_pro: itemStatusPro
+          };
+
+          transformedWeaponData[itemClassName][itemSlot].push(weaponEntry);
+        });
+
+        // --- SORTING WEAPONS BY weapon_id ---
+        for (const className in transformedWeaponData) {
+          if (Object.hasOwnProperty.call(transformedWeaponData, className)) {
+            const classSlots = transformedWeaponData[className];
+            for (const slotName in classSlots) {
+              if (Object.hasOwnProperty.call(classSlots, slotName)) {
+                classSlots[slotName].sort((a, b) => {
+                  // Ensure weapon_id is treated as a number for correct sorting
+                  const idA = Number(a.weapon_id);
+                  const idB = Number(b.weapon_id);
+                  if (isNaN(idA) || isNaN(idB)) {
+                    console.warn(`Invalid weapon_id found during sorting for class ${className}, slot ${slotName}. Items:`, a, b);
+                    // Fallback or error handling: place items with invalid IDs at the end or beginning
+                    if (isNaN(idA) && !isNaN(idB)) return 1; // a after b
+                    if (!isNaN(idA) && isNaN(idB)) return -1; // a before b
+                    return 0; // keep original order if both are NaN
+                  }
+                  return idA - idB;
+                });
+              }
+            }
+          }
+        }
+        // --- END SORTING ---
+
+        weaponData = transformedWeaponData; // Assign transformed data to global
         weaponFetchOk = true;
-        console.log("Weapon data loaded and parsed successfully.");
+        console.log("Weapon data loaded, parsed, transformed, and sorted successfully.");
+
       } catch (e) {
-        console.error("Error parsing weapon JSON:", e);
+        console.error("Error parsing, transforming, or sorting weapon JSON:", e);
         weaponData = null;
       }
     } else {
@@ -217,7 +293,7 @@ function handleWeaponRouteChange() {
 
   const hash = window.location.hash.substring(1);
   const modeInfo = WEAPON_MODE_MAP[hash];
-  const currentModeKey = modeInfo ? modeInfo.key : null;
+  const currentModeKey = modeInfo ? modeInfo.key : null; // e.g., "status_6v6"
   console.log(`Routing: hash='${hash}', modeKey='${currentModeKey}'`); // Debug log
 
   modeNavLinks.forEach((link) => {
@@ -232,9 +308,9 @@ function handleWeaponRouteChange() {
       if (weaponData && modeInfo) {
         console.log("Displaying weapons for mode:", currentModeKey);
         weaponPageTitle.textContent = modeInfo.title;
-        displayWeapons(currentModeKey); // Pass the mode key
+        displayWeapons(currentModeKey); // Pass the mode key (e.g., "status_6v6")
         console.log("Applying class restrictions for mode:", currentModeKey);
-        handleClassRestrictions(currentModeKey); // Apply class restrictions
+        handleClassRestrictions(currentModeKey);
       } else if (!weaponData && hash) {
         weaponPageTitle.textContent = "Error";
         whitelistContentArea.innerHTML = createMessageColumn(
@@ -285,8 +361,8 @@ function handleWeaponRouteChange() {
   });
 }
 
-function displayWeapons(modeKey) {
-  console.log("Entering displayWeapons for mode:", modeKey); // Debug log
+function displayWeapons(modeKey) { // modeKey is now e.g. "status_6v6"
+  console.log("Entering displayWeapons for modeKey:", modeKey); // Debug log
   if (!whitelistContentArea || !weaponData || !modeKey) {
     console.error("displayWeapons called with invalid state:", {
       hasArea: !!whitelistContentArea,
@@ -303,22 +379,11 @@ function displayWeapons(modeKey) {
 
   CLASS_ORDER.forEach((className) => {
     if (weaponData[className]) {
-      const classData = weaponData[className];
+      const classData = weaponData[className]; // e.g., {"Primary": [...], "Secondary": [...]}
       const colDiv = document.createElement("div");
 
-      // Default column classes for standard class cards
       let columnClasses = `col-12 col-md-6 col-lg-4 mb-4 class-column ${className.toLowerCase()}-column`;
-
-      /* // Commented out All-Class specific column width override
-      // Check if it's the All-Class card
-      if (className === "All-Class") {
-          // Override default column classes for full width
-          columnClasses = `col-12 mb-4 class-column all-class-column`; // Use col-12 for full width
-          console.log("Applying full-width (col-12) to All-Class card."); // Debug log
-      }
-      */
-
-      colDiv.className = columnClasses; // Apply the determined classes
+      colDiv.className = columnClasses;
 
       const cardDiv = document.createElement("div");
       cardDiv.className = "card whitelist-card h-100";
@@ -326,24 +391,16 @@ function displayWeapons(modeKey) {
       const cardHeader = document.createElement("div");
       cardHeader.className = "card-header class-header";
 
-      // --- START HEADER MODIFICATION ---
-      // 1. Create span for the class name text
       const classNameSpan = document.createElement("span");
-      /* // Commented out All-Class specific name display
-      classNameSpan.textContent =
-        className === "All-Class"
-          ? "All Class"
-          : className.replace(/([A-Z])/g, " $1").trim();
-      */
-      classNameSpan.textContent = className.replace(/([A-Z])/g, " $1").trim(); // Default name display
-      cardHeader.appendChild(classNameSpan); // Append the name span first
+      classNameSpan.textContent = className.replace(/([A-Z])/g, " $1").trim();
+      cardHeader.appendChild(classNameSpan);
 
-      // 2. Check for Off-Class/Banned status
       const classStatusInfo = classRestrictionData?.[className];
       const currentClassStatus = classStatusInfo?.[modeKey];
 
       if (currentClassStatus === "Off-Class" || currentClassStatus === "Banned") {
         const indicatorGroup = document.createElement("div");
+        indicatorGroup.className = "d-inline-block ms-2";
         const offClassSpan = document.createElement("span");
         offClassSpan.className = "offclass-indicator";
         offClassSpan.textContent = currentClassStatus;
@@ -361,14 +418,13 @@ function displayWeapons(modeKey) {
         }
         cardHeader.appendChild(indicatorGroup);
       }
-      // --- END HEADER MODIFICATION ---
 
       cardDiv.appendChild(cardHeader);
 
       const cardBody = document.createElement("div");
       cardBody.className = "card-body";
 
-      Object.keys(classData).forEach((slot) => {
+      Object.keys(classData).forEach((slot) => { // slot is "Primary", "Melee", etc.
         if (!Array.isArray(classData[slot])) {
           console.warn(
             `Invalid data for ${className} -> ${slot}, expected array.`,
@@ -389,7 +445,7 @@ function displayWeapons(modeKey) {
             !weapon ||
             typeof weapon !== "object" ||
             !weapon.weapon ||
-            !weapon.icon
+            typeof weapon.icon === 'undefined'
           ) {
             console.warn(
               `Skipping invalid weapon entry in ${className} -> ${slot}:`,
@@ -403,12 +459,7 @@ function displayWeapons(modeKey) {
 
           const icon = document.createElement("img");
           const lowerClassName = className.toLowerCase();
-          /* // Commented out All-Class specific icon path
-          // *** Special case for "All Class" icon path ***
-          const iconPathClass =
-            lowerClassName === 'all-class' ? 'all-class' : lowerClassName;
-          */
-          const iconPathClass = lowerClassName; // Default icon path based on className
+          const iconPathClass = lowerClassName;
           icon.src = `../../icons/${iconPathClass}/${weapon.icon}`;
           icon.alt = weapon.weapon;
           icon.className = "weapon-icon";
@@ -483,8 +534,8 @@ function displayWeapons(modeKey) {
   });
 }
 
-function handleClassRestrictions(modeKey) {
-  console.log("Entering handleClassRestrictions for mode:", modeKey);
+function handleClassRestrictions(modeKey) { // modeKey is e.g. "status_6v6"
+  console.log("Entering handleClassRestrictions for modeKey:", modeKey);
   if (!classRestrictionData) {
     console.warn(
       "Cannot apply class restrictions: classRestrictionData is missing.",
@@ -511,7 +562,7 @@ function handleClassRestrictions(modeKey) {
       columnDiv.classList.remove("class-banned");
 
       if (currentStatus === "Banned") {
-        console.log(`Applying 'Banned' overlay to ${className}`);
+        console.log(`Applying 'Banned' overlay to ${className} for mode ${modeKey}`);
         columnDiv.classList.add("class-banned");
         const overlayDiv = document.createElement("div");
         overlayDiv.className = "banned-overlay";
