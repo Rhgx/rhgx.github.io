@@ -363,7 +363,7 @@
     "Secondary": [
       {
         "weapon": "MAC-10",
-        "icon": "mac-10.png",
+        "icon": "mac_10.png",
         "status4v5": "Always",
         "status6v6": "Always",
         "statusPro": "Always",
@@ -373,7 +373,7 @@
       },
       {
         "weapon": "50-AE",
-        "icon": "50-ae.png",
+        "icon": "50_ae.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -827,7 +827,7 @@
       },
       {
         "weapon": "G-Bomb",
-        "icon": "g-bomb.png",
+        "icon": "g_bomb.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -899,7 +899,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet-stormer.png",
+        "icon": "bulletstormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1187,7 +1187,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet-stormer.png",
+        "icon": "bulletstormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1277,7 +1277,7 @@
       },
       {
         "weapon": "Special-Ops Sushi",
-        "icon": "special-ops_sushi.png",
+        "icon": "special_ops_sushi.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1435,7 +1435,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet-stormer.png",
+        "icon": "bulletstormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1581,7 +1581,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet-stormer.png",
+        "icon": "bulletstormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1947,7 +1947,7 @@
       },
       {
         "weapon": "Block-17",
-        "icon": "block-17.png",
+        "icon": "block_17.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -1999,7 +1999,7 @@
     "Cloak": [
       {
         "weapon": "Invis-Watch",
-        "icon": "invis-watch.png",
+        "icon": "invis_watch.png",
         "status4v5": "Always",
         "status6v6": "Always",
         "statusPro": "Always",
