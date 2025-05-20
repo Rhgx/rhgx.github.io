@@ -13,7 +13,7 @@
       },
       {
         "weapon": "Baby Face's Blaster",
-        "icon": "baby_face's_blaster.png",
+        "icon": "baby_faces_blaster.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -321,7 +321,7 @@
       },
       {
         "weapon": "Poacher's Pride",
-        "icon": "poacher's_pride.png",
+        "icon": "poachers_pride.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Banned",
@@ -445,7 +445,7 @@
       },
       {
         "weapon": "Bushcutter's Blade",
-        "icon": "bushcutter's_blade.png",
+        "icon": "bushcutters_blade.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -455,7 +455,7 @@
       },
       {
         "weapon": "Camper's Climber",
-        "icon": "camper's_climber.png",
+        "icon": "campers_climber.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -631,7 +631,7 @@
       },
       {
         "weapon": "Chargin' Targe",
-        "icon": "chargin'_targe.png",
+        "icon": "chargin_targe.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -641,7 +641,7 @@
       },
       {
         "weapon": "Gladiator's Guard",
-        "icon": "gladiator's_guard.png",
+        "icon": "gladiators_guard.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -651,7 +651,7 @@
       },
       {
         "weapon": "Ragin' Bull",
-        "icon": "ragin'_bull.png",
+        "icon": "ragin_bull.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -867,7 +867,7 @@
       },
       {
         "weapon": "Wrecker's Yard",
-        "icon": "wrecker's_yard.png",
+        "icon": "wreckers_yard.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -969,7 +969,7 @@
       },
       {
         "weapon": "Battalion's Backup",
-        "icon": "battalion's_backup.png",
+        "icon": "battalions_backup.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1125,7 +1125,7 @@
       },
       {
         "weapon": "Biker's Blitz",
-        "icon": "biker's_blitz.png",
+        "icon": "bikers_blitz.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Allowed",
@@ -1359,7 +1359,7 @@
       },
       {
         "weapon": "Warrior's Spirit",
-        "icon": "warrior's_spirit.png",
+        "icon": "warriors_spirit.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -1413,7 +1413,7 @@
       },
       {
         "weapon": "HuangLong's Wrath",
-        "icon": "huanglong's_wrath.png",
+        "icon": "huanglongs_wrath.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1507,7 +1507,7 @@
       },
       {
         "weapon": "Escapist's Escapade",
-        "icon": "escapist's_escapade.png",
+        "icon": "escapists_escapade.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -1893,7 +1893,7 @@
       },
       {
         "weapon": "Dentist's Delight",
-        "icon": "dentist's_delight.png",
+        "icon": "dentists_delight.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -2051,7 +2051,7 @@
       },
       {
         "weapon": "Conniver's Kunai",
-        "icon": "conniver's_kunai.png",
+        "icon": "connivers_kunai.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
