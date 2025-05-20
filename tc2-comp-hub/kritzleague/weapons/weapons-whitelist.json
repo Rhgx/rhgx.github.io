@@ -139,7 +139,7 @@
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
-        "statusHL": "Banned",
+        "statusHL": "Allowed",
         "notes": "",
         "banReason": "Rechargeable get out of jail free card."
       },
@@ -190,8 +190,8 @@
         "icon": "atomizer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
-        "statusPro": "Banned",
-        "statusHL": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "notes": "",
         "banReason": "Lets the flanker get to places he shouldn't without needing to take any flank routes or risky positions."
       },
@@ -260,8 +260,8 @@
         "icon": "wrap_assasin.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
-        "statusPro": "Banned",
-        "statusHL": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "notes": "",
         "banReason": "Spammy chip damage projectile that can be thrown out constantly without sacrificing anything."
       }
@@ -363,7 +363,7 @@
     "Secondary": [
       {
         "weapon": "MAC-10",
-        "icon": "mac_10.png",
+        "icon": "mac-10.png",
         "status4v5": "Always",
         "status6v6": "Always",
         "statusPro": "Always",
@@ -373,7 +373,7 @@
       },
       {
         "weapon": "50-AE",
-        "icon": "50_ae.png",
+        "icon": "50-ae.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -801,7 +801,7 @@
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
-        "statusHL": "Banned",
+        "statusHL": "Allowed",
         "notes": "Under Review",
         "banReason": "Banned purely due to the charge shot one-tapping the doctor easily and with little skill."
       },
@@ -827,7 +827,7 @@
       },
       {
         "weapon": "G-Bomb",
-        "icon": "g_bomb.png",
+        "icon": "g-bomb.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -870,9 +870,9 @@
         "icon": "wreckers_yard.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
-        "statusPro": "Allowed",
-        "statusHL": "Allowed",
-        "notes": "Banned if paired with Gunboats",
+        "statusPro": "Banned",
+        "statusHL": "Banned",
+        "notes": "Banned if paired with Gunboats, Banned in Highlander due to Bugs",
         "banReason": "Banned due to overload jumping not taking away rockets, allowing for a infinite jumps and 3 rockets to bomb with once done."
       },
       {
@@ -899,7 +899,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet_stormer.png",
+        "icon": "bullet-stormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1149,9 +1149,9 @@
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
-        "statusHL": "Allowed",
-        "notes": "",
-        "banReason": ""
+        "statusHL": "Banned",
+        "notes": "Under Review",
+        "banReason": "Brute should be punished when caught un-revved. Combined with the multitude of healing factors in Highlander and his high healthpool, the M249 disregards a core downside of the class."
       },
       {
         "weapon": "Maxine",
@@ -1187,7 +1187,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet_stormer.png",
+        "icon": "bullet-stormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1277,7 +1277,7 @@
       },
       {
         "weapon": "Special-Ops Sushi",
-        "icon": "special_ops_sushi.png",
+        "icon": "special-ops_sushi.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1435,7 +1435,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet_stormer.png",
+        "icon": "bullet-stormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1581,7 +1581,7 @@
       },
       {
         "weapon": "Bullet-stormer",
-        "icon": "bullet_stormer.png",
+        "icon": "bullet-stormer.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
         "statusPro": "Banned",
@@ -1745,7 +1745,7 @@
       },
       {
         "weapon": "P.D.Q",
-        "icon": "pdq.png",
+        "icon": "p.d.q.png",
         "status4v5": "Banned",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -1834,8 +1834,8 @@
         "icon": "blood_doctor.png",
         "status4v5": "Banned",
         "status6v6": "Banned",
-        "statusPro": "Banned",
-        "statusHL": "Banned",
+        "statusPro": "Allowed",
+        "statusHL": "Allowed",
         "notes": "Under Review",
         "banReason": "Lets the doctor heal targets from ridiculoulsy far away, charges extremely fast, and gives minicrits allowing for easy kills even with spam."
       },
@@ -1947,7 +1947,7 @@
       },
       {
         "weapon": "Block-17",
-        "icon": "block_17.png",
+        "icon": "block-17.png",
         "status4v5": "Allowed",
         "status6v6": "Allowed",
         "statusPro": "Allowed",
@@ -1999,7 +1999,7 @@
     "Cloak": [
       {
         "weapon": "Invis-Watch",
-        "icon": "invis_watch.png",
+        "icon": "invis-watch.png",
         "status4v5": "Always",
         "status6v6": "Always",
         "statusPro": "Always",

@@ -120,7 +120,7 @@ async function loadWhitelistData() {
 
   try {
     const weaponUrl =
-      "https://raw.githubusercontent.com/Kritzleague/banjson/refs/heads/main/weapons-whitelist.json";
+      "weapons-whitelist.json";
     // This assumes class-restrictions.json is in the SAME directory as the weapons/index.html page
     const classUrl = "class-restrictions.json";
 
