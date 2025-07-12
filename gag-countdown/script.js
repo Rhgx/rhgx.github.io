@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- UTILITY FUNCTIONS ---
     async function fetchJson(url) {
-        const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
         const response = await fetch(proxyUrl);
         if (!response.ok) {
             const errorText = await response.text();
