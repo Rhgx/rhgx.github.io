@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        /* --- Dark Mode Style Changes --- */
+        body {
+            background-color: #1a1a1e; /* Dark background */
+            font-family: 'Roboto', sans-serif;
+            color: #e0e0e0; /* Light gray text */
+            overflow: hidden; /* Prevents scrollbars during animation */
+        }
+        .timer-unit {
+            font-size: 1.2rem;
+            color: #888; /* Dimmer gray for unit labels */
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .timer-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #ffffff; /* White for the numbers */
+        }
+        .countdown-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #adb5bd; /* Lighter gray for subtitle */
+        }
+
+        /* --- Responsive Image Styles --- */
+        #krab-image {
+            max-width: 150px; /* Default size for mobile */
+        }
+
+        /* For tablets and larger */
+        @media (min-width: 768px) {
+            #krab-image {
+                max-width: 220px;
+            }
+        }
+
+        /* For desktops and larger */
+        @media (min-width: 992px) {
+            #krab-image {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container text-center d-flex flex-column justify-content-center vh-100">
+        <div>
+            <!-- Countdown Timer -->
+            <div id="countdown" class="row">
+                <div class="col-3">
+                    <div id="days" class="timer-number">0</div>
+                    <div class="timer-unit">Days</div>
+                </div>
+                <div class="col-3">
+                    <div id="hours" class="timer-number">0</div>
+                    <div class="timer-unit">Hours</div>
+                </div>
+                <div class="col-3">
+                    <div id="minutes" class="timer-number">0</div>
+                    <div class="timer-unit">Minutes</div>
+                </div>
+                <div class="col-3">
+                    <div id="seconds" class="timer-number">0</div>
+                    <div class="timer-unit">Seconds</div>
+                </div>
+            </div>
+
+            <!-- Subtitle -->
+            <p id="subtitle" class="countdown-subtitle mt-4">Until krabs eats a shoe</p>
+
+            <!-- Image (responsive with CSS) -->
+            <img id="krab-image" src="./images/krab.png" alt="Krab" class="img-fluid mt-3">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const countDownDate = new Date("Aug 23, 2025 00:00:00 UTC").getTime();
+
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            const secondsEl = document.getElementById("seconds");
+            const krabImage = document.getElementById("krab-image");
+
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                // When the countdown is over
+                if (distance < 0) {
+                    clearInterval(interval); // Stop the timer
+
+                    gsap.to("#subtitle, .timer-unit", { opacity: 0, duration: 0.5 });
+                    document.getElementById("countdown").innerHTML = "<div class='col-12'><h2 class='display-1 text-success'>HE ATE IT!</h2></div>";
+
+                    // Make the image do a celebratory jump
+                    gsap.to(krabImage, {
+                        y: -20, // move up
+                        yoyo: true, // go back down
+                        repeat: 1,
+                        duration: 0.3,
+                        ease: 'power2.out',
+                        delay: 0.5
+                    });
+                    return;
+                }
+
+                // Update the numbers
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                if (parseInt(daysEl.textContent) !== days) daysEl.textContent = days;
+                if (parseInt(hoursEl.textContent) !== hours) hoursEl.textContent = hours;
+                if (parseInt(minutesEl.textContent) !== minutes) minutesEl.textContent = minutes;
+                if (parseInt(secondsEl.textContent) !== seconds) {
+                    gsap.fromTo(secondsEl, { scale: 1.3 }, { textContent: seconds, scale: 1, duration: 0.4, ease: "power3.out", roundProps: "textContent" });
+                }
+            };
+
+            // --- Initial Page Load Animations ---
+            gsap.from(".timer-number, .timer-unit", { duration: 0.8, y: -40, opacity: 0, stagger: 0.1, ease: "power2.out" });
+            gsap.from("#subtitle", { duration: 1, y: -20, opacity: 0, delay: 0.3, ease: "power2.out" });
+            // Animate the image on load
+            gsap.from(krabImage, { duration: 1, y: 30, opacity: 0, delay: 0.6, ease: "power2.out" });
+
+            const interval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
+    </script>
+
+</body>
+</html>
