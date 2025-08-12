@@ -17,7 +17,6 @@
       font-family: 'Oswald', sans-serif;
       background-color: #383838;
       color: #e0e0e0;
-      background-image: url("images/background.png");
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
@@ -181,7 +180,6 @@
       z-index: 2;
     }
 
-    /* Update loading indicator styles */
     .loading-overlay {
       position: fixed;
       top: 0;
@@ -224,13 +222,11 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Accessibility improvements */
     .btn:focus {
       outline: 3px solid #2ac94f;
       outline-offset: 2px;
     }
 
-    /* Add hover effects */
     .class-icon:hover {
       transform: scale(1.1);
       transition: transform 0.2s ease;
@@ -260,8 +256,6 @@
 </head>
 
 <body>
-  <!-- <a href="experimental" class="btn experimental-btn">Experimental Weapons</a> -->
-
   <div class="credits">
     Site : Rocks<br>
     Class Portraits : Alyssa<br>
@@ -393,7 +387,6 @@
       };
 
       let selectedClass = null;
-
       const button = document.getElementById('generate');
 
       document.querySelectorAll('.class-icon').forEach(icon => {
@@ -539,6 +532,24 @@
         const preloader = new ImagePreloader();
         const imagesToPreload = new Set();
 
+        // 🎨 Random background selection
+        const backgrounds = [
+          "3cp_citrus",
+          "ad_cliffhanger",
+          "ad_deadfall_ridge",
+          "ad_gorge",
+          "ad_yellowvalley",
+          "ctf_doublefort",
+          "koth_bagel",
+          "koth_harvest",
+          "tr_target"
+        ];
+        const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        const bgPath = `images/backgrounds/${randomBg}.png`;
+        document.body.style.backgroundImage = `url('${bgPath}')`;
+        imagesToPreload.add(bgPath);
+
+        // Preload all existing images
         document.querySelectorAll('img').forEach(img => {
           if (img.src) imagesToPreload.add(img.src);
         });
