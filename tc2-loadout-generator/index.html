@@ -21,6 +21,7 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       min-height: 100vh;
+      background-position: center center;
     }
 
     .class-icon {
@@ -116,7 +117,7 @@
     }
 
     .class-container {
-      display: flex;
+      display: inline-flex;
       justify-content: center;
       background-color: #1e1e1e;
       padding: 20px;
@@ -125,9 +126,14 @@
       margin: auto;
     }
 
+    .class-container-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
     .class-icons {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, auto);
       grid-gap: 10px;
       max-width: 700px;
       margin: auto;
@@ -263,6 +269,7 @@
   </div>
   <div class="container py-5">
     <h1 class="text-center mb-4">TC2 Random Loadout Generator</h1>
+    <div class="class-container-wrapper">
     <div class="class-container mb-4">
       <div class="class-icons">
         <button class="btn btn-dark"><img class="class-icon" id="Flanker"
@@ -286,6 +293,7 @@
             src="images/icons/agenttransparent.png" alt="Agent"></button>
         <button class="btn btn-dark"><img class="class-icon" id="Random" draggable="false" src="images/questionClass.png"
             alt="Random"></button>
+       </div>
       </div>
     </div>
     <div class="text-center mb-4">
