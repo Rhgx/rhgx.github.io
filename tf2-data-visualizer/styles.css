@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Chart container responsive sizing (based on the general visualizer) */
+.chart-container {
+  position: relative;
+  height: 45vh;
+  min-height: 320px;
+  max-height: 560px;
+}
+
+@media (min-width: 768px) {
+  .chart-container {
+    height: 40vh;
+  }
+}
+
+@media (min-width: 1280px) {
+  .chart-container {
+    height: 36vh;
+  }
+}
+
+/* Table styling (dark + sticky header) */
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  border: 1px solid #4b5563; /* gray-600 */
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 0.875rem; /* text-sm */
+}
+
+.table-wrapper th {
+  background-color: #374151; /* gray-700 */
+  font-weight: bold;
+  color: #d1d5db; /* gray-300 */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-wrapper tbody tr:nth-child(even) {
+  background-color: #1f2937; /* gray-800 */
+}
+
+.table-wrapper tbody tr:hover {
+  background-color: #4b5563; /* gray-600 */
+}
+
+/* Scroll wrapper with virtual rows */
+.table-wrapper {
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #4b5563;
+  border-radius: 0.5rem;
+}
+
+/* Utility for hidden (to keep class-only hiding consistent) */
+.hidden {
+  display: none !important;
+}

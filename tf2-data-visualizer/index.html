@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="color-scheme" content="dark" />
+
+  <meta property="og:title" content="TF2 Match Data Visualizer" />
+  <meta property="og:description"
+    content="Upload TF2 match CSVs to visualize the data onto charts." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#14b8a6">
+  <meta property="og:url" content="https://rhgx.github.io/tf2-data-visualizer" />
+  <meta property="og:site_name" content="TF2 Match Data Visualizer" />
+
+  <title>Match Data Visualizer</title>
+
+  <!-- Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+
+  <!-- Tailwind + GSAP + Chart.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body class="bg-gray-900 text-gray-200 font-sans min-h-screen">
+  <div id="app" class="container mx-auto p-4 md:p-8">
+    <!-- Header -->
+    <header
+      class="mb-6 md:mb-8 sticky top-0 z-30 bg-gray-900/80 backdrop-blur supports-[backdrop-filter]:bg-gray-900/60 py-3">
+      <div class="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-extrabold text-white">
+            Match Data Visualizer
+          </h1>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Tabs -->
+          <nav
+            class="rounded-lg bg-gray-800/80 backdrop-blur supports-[backdrop-filter]:bg-gray-800/60 border border-gray-700/60">
+            <ul class="flex items-center">
+              <li>
+                <button id="tab-general"
+                  class="px-4 py-2 text-sm md:text-base rounded-l-lg focus:outline-none focus:ring-2 focus:ring-teal-500 hover:bg-gray-700 transition-colors"
+                  aria-controls="general-app">
+                  General Data Visualizer
+                </button>
+              </li>
+              <li>
+                <button id="tab-tf2"
+                  class="px-4 py-2 text-sm md:text-base rounded-r-lg focus:outline-none focus:ring-2 focus:ring-teal-500 hover:bg-gray-700 transition-colors"
+                  aria-controls="tf2-app">
+                  TF2 Map History
+                </button>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Always-visible clear data button (shows after load) -->
+          <button id="clear-data"
+            class="hidden rounded bg-gray-700 px-3 py-2 text-sm font-semibold text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            title="Clear current data and upload a new file">
+            Clear Data
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Global Upload Section (single entry point) -->
+    <section id="global-upload"
+      class="max-w-xl mx-auto rounded-lg border-2 border-dashed border-gray-600 p-6 transition-colors duration-300 hover:border-teal-400 bg-gray-800/50 text-center cursor-pointer"
+      tabindex="0" role="button" aria-label="Upload CSV file">
+      <div class="flex flex-col items-center justify-center gap-3">
+        <i class="material-icons text-5xl text-gray-500">upload_file</i>
+        <label for="global-file-input"
+          class="cursor-pointer rounded bg-teal-600 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-teal-500">
+          Select CSV File
+        </label>
+        <input type="file" id="global-file-input" class="hidden" accept=".csv" />
+        <p class="text-gray-400">Tip: Drag & drop anywhere on this card.</p>
+      </div>
+    </section>
+
+    <!-- Global Loading -->
+    <div id="global-loading" class="hidden my-8 text-center" aria-live="polite">
+      <div class="inline-block h-12 w-12 animate-spin rounded-full border-b-2 border-teal-400"></div>
+      <p class="mt-4 text-lg">Parsing CSV in a background thread…</p>
+    </div>
+
+    <!-- General Data Visualizer -->
+    <section id="general-app" class="space-y-6 hidden">
+      <main id="g-dashboard" class="space-y-6">
+        <!-- Key Stats -->
+        <section id="g-key-stats" class="flex flex-col gap-6" aria-live="polite"></section>
+
+        <!-- Filters -->
+        <section
+          class="sticky top-0 z-20 flex flex-wrap items-center justify-center gap-3 rounded-lg bg-gray-800/80 p-4 backdrop-blur supports-[backdrop-filter]:bg-gray-800/60">
+          <label for="g-sort-select" class="font-bold">Filter by Match:</label>
+          <select id="g-sort-select"
+            class="focus:ring-teal-500 rounded-md border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2"></select>
+
+          <label for="g-type-filter" class="font-bold">Filter by Type:</label>
+          <select id="g-type-filter"
+            class="focus:ring-teal-500 rounded-md border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2"></select>
+
+          <label for="g-match-search" class="font-bold">Search:</label>
+          <input type="text" id="g-match-search" placeholder="Search titles, IDs, modes..."
+            class="focus:ring-teal-500 w-48 max-w-full rounded-md border border-gray-600 bg-gray-700 p-2 text-white focus:outline-none focus:ring-2" />
+          <button id="g-clear-search" type="button"
+            class="rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-sm text-gray-200 transition-colors hover:bg-gray-600"
+            title="Clear search">
+            Clear
+          </button>
+          <button id="g-reset-filters" type="button"
+            class="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-500"
+            title="Reset all filters">
+            Reset Filters
+          </button>
+        </section>
+
+        <!-- Charts -->
+        <section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div class="chart-container rounded-lg bg-gray-800 p-4 md:p-6">
+            <h2 class="mb-4 text-center text-xl font-bold">
+              Performance Overview
+            </h2>
+            <canvas id="g-performance-chart"></canvas>
+          </div>
+          <div class="chart-container rounded-lg bg-gray-800 p-4 md:p-6">
+            <h2 class="mb-4 text-center text-xl font-bold">
+              Win / Loss Breakdown
+            </h2>
+            <canvas id="g-win-loss-chart"></canvas>
+          </div>
+          <div class="chart-container rounded-lg bg-gray-800 p-4 md:p-6">
+            <h2 class="mb-4 text-center text-xl font-bold">
+              Game Modes Played
+            </h2>
+            <canvas id="g-game-mode-chart"></canvas>
+          </div>
+          <div class="chart-container rounded-lg bg-gray-800 p-4 md:p-6">
+            <h2 class="mb-4 text-center text-xl font-bold">
+              Performance Over Time (Last 200 Matches)
+            </h2>
+            <canvas id="g-timeline-chart"></canvas>
+          </div>
+        </section>
+
+        <!-- Raw Data Table -->
+        <section class="rounded-lg bg-gray-800 p-4 md:p-6">
+          <div class="mb-3 flex items-center justify-between gap-3 flex-wrap">
+            <h2 class="text-xl font-bold">Raw Match Data</h2>
+            <div class="text-sm text-gray-400" id="g-table-summary"></div>
+          </div>
+          <div id="g-data-table-container" class="table-wrapper" role="region" aria-label="Raw match data table"></div>
+        </section>
+      </main>
+    </section>
+
+    <!-- TF2 Map History (teal styling for coherence) -->
+    <section id="tf2-app" class="space-y-6 hidden">
+      <!-- Visualization -->
+      <div id="t-visualization" class="hidden space-y-6">
+        <!-- Controls -->
+        <div
+          class="flex flex-wrap justify-between items-center gap-3 rounded-lg bg-gray-800/80 p-4 backdrop-blur supports-[backdrop-filter]:bg-gray-800/60">
+          <h2 class="text-2xl font-bold text-slate-100">
+            Your Map Play History
+          </h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center gap-2 bg-white/5 rounded-md px-2 py-1.5 border border-white/10"
+              title="How many maps to show in the chart">
+              <label for="t-top-n" class="text-xs text-slate-300">Top</label>
+              <select id="t-top-n"
+                class="bg-transparent text-slate-100 text-sm focus:ring-2 focus:ring-teal-500 rounded-md px-2 py-1">
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="all">All</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white/5 rounded-md px-2 py-1.5 border border-white/10"
+              title="Sort order for the table">
+              <label for="t-sort" class="text-xs text-slate-300">Sort</label>
+              <select id="t-sort"
+                class="bg-transparent text-slate-100 text-sm focus:ring-2 focus:ring-teal-500 rounded-md px-2 py-1">
+                <option value="countDesc" selected>
+                  Count (high → low)
+                </option>
+                <option value="countAsc">Count (low → high)</option>
+                <option value="alphaAsc">Name (A → Z)</option>
+                <option value="alphaDesc">Name (Z → A)</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white/5 rounded-md px-2 py-1.5 border border-white/10"
+              title="Filter chart by name">
+              <span class="material-icons text-base text-slate-300">search</span>
+              <input id="t-chart-search" type="text" placeholder="Filter chart…"
+                class="bg-transparent text-sm text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500 rounded-md px-1.5 py-1 w-40 md:w-56" />
+            </div>
+
+            <button id="t-download"
+              class="rounded bg-teal-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-500">
+              Download chart
+            </button>
+            <button id="t-reset"
+              class="rounded bg-gray-700 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-600">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats + Chart -->
+        <div class="rounded-xl bg-gray-800 p-6 shadow-xl">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-6">
+            <div class="rounded-lg border border-white/10 bg-white/5 p-4 flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-teal-500/15 text-teal-300 flex items-center justify-center">
+                <span class="material-icons text-base">format_list_numbered</span>
+              </span>
+              <div>
+                <div class="text-xs uppercase tracking-wide text-slate-300">
+                  Total Matches
+                </div>
+                <div id="t-total" class="text-xl font-bold text-slate-100">
+                  0
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-white/10 bg-white/5 p-4 flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-teal-500/15 text-teal-300 flex items-center justify-center">
+                <span class="material-icons text-base">grid_view</span>
+              </span>
+              <div>
+                <div class="text-xs uppercase tracking-wide text-slate-300">
+                  Unique Maps
+                </div>
+                <div id="t-unique" class="text-xl font-bold text-slate-100">
+                  0
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-white/10 bg-white/5 p-4 flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-teal-500/15 text-teal-300 flex items-center justify-center">
+                <span class="material-icons text-base">star</span>
+              </span>
+              <div>
+                <div class="text-xs uppercase tracking-wide text-slate-300">
+                  Most Played
+                </div>
+                <div id="t-most" class="text-sm font-semibold">-</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-container overflow-x-auto">
+            <canvas id="t-map-chart" class="w-full"></canvas>
+          </div>
+        </div>
+
+        <!-- Table (virtualized) -->
+        <div class="rounded-xl bg-gray-800 p-6 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <h3 class="text-xl font-semibold text-slate-100">Map Details</h3>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 bg-white/5 rounded-md px-2 py-1.5 border border-white/10"
+                title="Search within the Map Details table">
+                <span class="material-icons text-base text-slate-300">search</span>
+                <input id="t-table-search" type="text" placeholder="Search table…"
+                  class="bg-transparent text-sm text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500 rounded-md px-1.5 py-1 w-40 md:w-56" />
+              </div>
+
+              <div class="text-xs text-slate-300" id="t-table-summary" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <div id="t-table-container" class="table-wrapper" role="region" aria-label="Map details table"></div>
+
+          <!-- Empty state -->
+          <div id="t-empty" class="hidden text-center py-10">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-white/5 flex items-center justify-center mb-4">
+              <span class="material-icons text-4xl text-slate-400">error_outline</span>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-100 mb-2">
+              No map data found
+            </h3>
+            <p class="text-slate-300/90 max-w-md mx-auto">
+              The CSV doesn’t contain a "map_index" column or it’s empty.
+              Please verify your export and try again.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- App bootstrap -->
+  <script type="module" src="./modules/ui.js"></script>
+</body>
+
+</html>
