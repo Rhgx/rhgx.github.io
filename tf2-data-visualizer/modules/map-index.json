@@ -641,6 +641,21 @@
     },
     "213": {
       "name": "ctf_pressure"
+    },
+    "214": {
+      "name": "cp_cowerhouse"
+    },
+    "215": {
+      "name": "koth_dusker"
+    },
+    "216": {
+      "name": "arena_afterlife"
+    },
+    "217": {
+      "name": "ctf_doublecross_event"
+    },
+    "218": {
+      "name": "sd_marshlands"
     }
   }
 }
