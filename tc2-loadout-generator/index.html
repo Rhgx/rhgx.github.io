@@ -117,7 +117,7 @@
     }
 
     .class-container {
-      display: inline-flex;
+      display: flex;
       justify-content: center;
       background-color: #1e1e1e;
       padding: 20px;
@@ -133,7 +133,7 @@
 
     .class-icons {
       display: grid;
-      grid-template-columns: repeat(5, auto);
+      grid-template-columns: repeat(5, 1fr);
       grid-gap: 10px;
       max-width: 700px;
       margin: auto;
@@ -186,6 +186,7 @@
       z-index: 2;
     }
 
+    /* Update loading indicator styles */
     .loading-overlay {
       position: fixed;
       top: 0;
@@ -228,11 +229,13 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Accessibility improvements */
     .btn:focus {
       outline: 3px solid #2ac94f;
       outline-offset: 2px;
     }
 
+    /* Add hover effects */
     .class-icon:hover {
       transform: scale(1.1);
       transition: transform 0.2s ease;
@@ -262,6 +265,8 @@
 </head>
 
 <body>
+  <!-- <a href="experimental" class="btn experimental-btn">Experimental Weapons</a> -->
+
   <div class="credits">
     Site : Rocks<br>
     Class Portraits : Alyssa<br>
@@ -352,9 +357,9 @@
           "Melee": ["Bat", "Holy Mackerel", "Atomizer", "Brooklyn Basher", "Candy Cane", "Cold Shoulder", "Grill Scout", "Sandman", "Wooden Sword", "Wrap Assassin"]
         },
         "Trooper": {
-          "Primary": ["Rocket Launcher", "Original", "Cow Mangler 5000", "Direct Hit", "Double Trouble", "G-Bomb", "Liberty Launcher", "Maverick", "Rocket Jumper", "Wrecker's Yard", "Friendly Fire Foiler", "Stellar Carpet", "Great Unifier"],
+          "Primary": ["Rocket Launcher", "Original", "RE:COIL", "Direct Hit", "Double Trouble", "G-Bomb", "Liberty Launcher", "Maverick", "Rocket Jumper", "Wrecker's Yard", "Friendly Fire Foiler", "Stellar Carpet", "Great Unifier"],
           "Secondary": ["Shotgun", "Bullet-stormer", "Crankestein", "Deathblow", "Family Business", "Reserve Shooter", "Boonie Blaster", "Personal Death Ray", "Battalion's Backup", "Buff Banner", "Concheror", "Parabomber", "Gunboats", "Manthreads"],
-          "Melee": ["Crowbar", "Disciplinary Action", "Equalizer", "Escape Plan", "Furious Flagxe", "Katana", "Market Gardener", "Tunnel Rat"]
+          "Melee": ["Crowbar", "Slapjock!", "Equalizer", "Escape Plan", "Furious Flagxe", "Katana", "Market Gardener", "Tunnel Rat"]
         },
         "Arsonist": {
           "Primary": ["Flamethrower", "Degreaser", "Interceptor", "Phlogistinator", "HuangLong's Wrath"],
@@ -362,8 +367,8 @@
           "Melee": ["Fire Extinguisher", "Thousand Degree Axe", "Escapist's Escapade", "Hotwire", "Improvised Inovator", "Mending Mallet"]
         },
         "Annihilator": {
-          "Primary": ["Grenade Launcher", "M1 Garandier", "Iron Force", "BlunderBrass", "Acid Trader", "Parabomber", "Gunboats", "Galway Greaves", "Squire Boots"],
-          "Secondary": ["Stickybomb Launcher", "Irish Guard", "Quickiebomb Launcher", "Sticky Jumper", "Bloody Blossom", "Chargin' Targe", "Gladiators Guard", "Ragin' Bull", "Tide Turner"],
+          "Primary": ["Grenade Launcher", "M1 Garandier", "Iron Force", "Loose Canon", "Acid Trader", "Parabomber", "Gunboats", "Galway Greaves", "Squire Boots"],
+          "Secondary": ["Stickybomb Launcher", "Irish Guard", "Quickiebomb Launcher", "Sticky Jumper", "Bloody Bracer", "Chargin' Targe", "Gladiators Guard", "Ragin' Bull", "Tide Turner"],
           "Melee": ["Broken Sword", "Battle Axe", "Black Death", "Elegant Blade", "Furious Flagxe", "Golf Club", "Katana", "Shock and Awe", "Spartan Warrior"]
         },
         "Brute": {
@@ -387,7 +392,7 @@
           "Melee": ["Machete", "Gustabe", "Camper's Climber", "Mischievous Machete", "Lemoblade"]
         },
         "Agent": {
-          "Primary": ["Revolver", "Ambassador", "Block-17", "Cloak Revolver", "Quick Draw", "Silenced Pistol", "Sinister Suit"],
+          "Primary": ["Revolver", "Diavolo", "Block-17", "Cloak Revolver", "Quick Draw", "Silenced Pistol", "Sinister Suit"],
           "Secondary": ["Invis-Watch", "Cloak and Dagger", "Dead Ringer", "Afterimage"],
           "Melee": ["Knife", "Conniver's Kunai", "Icicle", "Swift Stiletto", "Your Eternal Reward", "Wraith"],
           "PDA": ["Sapper", "Slow Burn", "Stray Reflex", "Radius Scanner", "Spy Camera"]
@@ -395,6 +400,7 @@
       };
 
       let selectedClass = null;
+
       const button = document.getElementById('generate');
 
       document.querySelectorAll('.class-icon').forEach(icon => {
@@ -417,7 +423,10 @@
       }
       
       function sanitizeName(name) {
-          return name.toLowerCase().replace(/ /g, '-').replace(/'/g, '').replace(/\./g, '');
+          return name
+          .toLowerCase().
+          replace(/ /g, '-')
+          .replace(/[^a-z0-9-]/g, '');
       }
 
       class ImagePreloader {
@@ -540,7 +549,6 @@
         const preloader = new ImagePreloader();
         const imagesToPreload = new Set();
 
-        // 🎨 Random background selection
         const backgrounds = [
           "3cp_citrus",
           "ad_cliffhanger",
