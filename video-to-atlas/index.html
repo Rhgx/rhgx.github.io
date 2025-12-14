@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Atlas Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen flex flex-col items-center py-12 px-4">
+
+    <!-- WebGL Background -->
+    <canvas id="glCanvas"></canvas>
+
+    <!-- Header -->
+    <header class="w-full max-w-4xl mb-8 text-center gsap-header opacity-0 relative z-10">
+        <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">ROBLOX GIF CONVERTER</h1>
+        <p class="text-slate-400 text-xs uppercase tracking-widest">Video to Spritesheet Compiler</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+        
+        <!-- Input Panel -->
+        <div class="panel gsap-panel opacity-0">
+            <h2 class="panel-header">01 // Input Video</h2>
+            
+            <div class="space-y-5">
+                <div class="input-group">
+                    <label>Select File (MP4/WEBM)</label>
+                    <input type="file" id="videoInput" accept="video/*" class="file-input"/>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="input-group">
+                        <label>Grid Layout</label>
+                        <select id="gridSize" class="styled-input">
+                            <option value="4">4x4 (16 frames)</option>
+                            <option value="6">6x6 (36 frames)</option>
+                            <option value="8" selected>8x8 (64 frames)</option>
+                            <option value="10">10x10 (100 frames)</option>
+                            <option value="12">12x12 (144 frames)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>FPS Sampling</label>
+                        <input type="number" id="fpsInput" value="24" class="styled-input">
+                    </div>
+                </div>
+
+                <button id="processBtn" class="action-btn">
+                    Generate Atlas
+                </button>
+
+                <div id="status" class="text-xs font-mono h-4 text-slate-500 mt-2">Waiting for input...</div>
+            </div>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="panel gsap-panel opacity-0 flex flex-col">
+            <h2 class="panel-header">02 // Preview & Download</h2>
+            
+            <div class="flex-grow flex flex-col items-center justify-center space-y-4">
+                <div class="w-full flex justify-center items-center bg-black border border-slate-700 rounded p-2 min-h-[200px]">
+                    <canvas id="atlasCanvas" class="max-w-full max-h-[250px] object-contain"></canvas>
+                </div>
+                
+                <div id="downloadSection" class="hidden w-full opacity-0">
+                    <a id="downloadLink" class="download-btn">
+                        <i class="fa-solid fa-download mr-2"></i> Download PNG
+                    </a>
+                    <p class="text-[10px] text-slate-400 text-center mt-2">
+                        Max Size: 1024x1024 (Roblox Limit)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Panel -->
+        <div class="panel col-span-1 md:col-span-2 gsap-panel opacity-0">
+            <h2 class="panel-header">03 // Roblox Integration</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Code Block -->
+                <div class="relative group">
+                    <div class="flex justify-between items-end mb-2">
+                        <label class="text-xs font-bold text-slate-400 uppercase">LocalScript Example</label>
+                        <button id="copyBtn" class="text-[10px] uppercase font-bold bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white px-3 py-1 rounded transition-colors flex items-center gap-2">
+                            <i class="fa-regular fa-copy"></i> <span>Copy Script</span>
+                        </button>
+                    </div>
+                    
+                    <div class="code-container">
+<pre><code id="luaCode"><span class="text-purple-400">local</span> ReplicatedStorage = <span class="text-blue-400">game</span>:GetService(<span class="text-green-400">"ReplicatedStorage"</span>)
+<span class="text-purple-400">local</span> GifPlayer = <span class="text-purple-400">require</span>(ReplicatedStorage:WaitForChild(<span class="text-green-400">"GifPlayer"</span>))
+
+<span class="text-slate-500">-- Setup: Place this script inside an ImageLabel</span>
+<span class="text-purple-400">local</span> imageLabel = <span class="text-blue-400">script</span>.Parent
+<span class="text-purple-400">local</span> textureId = <span class="text-green-400">"rbxassetid://YOUR_ID_HERE"</span>
+
+<span class="text-slate-500">-- Generated Config</span>
+imageLabel.ImageRectSize = <span class="text-blue-400">Vector2.new</span>(<span id="outX" class="text-yellow-400">0</span>, <span id="outY" class="text-yellow-400">0</span>)
+
+<span class="text-purple-400">local</span> gif = GifPlayer.new(imageLabel, textureId, {
+    Columns = <span id="outCols" class="text-yellow-400">0</span>,
+    Rows = <span id="outRows" class="text-yellow-400">0</span>,
+    TotalFrames = <span id="outFrames" class="text-yellow-400">0</span>,
+    FPS = <span id="outFps" class="text-yellow-400">24</span>
+})
+
+gif:Play()</code></pre>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="text-sm text-slate-300 flex flex-col justify-center">
+                    <label class="text-xs font-bold text-slate-400 uppercase block mb-3">Workflow</label>
+                    <ol class="list-decimal pl-4 space-y-3 text-slate-400 text-xs leading-relaxed">
+                        <li>Upload the generated PNG to Roblox.</li>
+                        <li>Create an <strong>ImageLabel</strong> in your GUI.</li>
+                        <li>Create a <strong>LocalScript</strong> inside that ImageLabel.</li>
+                        <li>Paste the code from the left.</li>
+                        <li>Replace <code class="bg-slate-800 px-1 border border-slate-700 rounded">YOUR_ID_HERE</code> with the Asset ID.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
