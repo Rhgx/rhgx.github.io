@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.hidden {
+  display: none !important;
+}
+
+.space-y > * + * {
+  margin-top: var(--space-md);
+}
+
+.space-y-lg > * + * {
+  margin-top: var(--space-lg);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-muted {
+  color: var(--steel);
+}
+
+/* ─── EMPTY STATE ───────────────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--steel);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+  opacity: 0.5;
+}
+
+.empty-state-text {
+  font-size: 1rem;
+  max-width: 30ch;
+  margin: 0 auto;
+}
+
+/* ─── WIN/LOSS INDICATORS ───────────────────────────────────────────────── */
+.win-indicator {
+  color: var(--brass-dark);
+  font-weight: 700;
+}
+
+.loss-indicator {
+  color: var(--rust);
+  font-weight: 700;
+}
+
+.draw-indicator {
+  color: var(--steel);
+  font-weight: 700;
+}
+
+/* ─── ICON STYLING ──────────────────────────────────────────────────────── */
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
+.tf2-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* ─── TABLE SUMMARY ─────────────────────────────────────────────────────── */
+.table-summary {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  color: var(--steel);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── HELP LINK ─────────────────────────────────────────────────────────── */
+.help-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 100%;
+  max-width: 400px;
+  margin: var(--space-sm) auto var(--space-lg);
+  padding: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--steel);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.help-link:hover {
+  color: var(--rust);
+}
+
+.help-link i {
+  font-size: 1.125rem;
+}

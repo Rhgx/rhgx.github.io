@@ -117,9 +117,7 @@ export class VirtualTable {
         ) {
           v = formatMatchTime(v);
         } else if (typeof v === "boolean") {
-          v = v ? "Yes" : "No";
-        } else if (typeof v === "string" && (v.toLowerCase() === "true" || v.toLowerCase() === "false")) {
-          v = v.toLowerCase() === "true" ? "Yes" : "No";
+          v = v ? "True" : "False";
         } else if (v == null || v === "") {
           v = "-";
         }

@@ -8,7 +8,6 @@ import {
   idle,
 } from "./utils.js";
 import { VirtualTable } from "./virtual-table.js";
-import { CHART_DEFAULT_OPTIONS, COLORS, FONTS } from "./config.js";
 
 // Module-scoped state and refs
 let keyStatsContainer;
@@ -24,8 +23,23 @@ let charts = {};
 let allMatchData = [];
 let virtualTable = null;
 
-// Use config for chart options
-const chartDefaultOptions = CHART_DEFAULT_OPTIONS;
+const chartDefaultOptions = {
+  maintainAspectRatio: false,
+  animation: { duration: 450, easing: "easeOutCubic" },
+  plugins: {
+    legend: { labels: { color: "#d1d5db" } },
+  },
+  scales: {
+    x: {
+      ticks: { color: "#9ca3af" },
+      grid: { color: "#4b5563" },
+    },
+    y: {
+      ticks: { color: "#9ca3af", precision: 0 },
+      grid: { color: "#4b5563" },
+    },
+  },
+};
 
 export function initGCPD() {
   // DOM (no upload; handled globally)
@@ -389,99 +403,103 @@ function renderKeyStats(stats) {
   const categoryMeta = {
     overall: {
       title: "Overall Summary",
-      iconColor: "#b44c33", // rust
-      badgeBg: "rgba(180, 76, 51, 0.15)",
-      borderColor: "#b44c33",
+      iconColor: "text-purple-300",
+      badgeBg: "bg-purple-500/15",
+      ring: "ring-purple-500/20",
+      gradient: "from-purple-500/10 via-gray-800 to-gray-800",
     },
     combat: {
       title: "Combat",
-      iconColor: "#8a3a28", // rust-dark
-      badgeBg: "rgba(138, 58, 40, 0.15)",
-      borderColor: "#8a3a28",
+      iconColor: "text-rose-300",
+      badgeBg: "bg-rose-500/15",
+      ring: "ring-rose-500/20",
+      gradient: "from-rose-500/10 via-gray-800 to-gray-800",
     },
     queue: {
       title: "Queue Time",
-      iconColor: "#c9a227", // brass
-      badgeBg: "rgba(201, 162, 39, 0.15)",
-      borderColor: "#c9a227",
+      iconColor: "text-amber-300",
+      badgeBg: "bg-amber-500/15",
+      ring: "ring-amber-500/20",
+      gradient: "from-amber-500/10 via-gray-800 to-gray-800",
     },
     match: {
       title: "Match Time",
-      iconColor: "#5885a2", // blu
-      badgeBg: "rgba(88, 133, 162, 0.15)",
-      borderColor: "#5885a2",
+      iconColor: "text-emerald-300",
+      badgeBg: "bg-emerald-500/15",
+      ring: "ring-emerald-500/20",
+      gradient: "from-emerald-500/10 via-gray-800 to-gray-800",
     },
   };
 
   const statItems = [
     {
-      icon: "ri-bar-chart-box-fill",
+      icon: "format_list_numbered",
       label: "Total Matches",
       value: stats.totalMatches,
       category: "overall",
     },
     {
-      icon: "ri-login-box-fill",
+      icon: "login",
       label: "Joined in Progress",
       value: `${stats.matchesJoinedMid} matches`,
       category: "overall",
     },
     {
-      icon: "ri-trophy-fill",
+      icon: "military_tech",
       label: "Win Rate",
       value: stats.winRate,
       category: "overall",
     },
-    { icon: "ri-thumb-up-fill", label: "Wins", value: stats.wins, category: "overall" },
+    { icon: "thumb_up", label: "Wins", value: stats.wins, category: "overall" },
     {
-      icon: "ri-thumb-down-fill",
+      icon: "thumb_down",
       label: "Losses",
       value: stats.losses,
       category: "overall",
     },
-    { icon: "ri-subtract-line", label: "Stalemates", value: stats.ties, category: "overall" },
+    { icon: "remove", label: "Stalemates", value: stats.ties, category: "overall" },
 
-    { icon: "ri-sword-fill", label: "K/D Ratio", value: stats.kdRatio, category: "combat" },
+    { icon: "group", label: "K/D Ratio", value: stats.kdRatio, category: "combat" },
     {
-      icon: "ri-crosshair-2-fill",
+      icon: "military_tech",
       label: "Avg. Kills",
       value: stats.avgKills,
       category: "combat",
     },
     {
-      icon: "ri-skull-fill",
+      icon: "dangerous",
       label: "Avg. Deaths",
       value: stats.avgDeaths,
       category: "combat",
     },
     {
-      icon: "ri-fire-fill",
+      icon: "whatshot",
       label: "Avg. Damage",
       value: stats.avgDamage,
       category: "combat",
     },
     {
-      icon: "ri-heart-pulse-fill",
+      icon: "healing",
       label: "Avg. Healing",
       value: stats.avgHealing,
       category: "combat",
     },
     {
-      icon: "ri-arrow-up-double-fill",
+      icon: "trending_up",
       label: "Most Kills",
       value: stats.mostKills,
       details: stats.mostKillsDetails,
       category: "combat",
     },
     {
-      icon: "ri-skull-2-fill",
+      icon: "sick",
       label: "Most Deaths",
       value: stats.mostDeaths,
       details: stats.mostDeathsDetails,
       category: "combat",
     },
     {
-      icon: "ri-first-aid-kit-fill",
+      icon: "health_and_safety",
       label: "Most Healing",
       value: stats.mostHealing,
       details: stats.mostHealingDetails,
@@ -489,26 +507,26 @@ function renderKeyStats(stats) {
     },
 
     {
-      icon: "ri-timer-fill",
+      icon: "timer",
       label: "Avg. Queue Time",
       value: stats.avgQueueTime,
       category: "queue",
     },
     {
-      icon: "ri-time-fill",
+      icon: "history",
       label: "Total Queue Time",
       value: stats.totalQueueTime,
       category: "queue",
     },
     {
-      icon: "ri-hourglass-fill",
+      icon: "schedule",
       label: "Longest Queue",
       value: stats.longestQueueTime,
       details: stats.longestQueueTimeDetails,
       category: "queue",
     },
     {
-      icon: "ri-hourglass-2-fill",
+      icon: "alarm_on",
       label: "Shortest Queue",
       value: stats.shortestQueueTime,
       details: stats.shortestQueueTimeDetails,
@@ -516,26 +534,26 @@ function renderKeyStats(stats) {
     },
 
     {
-      icon: "ri-timer-2-fill",
+      icon: "hourglass_empty",
       label: "Avg. Match Time",
       value: stats.avgMatchTime,
       category: "match",
     },
     {
-      icon: "ri-gamepad-fill",
+      icon: "sports_esports",
       label: "Total Match Time",
       value: stats.totalMatchTime,
       category: "match",
     },
     {
-      icon: "ri-timer-flash-fill",
+      icon: "hourglass_full",
       label: "Longest Match",
       value: stats.longestMatchTime,
       details: stats.longestMatchTimeDetails,
       category: "match",
     },
     {
-      icon: "ri-flashlight-fill",
+      icon: "hourglass_bottom",
       label: "Shortest Match",
       value: stats.shortestMatchTime,
       details: stats.shortestMatchTimeDetails,
@@ -552,50 +570,44 @@ function renderKeyStats(stats) {
     const meta = categoryMeta[catKey];
 
     const group = document.createElement("div");
-    group.style.cssText = "grid-column: 1 / -1; margin-bottom: 1.5rem;";
+    group.className = "col-span-full";
     group.innerHTML = `
-      <div style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-        <span style="color: ${meta.iconColor}; font-size: 0.75rem;">◆</span>
-        <h3 style="font-family: 'TF2 Build', Impact, sans-serif; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.02em; color: #2a2118;">${meta.title}</h3>
+      <div class="mb-2 flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-white">${meta.title}</h3>
       </div>
-      <div class="stat-grid"></div>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"></div>
     `;
-    const grid = group.querySelector(".stat-grid");
+    const grid = group.querySelector(".grid");
 
     groupItems.forEach((item) => {
       const detailHtml = item.details
         ? `<button
-            class="match-chip js-focus-match"
+            class="js-focus-match mt-2 inline-flex items-center gap-1 rounded-md ${meta.badgeBg} px-2 py-1 text-xs text-gray-300 hover:underline"
             data-focus-match="${item.details.title}"
-            title="View this match in the table"
+            title="View this match"
           >
-            <i class="ri-eye-line"></i>
-            <span>View</span>
-            <span class="match-chip-time">• ${item.details.time}</span>
+            <i class="material-icons text-[1rem] ${meta.iconColor}">visibility</i>
+            View match • ${item.details.time}
           </button>`
         : "";
 
       const card = document.createElement("div");
-      card.className = "stat-card";
-      card.style.cssText = `
-        background: #e8d4a8;
-        border: 2px solid #2a2118;
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        position: relative;
-        box-shadow: 2px 2px 0 rgba(42, 33, 24, 0.3);
-        border-left: 4px solid ${meta.borderColor};
-      `;
+      card.className =
+        `stat-card relative overflow-hidden rounded-xl bg-gradient-to-br ${meta.gradient} ` +
+        `ring-1 ring-inset ${meta.ring} p-4 transition-all ` +
+        `hover:shadow-lg hover:shadow-white/5`;
       card.innerHTML = `
-        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #e5c76b, #c9a227); border: 2px solid #9a7a1d; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2); flex-shrink: 0;">
-          <i class="${item.icon}" style="font-size: 1.25rem; color: #2a2118;"></i>
-        </div>
-        <div style="flex: 1; min-width: 0;">
-          <p style="font-family: 'TF2 Build', Impact, sans-serif; font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.1em; color: #5a6673;">${item.label}</p>
-          <p style="font-family: 'OCR-A', Consolas, monospace; font-size: 1.25rem; font-weight: 700; color: #2a2118; word-break: break-word;">${item.value}</p>
-          ${detailHtml}
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full ${meta.badgeBg}">
+              <i class="material-icons ${meta.iconColor}">${item.icon}</i>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wide text-gray-400">${item.label}</p>
+              <p class="text-2xl font-bold leading-tight">${item.value}</p>
+              ${detailHtml}
+            </div>
+          </div>
         </div>
       `;
       grid.appendChild(card);
@@ -706,62 +718,26 @@ function createPerformanceChart(data) {
         {
           label: "Kills",
           data: trimmed.map((r) => r.kills || 0),
-          backgroundColor: "#b44c33", // rust
-          yAxisID: "y", // left axis
+          backgroundColor: "#2dd4bf",
         },
         {
           label: "Deaths",
           data: trimmed.map((r) => r.deaths || 0),
-          backgroundColor: "#5a6673", // steel
-          yAxisID: "y", // left axis
+          backgroundColor: "#f87171",
         },
         {
           label: "Damage",
           data: trimmed.map((r) => r.damage || 0),
-          backgroundColor: "#c9a227", // brass
-          yAxisID: "y1", // right axis
+          backgroundColor: "#facc15",
         },
         {
           label: "Healing",
           data: trimmed.map((r) => r.healing || 0),
-          backgroundColor: "#5885a2", // blu
-          yAxisID: "y1", // right axis
+          backgroundColor: "#4ade80",
         },
       ],
     },
-    options: {
-      ...chartDefaultOptions,
-      scales: {
-        x: {
-          ticks: { color: "#4a3d30", font: { family: "'OCR-A', Consolas, monospace" } },
-          grid: { color: "#e8d4a8" },
-        },
-        y: {
-          type: "linear",
-          position: "left",
-          title: {
-            display: true,
-            text: "Kills / Deaths",
-            color: "#b44c33",
-            font: { family: "'TF2 Secondary', Arial, sans-serif", size: 11 },
-          },
-          ticks: { color: "#4a3d30", precision: 0, font: { family: "'OCR-A', Consolas, monospace" } },
-          grid: { color: "#e8d4a8" },
-        },
-        y1: {
-          type: "linear",
-          position: "right",
-          title: {
-            display: true,
-            text: "Damage / Healing",
-            color: "#c9a227",
-            font: { family: "'TF2 Secondary', Arial, sans-serif", size: 11 },
-          },
-          ticks: { color: "#4a3d30", precision: 0, font: { family: "'OCR-A', Consolas, monospace" } },
-          grid: { drawOnChartArea: false }, // don't overlap with left axis grid
-        },
-      },
-    },
+    options: chartDefaultOptions,
   });
 }
 
@@ -790,8 +766,8 @@ function createWinLossChart(data) {
       datasets: [
         {
           data: Object.values(outcomes),
-          backgroundColor: ["#5885a2", "#5a6673", "#b44c33"], // blu, steel, rust
-          borderColor: "#2a2118",
+          backgroundColor: ["#2dd4bf", "#6b7280", "#f87171"],
+          borderColor: "#1f2937",
         },
       ],
     },
@@ -814,17 +790,17 @@ function createGameModeChart(data) {
         {
           data: Object.values(types),
           backgroundColor: [
-            "#b44c33", // rust
-            "#c9a227", // brass
-            "#5885a2", // blu
-            "#5a6673", // steel
-            "#8a3a28", // rust-dark
-            "#9a7a1d", // brass-dark
-            "#3d6178", // blu-dark
-            "#d4694f", // rust-light
-            "#e5c76b", // brass-light
+            "#38bdf8",
+            "#818cf8",
+            "#c084fc",
+            "#f472b6",
+            "#fb923c",
+            "#a3e635",
+            "#fdba74",
+            "#93c5fd",
+            "#c4b5fd",
           ],
-          borderColor: "#2a2118",
+          borderColor: "#1f2937",
         },
       ],
     },
@@ -849,16 +825,16 @@ function createTimelineChart(data) {
         {
           label: "Kills",
           data: sortedData.map((r) => r.kills || 0),
-          borderColor: "#b44c33", // rust
-          backgroundColor: "#b44c3320",
+          borderColor: "#2dd4bf",
+          backgroundColor: "#2dd4bf20",
           fill: true,
           tension: 0.3,
         },
         {
           label: "Deaths",
           data: sortedData.map((r) => r.deaths || 0),
-          borderColor: "#5885a2", // blu
-          backgroundColor: "#5885a220",
+          borderColor: "#f87171",
+          backgroundColor: "#f8717120",
           fill: true,
           tension: 0.3,
         },

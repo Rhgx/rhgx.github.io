@@ -1,0 +1,319 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENTS - Buttons, Upload Zone, Stats, Filters
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── BUTTONS ───────────────────────────────────────────────────────────── */
+.btn {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width) solid var(--ink);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-stamp);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.btn-primary {
+  background: var(--rust);
+  color: var(--parchment);
+  border-color: var(--rust-dark);
+}
+
+.btn-primary:hover {
+  background: var(--rust-light);
+}
+
+.btn-secondary {
+  background: var(--steel);
+  color: var(--parchment);
+  border-color: var(--steel-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--steel-light);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink-light);
+}
+
+.btn-ghost:hover {
+  background: var(--cream-dark);
+}
+
+/* ─── UPLOAD ZONE ───────────────────────────────────────────────────────── */
+.upload-zone {
+  max-width: 600px;
+  margin: var(--space-2xl) auto;
+  padding: var(--space-2xl);
+  background: var(--parchment);
+  border: var(--border-thick) dashed var(--steel);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.upload-zone:hover,
+.upload-zone.dragover {
+  border-color: var(--rust);
+  background: var(--cream);
+  transform: scale(1.01);
+}
+
+.upload-zone.dragover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(180, 76, 51, 0.2);
+}
+
+.upload-icon {
+  font-size: 4rem;
+  color: var(--steel);
+  margin-bottom: var(--space-md);
+  display: block;
+  transition: transform var(--transition-normal), color var(--transition-fast);
+}
+
+.upload-zone:hover .upload-icon {
+  transform: translateY(-4px);
+  color: var(--rust);
+}
+
+.upload-label {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--rust);
+  color: var(--parchment);
+  border: var(--border-width) solid var(--rust-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-stamp);
+  transition: all var(--transition-fast);
+}
+
+.upload-label:hover {
+  background: var(--rust-light);
+}
+
+.upload-hint {
+  margin-top: var(--space-md);  
+  font-size: 0.875rem;
+  color: var(--steel);
+}
+
+/* ─── LOADING ───────────────────────────────────────────────────────────── */
+.loading-container {
+  text-align: center;
+  padding: var(--space-2xl);
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--cream-dark);
+  border-top-color: var(--rust);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto var(--space-md);
+}
+
+.loading-text {
+  font-family: var(--font-display);
+  color: var(--steel);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.875rem;
+  animation: fadeIn 0.5s ease-out 0.3s backwards;
+}
+
+/* ─── CARDS / PANELS ────────────────────────────────────────────────────── */
+.card {
+  background: var(--parchment);
+  border: var(--border-width) solid var(--ink);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-lg);
+}
+
+/* ─── STAT CARDS ────────────────────────────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-md);
+}
+
+.key-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.stat-card {
+  background: var(--cream-dark);
+  border: var(--border-width) solid var(--ink);
+  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  box-shadow: var(--shadow-stamp);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 rgba(42, 33, 24, 0.3);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--brass-light), var(--brass));
+  border: 2px solid var(--brass-dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.stat-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-label {
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--steel);
+}
+
+.stat-value {
+  font-family: var(--font-data);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+/* ─── FILTER BAR ────────────────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  background: var(--cream-dark);
+  border: var(--border-width) solid var(--ink);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  position: sticky;
+  top: 80px;
+  z-index: 50;
+  box-shadow: var(--shadow-stamp);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--parchment);
+  border: 1px solid var(--steel);
+  padding: var(--space-xs) var(--space-sm);
+  transition: box-shadow var(--transition-fast);
+}
+
+.filter-group:focus-within {
+  box-shadow: 0 0 0 2px var(--rust-light);
+}
+
+.filter-label {
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--steel);
+}
+
+.filter-select,
+.filter-input {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  padding: var(--space-xs);
+  min-width: 80px;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+  outline: none;
+}
+
+.filter-input::placeholder {
+  color: var(--steel-light);
+}
+
+/* ─── MATCH CHIP ────────────────────────────────────────────────────────── */
+.match-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: var(--cream);
+  color: var(--ink);
+  border: 1px solid var(--steel);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 1px 1px 0 rgba(42, 33, 24, 0.15);
+  white-space: nowrap;
+}
+
+.match-chip:hover {
+  background: var(--rust);
+  color: var(--parchment);
+  border-color: var(--rust-dark);
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 rgba(42, 33, 24, 0.25);
+}
+
+.match-chip:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.match-chip i {
+  font-size: 0.75rem;
+  transition: transform var(--transition-fast);
+}
+
+.match-chip:hover i {
+  transform: scale(1.1);
+}
+
+.match-chip-time {
+  opacity: 0.7;
+  font-size: 0.5rem;
+  font-weight: 400;
+}

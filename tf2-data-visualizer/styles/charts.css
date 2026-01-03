@@ -1,0 +1,119 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHARTS & TABLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CHART GRID ────────────────────────────────────────────────────────── */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 1024px) {
+  .chart-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ─── CHART CONTAINER ───────────────────────────────────────────────────── */
+.chart-container {
+  position: relative;
+  background: var(--parchment);
+  border: var(--border-width) solid var(--ink);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 320px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .chart-wrapper {
+    height: 300px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .chart-wrapper {
+    height: 280px;
+  }
+}
+
+.chart-title {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--cream-dark);
+}
+
+/* ─── DATA TABLE ────────────────────────────────────────────────────────── */
+.table-wrapper {
+  overflow-x: auto;
+  background: var(--parchment);
+  border: var(--border-width) solid var(--ink);
+  max-height: 400px;
+  box-shadow: var(--shadow-card);
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--cream-dark);
+  white-space: nowrap;
+}
+
+.table-wrapper th {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--cream-dark);
+  color: var(--ink);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-wrapper tbody tr:nth-child(odd) {
+  background: var(--parchment);
+}
+
+.table-wrapper tbody tr:nth-child(even) {
+  background: var(--cream);
+}
+
+.table-wrapper tbody tr:hover {
+  background: var(--cream-dark);
+}
+
+/* ─── TABLE SUMMARY ─────────────────────────────────────────────────────── */
+.table-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--cream-dark);
+  border: var(--border-width) solid var(--ink);
+  border-top: none;
+  font-size: 0.75rem;
+  color: var(--steel);
+}

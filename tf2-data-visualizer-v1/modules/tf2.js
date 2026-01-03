@@ -219,8 +219,8 @@ function updateChart(sortedLimitedEntries) {
   const borderColors = backgroundColors.map((c) => c.replace("55%", "42%"));
 
   const ctx = document.getElementById("t-map-chart").getContext("2d");
-  const gridColor = "rgba(232, 212, 168, 0.6)"; // cream-dark
-  const tickColor = "#4a3d30"; // ink-light
+  const gridColor = "rgba(148,163,184,0.18)";
+  const tickColor = "rgba(226,232,240,0.95)";
 
   if (mapChart) {
     mapChart.data.labels = labels;
@@ -242,6 +242,7 @@ function updateChart(sortedLimitedEntries) {
           backgroundColor: backgroundColors,
           borderColor: borderColors,
           borderWidth: 1,
+          borderRadius: 8,
           barPercentage: 0.8,
           categoryPercentage: 0.7,
         },
@@ -256,7 +257,6 @@ function updateChart(sortedLimitedEntries) {
           grid: { display: false },
           ticks: {
             color: tickColor,
-            font: { family: "'TF2 Secondary', Arial, sans-serif", size: 10 },
             autoSkip: false,
             maxRotation: 40,
             minRotation: 0,
@@ -287,13 +287,13 @@ function updateChart(sortedLimitedEntries) {
         y: {
           beginAtZero: true,
           grid: { color: gridColor },
-          ticks: { color: tickColor, precision: 0, font: { family: "'OCR-A', Consolas, monospace" } },
+          ticks: { color: tickColor, precision: 0 },
         },
       },
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "rgba(42, 33, 24, 0.95)", // ink
+          backgroundColor: "rgba(15,23,42,0.95)",
           borderColor: "rgba(255,255,255,0.1)",
           borderWidth: 1,
           padding: 10,

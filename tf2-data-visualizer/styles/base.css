@@ -1,0 +1,159 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE STYLES - Fonts, Variables, Reset, Typography
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── FONT FACES ────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'TF2';
+  src: url('../fonts/TF2.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TF2 Build';
+  src: url('../fonts/TF2Build.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TF2 Secondary';
+  src: url('../fonts/TF2Secondary.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TF2 Professor';
+  src: url('../fonts/TF2Professor.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OCR-A';
+  src: url('../fonts/ocra.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ─── CSS CUSTOM PROPERTIES ─────────────────────────────────────────────── */
+:root {
+  /* TF2 Core Palette */
+  --cream: #f5e6c8;
+  --cream-dark: #e8d4a8;
+  --parchment: #faf3e3;
+  --rust: #b44c33;
+  --rust-dark: #8a3a28;
+  --rust-light: #d4694f;
+  --brass: #c9a227;
+  --brass-light: #e5c76b;
+  --brass-dark: #9a7a1d;
+  --ink: #2a2118;
+  --ink-light: #4a3d30;
+  --steel: #5a6673;
+  --steel-dark: #3d454f;
+  --steel-light: #7a8693;
+  
+  /* BLU Team */
+  --blu: #5885a2;
+  --blu-dark: #3d6178;
+  
+  /* Semantic */
+  --bg-primary: var(--cream);
+  --bg-secondary: var(--parchment);
+  --bg-card: var(--cream-dark);
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-light);
+  --accent-primary: var(--rust);
+  --accent-secondary: var(--brass);
+  
+  /* Typography - TF2 Official Fonts */
+  --font-display: 'TF2 Build', 'Impact', sans-serif;
+  --font-body: 'TF2 Secondary', 'Arial', sans-serif;
+  --font-data: 'OCR-A', 'Consolas', monospace;
+  
+  /* Spacing (scaled 1.2x for 120% default view) */
+  --space-xs: 0.3rem;
+  --space-sm: 0.6rem;
+  --space-md: 1.2rem;
+  --space-lg: 1.8rem;
+  --space-xl: 2.4rem;
+  --space-2xl: 3.6rem;
+  
+  /* Borders & Shadows */
+  --border-width: 2px;
+  --border-thick: 3px;
+  --shadow-stamp: 2px 2px 0 var(--ink-light);
+  --shadow-card: 5px 5px 0 rgba(42, 33, 24, 0.2);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}
+
+/* ─── RESET ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 19.2px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ─── TYPOGRAPHY ────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.125rem; }
+
+@media (min-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
+}
+
+/* ─── SCROLLBAR STYLING ─────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream-dark);
+  border: 1px solid var(--steel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--steel);
+  border: 2px solid var(--cream-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--steel-dark);
+}
+
+/* ─── SELECTION ─────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--rust);
+  color: var(--parchment);
+}
