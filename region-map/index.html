@@ -1,223 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Closest Region Finder</title>
+
+    <!-- Open Graph Meta -->
     <meta content="Roblox Closest Region Finder" property="og:title" />
-    <meta content="A site made to find the closest roblox server region to the users location." property="og:description" />
+    <meta content="A site made to find the closest roblox server region to the users location."
+        property="og:description" />
     <meta content="https://rhgx.github.io/region-map/" property="og:url" />
     <meta content="https://i.imgur.com/ITEYQpR.png" property="og:image" />
     <meta content="#2a2a2a" data-react-helmet="true" name="theme-color" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- External Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Application Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- External Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <style>
-        body {
-            font-family: 'Oswald', sans-serif;
-            background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
-            background-attachment: fixed;
-            position: relative;
-            color: beige;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.05;
-            background-image: repeating-linear-gradient(45deg, #000 0, #000 5px, transparent 0, transparent 50%);
-            background-size: 30px 30px;
-            pointer-events: none;
-        }
-        #map {
-            height: 400px;
-            width: 100%;
-            -webkit-text-stroke-width: 0px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            filter: brightness(0.8) saturate(1.2);
-        }
-        .list-group-item {
-            -webkit-text-stroke-width: 0px;
-            transition: background-color 0.3s;
-            background-color: #333;
-            color: beige;
-            border: 1px solid #444;
-        }
-        .list-group-item:hover {
-            background-color: #444;
-            cursor: pointer;
-            color: beige;
-        }
-        #loading {
-            text-align: center;
-            padding: 20px;
-            display: none;
-        }
-        .error-message {
-            color: #dc3545;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-            background-color: rgba(220, 53, 69, 0.1);
-        }
-        .text-light {
-            color:beige !important;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Closest Roblox Region Finder</h1>
+
+        <!-- Loading Indicator -->
         <div id="loading">
             <div class="spinner-border text-light" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+
         <div class="row">
+            <!-- Region List -->
             <div class="col-md-6">
                 <h3>Your Closest Regions</h3>
                 <div id="error-container"></div>
                 <ul id="region-list" class="list-group"></ul>
             </div>
+
+            <!-- Map -->
             <div class="col-md-6">
                 <h3>Map</h3>
                 <div id="map"></div>
-                <small class="text-light mt-2">Note: These locations are approximate and may not represent all Roblox server regions.</small>
+                <small class="text-light mt-2">Note: These locations are approximate and may not represent all Roblox
+                    server regions.</small>
             </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loading = document.getElementById('loading');
-            const errorContainer = document.getElementById('error-container');
-            loading.style.display = 'block';
-
-            const regions = [
-                { name: "Seattle, WA", lat: 47.6062, lon: -122.3321 },
-                { name: "Los Angeles, CA", lat: 34.0522, lon: -118.2437 },
-                { name: "Dallas, TX", lat: 32.7767, lon: -96.7970 },
-                { name: "Chicago, IL", lat: 41.8781, lon: -87.6298 },
-                { name: "Atlanta, GA", lat: 33.7490, lon: -84.3880 },
-                { name: "Miami, FL", lat: 25.7617, lon: -80.1918 },
-                { name: "Ashburn, VA", lat: 39.0438, lon: -77.4874 },
-                { name: "New York City, NY", lat: 40.7128, lon: -74.0060 },
-                { name: "London, UK", lat: 51.5074, lon: -0.1278 },
-                { name: "Amsterdam, NL", lat: 52.3676, lon: 4.9041 },
-                { name: "Paris, FR", lat: 48.8566, lon: 2.3522 },
-                { name: "Frankfurt, DE", lat: 50.1109, lon: 8.6821 },
-                { name: "Warsaw, PL", lat: 52.2297, lon: 21.0122 },
-                { name: "Mumbai, IN", lat: 19.0760, lon: 72.8777 },
-                { name: "Tokyo, JP", lat: 35.6895, lon: 139.6917 },
-                { name: "Singapore", lat: 1.3521, lon: 103.8198 },
-                { name: "Sydney, AU", lat: -33.8688, lon: 151.2093 },
-                { name: "São Paulo, BR", lat: -23.5505, lon: -46.6333 },
-                { name: "Dublin, IE", lat: 53.3498, lon: -6.2603 }
-            ];
-
-            function showError(message) {
-                errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
-            }
-
-            function calculateDistance(lat1, lon1, lat2, lon2) {
-                const R = 6371;
-                const dLat = (lat2 - lat1) * Math.PI / 180;
-                const dLon = (lon2 - lon1) * Math.PI / 180;
-                const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                          Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                return R * c;
-            }
-
-            // Create custom icons for different types of markers
-            const userIcon = new L.Icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-
-            const regionIcon = new L.Icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    const userLat = position.coords.latitude;
-                    const userLon = position.coords.longitude;
-                    const userLocation = [userLat, userLon];
-
-                    try {
-                        const map = L.map('map').setView(userLocation, 4);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            maxZoom: 19,
-                            attribution: '© OpenStreetMap contributors'
-                        }).addTo(map);
-
-                        L.marker(userLocation, { icon: userIcon })
-                            .addTo(map)
-                            .bindPopup('Your Location')
-                            .openPopup();
-
-                        const distances = regions.map(region => {
-                            const distanceKm = calculateDistance(userLat, userLon, region.lat, region.lon);
-                            const distanceMiles = distanceKm * 0.621371;
-                            return { ...region, distanceKm, distanceMiles };
-                        }).sort((a, b) => a.distanceKm - b.distanceKm);
-
-                        const regionList = document.getElementById('region-list');
-                        distances.forEach((region, index) => {
-                            const listItem = document.createElement('li');
-                            listItem.classList.add('list-group-item');
-                            listItem.innerHTML = `
-                                <strong>${index + 1}. ${region.name}</strong><br>
-                                ${region.distanceKm.toFixed(0)} km (${region.distanceMiles.toFixed(0)} miles)
-                            `;
-                            
-                            // Add click handler to center map on region
-                            listItem.addEventListener('click', () => {
-                                map.setView([region.lat, region.lon], 6);
-                            });
-                            
-                            regionList.appendChild(listItem);
-
-                            const marker = L.marker([region.lat, region.lon], { icon: regionIcon })
-                                .addTo(map)
-                                .bindPopup(`<strong>${region.name}</strong><br>${region.distanceKm.toFixed(0)} km away`);
-                        });
-
-                    } catch (error) {
-                        showError('Error initializing map. Please refresh the page.');
-                        console.error('Map initialization error:', error);
-                    }
-                    loading.style.display = 'none';
-                }, error => {
-                    loading.style.display = 'none';
-                    showError('Unable to retrieve your location. Please check your browser settings and try again.');
-                    console.error('Geolocation error:', error);
-                });
-            } else {
-                loading.style.display = 'none';
-                showError('Geolocation is not supported by this browser.');
-            }
-        });
-    </script>
+    <!-- Application Script -->
+    <script type="module" src="js/app.js"></script>
 </body>
 
 </html>
