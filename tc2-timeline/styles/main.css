@@ -1,0 +1,165 @@
+/* ==========================================================================
+   TC2 Timeline - Main Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Base Styles
+   -------------------------------------------------------------------------- */
+
+body {
+  /* Mobile-first: smallest background */
+  background: url('../images/backgrounds/bg-720p.webp') no-repeat center center fixed;
+  background-size: cover;
+  background-color: #3b3b3b;
+  color: #e0e0e0;
+  font-family: 'Oswald', sans-serif;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: -1;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Background Images
+   -------------------------------------------------------------------------- */
+
+/* Medium screens: Tablets and small laptops */
+@media (min-width: 768px) {
+  body {
+    background-image: url('../images/backgrounds/bg-1080p.webp');
+  }
+}
+
+/* Large screens: Desktops and 4K displays */
+@media (min-width: 1440px) {
+  body {
+    background-image: url('../images/backgrounds/bg-4k.webp');
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Timeline Layout
+   -------------------------------------------------------------------------- */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #745d8b;
+  transform: translateX(-50%);
+}
+
+/* --------------------------------------------------------------------------
+   Timeline Items
+   -------------------------------------------------------------------------- */
+
+.timeline-item {
+  display: flex;
+  flex-direction: row;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.timeline-item:nth-child(odd) {
+  justify-content: flex-start;
+}
+
+.timeline-item:nth-child(even) {
+  justify-content: flex-end;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background-color: #745d8b;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* --------------------------------------------------------------------------
+   Timeline Content Cards
+   -------------------------------------------------------------------------- */
+
+.timeline-content {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  background: #222;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+.timeline-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #a68fbd;
+}
+
+.timeline-content p {
+  margin: 0;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.timeline-content img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Animation States
+   -------------------------------------------------------------------------- */
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adjustments
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .timeline-content {
+    height: auto;
+    padding: 1rem;
+  }
+
+  .timeline-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .timeline-content p {
+    font-size: 0.9rem;
+  }
+}
