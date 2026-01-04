@@ -5,117 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC2 Time Calculator</title>
+
+    <!-- Open Graph Meta Tags -->
     <meta content="TC2 Time Calculator" property="og:title" />
     <meta content="A total time calculator for the Roblox game 'Typical Colors 2'." property="og:description" />
     <meta content="https://rhgx.github.io/tc2-time-calc/" property="og:url" />
-    <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
+    <meta content="assets/images/og-image.png" property="og:image" />
     <meta content="#a965da" data-react-helmet="true" name="theme-color" />
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <style>
-        body {
-            background-color: #745d8b;
-            color: white;
-            font-family: 'Oswald', sans-serif;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.05;
-            background-image: repeating-linear-gradient(45deg, #000 0, #000 5px, transparent 0, transparent 50%);
-            background-size: 30px 30px;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .class-container {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-            background-color: #684888;
-            border-radius: 8px;
-        }
-
-        .class-image {
-            width: 40%;
-            height: auto;
-        }
-
-        .output {
-            color: #ffd700;
-            font-size: 1.5rem;
-        }
-
-        .output-container {
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #684888;
-            margin-top: 20px;
-        }
-
-        .btn-calculate {
-            transform: scale(1.25);
-        }
-
-        .chart-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .nav-tabs .nav-link.active {
-            background-color: #1e1824; /* Passive background */
-            color: white; /* Text color */
-        }
-
-        .nav-tabs .nav-link {
-            background-color: #684888; /* Active tab background */
-            color: white; /* Active tab text color */
-        }
-
-        .time-input:focus {
-            border-color: #a965da;
-            box-shadow: 0 0 0 0.2rem rgba(169, 101, 218, 0.25);
-        }
-
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link href="styles.css" rel="stylesheet">
 </head>
 
 <body>
+    <!-- WebGL Background -->
+    <canvas id="bg-canvas"></canvas>
+
     <div class="container mt-4">
+        <!-- Server Tabs -->
         <ul class="nav nav-tabs" id="serverTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="official-tab" data-bs-toggle="tab" data-bs-target="#official" type="button" role="tab">Official Servers</button>
+                <button class="nav-link active" id="official-tab" data-bs-toggle="tab" data-bs-target="#official"
+                    type="button" role="tab">Official Servers</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="community-tab" data-bs-toggle="tab" data-bs-target="#community" type="button" role="tab">Community Servers</button>
+                <button class="nav-link" id="community-tab" data-bs-toggle="tab" data-bs-target="#community"
+                    type="button" role="tab">Community Servers</button>
             </li>
         </ul>
 
+        <!-- Tab Content -->
         <div class="tab-content mt-3">
             <div class="tab-pane fade show active" id="official" role="tabpanel" aria-labelledby="official-tab">
                 <div class="grid-container" id="official-servers-container"></div>
@@ -125,177 +48,25 @@
             </div>
         </div>
 
-        <div class="text-center mt-4">
-            <button class="btn btn-success btn-calculate me-2" onclick="calculateTotalTime();">Calculate Total Time</button>
+        <!-- Calculate Button & Output -->
+        <div class="output-section">
+            <button class="btn btn-calculate" onclick="calculateTotalTime();">Calculate Total Time</button>
             <div id="output-container" class="output-container">
-                <div id="output" class="mt-3 output"></div>
+                <div id="output" class="output"></div>
             </div>
         </div>
     </div>
 
+    <!-- Chart -->
     <div class="chart-container">
         <canvas id="timeChart"></canvas>
     </div>
 
-    <script>
-        const classes = [
-            { name: "Flanker", image: "https://static.wikia.nocookie.net/tc2/images/f/ff/GRNFlanker_render23.png" },
-            { name: "Trooper", image: "https://static.wikia.nocookie.net/tc2/images/d/de/GRNTrooper_render23.png" },
-            { name: "Arsonist", image: "https://static.wikia.nocookie.net/tc2/images/1/18/GRNArsonist_render23.png" },
-            { name: "Annihilator", image: "https://static.wikia.nocookie.net/tc2/images/5/59/GRNAnnihilator_render23.png" },
-            { name: "Brute", image: "https://static.wikia.nocookie.net/tc2/images/8/8a/GRNBrute_render23.png" },
-            { name: "Mechanic", image: "https://static.wikia.nocookie.net/tc2/images/5/50/GRNMechanic_render23.png" },
-            { name: "Doctor", image: "https://static.wikia.nocookie.net/tc2/images/3/34/GRNDoctor_render23.png" },
-            { name: "Marksman", image: "https://static.wikia.nocookie.net/tc2/images/c/cc/GRNMarksman_render23.png" },
-            { name: "Agent", image: "https://static.wikia.nocookie.net/tc2/images/6/62/GRNAgent_render23.png" }
-        ];
-
-        function createClassSection(classInfo, containerId) {
-            const container = document.getElementById(containerId);
-            const classElement = document.createElement("div");
-            classElement.className = "class-container";
-            classElement.id = `${classInfo.name}-${containerId}`;
-
-            classElement.innerHTML = `
-                <img src="${classInfo.image}" class="class-image" alt="${classInfo.name}">
-                <h5>${classInfo.name}</h5>
-                <div class="input-group mb-3">
-                    <input type="number" min="0" class="form-control time-input hours" placeholder="Hours">
-                    <input type="number" min="0" max="59" class="form-control time-input minutes" placeholder="Minutes">
-                    <input type="number" min="0" max="59" class="form-control time-input seconds" placeholder="Seconds">
-                </div>
-            `;
-
-            container.appendChild(classElement);
-        }
-
-        function init() {
-            classes.forEach((classInfo, index) => {
-                createClassSection(classInfo, "official-servers-container");
-                createClassSection(classInfo, "community-servers-container");
-            });
-        }
-
-        function getTimeInput(hours, minutes, seconds) {
-            return hours * 3600 + minutes * 60 + seconds;
-        }
-
-        function formatTime(totalSeconds) {
-            const days = Math.floor(totalSeconds / 86400);
-            totalSeconds %= 86400;
-            const hours = Math.floor(totalSeconds / 3600);
-            totalSeconds %= 3600;
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            return { days, hours, minutes, seconds };
-        }
-
-        function calculateTotalTime() {
-            let totalSeconds = 0;
-            let classTimes = [];
-
-            classes.forEach(classInfo => {
-                const officialContainer = document.getElementById(`${classInfo.name}-official-servers-container`);
-                const communityContainer = document.getElementById(`${classInfo.name}-community-servers-container`);
-
-                const officialHours = parseInt(officialContainer.querySelector(".hours").value) || 0;
-                const officialMinutes = parseInt(officialContainer.querySelector(".minutes").value) || 0;
-                const officialSeconds = parseInt(officialContainer.querySelector(".seconds").value) || 0;
-
-                const communityHours = parseInt(communityContainer.querySelector(".hours").value) || 0;
-                const communityMinutes = parseInt(communityContainer.querySelector(".minutes").value) || 0;
-                const communitySeconds = parseInt(communityContainer.querySelector(".seconds").value) || 0;
-
-                const totalForClass = getTimeInput(
-                    officialHours + communityHours,
-                    officialMinutes + communityMinutes,
-                    officialSeconds + communitySeconds
-                );
-                totalSeconds += totalForClass;
-                classTimes.push(totalForClass / 3600);
-            });
-
-            const { days, hours, minutes, seconds } = formatTime(totalSeconds);
-            let output = `<p>Total time: ${days * 24 + hours} hours ${minutes} minutes ${seconds} seconds</p>`;
-            if (days > 0) {
-                output += `<p>Total time (days): ${days} days ${hours} hours ${minutes} minutes ${seconds} seconds</p>`;
-            }
-            document.getElementById("output").innerHTML = output;
-
-            updateChart(classTimes);
-
-            anime({
-                targets: '#output-container',
-                scale: [0.95, 1],
-                opacity: [0.5, 1],
-                duration: 600,
-                easing: 'easeOutElastic(1, .5)'
-            });
-
-            anime({
-                targets: '.chart-container',
-                translateY: [20, 0],
-                opacity: [0, 1],
-                duration: 800,
-                easing: 'easeOutExpo'
-            });
-        }
-
-        function updateChart(data) {
-            const ctx = document.getElementById('timeChart').getContext('2d');
-            if (window.myChart) {
-                window.myChart.destroy();
-            }
-            window.myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: classes.map(c => c.name),
-                    datasets: [{
-                        label: 'Time Spent (Hours)',
-                        data: data,
-                        backgroundColor: 'rgba(207, 115 ,54, 0.6)',
-                        borderColor: 'rgba(216, 143, 94, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Hours',
-                                color: '#ffffff'
-                            },
-                            ticks: {
-                                color: '#ffffff'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Class',
-                                color: '#ffffff'
-                            },
-                            ticks: {
-                                color: '#ffffff'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#ffffff'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        window.onload = init;
-    </script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
