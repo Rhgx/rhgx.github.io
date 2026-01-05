@@ -1,0 +1,295 @@
+/* UI Components */
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(
+        to top,
+        var(--button-edge),
+        var(--metal-light),
+        var(--button-edge)
+    );
+    color: var(--text-primary);
+    border: 1px solid var(--highlight);
+    border-radius: var(--radius-sm);
+    transition: all 0.15s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(
+        to top,
+        var(--metal-light),
+        var(--metal-dark),
+        var(--metal-light)
+    );
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Back Button - Red Gradient */
+.btn--back {
+    background: linear-gradient(
+        to bottom,
+        #AE3F3F,
+        #5D2222
+    );
+    border-color: #8E8A75;
+}
+
+.btn--back:hover {
+    background: linear-gradient(
+        to bottom,
+        #c45050,
+        #6d2929
+    );
+}
+
+/* Add Tier Button */
+.btn--add-tier {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: linear-gradient(
+        to bottom,
+        var(--metal-dark),
+        var(--metal-darker)
+    );
+    border-style: dashed;
+    opacity: 0.7;
+}
+
+.btn--add-tier:hover {
+    opacity: 1;
+}
+
+/* Tier Row Controls */
+.tier-controls {
+    display: flex;
+    gap: 4px;
+    padding: 0 var(--spacing-xs);
+    align-items: center;
+}
+
+.tier-control-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    background: var(--metal-darker);
+    color: var(--text-secondary);
+    border: 1px solid var(--highlight);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tier-control-btn:hover {
+    background: var(--metal-light);
+    color: var(--text-primary);
+}
+
+.tier-control-btn--delete:hover {
+    background: #5D2222;
+    color: #ff7f7e;
+}
+
+/* Editable Tier Label */
+.tier-label-input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.tier-label-input:focus {
+    outline: none;
+    background: rgba(0,0,0,0.2);
+}
+
+/* Color Picker Trigger */
+.tier-color-btn {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--highlight);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.tier-color-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Coloris Theme Override */
+.clr-picker {
+    background: var(--metal-darker) !important;
+    border: 1px solid var(--highlight) !important;
+}
+
+.clr-swatches button {
+    border-radius: var(--radius-sm) !important;
+}
+
+/* Custom Dropdown - TC2 Style */
+.select-wrapper {
+    position: relative;
+}
+
+.select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm) var(--spacing-md);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(
+        to bottom,
+        var(--metal-dark),
+        var(--metal-light),
+        var(--metal-darker)
+    );
+    color: var(--text-primary);
+    border: 1px solid var(--highlight);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.select option {
+    background: var(--metal-darker);
+    color: var(--text-primary);
+    padding: var(--spacing-sm);
+    font-family: 'Oswald', sans-serif;
+}
+
+.select:focus {
+    outline: none;
+    border-color: var(--highlight);
+    box-shadow: 0 0 0 2px rgba(142, 138, 117, 0.3);
+}
+
+.select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.625rem;
+    color: var(--highlight);
+    pointer-events: none;
+}
+
+/* Tier Item Cards */
+.tier-item {
+    width: 70px;
+    height: 70px;
+    background: var(--metal-darker);
+    border: 1px solid var(--highlight);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    cursor: grab;
+    position: relative;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tier-item:active {
+    cursor: grabbing;
+}
+
+.tier-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tier-item--dragging {
+    opacity: 0.5;
+}
+
+.tier-item--ghost {
+    opacity: 0.3;
+}
+
+/* Drop Zone Indicators */
+.tier-items.drag-over,
+.pool-items.drag-over {
+    background: rgba(142, 138, 117, 0.1);
+    outline: 2px dashed var(--highlight);
+    outline-offset: -4px;
+}
+
+/* Tier Label Colors */
+.tier-label[data-tier="S"] { background: var(--tier-s); }
+.tier-label[data-tier="A"] { background: var(--tier-a); }
+.tier-label[data-tier="B"] { background: var(--tier-b); }
+.tier-label[data-tier="C"] { background: var(--tier-c); }
+.tier-label[data-tier="D"] { background: var(--tier-d); }
+.tier-label[data-tier="E"] { background: var(--tier-e); }
+.tier-label[data-tier="F"] { background: var(--tier-f); }
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.empty-state__text {
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Tooltip */
+.tier-item[data-name]::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--metal-darker);
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    border: 1px solid var(--highlight);
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.tier-item:hover[data-name]::after {
+    opacity: 1;
+    visibility: visible;
+}
