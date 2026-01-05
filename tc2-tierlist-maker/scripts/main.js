@@ -112,9 +112,15 @@ class TierlistApp {
     /**
      * Navigate to tierlist view
      */
-    openTierlist(tierlistId) {
+    async openTierlist(tierlistId) {
+        // Show loading overlay
+        this.showLoading();
+        
         const data = this.tierlistManager.loadTierlist(tierlistId);
-        if (!data) return;
+        if (!data) {
+            this.hideLoading();
+            return;
+        }
         
         this.currentTierlist = data;
         
@@ -129,6 +135,9 @@ class TierlistApp {
         });
         this.tiers.pool = data.tiers.pool || [];
         
+        // Preload all images
+        await this.preloadImages(tierlistId, data.images);
+        
         // Update title
         const title = document.getElementById('tierlist-title');
         if (title) title.textContent = data.name;
@@ -137,8 +146,47 @@ class TierlistApp {
         this.renderTierRows();
         this.render();
         
+        // Hide loading overlay
+        this.hideLoading();
+        
         // Animate transition
         this.animations.transitionToTierlist();
+    }
+    
+    /**
+     * Show loading overlay
+     */
+    showLoading() {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = 'flex';
+    }
+    
+    /**
+     * Hide loading overlay
+     */
+    hideLoading() {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = 'none';
+    }
+    
+    /**
+     * Preload all images for a tierlist
+     */
+    async preloadImages(tierlistId, images) {
+        const promises = images.map(img => {
+            return new Promise((resolve) => {
+                const image = new Image();
+                image.onload = resolve;
+                image.onerror = resolve; // Continue even if image fails
+                image.src = `./tierlists/${tierlistId}/${img.src}`;
+            });
+        });
+        
+        // Wait for all images with a timeout of 10 seconds
+        await Promise.race([
+            Promise.all(promises),
+            new Promise(resolve => setTimeout(resolve, 10000))
+        ]);
     }
     
     /**

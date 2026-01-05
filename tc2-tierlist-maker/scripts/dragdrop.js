@@ -1,288 +1,133 @@
 /**
  * Drag and Drop Functionality
- * Handles moving items between tiers using native HTML5 drag/drop API
+ * Uses SortableJS for smooth drag/drop with mobile touch support
  */
 
 class DragDropManager {
     constructor(options = {}) {
         this.onItemMoved = options.onItemMoved || (() => {});
-        this.draggedElement = null;
-        this.draggedItemId = null;
-        this.sourceTier = null;
-        this.sourceContainer = null;
-        this.sourceNextSibling = null;
-        this.placeholder = null;
-        this.lastDropZone = null;
+        this.sortableInstances = [];
     }
     
     /**
      * Initialize drag/drop on tier items
      */
     init() {
-        this.setupDropZones();
-        this.setupDraggableItems();
+        this.setupSortable();
     }
     
     /**
      * Re-initialize after DOM changes
      */
     refresh() {
-        this.setupDropZones();
-        this.setupDraggableItems();
+        // Destroy existing instances
+        this.destroy();
+        // Create new instances
+        this.setupSortable();
     }
     
     /**
-     * Setup drop zones (tier rows and pool)
+     * Destroy all sortable instances
      */
-    setupDropZones() {
+    destroy() {
+        this.sortableInstances.forEach(instance => {
+            if (instance && instance.destroy) {
+                instance.destroy();
+            }
+        });
+        this.sortableInstances = [];
+    }
+    
+    /**
+     * Setup SortableJS instances for all drop zones
+     */
+    setupSortable() {
         const dropZones = document.querySelectorAll('.tier-items, .pool-items');
         
         dropZones.forEach(zone => {
-            // Remove existing listeners by cloning
-            const newZone = zone.cloneNode(true);
-            zone.parentNode.replaceChild(newZone, zone);
-        });
-        
-        // Re-query and add fresh listeners
-        document.querySelectorAll('.tier-items, .pool-items').forEach(zone => {
-            zone.addEventListener('dragover', (e) => this.handleDragOver(e));
-            zone.addEventListener('dragenter', (e) => this.handleDragEnter(e));
-            zone.addEventListener('dragleave', (e) => this.handleDragLeave(e));
-            zone.addEventListener('drop', (e) => this.handleDrop(e));
-        });
-    }
-    
-    /**
-     * Setup draggable items
-     */
-    setupDraggableItems() {
-        const items = document.querySelectorAll('.tier-item');
-        
-        items.forEach(item => {
-            item.setAttribute('draggable', 'true');
+            const sortable = new Sortable(zone, {
+                group: 'tierlist-items',
+                animation: 150,
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                
+                // Ghost element styling
+                ghostClass: 'tier-item--ghost',
+                chosenClass: 'tier-item--chosen',
+                dragClass: 'tier-item--dragging',
+                
+                // Sorting options
+                sort: true,
+                delay: 0,
+                delayOnTouchOnly: true,
+                touchStartThreshold: 3,
+                
+                // Scroll options
+                scroll: true,
+                scrollSensitivity: 80,
+                scrollSpeed: 10,
+                bubbleScroll: true,
+                
+                // Draggable items
+                draggable: '.tier-item',
+                
+                // Handlers
+                onStart: (evt) => this.handleDragStart(evt),
+                onEnd: (evt) => this.handleDragEnd(evt),
+                onChange: (evt) => this.handleChange(evt)
+            });
             
-            // Clone to remove old listeners
-            const newItem = item.cloneNode(true);
-            item.parentNode.replaceChild(newItem, item);
+            this.sortableInstances.push(sortable);
         });
-        
-        // Re-query and add fresh listeners
-        document.querySelectorAll('.tier-item').forEach(item => {
-            item.addEventListener('dragstart', (e) => this.handleDragStart(e));
-            item.addEventListener('dragend', (e) => this.handleDragEnd(e));
-        });
-    }
-    
-    /**
-     * Create placeholder element
-     */
-    createPlaceholder() {
-        const placeholder = document.createElement('div');
-        placeholder.className = 'tier-item tier-item--placeholder';
-        placeholder.style.cssText = `
-            width: 70px;
-            height: 70px;
-            border: 2px dashed var(--highlight, #8E8A75);
-            border-radius: 4px;
-            background: rgba(142, 138, 117, 0.1);
-            box-sizing: border-box;
-        `;
-        return placeholder;
     }
     
     /**
      * Handle drag start
      */
-    handleDragStart(e) {
-        this.draggedElement = e.target.closest('.tier-item');
-        if (!this.draggedElement) return;
-        
-        this.draggedItemId = this.draggedElement.dataset.id;
-        this.sourceTier = this.draggedElement.closest('[data-tier]')?.dataset.tier || 'pool';
-        this.sourceContainer = this.draggedElement.parentNode;
-        this.sourceNextSibling = this.draggedElement.nextElementSibling;
-        
-        // Create placeholder
-        this.placeholder = this.createPlaceholder();
-        
-        // Add dragging class
-        this.draggedElement.classList.add('tier-item--dragging');
-        
-        // Set drag data
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', this.draggedItemId);
-        
-        // Create ghost image
-        const ghost = this.draggedElement.cloneNode(true);
-        ghost.classList.remove('tier-item--dragging');
-        ghost.style.position = 'absolute';
-        ghost.style.top = '-1000px';
-        ghost.style.opacity = '1';
-        document.body.appendChild(ghost);
-        e.dataTransfer.setDragImage(ghost, 35, 35);
-        
-        // Remove ghost and hide original after drag starts
-        requestAnimationFrame(() => {
-            ghost.remove();
-            if (this.draggedElement) {
-                this.draggedElement.style.display = 'none';
-            }
-        });
-    }
-    
-    /**
-     * Handle drag over (required for drop to work)
-     */
-    handleDragOver(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        
-        if (!this.placeholder || !this.draggedElement) return;
-        
-        const dropZone = e.target.closest('.tier-items, .pool-items');
-        if (!dropZone) return;
-        
-        this.lastDropZone = dropZone;
-        
-        // Find insertion point
-        const afterElement = this.getDragAfterElement(dropZone, e.clientX);
-        
-        // Move placeholder
-        if (afterElement) {
-            if (this.placeholder.nextElementSibling !== afterElement) {
-                dropZone.insertBefore(this.placeholder, afterElement);
-            }
-        } else {
-            if (this.placeholder.parentNode !== dropZone || this.placeholder.nextElementSibling !== null) {
-                dropZone.appendChild(this.placeholder);
-            }
+    handleDragStart(evt) {
+        const item = evt.item;
+        if (item) {
+            // Add visual feedback
+            item.classList.add('tier-item--active');
         }
     }
     
     /**
-     * Get element to insert after based on mouse position
+     * Handle drag end (item dropped)
      */
-    getDragAfterElement(container, x) {
-        const draggableElements = [...container.querySelectorAll('.tier-item:not(.tier-item--dragging):not(.tier-item--placeholder)')];
-        
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = x - box.left - box.width / 2;
+    handleDragEnd(evt) {
+        const item = evt.item;
+        if (item) {
+            // Remove visual feedback
+            item.classList.remove('tier-item--active');
             
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
-            }
-        }, { offset: Number.NEGATIVE_INFINITY }).element;
-    }
-    
-    /**
-     * Handle drag enter
-     */
-    handleDragEnter(e) {
-        e.preventDefault();
-        const dropZone = e.target.closest('.tier-items, .pool-items');
-        if (dropZone) {
-            dropZone.classList.add('drag-over');
+            // Add drop animation
+            item.classList.add('tier-item--dropped');
+            setTimeout(() => {
+                item.classList.remove('tier-item--dropped');
+            }, 200);
         }
-    }
-    
-    /**
-     * Handle drag leave
-     */
-    handleDragLeave(e) {
-        const dropZone = e.target.closest('.tier-items, .pool-items');
-        const relatedTarget = e.relatedTarget?.closest('.tier-items, .pool-items');
         
-        if (dropZone && dropZone !== relatedTarget) {
-            dropZone.classList.remove('drag-over');
-        }
-    }
-    
-    /**
-     * Handle drop
-     */
-    handleDrop(e) {
-        e.preventDefault();
-        
-        const dropZone = e.target.closest('.tier-items, .pool-items');
-        if (!dropZone || !this.draggedElement || !this.placeholder) return;
-        
-        dropZone.classList.remove('drag-over');
-        
-        const targetTier = dropZone.closest('[data-tier]')?.dataset.tier || 'pool';
-        
-        // Show and insert the dragged element at placeholder position
-        this.draggedElement.style.display = '';
-        this.draggedElement.classList.remove('tier-item--dragging');
-        
-        // Insert at placeholder position
-        this.placeholder.parentNode.insertBefore(this.draggedElement, this.placeholder);
-        
-        // Remove placeholder
-        this.placeholder.remove();
-        
-        // Add dropped animation
-        this.draggedElement.classList.add('tier-item--dropped');
-        setTimeout(() => {
-            this.draggedElement?.classList.remove('tier-item--dropped');
-        }, 200);
+        // Get tier info
+        const fromTier = evt.from.closest('[data-tier]')?.dataset.tier || 'pool';
+        const toTier = evt.to.closest('[data-tier]')?.dataset.tier || 'pool';
         
         // Notify callback
         this.onItemMoved({
-            itemId: this.draggedItemId,
-            fromTier: this.sourceTier,
-            toTier: targetTier,
-            element: this.draggedElement
+            itemId: item.dataset.id,
+            fromTier: fromTier,
+            toTier: toTier,
+            element: item,
+            oldIndex: evt.oldIndex,
+            newIndex: evt.newIndex
         });
-        
-        this.cleanup();
     }
     
     /**
-     * Handle drag end (covers cancel/escape)
+     * Handle item position change during drag
      */
-    handleDragEnd(e) {
-        if (this.draggedElement) {
-            // Show element again
-            this.draggedElement.style.display = '';
-            this.draggedElement.classList.remove('tier-item--dragging');
-            
-            // If placeholder still exists (drag was cancelled), restore original position
-            if (this.placeholder && this.placeholder.parentNode) {
-                this.placeholder.remove();
-                
-                // Restore to original position
-                if (this.sourceContainer) {
-                    if (this.sourceNextSibling) {
-                        this.sourceContainer.insertBefore(this.draggedElement, this.sourceNextSibling);
-                    } else {
-                        this.sourceContainer.appendChild(this.draggedElement);
-                    }
-                }
-            }
-        }
-        
-        // Remove all drag-over classes
-        document.querySelectorAll('.drag-over').forEach(el => {
-            el.classList.remove('drag-over');
-        });
-        
-        this.cleanup();
-    }
-    
-    /**
-     * Cleanup state
-     */
-    cleanup() {
-        this.draggedElement = null;
-        this.draggedItemId = null;
-        this.sourceTier = null;
-        this.sourceContainer = null;
-        this.sourceNextSibling = null;
-        this.placeholder = null;
-        this.lastDropZone = null;
+    handleChange(evt) {
+        // This fires whenever the item position changes during drag
+        // Can be used for real-time feedback if needed
     }
 }
 
