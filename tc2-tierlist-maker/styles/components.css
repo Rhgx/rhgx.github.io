@@ -453,5 +453,6 @@
 .modal__actions {
     display: flex;
     justify-content: center;
+    gap: var(--spacing-md);
     width: 100%;
 }
