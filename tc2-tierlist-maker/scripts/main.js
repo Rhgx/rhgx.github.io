@@ -2,6 +2,7 @@
  * Main Application Entry Point
  */
 
+import { toPng } from 'https://esm.sh/html-to-image';
 import { GridShader } from './shader.js';
 import { TierlistManager } from './tierlist.js';
 import { DragDropManager } from './dragdrop.js';
@@ -465,6 +466,10 @@ class TierlistApp {
         
         // Screenshot button
         document.getElementById('screenshot-btn')?.addEventListener('click', () => this.takeScreenshot());
+        
+        // Modal buttons
+        document.getElementById('close-screenshot-btn')?.addEventListener('click', () => this.closeScreenshotModal());
+        document.getElementById('download-screenshot-btn')?.addEventListener('click', () => this.downloadScreenshot());
     }
     
     resetTierlist() {
@@ -474,162 +479,91 @@ class TierlistApp {
     }
     
     /**
-     * Take screenshot using Canvas 2D API
+     * Take screenshot using html-to-image
      */
     async takeScreenshot() {
         if (!this.currentTierlist) return;
         
-        const LABEL_WIDTH = 70;
-        const ROW_HEIGHT = 70;
-        const ITEM_SIZE = 60;
-        const GAP = 4;
-        const PADDING = 12;
-        const CANVAS_WIDTH = 1200;
+        const sourceElement = document.getElementById('tier-container');
+        if (!sourceElement) return;
         
-        const tierlistId = this.currentTierlist.id;
-        const totalHeight = this.tierConfig.length * (ROW_HEIGHT + GAP) - GAP + PADDING * 2;
+        // Create export container
+        const exportContainer = document.createElement('div');
+        exportContainer.className = 'screenshot-container';
         
-        const mainCanvas = document.createElement('canvas');
-        mainCanvas.width = CANVAS_WIDTH * 2;
-        mainCanvas.height = totalHeight * 2;
-        const ctx = mainCanvas.getContext('2d');
-        ctx.scale(2, 2);
+        // Clone the tier container
+        const clonedTiers = sourceElement.cloneNode(true);
         
-        ctx.fillStyle = '#414254';
-        ctx.fillRect(0, 0, CANVAS_WIDTH, totalHeight);
+        // CRITICAL: Remove all IDs from the clone to avoid conflicts with main app
+        const nodesWithIds = clonedTiers.querySelectorAll('[id]');
+        nodesWithIds.forEach(node => node.removeAttribute('id'));
+        if (clonedTiers.id) clonedTiers.removeAttribute('id');
         
-        let y = PADDING;
+        exportContainer.appendChild(clonedTiers);
+        document.body.appendChild(exportContainer);
         
-        for (const tier of this.tierConfig) {
-            const gradient = ctx.createLinearGradient(0, y, 0, y + ROW_HEIGHT);
-            gradient.addColorStop(0, '#2B2C35');
-            gradient.addColorStop(0.5, '#30313C');
-            gradient.addColorStop(1, '#26262F');
+        try {
+            document.body.style.cursor = 'wait';
             
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.roundRect(PADDING, y, CANVAS_WIDTH - PADDING * 2, ROW_HEIGHT, 4);
-            ctx.fill();
+            // Wait a tick for DOM to settle
+            await new Promise(resolve => setTimeout(resolve, 100));
             
-            ctx.fillStyle = tier.color;
-            ctx.beginPath();
-            ctx.roundRect(PADDING, y, LABEL_WIDTH, ROW_HEIGHT, [4, 0, 0, 4]);
-            ctx.fill();
-            
-            // Calculate font size based on label length
-            const labelFontSize = this.calculateScreenshotFontSize(tier.label);
-            ctx.fillStyle = '#1a1a1a';
-            ctx.font = `bold ${labelFontSize}px Oswald, sans-serif`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            // For very long labels, wrap text
-            this.drawWrappedText(ctx, tier.label, PADDING + LABEL_WIDTH / 2, y + ROW_HEIGHT / 2, LABEL_WIDTH - 8, labelFontSize + 2);
-            
-            ctx.strokeStyle = '#8E8A75';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(PADDING + LABEL_WIDTH, y);
-            ctx.lineTo(PADDING + LABEL_WIDTH, y + ROW_HEIGHT);
-            ctx.stroke();
-            
-            ctx.beginPath();
-            ctx.roundRect(PADDING, y, CANVAS_WIDTH - PADDING * 2, ROW_HEIGHT, 4);
-            ctx.stroke();
-            
-            const items = this.tiers[tier.id] || [];
-            let x = PADDING + LABEL_WIDTH + GAP;
-            
-            for (const itemId of items) {
-                const imgData = this.tierlistManager.getImageById(itemId);
-                if (!imgData) continue;
-                
-                const fullSrc = `./tierlists/${tierlistId}/${imgData.src}`;
-                
-                try {
-                    const img = await this.loadImage(fullSrc);
-                    
-                    ctx.fillStyle = '#26262F';
-                    ctx.beginPath();
-                    ctx.roundRect(x, y + (ROW_HEIGHT - ITEM_SIZE) / 2, ITEM_SIZE, ITEM_SIZE, 3);
-                    ctx.fill();
-                    
-                    ctx.strokeStyle = '#8E8A75';
-                    ctx.beginPath();
-                    ctx.roundRect(x, y + (ROW_HEIGHT - ITEM_SIZE) / 2, ITEM_SIZE, ITEM_SIZE, 3);
-                    ctx.stroke();
-                    
-                    ctx.drawImage(img, x + 2, y + (ROW_HEIGHT - ITEM_SIZE) / 2 + 2, ITEM_SIZE - 4, ITEM_SIZE - 4);
-                    
-                    x += ITEM_SIZE + GAP;
-                } catch (e) {
-                    x += ITEM_SIZE + GAP;
+            const dataUrl = await toPng(exportContainer, {
+                backgroundColor: '#414254',
+                pixelRatio: 1.3, // High quality (1.3x)
+                style: {
+                    transform: 'none',
                 }
-            }
+            });
             
-            y += ROW_HEIGHT + GAP;
+            // Show modal instead of auto-download
+            this.showScreenshotModal(dataUrl);
+            
+        } catch (error) {
+            console.error('Screenshot failed:', error);
+            alert('Failed to take screenshot. Please try again.');
+        } finally {
+            document.body.removeChild(exportContainer);
+            document.body.style.cursor = 'default';
         }
+    }
+
+    showScreenshotModal(dataUrl) {
+        const modal = document.getElementById('screenshot-modal');
+        const img = document.getElementById('screenshot-preview');
+        const downloadBtn = document.getElementById('download-screenshot-btn');
         
-        const link = document.createElement('a');
-        link.download = `tierlist-${this.currentTierlist.id}.png`;
-        link.href = mainCanvas.toDataURL('image/png');
-        link.click();
-    }
-    
-    /**
-     * Calculate font size for screenshot labels based on text length
-     */
-    calculateScreenshotFontSize(label) {
-        const len = label.length;
-        if (len <= 2) return 28;     // Original size
-        if (len <= 4) return 22;
-        if (len <= 8) return 16;
-        if (len <= 12) return 12;
-        if (len <= 18) return 10;
-        return 9;                     // Very long labels
-    }
-    
-    /**
-     * Draw text with wrapping for canvas
-     */
-    drawWrappedText(ctx, text, x, y, maxWidth, lineHeight) {
-        // For short text, just draw centered
-        if (ctx.measureText(text).width <= maxWidth) {
-            ctx.fillText(text, x, y);
-            return;
+        if (modal && img && downloadBtn) {
+            img.src = dataUrl;
+            // Store data URL for download button
+            downloadBtn.dataset.url = dataUrl; 
+            modal.classList.add('active');
+            
+            // Re-initialize icons just in case
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
-        
-        // Split into characters and wrap
-        const words = text.split('');
-        let line = '';
-        const lines = [];
-        
-        for (let i = 0; i < words.length; i++) {
-            const testLine = line + words[i];
-            if (ctx.measureText(testLine).width > maxWidth && line.length > 0) {
-                lines.push(line);
-                line = words[i];
-            } else {
-                line = testLine;
-            }
-        }
-        lines.push(line);
-        
-        // Draw centered vertically
-        const startY = y - ((lines.length - 1) * lineHeight) / 2;
-        lines.forEach((l, i) => {
-            ctx.fillText(l, x, startY + i * lineHeight);
-        });
     }
-    
-    loadImage(src) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = () => resolve(img);
-            img.onerror = reject;
-            img.src = src;
-        });
+
+    closeScreenshotModal() {
+        const modal = document.getElementById('screenshot-modal');
+        if (modal) {
+            modal.classList.remove('active');
+        }
+    }
+
+    downloadScreenshot() {
+        if (!this.currentTierlist) return;
+        
+        const btn = document.getElementById('download-screenshot-btn');
+        const dataUrl = btn.dataset.url;
+        
+        if (dataUrl) {
+            const link = document.createElement('a');
+            link.download = `tierlist-${this.currentTierlist.id}.png`;
+            link.href = dataUrl;
+            link.click();
+            this.closeScreenshotModal();
+        }
     }
 }
 

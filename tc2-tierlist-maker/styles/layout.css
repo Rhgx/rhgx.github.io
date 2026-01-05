@@ -420,13 +420,19 @@
 
 /* Hidden Screenshot Container */
 .screenshot-container {
-    position: absolute;
-    left: -9999px;
+    position: fixed;
+    left: 0;
     top: 0;
-    width: 1200px;
+    z-index: -5; /* Place behind the background/canvas */
+    width: 1280px; /* Fixed "Desktop" width */
     background: var(--grid-back);
     padding: var(--spacing-md);
     font-family: 'Oswald', sans-serif;
+    /* Ensure no scrollbars/clipping in the export container */
+    overflow: visible; 
+    height: auto;
+    /* Ensure it is painted but not visible to user */
+    visibility: visible; 
 }
 
 .screenshot-container .tier-container {
@@ -434,6 +440,7 @@
     flex-direction: column;
     gap: var(--spacing-xs);
     margin-bottom: 0;
+    width: 100%;
 }
 
 .screenshot-container .tier-row {
@@ -447,32 +454,32 @@
     );
     border: 1px solid var(--highlight);
     border-radius: var(--radius-sm);
-    overflow: hidden;
+    /* Allow expanding */
+    height: auto;
+    overflow: visible;
 }
 
 .screenshot-container .tier-label {
-    width: 70px;
-    min-width: 70px;
-    /* Use standard flex centering like main view */
+    width: 80px; /* Match standard view */
+    min-width: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: auto;
-    align-self: stretch;
+    align-self: stretch; /* Stretch to match row height */
     
-    font-size: 1.75rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--text-dark);
     text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
     border-right: 1px solid var(--highlight);
     
-    /* Ensure no extra spacing */
     padding: 0;
     margin: 0;
     line-height: normal;
 }
 
-/* Remove the pseudo-element hack */
+/* Remove the pseudo-element hack if present */
 .screenshot-container .tier-label::after {
     display: none;
 }
@@ -486,6 +493,8 @@
     gap: var(--spacing-xs);
     padding: var(--spacing-xs);
     min-height: 70px;
+    height: auto;
+    overflow: visible;
 }
 
 .screenshot-container .tier-item {
@@ -495,6 +504,7 @@
     border: 1px solid var(--highlight);
     border-radius: var(--radius-sm);
     overflow: hidden;
+    flex-shrink: 0; /* Never shrink items */
 }
 
 .screenshot-container .tier-item img {
