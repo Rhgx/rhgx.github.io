@@ -149,24 +149,40 @@ class TierlistApp {
     }
     
     /**
+     * Calculate font size based on label length for tier labels
+     */
+    calculateLabelFontSize(label) {
+        const len = label.length;
+        if (len <= 2) return '2rem';     // Original size for short labels
+        if (len <= 4) return '1.5rem';
+        if (len <= 8) return '1rem';
+        if (len <= 12) return '0.8rem';
+        if (len <= 18) return '0.65rem';
+        return '0.55rem';                // Very long labels
+    }
+    
+    /**
      * Render dynamic tier rows (clean version for drag/drop)
      */
     renderTierRows() {
         const container = document.getElementById('tier-container');
         if (!container) return;
         
-        container.innerHTML = this.tierConfig.map(tier => `
+        container.innerHTML = this.tierConfig.map(tier => {
+            const fontSize = this.calculateLabelFontSize(tier.label);
+            return `
             <div class="tier-row" data-tier="${tier.id}">
-                <div class="tier-label" style="background: ${tier.color}; color: #1a1a1a;">
+                <div class="tier-label" style="background: ${tier.color}; color: #1a1a1a; font-size: ${fontSize};">
                     ${tier.label}
                 </div>
                 <div class="tier-items"></div>
             </div>
-        `).join('');
+        `}).join('');
         
         // Refresh drag/drop for new elements
         this.dragDropManager.refresh();
     }
+
     
     /**
      * Open edit panel
@@ -214,7 +230,7 @@ class TierlistApp {
                        class="edit-tier-label" 
                        value="${tier.label}"
                        data-tier-id="${tier.id}"
-                       maxlength="5"
+                       maxlength="25"
                        placeholder="Label">
                 <button class="edit-tier-delete" data-tier-id="${tier.id}" title="Delete tier">×</button>
             </div>
@@ -452,11 +468,15 @@ class TierlistApp {
             ctx.roundRect(PADDING, y, LABEL_WIDTH, ROW_HEIGHT, [4, 0, 0, 4]);
             ctx.fill();
             
+            // Calculate font size based on label length
+            const labelFontSize = this.calculateScreenshotFontSize(tier.label);
             ctx.fillStyle = '#1a1a1a';
-            ctx.font = 'bold 28px Oswald, sans-serif';
+            ctx.font = `bold ${labelFontSize}px Oswald, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(tier.label, PADDING + LABEL_WIDTH / 2, y + ROW_HEIGHT / 2);
+            
+            // For very long labels, wrap text
+            this.drawWrappedText(ctx, tier.label, PADDING + LABEL_WIDTH / 2, y + ROW_HEIGHT / 2, LABEL_WIDTH - 8, labelFontSize + 2);
             
             ctx.strokeStyle = '#8E8A75';
             ctx.lineWidth = 1;
@@ -506,6 +526,52 @@ class TierlistApp {
         link.download = `tierlist-${this.currentTierlist.id}.png`;
         link.href = mainCanvas.toDataURL('image/png');
         link.click();
+    }
+    
+    /**
+     * Calculate font size for screenshot labels based on text length
+     */
+    calculateScreenshotFontSize(label) {
+        const len = label.length;
+        if (len <= 2) return 28;     // Original size
+        if (len <= 4) return 22;
+        if (len <= 8) return 16;
+        if (len <= 12) return 12;
+        if (len <= 18) return 10;
+        return 9;                     // Very long labels
+    }
+    
+    /**
+     * Draw text with wrapping for canvas
+     */
+    drawWrappedText(ctx, text, x, y, maxWidth, lineHeight) {
+        // For short text, just draw centered
+        if (ctx.measureText(text).width <= maxWidth) {
+            ctx.fillText(text, x, y);
+            return;
+        }
+        
+        // Split into characters and wrap
+        const words = text.split('');
+        let line = '';
+        const lines = [];
+        
+        for (let i = 0; i < words.length; i++) {
+            const testLine = line + words[i];
+            if (ctx.measureText(testLine).width > maxWidth && line.length > 0) {
+                lines.push(line);
+                line = words[i];
+            } else {
+                line = testLine;
+            }
+        }
+        lines.push(line);
+        
+        // Draw centered vertically
+        const startY = y - ((lines.length - 1) * lineHeight) / 2;
+        lines.forEach((l, i) => {
+            ctx.fillText(l, x, startY + i * lineHeight);
+        });
     }
     
     loadImage(src) {

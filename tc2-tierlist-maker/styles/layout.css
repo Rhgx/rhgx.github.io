@@ -315,6 +315,13 @@
     color: var(--text-dark);
     text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
     border-right: 1px solid var(--highlight);
+    /* Support for longer labels */
+    padding: 4px;
+    box-sizing: border-box;
+    word-break: break-word;
+    text-align: center;
+    line-height: 1.1;
+    overflow: hidden;
 }
 
 .tier-items {

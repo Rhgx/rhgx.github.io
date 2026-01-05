@@ -9,6 +9,10 @@ class DragDropManager {
         this.draggedElement = null;
         this.draggedItemId = null;
         this.sourceTier = null;
+        this.sourceContainer = null;
+        this.sourceNextSibling = null;
+        this.placeholder = null;
+        this.lastDropZone = null;
     }
     
     /**
@@ -34,6 +38,13 @@ class DragDropManager {
         const dropZones = document.querySelectorAll('.tier-items, .pool-items');
         
         dropZones.forEach(zone => {
+            // Remove existing listeners by cloning
+            const newZone = zone.cloneNode(true);
+            zone.parentNode.replaceChild(newZone, zone);
+        });
+        
+        // Re-query and add fresh listeners
+        document.querySelectorAll('.tier-items, .pool-items').forEach(zone => {
             zone.addEventListener('dragover', (e) => this.handleDragOver(e));
             zone.addEventListener('dragenter', (e) => this.handleDragEnter(e));
             zone.addEventListener('dragleave', (e) => this.handleDragLeave(e));
@@ -50,17 +61,33 @@ class DragDropManager {
         items.forEach(item => {
             item.setAttribute('draggable', 'true');
             
-            // Remove old listeners to prevent duplicates
-            item.removeEventListener('dragstart', this.handleDragStartBound);
-            item.removeEventListener('dragend', this.handleDragEndBound);
-            
-            // Create bound handlers
-            this.handleDragStartBound = (e) => this.handleDragStart(e);
-            this.handleDragEndBound = (e) => this.handleDragEnd(e);
-            
-            item.addEventListener('dragstart', this.handleDragStartBound);
-            item.addEventListener('dragend', this.handleDragEndBound);
+            // Clone to remove old listeners
+            const newItem = item.cloneNode(true);
+            item.parentNode.replaceChild(newItem, item);
         });
+        
+        // Re-query and add fresh listeners
+        document.querySelectorAll('.tier-item').forEach(item => {
+            item.addEventListener('dragstart', (e) => this.handleDragStart(e));
+            item.addEventListener('dragend', (e) => this.handleDragEnd(e));
+        });
+    }
+    
+    /**
+     * Create placeholder element
+     */
+    createPlaceholder() {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'tier-item tier-item--placeholder';
+        placeholder.style.cssText = `
+            width: 70px;
+            height: 70px;
+            border: 2px dashed var(--highlight, #8E8A75);
+            border-radius: 4px;
+            background: rgba(142, 138, 117, 0.1);
+            box-sizing: border-box;
+        `;
+        return placeholder;
     }
     
     /**
@@ -68,26 +95,39 @@ class DragDropManager {
      */
     handleDragStart(e) {
         this.draggedElement = e.target.closest('.tier-item');
+        if (!this.draggedElement) return;
+        
         this.draggedItemId = this.draggedElement.dataset.id;
         this.sourceTier = this.draggedElement.closest('[data-tier]')?.dataset.tier || 'pool';
+        this.sourceContainer = this.draggedElement.parentNode;
+        this.sourceNextSibling = this.draggedElement.nextElementSibling;
+        
+        // Create placeholder
+        this.placeholder = this.createPlaceholder();
         
         // Add dragging class
         this.draggedElement.classList.add('tier-item--dragging');
         
-        // Set drag image
+        // Set drag data
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/plain', this.draggedItemId);
         
         // Create ghost image
         const ghost = this.draggedElement.cloneNode(true);
-        ghost.classList.add('tier-item--ghost');
+        ghost.classList.remove('tier-item--dragging');
         ghost.style.position = 'absolute';
         ghost.style.top = '-1000px';
+        ghost.style.opacity = '1';
         document.body.appendChild(ghost);
         e.dataTransfer.setDragImage(ghost, 35, 35);
         
-        // Remove ghost after drag starts
-        setTimeout(() => ghost.remove(), 0);
+        // Remove ghost and hide original after drag starts
+        requestAnimationFrame(() => {
+            ghost.remove();
+            if (this.draggedElement) {
+                this.draggedElement.style.display = 'none';
+            }
+        });
     }
     
     /**
@@ -97,14 +137,24 @@ class DragDropManager {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
         
-        // Optional: show insertion point
+        if (!this.placeholder || !this.draggedElement) return;
+        
         const dropZone = e.target.closest('.tier-items, .pool-items');
-        if (dropZone) {
-            const afterElement = this.getDragAfterElement(dropZone, e.clientX);
-            if (afterElement) {
-                dropZone.insertBefore(this.draggedElement, afterElement);
-            } else {
-                dropZone.appendChild(this.draggedElement);
+        if (!dropZone) return;
+        
+        this.lastDropZone = dropZone;
+        
+        // Find insertion point
+        const afterElement = this.getDragAfterElement(dropZone, e.clientX);
+        
+        // Move placeholder
+        if (afterElement) {
+            if (this.placeholder.nextElementSibling !== afterElement) {
+                dropZone.insertBefore(this.placeholder, afterElement);
+            }
+        } else {
+            if (this.placeholder.parentNode !== dropZone || this.placeholder.nextElementSibling !== null) {
+                dropZone.appendChild(this.placeholder);
             }
         }
     }
@@ -113,7 +163,7 @@ class DragDropManager {
      * Get element to insert after based on mouse position
      */
     getDragAfterElement(container, x) {
-        const draggableElements = [...container.querySelectorAll('.tier-item:not(.tier-item--dragging)')];
+        const draggableElements = [...container.querySelectorAll('.tier-item:not(.tier-item--dragging):not(.tier-item--placeholder)')];
         
         return draggableElements.reduce((closest, child) => {
             const box = child.getBoundingClientRect();
@@ -157,21 +207,27 @@ class DragDropManager {
         e.preventDefault();
         
         const dropZone = e.target.closest('.tier-items, .pool-items');
-        if (!dropZone) return;
+        if (!dropZone || !this.draggedElement || !this.placeholder) return;
         
         dropZone.classList.remove('drag-over');
         
         const targetTier = dropZone.closest('[data-tier]')?.dataset.tier || 'pool';
         
+        // Show and insert the dragged element at placeholder position
+        this.draggedElement.style.display = '';
+        this.draggedElement.classList.remove('tier-item--dragging');
+        
+        // Insert at placeholder position
+        this.placeholder.parentNode.insertBefore(this.draggedElement, this.placeholder);
+        
+        // Remove placeholder
+        this.placeholder.remove();
+        
         // Add dropped animation
-        if (this.draggedElement) {
-            this.draggedElement.classList.remove('tier-item--dragging');
-            this.draggedElement.classList.add('tier-item--dropped');
-            
-            setTimeout(() => {
-                this.draggedElement?.classList.remove('tier-item--dropped');
-            }, 200);
-        }
+        this.draggedElement.classList.add('tier-item--dropped');
+        setTimeout(() => {
+            this.draggedElement?.classList.remove('tier-item--dropped');
+        }, 200);
         
         // Notify callback
         this.onItemMoved({
@@ -180,14 +236,32 @@ class DragDropManager {
             toTier: targetTier,
             element: this.draggedElement
         });
+        
+        this.cleanup();
     }
     
     /**
-     * Handle drag end
+     * Handle drag end (covers cancel/escape)
      */
     handleDragEnd(e) {
         if (this.draggedElement) {
+            // Show element again
+            this.draggedElement.style.display = '';
             this.draggedElement.classList.remove('tier-item--dragging');
+            
+            // If placeholder still exists (drag was cancelled), restore original position
+            if (this.placeholder && this.placeholder.parentNode) {
+                this.placeholder.remove();
+                
+                // Restore to original position
+                if (this.sourceContainer) {
+                    if (this.sourceNextSibling) {
+                        this.sourceContainer.insertBefore(this.draggedElement, this.sourceNextSibling);
+                    } else {
+                        this.sourceContainer.appendChild(this.draggedElement);
+                    }
+                }
+            }
         }
         
         // Remove all drag-over classes
@@ -195,9 +269,20 @@ class DragDropManager {
             el.classList.remove('drag-over');
         });
         
+        this.cleanup();
+    }
+    
+    /**
+     * Cleanup state
+     */
+    cleanup() {
         this.draggedElement = null;
         this.draggedItemId = null;
         this.sourceTier = null;
+        this.sourceContainer = null;
+        this.sourceNextSibling = null;
+        this.placeholder = null;
+        this.lastDropZone = null;
     }
 }
 
