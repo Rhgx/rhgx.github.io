@@ -62,18 +62,53 @@ class Animations {
                 tierlistView.classList.add('view--active');
                 
                 // Animate tierlist in
-                const tierRows = tierlistView.querySelectorAll('.tier-row');
-                const pool = tierlistView.querySelector('.pool-container');
+                this.animateTierlistIn(tierlistView);
+            }
+        });
+    }
+    
+    /**
+     * Animate tier rows and pool into view
+     */
+    animateTierlistIn(tierlistView) {
+        const tierRows = tierlistView.querySelectorAll('.tier-row');
+        const pool = tierlistView.querySelector('.pool-container');
+        
+        this.gsap.fromTo(tierRows,
+            { opacity: 0, x: 30 },
+            { opacity: 1, x: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out' }
+        );
+        
+        this.gsap.fromTo(pool,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.4, delay: 0.4, ease: 'power2.out' }
+        );
+    }
+    
+    /**
+     * Animate reset: fade out current state, run reset, fade in new state
+     */
+    animateReset(onReset) {
+        if (!this.gsap) {
+            onReset();
+            return;
+        }
+        
+        const tierlistView = document.getElementById('tierlist-view');
+        const tierRows = tierlistView.querySelectorAll('.tier-row');
+        const pool = tierlistView.querySelector('.pool-container');
+        
+        // Fade out current state
+        this.gsap.to([tierRows, pool], {
+            opacity: 0,
+            duration: 0.25,
+            ease: 'power1.in',
+            onComplete: () => {
+                // Run reset logic
+                onReset();
                 
-                this.gsap.fromTo(tierRows,
-                    { opacity: 0, x: 30 },
-                    { opacity: 1, x: 0, duration: 0.3, stagger: 0.04, ease: 'power1.out' }
-                );
-                
-                this.gsap.fromTo(pool,
-                    { opacity: 0 },
-                    { opacity: 1, duration: 0.3, delay: 0.3, ease: 'power1.out' }
-                );
+                // Animate back in
+                this.animateTierlistIn(tierlistView);
             }
         });
     }

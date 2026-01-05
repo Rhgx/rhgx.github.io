@@ -3,6 +3,8 @@
  * Handles tier customization UI (labels, colors, add/delete tiers)
  */
 
+import { Modal } from './modal.js';
+
 // Preset swatches for color picker
 const COLOR_SWATCHES = [
     '#ff7f7e', '#ffbf7f', '#ffd180', '#feff7f', '#beff7f', '#97ef80',
@@ -18,6 +20,7 @@ class EditPanelManager {
         this.onTierConfigChange = options.onTierConfigChange || (() => {});
         this.onPanelClose = options.onPanelClose || (() => {});
         this.isOpen = false;
+        this.modal = null;
     }
 
     /**
@@ -43,8 +46,6 @@ class EditPanelManager {
      */
     setupEventListeners() {
         document.getElementById('edit-mode-btn')?.addEventListener('click', () => this.open());
-        document.getElementById('close-edit-btn')?.addEventListener('click', () => this.close());
-        document.getElementById('add-tier-edit-btn')?.addEventListener('click', () => this.addTier());
     }
 
     /**
@@ -52,35 +53,45 @@ class EditPanelManager {
      */
     open() {
         this.isOpen = true;
-        const panel = document.getElementById('edit-panel');
-        if (panel) {
-            panel.style.display = 'flex';
-            this.render();
+        
+        // Destroy existing modal if any
+        if (this.modal) {
+            this.modal.destroy();
         }
+        
+        this.modal = new Modal({
+            title: 'Edit Tiers',
+            content: this._renderContent(),
+            size: 'small',
+            onClose: () => {
+                this.isOpen = false;
+                this.onPanelClose();
+            }
+        });
+        
+        this.modal.open();
+        this._bindEvents();
+        this._reinitColorPicker();
     }
 
     /**
      * Close edit panel
      */
     close() {
-        this.isOpen = false;
-        const panel = document.getElementById('edit-panel');
-        if (panel) {
-            panel.style.display = 'none';
+        if (this.modal) {
+            this.modal.close();
         }
+        this.isOpen = false;
         this.onPanelClose();
     }
 
     /**
-     * Render edit panel tier list
+     * Render edit panel content HTML
      */
-    render() {
-        const list = document.getElementById('edit-tiers-list');
-        if (!list) return;
-
+    _renderContent() {
         const tierConfig = this.getTierConfig();
-
-        list.innerHTML = tierConfig.map(tier => `
+        
+        const tierRows = tierConfig.map(tier => `
             <div class="edit-tier-row" data-tier-id="${tier.id}">
                 <input type="text" 
                        class="edit-tier-color" 
@@ -97,18 +108,53 @@ class EditPanelManager {
                 <button class="edit-tier-delete" data-tier-id="${tier.id}" title="Delete tier">×</button>
             </div>
         `).join('');
+        
+        return `
+            <div class="edit-tiers-list">${tierRows}</div>
+            <button class="btn btn--add-tier" id="modal-add-tier-btn">+ Add Tier</button>
+        `;
+    }
 
-        this.bindEvents();
+    /**
+     * Re-render the tier list content
+     */
+    render() {
+        if (!this.modal) return;
+        
+        this.modal.setContent(this._renderContent());
+        this._bindEvents();
+        this._reinitColorPicker();
+    }
+
+    /**
+     * Reinitialize Coloris for dynamically added inputs
+     */
+    _reinitColorPicker() {
+        if (typeof Coloris !== 'undefined') {
+            // Reinitialize Coloris to pick up new [data-coloris] elements
+            Coloris({
+                el: '.edit-tier-color',
+                swatches: COLOR_SWATCHES,
+                theme: 'polaroid',
+                themeMode: 'dark',
+                alpha: false,
+                formatToggle: false,
+                closeButton: true,
+                closeLabel: 'Done'
+            });
+        }
     }
 
     /**
      * Bind edit panel events
      */
-    bindEvents() {
+    _bindEvents() {
+        if (!this.modal) return;
+        
         const tierConfig = this.getTierConfig();
 
         // Label changes
-        document.querySelectorAll('.edit-tier-label').forEach(input => {
+        this.modal.querySelectorAll('.edit-tier-label').forEach(input => {
             input.addEventListener('change', (e) => {
                 const tierId = e.target.dataset.tierId;
                 const tier = tierConfig.find(t => t.id === tierId);
@@ -120,7 +166,7 @@ class EditPanelManager {
         });
 
         // Color changes (via Coloris)
-        document.querySelectorAll('.edit-tier-color').forEach(input => {
+        this.modal.querySelectorAll('.edit-tier-color').forEach(input => {
             input.addEventListener('change', (e) => {
                 const tierId = e.target.dataset.tierId;
                 const color = e.target.value;
@@ -134,13 +180,19 @@ class EditPanelManager {
         });
 
         // Delete buttons
-        document.querySelectorAll('.edit-tier-delete').forEach(btn => {
+        this.modal.querySelectorAll('.edit-tier-delete').forEach(btn => {
             btn.addEventListener('click', () => {
                 const tierId = btn.dataset.tierId;
                 this.deleteTier(tierId);
                 this.render();
             });
         });
+        
+        // Add tier button (inside modal)
+        const addBtn = this.modal.querySelector('#modal-add-tier-btn');
+        if (addBtn) {
+            addBtn.addEventListener('click', () => this.addTier());
+        }
     }
 
     /**

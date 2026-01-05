@@ -8,6 +8,7 @@ import { DragDropManager } from './dragdrop.js';
 import { Animations } from './animations.js';
 import { ScreenshotManager } from './screenshot.js';
 import { EditPanelManager } from './editpanel.js';
+import { Modal } from './modal.js';
 
 // Default tier configuration
 const DEFAULT_TIERS = [
@@ -306,8 +307,59 @@ class TierlistApp {
     
     resetTierlist() {
         if (!this.currentTierlist) return;
-        this.tierlistManager.resetRankings(this.currentTierlist.id);
-        this.openTierlist(this.currentTierlist.id);
+        
+        // Show confirmation modal
+        const confirmModal = new Modal({
+            title: 'Reset Tierlist',
+            content: '<p style="text-align: center; margin: 0;">Are you sure you want to reset?<br>All items will return to the pool.</p>',
+            size: 'small',
+            showCloseButton: false,
+            actions: [
+                {
+                    label: 'Cancel',
+                    className: 'btn',
+                    onClick: (e, modal) => {
+                        modal.close();
+                        setTimeout(() => modal.destroy(), 300);
+                    }
+                },
+                {
+                    label: 'Reset',
+                    className: 'btn btn--back',
+                    onClick: (e, modal) => {
+                        modal.close();
+                        setTimeout(() => {
+                            modal.destroy();
+                            this._performReset();
+                        }, 300);
+                    }
+                }
+            ]
+        });
+        
+        confirmModal.open();
+    }
+    
+    _performReset() {
+        this.animations.animateReset(() => {
+            // Reset the rankings data
+            this.tierlistManager.resetRankings(this.currentTierlist.id);
+            
+            // Reload tier data
+            const data = this.tierlistManager.loadTierlist(this.currentTierlist.id);
+            if (data) {
+                this.tierConfig = DEFAULT_TIERS.map(t => ({ ...t }));
+                this.tiers = {};
+                this.tierConfig.forEach(t => {
+                    this.tiers[t.id] = data.tiers[t.id] || [];
+                });
+                this.tiers.pool = data.tiers.pool || [];
+                
+                // Re-render
+                this.renderTierRows();
+                this.render();
+            }
+        });
     }
 }
 

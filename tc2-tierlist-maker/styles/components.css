@@ -142,10 +142,16 @@
 .clr-picker {
     background: var(--metal-darker) !important;
     border: 1px solid var(--highlight) !important;
+    z-index: 4000 !important;
 }
 
 .clr-swatches button {
     border-radius: var(--radius-sm) !important;
+}
+
+/* Hide Coloris inner preview button - we use input background instead */
+.clr-field button {
+    display: none !important;
 }
 
 /* Custom Dropdown - TC2 Style */
@@ -405,6 +411,19 @@
 
 .modal.active .modal__content {
     transform: scale(1) translateY(0);
+}
+
+/* Modal size variants */
+.modal__content--small {
+    max-width: 450px;
+}
+
+.modal__content--medium {
+    max-width: 800px;
+}
+
+.modal__content--large {
+    max-width: 1000px;
 }
 
 .modal__header {

@@ -4,12 +4,15 @@
  */
 
 import { toPng } from 'https://esm.sh/html-to-image';
+import { Modal } from './modal.js';
 
 class ScreenshotManager {
     constructor(options = {}) {
         this.getCurrentTierlist = options.getCurrentTierlist || (() => null);
         this.onAfterCapture = options.onAfterCapture || (() => {});
         this.copyInProgress = false;
+        this.modal = null;
+        this.currentDataUrl = null;
     }
 
     /**
@@ -17,9 +20,6 @@ class ScreenshotManager {
      */
     setupEventListeners() {
         document.getElementById('screenshot-btn')?.addEventListener('click', () => this.takeScreenshot());
-        document.getElementById('close-screenshot-btn')?.addEventListener('click', () => this.closeModal());
-        document.getElementById('download-screenshot-btn')?.addEventListener('click', () => this.download());
-        document.getElementById('copy-screenshot-btn')?.addEventListener('click', () => this.copyToClipboard());
     }
 
     /**
@@ -89,26 +89,45 @@ class ScreenshotManager {
      * Show screenshot preview modal
      */
     showModal(dataUrl) {
-        const modal = document.getElementById('screenshot-modal');
-        const img = document.getElementById('screenshot-preview');
-        const downloadBtn = document.getElementById('download-screenshot-btn');
-
-        if (modal && img && downloadBtn) {
-            img.src = dataUrl;
-            downloadBtn.dataset.url = dataUrl;
-            modal.classList.add('active');
-
-            if (typeof lucide !== 'undefined') lucide.createIcons();
+        this.currentDataUrl = dataUrl;
+        
+        // Destroy existing modal if any
+        if (this.modal) {
+            this.modal.destroy();
         }
+        
+        this.modal = new Modal({
+            title: 'Screenshot Preview',
+            content: `
+                <div class="screenshot-preview-container">
+                    <img src="${dataUrl}" alt="Screenshot Preview">
+                </div>
+            `,
+            actions: [
+                {
+                    label: 'Copy to Clipboard',
+                    icon: 'clipboard-copy',
+                    className: 'btn',
+                    onClick: () => this.copyToClipboard()
+                },
+                {
+                    label: 'Download Image',
+                    icon: 'download',
+                    className: 'btn',
+                    onClick: () => this.download()
+                }
+            ]
+        });
+        
+        this.modal.open();
     }
 
     /**
      * Close screenshot modal
      */
     closeModal() {
-        const modal = document.getElementById('screenshot-modal');
-        if (modal) {
-            modal.classList.remove('active');
+        if (this.modal) {
+            this.modal.close();
         }
     }
 
@@ -117,18 +136,13 @@ class ScreenshotManager {
      */
     download() {
         const currentTierlist = this.getCurrentTierlist();
-        if (!currentTierlist) return;
+        if (!currentTierlist || !this.currentDataUrl) return;
 
-        const btn = document.getElementById('download-screenshot-btn');
-        const dataUrl = btn?.dataset.url;
-
-        if (dataUrl) {
-            const link = document.createElement('a');
-            link.download = `tierlist-${currentTierlist.id}.png`;
-            link.href = dataUrl;
-            link.click();
-            this.closeModal();
-        }
+        const link = document.createElement('a');
+        link.download = `tierlist-${currentTierlist.id}.png`;
+        link.href = this.currentDataUrl;
+        link.click();
+        this.closeModal();
     }
 
     /**
@@ -136,25 +150,20 @@ class ScreenshotManager {
      */
     async copyToClipboard() {
         // Debounce - prevent spam clicking
-        if (this.copyInProgress) return;
-        
-        const btn = document.getElementById('download-screenshot-btn');
-        const dataUrl = btn?.dataset.url;
-
-        if (!dataUrl) return;
+        if (this.copyInProgress || !this.currentDataUrl) return;
         
         this.copyInProgress = true;
 
         try {
-            const response = await fetch(dataUrl);
+            const response = await fetch(this.currentDataUrl);
             const blob = await response.blob();
 
             await navigator.clipboard.write([
                 new ClipboardItem({ 'image/png': blob })
             ]);
 
-            // Show feedback
-            const copyBtn = document.getElementById('copy-screenshot-btn');
+            // Show feedback on the copy button
+            const copyBtn = this.modal?.querySelector('[data-action-index="0"]');
             if (copyBtn) {
                 const originalText = copyBtn.innerHTML;
                 const originalWidth = copyBtn.offsetWidth;
@@ -162,18 +171,25 @@ class ScreenshotManager {
                 // Preserve width to prevent shrinking
                 copyBtn.style.minWidth = `${originalWidth}px`;
                 copyBtn.innerHTML = '<i data-lucide="check"></i> Copied!';
-                if (typeof lucide !== 'undefined') lucide.createIcons();
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons({ icons: lucide.icons, root: copyBtn });
+                }
 
                 setTimeout(() => {
                     copyBtn.innerHTML = originalText;
                     copyBtn.style.minWidth = '';
-                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons({ icons: lucide.icons, root: copyBtn });
+                    }
                     this.copyInProgress = false;
                 }, 2000);
+            } else {
+                this.copyInProgress = false;
             }
         } catch (error) {
             console.error('Failed to copy to clipboard:', error);
             alert('Failed to copy to clipboard. Your browser may not support this feature.');
+            this.copyInProgress = false;
         }
     }
 }

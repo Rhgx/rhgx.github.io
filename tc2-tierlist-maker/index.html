@@ -79,44 +79,6 @@
                 <button id="reset-btn" class="btn">Reset</button>
             </footer>
         </div>
-
-        <!-- Edit Mode Panel (overlay) -->
-        <div id="edit-panel" class="edit-panel" style="display: none;">
-            <div class="edit-panel__content">
-                <div class="edit-panel__header">
-                    <h2>Edit Tiers</h2>
-                    <button id="close-edit-btn" class="btn btn--small">Done</button>
-                </div>
-                <div id="edit-tiers-list" class="edit-tiers-list">
-                    <!-- Tier edit rows will be injected here -->
-                </div>
-                <button id="add-tier-edit-btn" class="btn btn--add-tier">+ Add Tier</button>
-            </div>
-        </div>
-        <!-- Screenshot Preview Modal -->
-        <div id="screenshot-modal" class="modal">
-            <div class="modal__content">
-                <div class="modal__header">
-                    <h2 class="modal__title">Screenshot Preview</h2>
-                    <button id="close-screenshot-btn" class="btn btn--back btn--square">
-                        <i data-lucide="x"></i>
-                    </button>
-                </div>
-                <div class="modal__body">
-                    <div class="screenshot-preview-container">
-                        <img id="screenshot-preview" src="" alt="Screenshot Preview">
-                    </div>
-                    <div class="modal__actions">
-                        <button id="copy-screenshot-btn" class="btn">
-                            <i data-lucide="clipboard-copy"></i> Copy to Clipboard
-                        </button>
-                        <button id="download-screenshot-btn" class="btn">
-                            <i data-lucide="download"></i> Download Image
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script type="module" src="./scripts/main.js"></script>
