@@ -40,13 +40,15 @@ class GridShader {
             
             uniform vec2 u_resolution;
             uniform float u_time;
+            uniform float u_dpr;
             
             // Colors from TC2 UI
             const vec3 gridBack = vec3(0.255, 0.259, 0.329);  // #414254
             const vec3 gridLines = vec3(0.341, 0.341, 0.404); // #575767
             
             void main() {
-                vec2 uv = gl_FragCoord.xy;
+                // Divide by DPR to get consistent sizing across all screens
+                vec2 uv = gl_FragCoord.xy / u_dpr;
                 
                 // Animation speed - moving toward top-right
                 // Positive x = right, negative y = up in screen coords
@@ -54,7 +56,7 @@ class GridShader {
                 vec2 offset = vec2(u_time * speed, -u_time * speed);
                 
                 // Grid cell size (larger squares)
-                float cellSize = 40.0;
+                float cellSize = 30.0;
                 
                 // Line thickness
                 float lineWidth = 1.0;
@@ -101,6 +103,7 @@ class GridShader {
         this.positionLocation = gl.getAttribLocation(this.program, 'a_position');
         this.resolutionLocation = gl.getUniformLocation(this.program, 'u_resolution');
         this.timeLocation = gl.getUniformLocation(this.program, 'u_time');
+        this.dprLocation = gl.getUniformLocation(this.program, 'u_dpr');
         
         // Create fullscreen quad
         const positionBuffer = gl.createBuffer();
@@ -157,6 +160,7 @@ class GridShader {
         gl.useProgram(this.program);
         gl.uniform2f(this.resolutionLocation, this.canvas.width, this.canvas.height);
         gl.uniform1f(this.timeLocation, time);
+        gl.uniform1f(this.dprLocation, window.devicePixelRatio || 1);
         
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         

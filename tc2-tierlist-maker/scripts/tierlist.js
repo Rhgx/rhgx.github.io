@@ -27,20 +27,41 @@ class TierlistManager {
     }
     
     /**
-     * Discover available tierlists
-     * Since browsers can't scan directories, we use a manifest approach
+     * Discover available tierlists from the index
+     * Loads tierlists.json first, then fetches each tierlist's manifest
      */
     async discoverTierlists() {
         try {
-            const response = await fetch('./tierlists/manifest.json');
-            if (response.ok) {
-                return await response.json();
+            // Load the index of available tierlists
+            const response = await fetch('./tierlists/tierlists.json');
+            if (!response.ok) {
+                throw new Error('Index not found');
             }
+            
+            const tierlistIndex = await response.json();
+            const tierlists = [];
+            
+            // Load each tierlist's manifest from its folder
+            for (const entry of tierlistIndex) {
+                try {
+                    const manifestResponse = await fetch(`./tierlists/${entry.id}/manifest.json`);
+                    if (manifestResponse.ok) {
+                        const tierlist = await manifestResponse.json();
+                        tierlists.push(tierlist);
+                    } else {
+                        console.warn(`Failed to load manifest for: ${entry.id}`);
+                    }
+                } catch (e) {
+                    console.warn(`Error loading tierlist ${entry.id}:`, e);
+                }
+            }
+            
+            return tierlists;
         } catch (e) {
-            console.warn('No manifest found, using demo tierlist');
+            console.warn('No tierlists.json found, using demo tierlist');
         }
         
-        // Return demo tierlist if no manifest
+        // Return demo tierlist if no index
         return [{
             id: 'demo',
             name: 'Demo Tierlist',

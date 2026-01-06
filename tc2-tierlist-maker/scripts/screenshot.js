@@ -3,8 +3,10 @@
  * Handles screenshot capture, preview modal, download, and clipboard copy
  */
 
-import { toPng } from 'https://esm.sh/html-to-image';
 import { Modal } from './modal.js';
+
+// Lazy-loaded html-to-image module
+let toPng = null;
 
 class ScreenshotManager {
     constructor(options = {}) {
@@ -16,10 +18,38 @@ class ScreenshotManager {
     }
 
     /**
+     * Lazy load html-to-image library (only when needed)
+     */
+    async loadHtmlToImage() {
+        if (!toPng) {
+            const module = await import('https://esm.sh/html-to-image');
+            toPng = module.toPng;
+        }
+        return toPng;
+    }
+
+    /**
      * Setup event listeners for screenshot buttons
      */
     setupEventListeners() {
         document.getElementById('screenshot-btn')?.addEventListener('click', () => this.takeScreenshot());
+        
+        // Start preloading the library in the background
+        this.preloadLibrary();
+    }
+
+    /**
+     * Preload html-to-image library in the background during idle time
+     */
+    preloadLibrary() {
+        // Use requestIdleCallback if available, otherwise use setTimeout
+        const schedulePreload = window.requestIdleCallback || ((cb) => setTimeout(cb, 2000));
+        
+        schedulePreload(() => {
+            this.loadHtmlToImage().catch(() => {
+                // Silently ignore preload failures - will retry on actual use
+            });
+        });
     }
 
     /**
@@ -50,10 +80,13 @@ class ScreenshotManager {
         try {
             document.body.style.cursor = 'wait';
 
+            // Lazy load html-to-image library
+            const toPngFn = await this.loadHtmlToImage();
+
             // Wait a tick for DOM to settle
             await new Promise(resolve => setTimeout(resolve, 100));
 
-            const dataUrl = await toPng(exportContainer, {
+            const dataUrl = await toPngFn(exportContainer, {
                 backgroundColor: '#414254',
                 pixelRatio: 1.3,
                 skipFonts: true,
