@@ -39,24 +39,9 @@ class TierlistManager {
             }
             
             const tierlistIndex = await response.json();
-            const tierlists = [];
             
-            // Load each tierlist's manifest from its folder
-            for (const entry of tierlistIndex) {
-                try {
-                    const manifestResponse = await fetch(`./tierlists/${entry.id}/manifest.json`);
-                    if (manifestResponse.ok) {
-                        const tierlist = await manifestResponse.json();
-                        tierlists.push(tierlist);
-                    } else {
-                        console.warn(`Failed to load manifest for: ${entry.id}`);
-                    }
-                } catch (e) {
-                    console.warn(`Error loading tierlist ${entry.id}:`, e);
-                }
-            }
-            
-            return tierlists;
+            // Process the index, loading manifests for tierlists only
+            return await this.processIndexEntries(tierlistIndex);
         } catch (e) {
             console.warn('No tierlists.json found, using demo tierlist');
         }
@@ -74,10 +59,45 @@ class TierlistManager {
     }
     
     /**
+     * Process index entries recursively, handling folders and tierlists
+     */
+    async processIndexEntries(entries) {
+        const result = [];
+        
+        for (const entry of entries) {
+            if (entry.type === 'folder') {
+                // Folders don't have manifests, just pass through with processed children
+                const processedChildren = await this.processIndexEntries(entry.children || []);
+                result.push({
+                    type: 'folder',
+                    id: entry.id,
+                    name: entry.name,
+                    children: processedChildren
+                });
+            } else {
+                // Regular tierlist - load its manifest
+                try {
+                    const manifestResponse = await fetch(`./tierlists/${entry.id}/manifest.json`);
+                    if (manifestResponse.ok) {
+                        const tierlist = await manifestResponse.json();
+                        result.push(tierlist);
+                    } else {
+                        console.warn(`Failed to load manifest for: ${entry.id}`);
+                    }
+                } catch (e) {
+                    console.warn(`Error loading tierlist ${entry.id}:`, e);
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
      * Load a specific tierlist
      */
     loadTierlist(tierlistId) {
-        const tierlist = this.tierlists.find(t => t.id === tierlistId);
+        const tierlist = this.findTierlistById(tierlistId, this.tierlists);
         if (!tierlist) {
             console.error(`Tierlist ${tierlistId} not found`);
             return null;
@@ -131,6 +151,22 @@ class TierlistManager {
      */
     resetRankings(tierlistId) {
         delete this.rankings[tierlistId];
+    }
+    
+    /**
+     * Find a tierlist by ID, searching recursively through folders
+     */
+    findTierlistById(id, items) {
+        for (const item of items) {
+            if (item.type === 'folder') {
+                // Search recursively in folder children
+                const found = this.findTierlistById(id, item.children || []);
+                if (found) return found;
+            } else if (item.id === id) {
+                return item;
+            }
+        }
+        return null;
     }
     
     /**

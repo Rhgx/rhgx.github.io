@@ -27,6 +27,7 @@ class TierlistApp {
         this.dragDropManager = null;
         this.animations = null;
         this.currentTierlist = null;
+        this.currentFolder = null; // Track current folder for navigation
         this.tierConfig = [...DEFAULT_TIERS];
         this.tiers = {};
         this.tierIdCounter = 0;
@@ -98,16 +99,99 @@ class TierlistApp {
         
         const tierlists = this.tierlistManager.getTierlists();
         
-        container.innerHTML = tierlists.map(tl => 
-            `<button class="menu__btn" data-tierlist-id="${tl.id}">${tl.name}</button>`
-        ).join('');
+        container.innerHTML = this.renderMenuItems(tierlists);
+        this.attachMenuListeners(container);
         
-        container.querySelectorAll('.menu__btn').forEach(btn => {
+        // Refresh Lucide icons for folder buttons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        
+        // Setup folder back button
+        document.getElementById('folder-back-btn')?.addEventListener('click', () => this.goBackFromFolder());
+    }
+    
+    /**
+     * Render menu items (folders and tierlists)
+     */
+    renderMenuItems(items) {
+        return items.map(item => {
+            if (item.type === 'folder') {
+                return `<button class="menu__btn menu__btn--folder" data-folder-id="${item.id}">${item.name}<i data-lucide="chevron-right"></i></button>`;
+            } else {
+                return `<button class="menu__btn" data-tierlist-id="${item.id}">${item.name}</button>`;
+            }
+        }).join('');
+    }
+    
+    /**
+     * Attach click listeners to menu buttons
+     */
+    attachMenuListeners(container) {
+        container.querySelectorAll('.menu__btn--folder').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.folderId;
+                this.openFolder(id);
+            });
+        });
+        
+        container.querySelectorAll('.menu__btn:not(.menu__btn--folder):not(.menu__btn--back)').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.dataset.tierlistId;
                 this.openTierlist(id);
             });
         });
+    }
+    
+    /**
+     * Open a folder and display its contents
+     */
+    openFolder(folderId) {
+        const folder = this.findFolderById(folderId, this.tierlistManager.getTierlists());
+        if (!folder) return;
+        
+        this.currentFolder = folder;
+        
+        // Update folder view
+        const title = document.getElementById('folder-title');
+        const container = document.getElementById('folder-buttons');
+        
+        if (title) title.textContent = folder.name;
+        if (container) {
+            container.innerHTML = this.renderMenuItems(folder.children || []);
+            this.attachMenuListeners(container);
+        }
+        
+        // Refresh Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        
+        this.animations.transitionToFolder();
+    }
+    
+    /**
+     * Find a folder by ID recursively
+     */
+    findFolderById(id, items) {
+        for (const item of items) {
+            if (item.type === 'folder') {
+                if (item.id === id) return item;
+                if (item.children) {
+                    const found = this.findFolderById(id, item.children);
+                    if (found) return found;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Go back from folder view to main menu
+     */
+    goBackFromFolder() {
+        this.currentFolder = null;
+        this.animations.transitionFromFolder();
     }
     
     /**
@@ -147,7 +231,13 @@ class TierlistApp {
         this.render();
         
         this.hideLoading();
-        this.animations.transitionToTierlist();
+        
+        // Use appropriate transition based on context
+        if (this.currentFolder) {
+            this.animations.transitionFromFolderToTierlist();
+        } else {
+            this.animations.transitionToTierlist();
+        }
     }
     
     /**
@@ -227,13 +317,19 @@ class TierlistApp {
     }
     
     /**
-     * Navigate back to menu
+     * Navigate back to menu or folder
      */
     goToMenu() {
         if (this.editPanelManager.isOpen) {
             this.editPanelManager.close();
         }
-        this.animations.transitionToMenu();
+        
+        // If we came from a folder, go back to folder view
+        if (this.currentFolder) {
+            this.animations.transitionToFolderFromTierlist();
+        } else {
+            this.animations.transitionToMenu();
+        }
     }
     
     render() {

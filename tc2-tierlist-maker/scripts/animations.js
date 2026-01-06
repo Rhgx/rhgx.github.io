@@ -143,6 +143,160 @@ class Animations {
             }
         });
     }
+    
+    /**
+     * Transition from menu to folder view
+     */
+    transitionToFolder() {
+        if (!this.gsap) {
+            document.getElementById('menu-view').classList.remove('view--active');
+            document.getElementById('folder-view').classList.add('view--active');
+            return;
+        }
+        
+        const menuView = document.getElementById('menu-view');
+        const folderView = document.getElementById('folder-view');
+        
+        // Fade out menu
+        this.gsap.to(menuView, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power1.out',
+            onComplete: () => {
+                menuView.classList.remove('view--active');
+                menuView.style.opacity = 1;
+                
+                // Show folder view
+                folderView.classList.add('view--active');
+                
+                // Animate folder in
+                this.animateFolderIn(folderView);
+            }
+        });
+    }
+    
+    /**
+     * Animate folder view elements into view
+     */
+    animateFolderIn(folderView) {
+        const title = folderView.querySelector('.menu__title');
+        const subtitle = folderView.querySelector('.menu__subtitle');
+        const buttons = folderView.querySelectorAll('.menu__btn:not(.menu__btn--back)');
+        const backBtn = folderView.querySelector('.menu__btn--back');
+        
+        this.gsap.fromTo(backBtn,
+            { opacity: 0, x: -20 },
+            { opacity: 1, x: 0, duration: 0.3, ease: 'power1.out' }
+        );
+        
+        this.gsap.fromTo(title, 
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.3, ease: 'power1.out' }
+        );
+        
+        this.gsap.fromTo(subtitle,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.3, delay: 0.1, ease: 'power1.out' }
+        );
+        
+        this.gsap.fromTo(buttons,
+            { opacity: 0, x: 30 },
+            { opacity: 1, x: 0, duration: 0.4, stagger: 0.06, delay: 0.15, ease: 'power2.out' }
+        );
+    }
+    
+    /**
+     * Transition from folder view back to menu
+     */
+    transitionFromFolder() {
+        if (!this.gsap) {
+            document.getElementById('folder-view').classList.remove('view--active');
+            document.getElementById('menu-view').classList.add('view--active');
+            return;
+        }
+        
+        const menuView = document.getElementById('menu-view');
+        const folderView = document.getElementById('folder-view');
+        
+        // Fade out folder
+        this.gsap.to(folderView, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power1.out',
+            onComplete: () => {
+                folderView.classList.remove('view--active');
+                folderView.style.opacity = 1;
+                
+                // Show menu view
+                menuView.classList.add('view--active');
+                
+                // Animate menu back in
+                this.animateMenu();
+            }
+        });
+    }
+    
+    /**
+     * Transition from folder view to tierlist view
+     */
+    transitionFromFolderToTierlist() {
+        if (!this.gsap) {
+            document.getElementById('folder-view').classList.remove('view--active');
+            document.getElementById('tierlist-view').classList.add('view--active');
+            return;
+        }
+        
+        const folderView = document.getElementById('folder-view');
+        const tierlistView = document.getElementById('tierlist-view');
+        
+        // Fade out folder
+        this.gsap.to(folderView, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power1.out',
+            onComplete: () => {
+                folderView.classList.remove('view--active');
+                folderView.style.opacity = 1;
+                
+                // Show tierlist view
+                tierlistView.classList.add('view--active');
+                
+                // Animate tierlist in
+                this.animateTierlistIn(tierlistView);
+            }
+        });
+    }
+    
+    /**
+     * Transition from tierlist view back to folder view
+     */
+    transitionToFolderFromTierlist() {
+        if (!this.gsap) {
+            document.getElementById('tierlist-view').classList.remove('view--active');
+            document.getElementById('folder-view').classList.add('view--active');
+            return;
+        }
+        
+        const folderView = document.getElementById('folder-view');
+        const tierlistView = document.getElementById('tierlist-view');
+        
+        // Fade out tierlist
+        this.gsap.to(tierlistView, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power1.out',
+            onComplete: () => {
+                tierlistView.classList.remove('view--active');
+                tierlistView.style.opacity = 1;
+                
+                // Show folder view
+                folderView.classList.add('view--active');
+                
+                // Animate folder back in
+                this.animateFolderIn(folderView);
+            }
+        });
+    }
 }
 
 export { Animations };

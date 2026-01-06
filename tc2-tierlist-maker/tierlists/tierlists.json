@@ -1,5 +1,52 @@
 [
     {
+    "type": "folder",
+    "id": "cosmetic-tierlists",
+    "name": "Cosmetic Tierlists",
+    "children": [
+        {
+            "id": "cosmetic-tierlists/flanker-tierlist",
+            "name": "Flanker Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/trooper-tierlist",
+            "name": "Trooper Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/arsonist-tierlist",
+            "name": "Arsonist Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/annihilator-tierlist",
+            "name": "Annihilator Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/brute-tierlist",
+            "name": "Brute Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/mechanic-tierlist",
+            "name": "Mechanic Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/doctor-tierlist",
+            "name": "Doctor Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/marksman-tierlist",
+            "name": "Marksman Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/agent-tierlist",
+            "name": "Agent Tierlist"
+        },
+        {
+            "id": "cosmetic-tierlists/all-class-tierlist",
+            "name": "All Class Tierlist"
+        }
+    ]
+    },
+    {
         "id": "maps-tierlist",
         "name": "Maps Tierlist"
     },
