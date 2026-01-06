@@ -545,3 +545,47 @@
 .screenshot-container .tier-label[data-tier="D"] { background: var(--tier-d); }
 .screenshot-container .tier-label[data-tier="E"] { background: var(--tier-e); }
 .screenshot-container .tier-label[data-tier="F"] { background: var(--tier-f); }
+
+/* Mobile/Tablet Responsiveness */
+@media (max-width: 1024px) {
+    .header {
+        padding: var(--spacing-sm);
+    }
+
+    /* Hide button text, show only icons */
+    .header .btn span {
+        display: none;
+    }
+
+    .header .btn svg {
+        margin-right: 0;
+        width: 20px;
+        height: 20px;
+    }
+
+    .header .btn {
+        padding: var(--spacing-sm);
+        min-width: unset; /* Override explicit min-width */
+    }
+
+    /* Adjust title to not overlap */
+    .header__title {
+        font-size: 1rem;
+        /* Constrain width to avoid hitting the asymmetric buttons on the right */
+        max-width: 30%; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .header__actions {
+        gap: var(--spacing-xs);
+    }
+}
+
+/* Hide title completely on very small screens */
+@media (max-width: 450px) {
+    .header__title {
+        display: none;
+    }
+}
