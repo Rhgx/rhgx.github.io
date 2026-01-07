@@ -1,0 +1,31 @@
+{
+    "id": "taunt-tierlist",
+    "name": "Taunt Tierlist",
+    "images": [
+        { "id": "taunt-tierlist-1", "src": "blood-money.webp", "name": "Blood Money" },
+        { "id": "taunt-tierlist-2", "src": "brooklyn-breakdown.webp", "name": "Brooklyn Breakdown" },
+        { "id": "taunt-tierlist-3", "src": "calamity-clown.webp", "name": "Calamity Clown" },
+        { "id": "taunt-tierlist-4", "src": "canslaughter.webp", "name": "Canslaughter" },
+        { "id": "taunt-tierlist-5", "src": "comic-relief.webp", "name": "Comic Relief" },
+        { "id": "taunt-tierlist-6", "src": "condescending_clipboard.webp", "name": "Condescending Clipboard" },
+        { "id": "taunt-tierlist-7", "src": "conga.webp", "name": "Conga" },
+        { "id": "taunt-tierlist-8", "src": "deaths-secretary.webp", "name": "Deaths Secretary" },
+        { "id": "taunt-tierlist-9", "src": "eek.webp", "name": "Eek" },
+        { "id": "taunt-tierlist-10", "src": "en-garde.webp", "name": "En Garde" },
+        { "id": "taunt-tierlist-11", "src": "fake-jukebox.webp", "name": "Fake Jukebox" },
+        { "id": "taunt-tierlist-12", "src": "flippin-finish.webp", "name": "Flippin Finish" },
+        { "id": "taunt-tierlist-13", "src": "hissy-fit.webp", "name": "Hissy Fit" },
+        { "id": "taunt-tierlist-14", "src": "intimidation-check.webp", "name": "Intimidation Check" },
+        { "id": "taunt-tierlist-15", "src": "jack-o-loser.webp", "name": "Jack O Loser" },
+        { "id": "taunt-tierlist-16", "src": "layin-low.webp", "name": "Layin Low" },
+        { "id": "taunt-tierlist-17", "src": "manifest-destiny.webp", "name": "Manifest Destiny" },
+        { "id": "taunt-tierlist-18", "src": "mini-mech.webp", "name": "Mini Mech" },
+        { "id": "taunt-tierlist-19", "src": "monster-mash.webp", "name": "Monster Mash" },
+        { "id": "taunt-tierlist-20", "src": "neener-neener.webp", "name": "Neener Neener" },
+        { "id": "taunt-tierlist-21", "src": "perfect-pitch.webp", "name": "Perfect Pitch" },
+        { "id": "taunt-tierlist-22", "src": "rickety-rocker.webp", "name": "Rickety Rocker" },
+        { "id": "taunt-tierlist-23", "src": "snowbro.webp", "name": "Snowbro" },
+        { "id": "taunt-tierlist-24", "src": "spell-binder.webp", "name": "Spell Binder" },
+        { "id": "taunt-tierlist-25", "src": "stolen-valor.webp", "name": "Stolen Valor" }
+    ]
+}

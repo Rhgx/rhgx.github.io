@@ -1,5 +1,5 @@
 [
-    {
+        {
     "type": "folder",
     "id": "cosmetic-tierlists",
     "name": "Cosmetic Tierlists",
@@ -49,6 +49,10 @@
     {
         "id": "maps-tierlist",
         "name": "Maps Tierlist"
+    },
+    {
+        "id": "taunt-tierlist",
+        "name": "Taunt Tierlist"
     },
     {
         "id": "weapons-tierlist",
