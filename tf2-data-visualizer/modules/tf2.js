@@ -1,4 +1,4 @@
-import { debounce } from "./utils.js";
+import { debounce, cleanNumeric } from "./utils.js";
 import { VirtualTable } from "./virtual-table.js";
 
 // Module-scoped refs/state
@@ -6,6 +6,7 @@ let viz;
 let emptyState;
 
 let topNSelect;
+let metricSelect;
 let sortSelect;
 let chartSearchInput;
 let tableSearchInput;
@@ -14,6 +15,7 @@ let tableSummary;
 let totalMatchesEl;
 let uniqueMapsEl;
 let mostPlayedEl;
+let totalHoursEl;
 
 let downloadBtn;
 let resetBtn;
@@ -24,13 +26,18 @@ let tableContainer;
 let mapChart = null;
 let mapNames = {};
 let mapData = {}; // { mapIndex: count }
+let mapDurationData = {}; // { mapIndex: seconds }
 let totalMatches = 0;
 let uniqueCount = 0;
+let totalDurationSeconds = 0;
+let hasMatchDurationColumn = false;
+let lastChartMetric = "count";
 
 // Base list for table (sorted globally per current sort mode)
 let baseTableEntriesSorted = [];
 let lastChartCount = 0;
 let virtualTable = null;
+let tableLayoutKey = "";
 
 export function initTF2() {
   // DOM
@@ -38,6 +45,7 @@ export function initTF2() {
   emptyState = document.getElementById("t-empty");
 
   topNSelect = document.getElementById("t-top-n");
+  metricSelect = document.getElementById("t-metric");
   sortSelect = document.getElementById("t-sort");
   chartSearchInput = document.getElementById("t-chart-search");
   tableSearchInput = document.getElementById("t-table-search");
@@ -46,6 +54,7 @@ export function initTF2() {
   totalMatchesEl = document.getElementById("t-total");
   uniqueMapsEl = document.getElementById("t-unique");
   mostPlayedEl = document.getElementById("t-most");
+  totalHoursEl = document.getElementById("t-hours");
 
   downloadBtn = document.getElementById("t-download");
   resetBtn = document.getElementById("t-reset");
@@ -70,43 +79,60 @@ export function initTF2() {
   downloadBtn.addEventListener("click", downloadChart);
   resetBtn.addEventListener("click", resetTF2);
   topNSelect.addEventListener("change", rebuildVisualization);
+  metricSelect.addEventListener("change", rebuildVisualization);
   sortSelect.addEventListener("change", rebuildVisualization);
   chartSearchInput.addEventListener(
     "input",
     debounce(rebuildVisualization, 150)
   );
   tableSearchInput.addEventListener("input", debounce(applyTableSearch, 150));
+
+  setMetricAvailability(false);
 }
 
 // Public API
 export function loadTF2Rows(rows) {
   // Parse rows (objects) to mapData
   if (!Array.isArray(rows) || !rows.length) {
+    setMetricAvailability(false);
     emptyState.classList.remove("hidden");
     viz.classList.add("hidden");
     return;
   }
 
-  const hasMapIndex = Object.keys(rows[0] || {}).some(
-    (h) => String(h).toLowerCase() === "map_index"
-  );
-  if (!hasMapIndex) {
+  const firstRow = rows[0] || {};
+  const mapIndexKey = findColumnKey(firstRow, "map_index");
+
+  if (!mapIndexKey) {
+    setMetricAvailability(false);
     emptyState.classList.remove("hidden");
     viz.classList.add("hidden");
     return;
   }
+
+  const durationKey = findColumnKey(firstRow, "match_duration");
+  hasMatchDurationColumn = Boolean(durationKey);
+  setMetricAvailability(hasMatchDurationColumn);
 
   mapData = {};
+  mapDurationData = {};
   totalMatches = 0;
+  totalDurationSeconds = 0;
 
   for (const r of rows) {
-    const key = Object.keys(r).find(
-      (h) => String(h).toLowerCase() === "map_index"
-    );
-    const raw = (r[key] ?? "").toString().trim();
+    const raw = (r[mapIndexKey] ?? "").toString().trim();
     if (!raw) continue;
+
     totalMatches++;
     mapData[raw] = (mapData[raw] || 0) + 1;
+
+    if (durationKey) {
+      const seconds = Math.max(0, cleanNumeric(r[durationKey]));
+      if (seconds > 0) {
+        mapDurationData[raw] = (mapDurationData[raw] || 0) + seconds;
+        totalDurationSeconds += seconds;
+      }
+    }
   }
 
   uniqueCount = Object.keys(mapData).length;
@@ -122,9 +148,15 @@ export function resetTF2() {
     mapChart.destroy();
     mapChart = null;
   }
+
   mapData = {};
+  mapDurationData = {};
   totalMatches = 0;
   uniqueCount = 0;
+  totalDurationSeconds = 0;
+  hasMatchDurationColumn = false;
+  lastChartMetric = "count";
+  tableLayoutKey = "";
 
   viz.classList.add("hidden");
   emptyState.classList.add("hidden");
@@ -132,11 +164,17 @@ export function resetTF2() {
   totalMatchesEl.textContent = "0";
   uniqueMapsEl.textContent = "0";
   mostPlayedEl.textContent = "-";
+  totalHoursEl.textContent = "N/A";
+
   if (virtualTable) virtualTable.setData([]);
+
   chartSearchInput.value = "";
   tableSearchInput.value = "";
   topNSelect.value = "20";
+  metricSelect.value = "count";
   sortSelect.value = "countDesc";
+  setMetricAvailability(false);
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -145,6 +183,9 @@ export function resetTF2() {
 function updateStats() {
   totalMatchesEl.textContent = totalMatches.toLocaleString();
   uniqueMapsEl.textContent = uniqueCount.toLocaleString();
+  totalHoursEl.textContent = hasMatchDurationColumn
+    ? formatHoursMinutes(totalDurationSeconds)
+    : "N/A";
 
   let mostPlayedMap = null;
   let maxCount = 0;
@@ -154,6 +195,12 @@ function updateStats() {
       mostPlayedMap = mid;
     }
   }
+
+  if (!mostPlayedMap) {
+    mostPlayedEl.textContent = "-";
+    return;
+  }
+
   const mostName = mapNames[mostPlayedMap]?.name || `Unknown (${mostPlayedMap})`;
   mostPlayedEl.textContent = `${mostName} (${maxCount} ${
     maxCount === 1 ? "time" : "times"
@@ -162,14 +209,18 @@ function updateStats() {
 
 function rebuildVisualization() {
   if (!totalMatches) return;
-  const baseEntries = Object.entries(mapData);
 
+  const baseEntries = Object.entries(mapData);
   const sortMode = sortSelect.value;
+
   const sortedEntries = baseEntries.slice().sort((a, b) => {
     const [amid, ac] = a;
     const [bmid, bc] = b;
+
     if (sortMode === "countDesc") return bc - ac;
     if (sortMode === "countAsc") return ac - bc;
+    if (sortMode === "hoursDesc") return (mapDurationData[bmid] || 0) - (mapDurationData[amid] || 0);
+    if (sortMode === "hoursAsc") return (mapDurationData[amid] || 0) - (mapDurationData[bmid] || 0);
 
     const aname = mapNames[amid]?.name || `Unknown (${amid})`;
     const bname = mapNames[bmid]?.name || `Unknown (${bmid})`;
@@ -181,17 +232,18 @@ function rebuildVisualization() {
   baseTableEntriesSorted = sortedEntries;
 
   const q = (chartSearchInput.value || "").toLowerCase().trim();
-  let chartFiltered = sortedEntries.filter(([mid]) => {
+  const chartFiltered = sortedEntries.filter(([mid]) => {
     if (!q) return true;
     const name = mapNames[mid]?.name || `Unknown (${mid})`;
     return name.toLowerCase().includes(q);
   });
 
   const topN = topNSelect.value;
-  const chartLimited = topN === "all" ? chartFiltered : chartFiltered.slice(0, +topN);
+  const chartLimited =
+    topN === "all" ? chartFiltered : chartFiltered.slice(0, +topN);
   lastChartCount = chartLimited.length;
 
-  updateChart(chartLimited);
+  updateChart(chartLimited, getChartMetric());
   applyTableSearch();
 }
 
@@ -202,14 +254,18 @@ function applyTableSearch() {
     const name = mapNames[mid]?.name || `Unknown (${mid})`;
     return name.toLowerCase().includes(q);
   });
+
   populateTable(filtered, lastChartCount);
 }
 
-function updateChart(sortedLimitedEntries) {
+function updateChart(sortedLimitedEntries, metric) {
   const labels = sortedLimitedEntries.map(
     ([mid]) => mapNames[mid]?.name || `Unknown (${mid})`
   );
-  const data = sortedLimitedEntries.map(([, count]) => count);
+  const data = sortedLimitedEntries.map(([mid, count]) =>
+    metric === "hours" ? mapSecondsToHours(mapDurationData[mid] || 0) : count
+  );
+  const datasetLabel = metric === "hours" ? "Hours Played" : "Matches Played";
 
   // Colors
   const backgroundColors = sortedLimitedEntries.map((_, i) => {
@@ -218,15 +274,43 @@ function updateChart(sortedLimitedEntries) {
   });
   const borderColors = backgroundColors.map((c) => c.replace("55%", "42%"));
 
+  const yTickCallback = (value) =>
+    metric === "hours" ? `${Number(value).toFixed(1)}h` : value;
+
+  const tooltipLabelCallback = (context) => {
+    if (metric === "hours") {
+      const [mid] = sortedLimitedEntries[context.dataIndex] || [];
+      const seconds = mapDurationData[mid] || 0;
+      const hours = mapSecondsToHours(seconds);
+      const pct = totalDurationSeconds
+        ? ((seconds / totalDurationSeconds) * 100).toFixed(1)
+        : "0.0";
+      return ` Time: ${formatHoursMinutes(seconds)} (${hours.toFixed(2)}h, ${pct}%)`;
+    }
+
+    const count = Number(context.raw) || 0;
+    const pct = ((count / totalMatches) * 100).toFixed(1);
+    return ` Matches: ${count} (${pct}%)`;
+  };
+
   const ctx = document.getElementById("t-map-chart").getContext("2d");
   const gridColor = "rgba(232, 212, 168, 0.6)"; // cream-dark
   const tickColor = "#4a3d30"; // ink-light
 
+  if (mapChart && lastChartMetric !== metric) {
+    mapChart.destroy();
+    mapChart = null;
+  }
+
   if (mapChart) {
     mapChart.data.labels = labels;
+    mapChart.data.datasets[0].label = datasetLabel;
     mapChart.data.datasets[0].data = data;
     mapChart.data.datasets[0].backgroundColor = backgroundColors;
     mapChart.data.datasets[0].borderColor = borderColors;
+    mapChart.options.scales.y.ticks.precision = metric === "hours" ? 1 : 0;
+    mapChart.options.scales.y.ticks.callback = yTickCallback;
+    mapChart.options.plugins.tooltip.callbacks.label = tooltipLabelCallback;
     mapChart.update();
     return;
   }
@@ -237,7 +321,7 @@ function updateChart(sortedLimitedEntries) {
       labels,
       datasets: [
         {
-          label: "Matches Played",
+          label: datasetLabel,
           data,
           backgroundColor: backgroundColors,
           borderColor: borderColors,
@@ -267,7 +351,7 @@ function updateChart(sortedLimitedEntries) {
               const joined = [];
               let line = "";
               for (const p of parts) {
-                const candidate = line ? line + "_" + p : p;
+                const candidate = line ? `${line}_${p}` : p;
                 if (candidate.length > 14) {
                   if (line) joined.push(line);
                   line = p;
@@ -278,7 +362,7 @@ function updateChart(sortedLimitedEntries) {
               if (line) joined.push(line);
               const lines = joined.slice(0, 2);
               if (joined.length > 2) {
-                lines[1] = lines[1].slice(0, 13) + "…";
+                lines[1] = `${lines[1].slice(0, 13)}...`;
               }
               return lines;
             },
@@ -287,7 +371,12 @@ function updateChart(sortedLimitedEntries) {
         y: {
           beginAtZero: true,
           grid: { color: gridColor },
-          ticks: { color: tickColor, precision: 0, font: { family: "'OCR-A', Consolas, monospace" } },
+          ticks: {
+            color: tickColor,
+            precision: metric === "hours" ? 1 : 0,
+            callback: yTickCallback,
+            font: { family: "'OCR-A', Consolas, monospace" },
+          },
         },
       },
       plugins: {
@@ -298,11 +387,7 @@ function updateChart(sortedLimitedEntries) {
           borderWidth: 1,
           padding: 10,
           callbacks: {
-            label: (context) => {
-              const count = context.raw;
-              const pct = ((count / totalMatches) * 100).toFixed(1);
-              return ` Matches: ${count}  (${pct}%)`;
-            },
+            label: tooltipLabelCallback,
             title: (items) => {
               const t = items[0]?.label || "";
               return t.replaceAll("_", "_\u200b");
@@ -313,31 +398,51 @@ function updateChart(sortedLimitedEntries) {
       animation: { duration: 500, easing: "easeOutCubic" },
     },
   });
+
+  lastChartMetric = metric;
 }
 
 function populateTable(sortedEntries, chartingCount) {
-  const headers = ["Map", "Play Count", "Percentage"];
+  const includeHours = hasMatchDurationColumn;
+  const headers = includeHours
+    ? ["Map", "Play Count", "Time Played", "Percentage"]
+    : ["Map", "Play Count", "Percentage"];
+  const rowKeys = includeHours
+    ? ["map", "count", "hours", "percentage"]
+    : ["map", "count", "percentage"];
 
   // Transform entries to row objects for VirtualTable
   const rows = sortedEntries.map(([mid, count]) => {
     const mapName = mapNames[mid]?.name || `Unknown (${mid})`;
     const percentage = ((count / totalMatches) * 100).toFixed(1);
-    return {
+    const row = {
       map: mapName,
       count,
       percentage: `${percentage}%`,
     };
+
+    if (includeHours) {
+      row.hours = formatHoursMinutes(mapDurationData[mid] || 0);
+    }
+
+    return row;
   });
 
-  if (!virtualTable) {
+  const nextLayoutKey = rowKeys.join("|");
+  if (!virtualTable || tableLayoutKey !== nextLayoutKey) {
+    if (virtualTable) virtualTable.destroy();
     virtualTable = new VirtualTable(tableContainer, {
-      headers: headers,
-      rowKeys: ["map", "count", "percentage"],
+      headers,
+      rowKeys,
     });
+    tableLayoutKey = nextLayoutKey;
   }
+
   virtualTable.setData(rows);
 
-  tableSummary.textContent = `${rows.length.toLocaleString()} rows · charting ${chartingCount.toLocaleString()} map(s)`;
+  const rowLabel = rows.length === 1 ? "row" : "rows";
+  const mapLabel = chartingCount === 1 ? "map" : "maps";
+  tableSummary.textContent = `${rows.length.toLocaleString()} ${rowLabel} | charting ${chartingCount.toLocaleString()} ${mapLabel}`;
 }
 
 function downloadChart() {
@@ -353,4 +458,57 @@ function downloadChart() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+function setMetricAvailability(enabled) {
+  const hoursOption = metricSelect?.querySelector('option[value="hours"]');
+  if (hoursOption) {
+    hoursOption.disabled = !enabled;
+  }
+
+  const hoursSortDesc = sortSelect?.querySelector('option[value="hoursDesc"]');
+  const hoursSortAsc = sortSelect?.querySelector('option[value="hoursAsc"]');
+  if (hoursSortDesc) hoursSortDesc.disabled = !enabled;
+  if (hoursSortAsc) hoursSortAsc.disabled = !enabled;
+
+  if (!enabled && metricSelect) {
+    metricSelect.value = "count";
+  }
+  if (
+    !enabled &&
+    sortSelect &&
+    (sortSelect.value === "hoursDesc" || sortSelect.value === "hoursAsc")
+  ) {
+    sortSelect.value = "countDesc";
+  }
+}
+
+function getChartMetric() {
+  const selected = metricSelect?.value || "count";
+  if (selected === "hours" && hasMatchDurationColumn) return "hours";
+  return "count";
+}
+
+function mapSecondsToHours(seconds) {
+  const val = Number(seconds) || 0;
+  return val / 3600;
+}
+
+function formatHoursMinutes(seconds) {
+  const totalSeconds = Math.max(0, Math.floor(Number(seconds) || 0));
+  if (totalSeconds === 0) return "0m";
+
+  const totalMinutes = Math.round(totalSeconds / 60);
+  if (totalMinutes === 0) return "<1m";
+
+  const h = Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}m`;
+}
+
+function findColumnKey(row, wantedKey) {
+  const wanted = String(wantedKey).toLowerCase();
+  return Object.keys(row || {}).find((k) => String(k).toLowerCase() === wanted);
 }

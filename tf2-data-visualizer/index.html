@@ -197,19 +197,29 @@
                 </select>
               </div>
 
+              <div class="filter-group" title="Chart metric">
+                <label for="t-metric" class="filter-label">Metric</label>
+                <select id="t-metric" class="filter-select">
+                  <option value="count" selected>Matches</option>
+                  <option value="hours">Hours</option>
+                </select>
+              </div>
+
               <div class="filter-group" title="Sort order for the table">
                 <label for="t-sort" class="filter-label">Sort</label>
                 <select id="t-sort" class="filter-select">
-                  <option value="countDesc" selected>Count ↓</option>
-                  <option value="countAsc">Count ↑</option>
-                  <option value="alphaAsc">Name A→Z</option>
-                  <option value="alphaDesc">Name Z→A</option>
+                  <option value="countDesc" selected>Count &darr;</option>
+                  <option value="countAsc">Count &uarr;</option>
+                  <option value="hoursDesc">Hours &darr;</option>
+                  <option value="hoursAsc">Hours &uarr;</option>
+                  <option value="alphaAsc">Name A&rarr;Z</option>
+                  <option value="alphaDesc">Name Z&rarr;A</option>
                 </select>
               </div>
 
               <div class="filter-group" title="Filter chart by name">
                 <i class="ri-search-line" style="color: var(--steel);"></i>
-                <input id="t-chart-search" type="text" placeholder="Filter chart…" class="filter-input"
+                <input id="t-chart-search" type="text" placeholder="Filter chart..." class="filter-input"
                   style="width: 120px;" />
               </div>
 
@@ -253,6 +263,17 @@
                 <div id="t-most" class="stat-value" style="font-size: 1rem;">-</div>
               </div>
             </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="ri-time-fill"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-label">Total Hours</div>
+                <div id="t-hours" class="stat-value">N/A</div>
+              </div>
+            </div>
+
           </div>
 
           <!-- Chart -->
@@ -270,7 +291,7 @@
             <div class="section-controls">
               <div class="filter-group" title="Search within the Map Details table">
                 <i class="ri-search-line" style="color: var(--steel);"></i>
-                <input id="t-table-search" type="text" placeholder="Search table…" class="filter-input"
+                <input id="t-table-search" type="text" placeholder="Search table..." class="filter-input"
                   style="width: 140px;" />
               </div>
               <div id="t-table-summary" class="table-summary" aria-live="polite"></div>
@@ -357,3 +378,4 @@
 </body>
 
 </html>
+

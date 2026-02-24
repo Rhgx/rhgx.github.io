@@ -113,7 +113,6 @@
   padding: var(--space-sm) var(--space-md);
   background: var(--cream-dark);
   border: var(--border-width) solid var(--ink);
-  border-top: none;
   font-size: 0.75rem;
   color: var(--steel);
 }
