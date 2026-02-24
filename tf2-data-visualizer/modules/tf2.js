@@ -243,7 +243,7 @@ function rebuildVisualization() {
     topN === "all" ? chartFiltered : chartFiltered.slice(0, +topN);
   lastChartCount = chartLimited.length;
 
-  updateChart(chartLimited, getChartMetric());
+  updateChart(chartLimited, getChartMetric(sortMode));
   applyTableSearch();
 }
 
@@ -483,7 +483,15 @@ function setMetricAvailability(enabled) {
   }
 }
 
-function getChartMetric() {
+function getChartMetric(sortMode = sortSelect?.value || "") {
+  const isHoursSort = sortMode === "hoursDesc" || sortMode === "hoursAsc";
+  if (isHoursSort && hasMatchDurationColumn) {
+    if (metricSelect && metricSelect.value !== "hours") {
+      metricSelect.value = "hours";
+    }
+    return "hours";
+  }
+
   const selected = metricSelect?.value || "count";
   if (selected === "hours" && hasMatchDurationColumn) return "hours";
   return "count";
