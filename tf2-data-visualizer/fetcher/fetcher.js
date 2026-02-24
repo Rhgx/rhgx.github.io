@@ -47,15 +47,14 @@
     },
     summary: (data) => {
       console.log('');
-      console.log('%c╔════════════════════════════════════════╗', STYLES.box);
-      console.log('%c║          FETCH COMPLETE                ║', STYLES.box);
-      console.log('%c╠════════════════════════════════════════╣', STYLES.box);
-      console.log(`%c║  User:     ${data.username.padEnd(26)} ║`, STYLES.box);
-      console.log(`%c║  Pages:    ${String(data.pages).padEnd(26)} ║`, STYLES.box);
-      console.log(`%c║  Matches:  ${String(data.matches).padEnd(26)} ║`, STYLES.box);
-      console.log(`%c║  Columns:  ${String(data.columns).padEnd(26)} ║`, STYLES.box);
-      console.log(`%c║  File:     ${data.filename.padEnd(26)} ║`, STYLES.box);
-      console.log('%c╚════════════════════════════════════════╝', STYLES.box);
+      console.log('%cFetch Complete', STYLES.success);
+      console.table([
+        { Metric: 'User', Value: data.username },
+        { Metric: 'Pages', Value: data.pages },
+        { Metric: 'Matches', Value: data.matches },
+        { Metric: 'Columns', Value: data.columns },
+        { Metric: 'File', Value: data.filename }
+      ]);
     }
   };
 
@@ -131,28 +130,25 @@
   // PAGE NAVIGATION
   // ═══════════════════════════════════════════════════════════════════════════
   function ensureOnGCPDPage() {
-    const gcpdPattern = /steamcommunity\.com\/profiles\/\d+\/gcpd\/440/;
-    const myGcpdPattern = /steamcommunity\.com\/my\/gcpd\/440/;
-    const currentUrl = location.href;
+    const current = new URL(location.href);
+    const isSteamCommunity = current.hostname === 'steamcommunity.com';
+    const validPath = /^\/(?:my|profiles\/\d+|id\/[^/]+)\/gcpd\/440\/?$/i;
 
     // Already on the correct page
-    if (gcpdPattern.test(currentUrl) || myGcpdPattern.test(currentUrl)) {
+    if (isSteamCommunity && validPath.test(current.pathname)) {
       // Make sure we're on the match history tab
-      if (!currentUrl.includes('tab=playermatchhistory')) {
-        const newUrl = currentUrl.includes('?') 
-          ? currentUrl + '&tab=playermatchhistory'
-          : currentUrl + '?tab=playermatchhistory';
-        if (currentUrl !== newUrl && !currentUrl.includes('playermatchhistory')) {
-          log.info('Switching to Match History tab...');
-          window.location.href = newUrl;
-          return false;
-        }
+      const tab = (current.searchParams.get('tab') || '').toLowerCase();
+      if (tab !== CONFIG.tab) {
+        current.searchParams.set('tab', CONFIG.tab);
+        log.info('Switching to Match History tab...');
+        window.location.href = current.toString();
+        return false;
       }
       return true;
     }
 
     // On Steam Community but wrong page - navigate to GCPD
-    if (location.hostname === 'steamcommunity.com') {
+    if (isSteamCommunity) {
       log.info('Navigating to TF2 Match History page...');
       window.location.href = 'https://steamcommunity.com/my/gcpd/440/?tab=playermatchhistory';
       return false;
@@ -513,3 +509,4 @@
     }
   })();
 })();
+
