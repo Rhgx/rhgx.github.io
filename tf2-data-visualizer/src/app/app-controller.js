@@ -1,11 +1,19 @@
-import { initGCPD, loadGCPDRows, resetGCPD } from "./gcpd.js";
-import { initTF2, loadTF2Rows, resetTF2 } from "./tf2.js";
-import { parseCSVFile, parseCSVText } from "./csv.js";
+import {
+  initGCPD,
+  loadGCPDRows,
+  resetGCPD,
+} from "../features/general/general.js";
+import {
+  initTF2,
+  loadTF2Rows,
+  resetTF2,
+} from "../features/map-history/map-history.js";
+import { parseCSVFile, parseCSVText } from "../shared/csv/parser.js";
 import {
   initTopLists,
   loadTopListRows,
   resetTopLists,
-} from "./toplists.js";
+} from "../features/top-lists/top-lists.js";
 import {
   prefersReducedMotion,
   fadeIn,
@@ -15,7 +23,7 @@ import {
   animateTabIn,
   animateTabButtons,
   setOpacity,
-} from "./animations.js";
+} from "../shared/core/animations.js";
 
 const tabGeneral = document.getElementById("tab-general");
 const tabTF2 = document.getElementById("tab-tf2");
@@ -237,7 +245,7 @@ const helpModalClose = document.getElementById("help-modal-close");
 const copyScriptBtn = document.getElementById("copy-script-btn");
 
 // The fetcher script to copy
-const FETCHER_SCRIPT_URL = "./fetcher/fetcher.js";
+const FETCHER_SCRIPT_URL = "./scripts/fetcher.js";
 let cachedScript = null;
 
 function openHelpModal() {

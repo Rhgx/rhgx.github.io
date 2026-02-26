@@ -1,6 +1,6 @@
 // Lightweight virtualized table renderer for large data sets.
 // Renders only visible rows with spacer rows to preserve scroll height.
-import { escapeHtml, formatMatchTime } from "./utils.js";
+import { escapeHtml, formatMatchTime } from "../core/utils.js";
 
 export class VirtualTable {
   constructor(containerEl, { headers = [], rowKeys = [], formatters = {} }) {

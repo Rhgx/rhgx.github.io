@@ -1,5 +1,10 @@
-import { debounce, formatDuration, cleanNumeric } from "./utils.js";
-import { VirtualTable } from "./virtual-table.js";
+import {
+  debounce,
+  formatDuration,
+  cleanNumeric,
+} from "../../shared/core/utils.js";
+import { VirtualTable } from "../../shared/ui/virtual-table.js";
+import { loadMapNames } from "../../shared/data/map-index-service.js";
 
 // DOM refs
 let metricSelect;
@@ -46,11 +51,7 @@ export function initTopLists() {
   // Load map names (same source as TF2 module)
   (async function initMapIndex() {
     try {
-      const res = await fetch("./modules/map-index.json", {
-        cache: "no-store",
-      });
-      const json = await res.json();
-      mapNames = json.master_maps_list || {};
+      mapNames = await loadMapNames();
     } catch (e) {
       console.warn("Failed to load map index JSON", e);
       mapNames = {};

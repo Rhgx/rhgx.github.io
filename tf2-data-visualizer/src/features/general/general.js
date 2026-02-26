@@ -6,9 +6,13 @@ import {
   debounce,
   nextFrame,
   idle,
-} from "./utils.js";
-import { VirtualTable } from "./virtual-table.js";
-import { CHART_DEFAULT_OPTIONS, COLORS, FONTS } from "./config.js";
+} from "../../shared/core/utils.js";
+import { VirtualTable } from "../../shared/ui/virtual-table.js";
+import {
+  CHART_DEFAULT_OPTIONS,
+  COLORS,
+  FONTS,
+} from "../../shared/core/config.js";
 
 // Module-scoped state and refs
 let keyStatsContainer;

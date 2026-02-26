@@ -1,5 +1,6 @@
-import { debounce, cleanNumeric } from "./utils.js";
-import { VirtualTable } from "./virtual-table.js";
+import { debounce, cleanNumeric } from "../../shared/core/utils.js";
+import { VirtualTable } from "../../shared/ui/virtual-table.js";
+import { loadMapNames } from "../../shared/data/map-index-service.js";
 
 // Module-scoped refs/state
 let viz;
@@ -61,14 +62,10 @@ export function initTF2() {
 
   tableContainer = document.getElementById("t-table-container");
 
-  // Init map index from JSON
+  // Init map index
   (async function initMapIndex() {
     try {
-      const res = await fetch("./modules/map-index.json", {
-        cache: "no-store",
-      });
-      const json = await res.json();
-      mapNames = json.master_maps_list || {};
+      mapNames = await loadMapNames();
     } catch (e) {
       console.warn("Failed to load map index JSON", e);
       mapNames = {};

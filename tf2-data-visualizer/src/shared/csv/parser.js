@@ -1,5 +1,5 @@
 // CSV parsing via Web Worker using PapaParse inside the worker.
-const workerUrl = "./modules/workers/csvWorker.js";
+const workerUrl = new URL("./csv.worker.js", import.meta.url);
 
 let csvWorker = null;
 
