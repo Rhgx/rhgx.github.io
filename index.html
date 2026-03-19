@@ -41,13 +41,78 @@
     .container {
       background-color: #494949;
       border-radius: 10px;
-      padding: 20px;
+      padding: 22px;
       color: white;
-      max-width: 400px;
+      max-width: 760px;
       width: 100%;
     }
-    .btn-custom {
-      margin: 10px 0;
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #3f3f3f;
+      color: #f0f0f0;
+      border-radius: 999px;
+      padding: 5px 14px;
+      transition: 0.18s ease;
+    }
+    .tab-btn:hover {
+      background: #555555;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .tab-btn.active {
+      background: #efefef;
+      color: #252525;
+      border-color: transparent;
+    }
+    .category-title {
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .sites-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      text-align: left;
+    }
+    .site-btn {
+      width: 100%;
+      color: #ffffff;
+      border: none;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .site-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+      color: #ffffff;
+    }
+    .site-btn[data-cat="TC2"] {
+      background: #4c3863;
+    }
+    .site-btn[data-cat="TF2"] {
+      background: #ae5d30;
+    }
+    .site-btn[data-cat="Roblox"] {
+      background: #2563eb;
+    }
+    .site-btn[data-cat="Other"] {
+      background: #64748b;
+    }
+    .site-btn[data-cat="External"] {
+      background: #d97706;
+    }
+    @media (max-width: 680px) {
+      .sites-grid {
+        grid-template-columns: 1fr;
+      }
     }
     footer {
       margin-top: 20px;
@@ -59,34 +124,120 @@
 <body>
   <h1 class="mb-4">Rock's Websites</h1>
   <div class="container">
-    <div class="mb-2">
-      <a href="tc2-loadout-generator" class="btn btn-primary btn-custom w-100">TC2 Random Loadout Generator</a>
-    </div>
-    <div class="mb-2">
-      <a href="tc2-item-drop-editor" class="btn btn-success btn-custom w-100">TC2 Item Drop Editor</a>
-    </div>
-    <div class="mb-2">
-      <a href="tc2-bingo" class="btn btn-info btn-custom w-100">TC2 Bingo Card Generator</a>
-    </div>
-    <div class="mb-2">
-      <a href="rocks-item-shop" class="btn btn-danger btn-custom w-100">Rock's Typical Item Shop</a>
-    </div>
-    <div class="mb-2">
-      <a href="region-map" class="btn btn-secondary btn-custom w-100">Roblox Region Map</a>
-    </div>
-    <div class="mb-2">
-      <a href="tc2-time-calc" class="btn btn-dark btn-custom w-100">TC2 Time Calculator</a>
-    </div>
-    <div class="mb-2">
-      <a href="tc2-xp-calc" class="btn btn-warning btn-custom w-100">TC2 XP Calculator</a>
-    </div>
-    <div class="mb-2">
-      <a href="https://starlit-shortbread-ca47d4.netlify.app/" class="btn btn-custom w-100" style="background-color: #F57C00; color: white;">Lurkr.gg Username Finder</a>      
+    <div id="sites">
+      Loading sites...
     </div>
   </div>
   <footer>
     Welcome, this is a website I made for hosting my HTML projects that I sometimes work on (mostly for a Roblox game called Typical Colors 2). Enjoy!
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    (function () {
+      const categoryOrder = ["TC2", "TF2", "Roblox", "Other", "External"];
+      const categoryLabels = {
+        TC2: "Typical Colors 2",
+        TF2: "Team Fortress 2",
+        Roblox: "Roblox Tools",
+        Other: "Other Projects",
+        External: "External Links"
+      };
+      const categoryButtonClasses = {
+        TC2: "TC2",
+        TF2: "TF2",
+        Roblox: "Roblox",
+        Other: "Other",
+        External: "External"
+      };
+
+      function createButton(site) {
+        const a = document.createElement("a");
+        a.href = site.path;
+        a.textContent = site.name;
+        a.className = "btn site-btn";
+        a.dataset.cat = categoryButtonClasses[site.category] || "Other";
+
+        if (site.category === "External" || site.external) {
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+        }
+        return a;
+      }
+
+      function renderSites(sites) {
+        const container = document.getElementById("sites");
+        if (!container) return;
+
+        container.innerHTML = "";
+
+        const grouped = sites.reduce((acc, site) => {
+          const cat = site.category || "Other";
+          if (!acc[cat]) acc[cat] = [];
+          acc[cat].push(site);
+          return acc;
+        }, {});
+
+        const availableCategories = categoryOrder.filter((cat) => (grouped[cat] || []).length);
+        const tabs = document.createElement("div");
+        tabs.className = "category-tabs";
+
+        const title = document.createElement("div");
+        title.className = "category-title";
+
+        const grid = document.createElement("div");
+        grid.className = "sites-grid";
+
+        function setCategory(cat) {
+          title.textContent = categoryLabels[cat] || cat;
+          grid.innerHTML = "";
+          grouped[cat].forEach((site) => {
+            grid.appendChild(createButton(site));
+          });
+          tabs.querySelectorAll(".tab-btn").forEach((btn) => {
+            btn.classList.toggle("active", btn.dataset.category === cat);
+          });
+        }
+
+        availableCategories.forEach((cat) => {
+          const tab = document.createElement("button");
+          tab.type = "button";
+          tab.className = "tab-btn";
+          tab.dataset.category = cat;
+          tab.textContent = categoryLabels[cat] || cat;
+          tab.addEventListener("click", () => setCategory(cat));
+          tabs.appendChild(tab);
+        });
+
+        container.appendChild(tabs);
+        container.appendChild(title);
+        container.appendChild(grid);
+
+        if (availableCategories.length) {
+          setCategory(availableCategories[0]);
+        }
+      }
+
+      fetch("sites.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to load sites.json");
+          }
+          return response.json();
+        })
+        .then((sites) => {
+          if (!Array.isArray(sites)) {
+            throw new Error("sites.json is not an array");
+          }
+          renderSites(sites);
+        })
+        .catch((error) => {
+          const container = document.getElementById("sites");
+          if (container) {
+            container.textContent = "Unable to load sites list.";
+            console.error(error);
+          }
+        });
+    })();
+  </script>
 </body>
 </html>

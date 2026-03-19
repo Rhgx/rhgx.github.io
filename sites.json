@@ -1,0 +1,103 @@
+[
+  {
+    "name": "TC2 Random Loadout Generator",
+    "path": "tc2-loadout-generator/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Item Drop Editor",
+    "path": "tc2-item-drop-editor/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Bingo Card Generator",
+    "path": "tc2-bingo/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Competitive Hub",
+    "path": "tc2-comp-hub/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Puzzle Game",
+    "path": "tc2-puzzle/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Server Browser",
+    "path": "tc2-server-browser/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Tierlist Maker",
+    "path": "tc2-tierlist-maker/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Time Calculator",
+    "path": "tc2-time-calc/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 Update Timeline",
+    "path": "tc2-timeline/",
+    "category": "TC2"
+  },
+  {
+    "name": "TC2 XP Calculator",
+    "path": "tc2-xp-calc/",
+    "category": "TC2"
+  },
+  {
+    "name": "Rock's Typical Item Shop",
+    "path": "rocks-item-shop/",
+    "category": "TC2"
+  },
+  {
+    "name": "TF2 Match Data Visualizer",
+    "path": "tf2-data-visualizer/",
+    "category": "TF2"
+  },
+  {
+    "name": "Roblox Region Map",
+    "path": "region-map/",
+    "category": "Roblox"
+  },
+  {
+    "name": "Roblox Atlas Generator",
+    "path": "video-to-atlas/",
+    "category": "Roblox"
+  },
+  {
+    "name": "Grow a Garden Update Countdown",
+    "path": "gag-countdown/",
+    "category": "Other"
+  },
+  {
+    "name": "Krabs Countdown",
+    "path": "krabs-countdown/",
+    "category": "Other"
+  },
+  {
+    "name": "Slide Puzzle",
+    "path": "slider/",
+    "category": "Other"
+  },
+  {
+    "name": "Discord Timestamp Converter",
+    "path": "timestamp-converter/",
+    "category": "Other"
+  },
+  {
+    "name": "Turkey Earthquake Tracker",
+    "path": "turkey-earthquake-map/",
+    "category": "Other"
+  },
+  {
+    "name": "Lurkr.gg Username Finder",
+    "path": "https://starlit-shortbread-ca47d4.netlify.app/",
+    "category": "External",
+    "external": true
+  }
+]
