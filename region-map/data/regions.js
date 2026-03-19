@@ -25,6 +25,7 @@ export const regions = [
 
   // Asia Pacific
   { name: "Mumbai, IN", lat: 19.076, lon: 72.8777 },
+  { name: "Kowloon, HK", lat: 22.3193, lon: 114.1694 },
   { name: "Tokyo, JP", lat: 35.6895, lon: 139.6917 },
   { name: "Singapore", lat: 1.3521, lon: 103.8198 },
   { name: "Sydney, AU", lat: -33.8688, lon: 151.2093 },
