@@ -102,6 +102,44 @@
       <p class="loading-text">Processing data…</p>
     </div>
 
+    <!-- Global Exclusion Bar -->
+    <div id="exclusion-bar" class="exclusion-bar hidden" aria-label="Global map and mode filters">
+      <span class="excl-label">Filter</span>
+
+      <div class="excl-group">
+        <button class="excl-btn" id="excl-maps-btn" type="button" title="Choose maps to include or exclude">
+          <i class="ri-map-2-line"></i>
+          <span id="excl-maps-label">Maps</span>
+          <i class="ri-arrow-down-s-line"></i>
+        </button>
+        <div class="excl-dropdown hidden" id="excl-maps-panel">
+          <div class="excl-search-wrap">
+            <i class="ri-search-line" style="color: var(--steel); flex-shrink: 0;"></i>
+            <input type="text" id="excl-maps-search" class="excl-search" placeholder="Search maps…" autocomplete="off">
+          </div>
+          <div class="excl-list" id="excl-maps-list"></div>
+        </div>
+      </div>
+
+      <div class="excl-group">
+        <button class="excl-btn" id="excl-modes-btn" type="button" title="Choose game modes to include or exclude">
+          <i class="ri-gamepad-line"></i>
+          <span id="excl-modes-label">Game Modes</span>
+          <i class="ri-arrow-down-s-line"></i>
+        </button>
+        <div class="excl-dropdown hidden" id="excl-modes-panel">
+          <div class="excl-list" id="excl-modes-list"></div>
+        </div>
+      </div>
+
+      <div class="excl-right">
+        <div id="excl-summary" class="excl-summary"></div>
+        <button id="excl-clear" class="btn excl-clear-btn" type="button" style="display:none">
+          <i class="ri-close-circle-line"></i> Clear
+        </button>
+      </div>
+    </div>
+
     <!-- ════════════════════════════════════════════════════════════════════ -->
     <!-- GENERAL DATA VISUALIZER -->
     <!-- ════════════════════════════════════════════════════════════════════ -->

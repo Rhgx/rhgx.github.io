@@ -14,6 +14,56 @@ import {
   loadTopListRows,
   resetTopLists,
 } from "../features/top-lists/top-lists.js";
+import { loadMapNames } from "../shared/data/map-index-service.js";
+import { loadMapModes } from "../shared/data/map-modes-service.js";
+
+// ── MAP-PREFIX GAME MODE LOGIC ───────────────────────────────────────────────
+
+// CTF maps that are actually Mannpower mode
+const MANNPOWER_MAPS = new Set([
+  "ctf_foundry",
+  "ctf_hellfire",
+  "ctf_gorge",
+  "ctf_thundermountain",
+]);
+
+const GAME_MODE_NAMES = {
+  pl:       "Payload",
+  plr:      "Payload Race",
+  cp:       "Control Points",
+  cppl:     "Control Point Payload",
+  koth:     "King of the Hill",
+  "2koth":  "Double KOTH",
+  ctf:      "Capture the Flag",
+  mann:     "Mannpower",
+  mvm:      "Mann vs Machine",
+  arena:    "Arena",
+  sd:       "Special Delivery",
+  tc:       "Territorial Control",
+  pass:     "PASS Time",
+  pd:       "Player Destruction",
+  rd:       "Robot Destruction",
+  vsh:      "Versus Saxton Hale",
+  tow:      "Tug of War",
+  zi:       "Zombie Infection",
+  // Wiki-derived sub-modes (populated when map-modes.json is present)
+  ad:       "Attack/Defend",
+  medieval: "Medieval Mode",
+  htf:      "Hold the Flag",
+  tr:       "Training Mode",
+};
+
+function getGameModeFromMapName(mapName) {
+  if (!mapName || mapName.startsWith("Unknown")) return null;
+  // Handle 2koth_ prefix before lookup since the wiki folds it into "koth"
+  if (mapName.startsWith("2koth_")) return "2koth";
+  // Authoritative wiki lookup (populated after map-modes.json loads)
+  if (exclModeLookup[mapName]) return exclModeLookup[mapName];
+  // Fallback: Mannpower exception then plain prefix split
+  if (MANNPOWER_MAPS.has(mapName)) return "mann";
+  return mapName.split("_")[0] || null;
+}
+
 import {
   prefersReducedMotion,
   fadeIn,
@@ -39,9 +89,33 @@ const globalFileInput = document.getElementById("global-file-input");
 const globalLoading = document.getElementById("global-loading");
 const clearBtn = document.getElementById("clear-data");
 const helpTrigger = document.getElementById("help-trigger");
+const exclusionBar = document.getElementById("exclusion-bar");
 
 // Keep containers hidden until data is provided
 let hasData = false;
+
+// ── EXCLUSION STATE ──────────────────────────────────────────────────────────
+let allRawRows = [];
+// Map<key, 'include'|'exclude'> — absent means off
+let mapIndexStates = new Map();
+let gameModeStates = new Map();
+let exclMapIndexKey = null;
+let exclMapNames = {};
+// Authoritative map→mode lookup from wiki scrape (empty until map-modes.json loads)
+let exclModeLookup = {};
+
+// Tri-state cycling
+const ITEM_STATES = ["off", "include", "exclude"];
+const STATE_ICONS = {
+  off:     "ri-checkbox-blank-line",
+  include: "ri-checkbox-line",
+  exclude: "ri-close-circle-line",
+};
+
+// Exclusion bar DOM refs (populated in initExclusionBar)
+let exclMapsBtn, exclMapsLabel, exclMapsPanel, exclMapsList, exclMapsSearch;
+let exclModesBtn, exclModesLabel, exclModesPanel, exclModesList;
+let exclClearBtn, exclSummaryEl;
 
 // Wrapper for slide indicator to include nav element
 function slideTabIndicator(activeBtn, animate = true) {
@@ -85,6 +159,7 @@ tabLists.addEventListener("click", () => setActive("lists"));
 initGCPD();
 initTF2();
 initTopLists();
+initExclusionBar();
 
 // Global upload interactions
 globalUpload.addEventListener("click", () => globalFileInput.click());
@@ -124,6 +199,10 @@ clearBtn.addEventListener("click", () => {
     resetTF2();
     resetTopLists();
     hasData = false;
+    allRawRows = [];
+    mapIndexStates.clear();
+    gameModeStates.clear();
+    exclusionBar.classList.add("hidden");
     // Hide sections and tabs
     sectionGeneral.classList.add("hidden");
     sectionTF2.classList.add("hidden");
@@ -180,6 +259,14 @@ async function handleText(text) {
 }
 
 async function handleRows(rows) {
+  allRawRows = rows;
+  mapIndexStates.clear();
+  gameModeStates.clear();
+
+  // Populate exclusion bar (loads map names + builds checkboxes)
+  await populateExclusionBar(rows);
+  exclusionBar.classList.remove("hidden");
+
   // Feed all visualizers. Each will decide what to show from the rows.
   loadGCPDRows(rows);
   loadTF2Rows(rows);
@@ -210,6 +297,254 @@ async function handleRows(rows) {
 
 function showGlobalLoading(show) {
   globalLoading.classList.toggle("hidden", !show);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EXCLUSION BAR
+// ═══════════════════════════════════════════════════════════════════════════
+
+function initExclusionBar() {
+  exclMapsBtn = document.getElementById("excl-maps-btn");
+  exclMapsLabel = document.getElementById("excl-maps-label");
+  exclMapsPanel = document.getElementById("excl-maps-panel");
+  exclMapsList = document.getElementById("excl-maps-list");
+  exclMapsSearch = document.getElementById("excl-maps-search");
+  exclModesBtn = document.getElementById("excl-modes-btn");
+  exclModesLabel = document.getElementById("excl-modes-label");
+  exclModesPanel = document.getElementById("excl-modes-panel");
+  exclModesList = document.getElementById("excl-modes-list");
+  exclClearBtn = document.getElementById("excl-clear");
+  exclSummaryEl = document.getElementById("excl-summary");
+
+  exclMapsBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = !exclMapsPanel.classList.contains("hidden");
+    closeAllExclDropdowns();
+    if (!isOpen) openExclDropdown(exclMapsPanel, exclMapsBtn);
+  });
+
+  exclModesBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = !exclModesPanel.classList.contains("hidden");
+    closeAllExclDropdowns();
+    if (!isOpen) openExclDropdown(exclModesPanel, exclModesBtn);
+  });
+
+  // Close dropdowns on outside click
+  document.addEventListener("click", closeAllExclDropdowns);
+  exclMapsPanel.addEventListener("click", (e) => e.stopPropagation());
+  exclModesPanel.addEventListener("click", (e) => e.stopPropagation());
+
+  // Map search filter
+  exclMapsSearch.addEventListener("input", () => {
+    const q = exclMapsSearch.value.toLowerCase();
+    exclMapsList.querySelectorAll(".excl-item").forEach((item) => {
+      const text = item.querySelector(".excl-item-name").textContent.toLowerCase();
+      item.hidden = !text.includes(q);
+    });
+  });
+
+  exclClearBtn.addEventListener("click", () => {
+    mapIndexStates.clear();
+    gameModeStates.clear();
+    exclMapsList.querySelectorAll(".excl-item").forEach((item) => {
+      item.dataset.state = "off";
+      item.querySelector(".excl-state-icon").className = `excl-state-icon ${STATE_ICONS.off}`;
+    });
+    exclModesList.querySelectorAll(".excl-item").forEach((item) => {
+      item.dataset.state = "off";
+      item.querySelector(".excl-state-icon").className = `excl-state-icon ${STATE_ICONS.off}`;
+    });
+    updateExclUI();
+    redispatch();
+  });
+}
+
+function openExclDropdown(panel, btn) {
+  panel.classList.remove("hidden");
+  btn.classList.add("open");
+}
+
+function closeAllExclDropdowns() {
+  exclMapsPanel?.classList.add("hidden");
+  exclMapsBtn?.classList.remove("open");
+  exclModesPanel?.classList.add("hidden");
+  exclModesBtn?.classList.remove("open");
+}
+
+async function populateExclusionBar(rows) {
+  try {
+    exclMapNames = await loadMapNames();
+  } catch {
+    exclMapNames = {};
+  }
+  // Load wiki-derived mode lookup; silently degrades to {} if not generated yet
+  exclModeLookup = await loadMapModes();
+
+  // Detect map_index key (case-insensitive)
+  exclMapIndexKey = Object.keys(rows[0] || {}).find(
+    (k) => k.toLowerCase() === "map_index"
+  ) || null;
+
+  // Collect unique map index values, sorted by resolved name
+  const mapIdxSet = new Set();
+  rows.forEach((r) => {
+    if (exclMapIndexKey) {
+      const v = String(r[exclMapIndexKey] || "").trim();
+      if (v) mapIdxSet.add(v);
+    }
+  });
+  const mapIdxValues = [...mapIdxSet].sort((a, b) => {
+    const na = exclMapNames[a]?.name || `zzz_${a}`;
+    const nb = exclMapNames[b]?.name || `zzz_${b}`;
+    return na.localeCompare(nb);
+  });
+
+  // Collect unique game mode prefixes derived from resolved map names
+  const modeSet = new Set();
+  rows.forEach((r) => {
+    const mapName = resolveExclMapName(r);
+    const mode = getGameModeFromMapName(mapName);
+    if (mode) modeSet.add(mode);
+  });
+  // Sort by display name, unknown prefixes fall back to the raw prefix
+  const modes = [...modeSet].sort((a, b) => {
+    const na = GAME_MODE_NAMES[a] || a.toUpperCase();
+    const nb = GAME_MODE_NAMES[b] || b.toUpperCase();
+    return na.localeCompare(nb);
+  });
+
+  // Helper: cycle an item through off → include → exclude → off
+  function cycleItemState(item, stateMap, key) {
+    const cur = item.dataset.state;
+    const next = ITEM_STATES[(ITEM_STATES.indexOf(cur) + 1) % ITEM_STATES.length];
+    item.dataset.state = next;
+    item.querySelector(".excl-state-icon").className = `excl-state-icon ${STATE_ICONS[next]}`;
+    if (next === "off") stateMap.delete(key);
+    else stateMap.set(key, next);
+    updateExclUI();
+    redispatch();
+  }
+
+  // Build maps list
+  if (mapIdxValues.length === 0) {
+    exclMapsList.innerHTML = '<div class="excl-empty">No map data</div>';
+  } else {
+    exclMapsList.innerHTML = mapIdxValues
+      .map((idx) => {
+        const name = exclMapNames[idx]?.name || `Unknown (${idx})`;
+        return `<div class="excl-item" data-state="off" data-map-index="${idx}"
+          role="button" tabindex="0" title="Click to cycle: off → include → exclude">
+          <i class="excl-state-icon ${STATE_ICONS.off}"></i>
+          <span class="excl-item-name">${name}</span>
+        </div>`;
+      })
+      .join("");
+    exclMapsList.querySelectorAll(".excl-item").forEach((item) => {
+      const handler = () => cycleItemState(item, mapIndexStates, item.dataset.mapIndex);
+      item.addEventListener("click", handler);
+      item.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handler(); }
+      });
+    });
+  }
+
+  // Build modes list
+  if (modes.length === 0) {
+    exclModesList.innerHTML = '<div class="excl-empty">No mode data</div>';
+  } else {
+    // Modes that don't have their own map prefix (wiki sub-modes of cp_)
+    const NO_OWN_PREFIX = new Set(["ad", "medieval", "tr"]);
+    exclModesList.innerHTML = modes
+      .map((mode) => {
+        const displayName = GAME_MODE_NAMES[mode] || mode.toUpperCase();
+        const prefixHint = NO_OWN_PREFIX.has(mode)
+          ? ""
+          : `<span class="excl-item-prefix">${mode}_</span>`;
+        return `<div class="excl-item" data-state="off" data-mode="${mode}"
+          role="button" tabindex="0" title="Click to cycle: off → include → exclude">
+          <i class="excl-state-icon ${STATE_ICONS.off}"></i>
+          <span class="excl-item-name">${displayName}</span>
+          ${prefixHint}
+        </div>`;
+      })
+      .join("");
+    exclModesList.querySelectorAll(".excl-item").forEach((item) => {
+      const handler = () => cycleItemState(item, gameModeStates, item.dataset.mode);
+      item.addEventListener("click", handler);
+      item.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handler(); }
+      });
+    });
+  }
+
+  updateExclUI();
+}
+
+function updateExclUI() {
+  exclMapsLabel.textContent = "Maps";
+  exclModesLabel.textContent = "Game Modes";
+
+  const total = mapIndexStates.size + gameModeStates.size;
+  exclClearBtn.style.display = total > 0 ? "" : "none";
+
+  if (total === 0) {
+    exclSummaryEl.textContent = "";
+    return;
+  }
+  const filtered = applyExclusions(allRawRows);
+  exclSummaryEl.textContent =
+    `${filtered.length.toLocaleString()} / ${allRawRows.length.toLocaleString()} shown`;
+}
+
+function resolveExclMapName(row) {
+  if (exclMapIndexKey && row[exclMapIndexKey]) {
+    const mid = String(row[exclMapIndexKey]).trim();
+    return exclMapNames[mid]?.name || "";
+  }
+  return row.map_name || row.map || row.mapid || row.mapId || "";
+}
+
+function applyExclusions(rows) {
+  const mapsActive = mapIndexStates.size > 0 && exclMapIndexKey;
+  const modesActive = gameModeStates.size > 0;
+  if (!mapsActive && !modesActive) return rows;
+
+  // Pre-compute include/exclude sets for fast lookups
+  const mapIncludes = new Set();
+  const mapExcludes = new Set();
+  for (const [k, v] of mapIndexStates) {
+    (v === "include" ? mapIncludes : mapExcludes).add(k);
+  }
+
+  const modeIncludes = new Set();
+  const modeExcludes = new Set();
+  for (const [k, v] of gameModeStates) {
+    (v === "include" ? modeIncludes : modeExcludes).add(k);
+  }
+
+  return rows.filter((r) => {
+    if (mapsActive) {
+      const idx = String(r[exclMapIndexKey] || "").trim();
+      if (mapExcludes.has(idx)) return false;
+      if (mapIncludes.size > 0 && !mapIncludes.has(idx)) return false;
+    }
+
+    if (modesActive) {
+      const mode = getGameModeFromMapName(resolveExclMapName(r));
+      if (modeExcludes.has(mode)) return false;
+      if (modeIncludes.size > 0 && (!mode || !modeIncludes.has(mode))) return false;
+    }
+
+    return true;
+  });
+}
+
+function redispatch() {
+  const filtered = applyExclusions(allRawRows);
+  loadGCPDRows(filtered);
+  loadTF2Rows(filtered);
+  loadTopListRows(filtered);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

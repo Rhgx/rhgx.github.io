@@ -317,3 +317,205 @@
   font-size: 0.5rem;
   font-weight: 400;
 }
+
+/* ─── EXCLUSION BAR ──────────────────────────────────────────────────────── */
+.exclusion-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--ink);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 3px solid var(--rust);
+  margin-bottom: var(--space-lg);
+}
+
+.excl-label {
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--steel-light);
+}
+
+.excl-group {
+  position: relative;
+}
+
+.excl-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--parchment);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  box-shadow: none;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.excl-btn:hover {
+  background: rgba(180, 76, 51, 0.35);
+  border-color: var(--rust-light);
+  transform: none;
+  box-shadow: none;
+}
+
+.excl-btn:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.excl-btn.open {
+  background: var(--rust);
+  border-color: var(--rust-dark);
+}
+
+.excl-btn i:last-child {
+  transition: transform var(--transition-fast);
+}
+
+.excl-btn.open i:last-child {
+  transform: rotate(180deg);
+}
+
+
+.excl-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 220px;
+  max-width: 300px;
+  background: var(--parchment);
+  border: var(--border-width) solid var(--ink);
+  box-shadow: var(--shadow-card);
+  z-index: 200;
+}
+
+.excl-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: 1px solid var(--cream-dark);
+}
+
+.excl-search {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  outline: none;
+}
+
+.excl-search::placeholder {
+  color: var(--steel-light);
+}
+
+.excl-list {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.excl-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  transition: background var(--transition-fast);
+  user-select: none;
+}
+
+.excl-item:hover {
+  background: var(--cream-dark);
+}
+
+.excl-state-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1;
+  color: var(--steel);
+  transition: color var(--transition-fast);
+}
+
+.excl-item[data-state="include"] {
+  background: rgba(62, 124, 62, 0.1);
+}
+
+.excl-item[data-state="include"] .excl-state-icon {
+  color: #5cb85c;
+}
+
+.excl-item[data-state="exclude"] {
+  background: rgba(180, 76, 51, 0.1);
+}
+
+.excl-item[data-state="exclude"] .excl-state-icon {
+  color: var(--rust);
+}
+
+.excl-item-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.excl-item-prefix {
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+  color: var(--steel);
+  flex-shrink: 0;
+}
+
+.excl-empty {
+  padding: var(--space-md);
+  text-align: center;
+  color: var(--steel);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+}
+
+.excl-clear-btn {
+  background: transparent;
+  color: var(--cream-dark);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: none;
+}
+
+.excl-clear-btn:hover {
+  background: rgba(180, 76, 51, 0.35);
+  color: var(--parchment);
+  border-color: var(--rust-light);
+  box-shadow: none;
+  transform: none;
+}
+
+.excl-clear-btn:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.excl-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-left: auto;
+}
+
+.excl-summary {
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+  color: var(--brass-light);
+}
