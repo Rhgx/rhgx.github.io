@@ -114,7 +114,7 @@ const STATE_ICONS = {
 
 // Exclusion bar DOM refs (populated in initExclusionBar)
 let exclMapsBtn, exclMapsLabel, exclMapsPanel, exclMapsList, exclMapsSearch;
-let exclModesBtn, exclModesLabel, exclModesPanel, exclModesList;
+let exclModesBtn, exclModesLabel, exclModesPanel, exclModesList, exclModesSearch;
 let exclClearBtn, exclSummaryEl;
 
 // Wrapper for slide indicator to include nav element
@@ -313,6 +313,7 @@ function initExclusionBar() {
   exclModesLabel = document.getElementById("excl-modes-label");
   exclModesPanel = document.getElementById("excl-modes-panel");
   exclModesList = document.getElementById("excl-modes-list");
+  exclModesSearch = document.getElementById("excl-modes-search");
   exclClearBtn = document.getElementById("excl-clear");
   exclSummaryEl = document.getElementById("excl-summary");
 
@@ -335,14 +336,8 @@ function initExclusionBar() {
   exclMapsPanel.addEventListener("click", (e) => e.stopPropagation());
   exclModesPanel.addEventListener("click", (e) => e.stopPropagation());
 
-  // Map search filter
-  exclMapsSearch.addEventListener("input", () => {
-    const q = exclMapsSearch.value.toLowerCase();
-    exclMapsList.querySelectorAll(".excl-item").forEach((item) => {
-      const text = item.querySelector(".excl-item-name").textContent.toLowerCase();
-      item.hidden = !text.includes(q);
-    });
-  });
+  bindExclusionSearch(exclMapsSearch, exclMapsList);
+  bindExclusionSearch(exclModesSearch, exclModesList);
 
   exclClearBtn.addEventListener("click", () => {
     mapIndexStates.clear();
@@ -355,8 +350,46 @@ function initExclusionBar() {
       item.dataset.state = "off";
       item.querySelector(".excl-state-icon").className = `excl-state-icon ${STATE_ICONS.off}`;
     });
+    if (exclMapsSearch) exclMapsSearch.value = "";
+    if (exclModesSearch) exclModesSearch.value = "";
+    applyExclusionSearch(exclMapsList, "");
+    applyExclusionSearch(exclModesList, "");
     updateExclUI();
     redispatch();
+  });
+}
+
+function bindExclusionSearch(inputEl, listEl) {
+  if (!inputEl || !listEl) return;
+
+  const runSearch = () => {
+    applyExclusionSearch(listEl, inputEl.value);
+  };
+
+  ["input", "change", "search", "keyup"].forEach((eventName) => {
+    inputEl.addEventListener(eventName, runSearch);
+  });
+
+  ["click", "mousedown", "pointerdown", "focus", "keydown"].forEach((eventName) => {
+    inputEl.addEventListener(eventName, (e) => e.stopPropagation());
+  });
+}
+
+function applyExclusionSearch(listEl, query) {
+  if (!listEl) return;
+  const normalizedQuery = String(query || "").trim().toLowerCase();
+  listEl.querySelectorAll(".excl-item").forEach((item) => {
+    const haystack =
+      item.dataset.searchText ||
+      [
+        item.querySelector(".excl-item-name")?.textContent || "",
+        item.querySelector(".excl-item-prefix")?.textContent || "",
+      ]
+        .join(" ")
+        .toLowerCase();
+    const matches = !normalizedQuery || haystack.includes(normalizedQuery);
+    item.hidden = false;
+    item.style.display = matches ? "" : "none";
   });
 }
 
@@ -373,6 +406,9 @@ function closeAllExclDropdowns() {
 }
 
 async function populateExclusionBar(rows) {
+  if (exclMapsSearch) exclMapsSearch.value = "";
+  if (exclModesSearch) exclModesSearch.value = "";
+
   try {
     exclMapNames = await loadMapNames();
   } catch {
@@ -441,6 +477,8 @@ async function populateExclusionBar(rows) {
       })
       .join("");
     exclMapsList.querySelectorAll(".excl-item").forEach((item) => {
+      const name = item.querySelector(".excl-item-name")?.textContent || "";
+      item.dataset.searchText = name.toLowerCase();
       const handler = () => cycleItemState(item, mapIndexStates, item.dataset.mapIndex);
       item.addEventListener("click", handler);
       item.addEventListener("keydown", (e) => {
@@ -448,6 +486,7 @@ async function populateExclusionBar(rows) {
       });
     });
   }
+  applyExclusionSearch(exclMapsList, exclMapsSearch?.value || "");
 
   // Build modes list
   if (modes.length === 0) {
@@ -470,6 +509,9 @@ async function populateExclusionBar(rows) {
       })
       .join("");
     exclModesList.querySelectorAll(".excl-item").forEach((item) => {
+      const name = item.querySelector(".excl-item-name")?.textContent || "";
+      const prefix = item.querySelector(".excl-item-prefix")?.textContent || "";
+      item.dataset.searchText = `${name} ${prefix}`.toLowerCase();
       const handler = () => cycleItemState(item, gameModeStates, item.dataset.mode);
       item.addEventListener("click", handler);
       item.addEventListener("keydown", (e) => {
@@ -477,6 +519,7 @@ async function populateExclusionBar(rows) {
       });
     });
   }
+  applyExclusionSearch(exclModesList, exclModesSearch?.value || "");
 
   updateExclUI();
 }
@@ -500,7 +543,7 @@ function updateExclUI() {
 function resolveExclMapName(row) {
   if (exclMapIndexKey && row[exclMapIndexKey]) {
     const mid = String(row[exclMapIndexKey]).trim();
-    return exclMapNames[mid]?.name || "";
+    if (exclMapNames[mid]?.name) return exclMapNames[mid].name;
   }
   return row.map_name || row.map || row.mapid || row.mapId || "";
 }

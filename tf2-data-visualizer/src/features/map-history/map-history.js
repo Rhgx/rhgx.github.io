@@ -209,27 +209,16 @@ function rebuildVisualization() {
 
   const baseEntries = Object.entries(mapData);
   const sortMode = sortSelect.value;
+  const chartMetric = getChartMetric(sortMode);
 
-  const sortedEntries = baseEntries.slice().sort((a, b) => {
-    const [amid, ac] = a;
-    const [bmid, bc] = b;
-
-    if (sortMode === "countDesc") return bc - ac;
-    if (sortMode === "countAsc") return ac - bc;
-    if (sortMode === "hoursDesc") return (mapDurationData[bmid] || 0) - (mapDurationData[amid] || 0);
-    if (sortMode === "hoursAsc") return (mapDurationData[amid] || 0) - (mapDurationData[bmid] || 0);
-
-    const aname = mapNames[amid]?.name || `Unknown (${amid})`;
-    const bname = mapNames[bmid]?.name || `Unknown (${bmid})`;
-    if (sortMode === "alphaAsc") return aname.localeCompare(bname);
-    if (sortMode === "alphaDesc") return bname.localeCompare(aname);
-    return bc - ac;
-  });
-
-  baseTableEntriesSorted = sortedEntries;
+  baseTableEntriesSorted = sortEntries(baseEntries, sortMode);
+  const chartSortedEntries = sortEntries(
+    baseEntries,
+    getChartSortMode(sortMode, chartMetric)
+  );
 
   const q = (chartSearchInput.value || "").toLowerCase().trim();
-  const chartFiltered = sortedEntries.filter(([mid]) => {
+  const chartFiltered = chartSortedEntries.filter(([mid]) => {
     if (!q) return true;
     const name = mapNames[mid]?.name || `Unknown (${mid})`;
     return name.toLowerCase().includes(q);
@@ -240,7 +229,7 @@ function rebuildVisualization() {
     topN === "all" ? chartFiltered : chartFiltered.slice(0, +topN);
   lastChartCount = chartLimited.length;
 
-  updateChart(chartLimited, getChartMetric(sortMode));
+  updateChart(chartLimited, chartMetric);
   applyTableSearch();
 }
 
@@ -478,6 +467,49 @@ function setMetricAvailability(enabled) {
   ) {
     sortSelect.value = "countDesc";
   }
+}
+
+function sortEntries(entries, sortMode) {
+  return entries.slice().sort((a, b) => compareEntries(a, b, sortMode));
+}
+
+function compareEntries(a, b, sortMode) {
+  const [amid, ac] = a;
+  const [bmid, bc] = b;
+
+  if (sortMode === "countDesc") return bc - ac || compareEntries(a, b, "alphaAsc");
+  if (sortMode === "countAsc") return ac - bc || compareEntries(a, b, "alphaAsc");
+
+  if (sortMode === "hoursDesc") {
+    return (mapDurationData[bmid] || 0) - (mapDurationData[amid] || 0) ||
+      compareEntries(a, b, "alphaAsc");
+  }
+  if (sortMode === "hoursAsc") {
+    return (mapDurationData[amid] || 0) - (mapDurationData[bmid] || 0) ||
+      compareEntries(a, b, "alphaAsc");
+  }
+
+  const aname = mapNames[amid]?.name || `Unknown (${amid})`;
+  const bname = mapNames[bmid]?.name || `Unknown (${bmid})`;
+  if (sortMode === "alphaAsc") return aname.localeCompare(bname);
+  if (sortMode === "alphaDesc") return bname.localeCompare(aname);
+  return compareEntries(a, b, "countDesc");
+}
+
+function getChartSortMode(sortMode, chartMetric) {
+  if (sortMode === "alphaAsc" || sortMode === "alphaDesc") {
+    return sortMode;
+  }
+
+  if (chartMetric === "hours" && hasMatchDurationColumn) {
+    return sortMode === "countAsc" || sortMode === "hoursAsc"
+      ? "hoursAsc"
+      : "hoursDesc";
+  }
+
+  return sortMode === "hoursAsc" || sortMode === "countAsc"
+    ? "countAsc"
+    : "countDesc";
 }
 
 function getChartMetric(sortMode = sortSelect?.value || "") {
