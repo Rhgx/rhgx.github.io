@@ -164,6 +164,11 @@ initExclusionBar();
 
 // Global upload interactions
 globalUpload.addEventListener("click", () => globalFileInput.click());
+globalUpload.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault();
+  globalFileInput.click();
+});
 globalUpload.addEventListener("dragover", (e) => {
   e.preventDefault();
   globalUpload.classList.add("dragover");
