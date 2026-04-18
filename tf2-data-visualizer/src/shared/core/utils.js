@@ -39,6 +39,54 @@ export const isTruthy = (v) => {
   return s === "true" || s === "1" || s === "yes" || s === "y" || s === "on";
 };
 
+const parseTimestamp = (value) => {
+  if (!value) return null;
+  if (value instanceof Date) {
+    const ms = value.getTime();
+    return Number.isFinite(ms) ? ms : null;
+  }
+
+  const raw = String(value).trim();
+  if (!raw) return null;
+
+  let ms = Date.parse(raw);
+  if (Number.isFinite(ms)) return ms;
+
+  const normalized = raw
+    .replace(" GMT", "Z")
+    .replace(" UTC", "Z")
+    .replace(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})(Z?)$/, "$1T$2$3");
+  ms = Date.parse(normalized);
+  return Number.isFinite(ms) ? ms : null;
+};
+
+export const calculateTimePlayedSeconds = (row) => {
+  if (!row || typeof row !== "object") return 0;
+
+  const matchDuration = Math.max(0, cleanNumeric(row.match_duration));
+  const joinedAfterStart = isTruthy(row.joined_after_match_start);
+  const joinedAt =
+    parseTimestamp(row.join_time) ?? parseTimestamp(row.connection_time);
+  const leftAt =
+    parseTimestamp(row.time_left_match) ?? parseTimestamp(row.match_end_time);
+
+  if (joinedAt != null && leftAt != null && leftAt >= joinedAt) {
+    const computedSeconds = Math.max(
+      0,
+      Math.floor((leftAt - joinedAt) / 1000)
+    );
+    return matchDuration > 0
+      ? Math.min(matchDuration, computedSeconds)
+      : computedSeconds;
+  }
+
+  if (matchDuration > 0 && !joinedAfterStart) {
+    return matchDuration;
+  }
+
+  return 0;
+};
+
 export const debounce = (fn, wait = 150) => {
   let t;
   return (...args) => {

@@ -90,6 +90,7 @@ export function loadGCPDRows(rows) {
           "damage",
           "time_in_queue",
           "match_duration",
+          "time_played_seconds",
         ].includes(key)
       ) {
         newRow[key] = cleanNumeric(row[key]);
@@ -219,10 +220,10 @@ function calculateStats(data) {
       eventTime: r.connection_time,
     }));
 
-  const matchDurationData = data
-    .filter((r) => r.match_duration > 0 && r.connection_time)
+  const playedTimeData = data
+    .filter((r) => r.time_played_seconds > 0 && r.connection_time)
     .map((r) => ({
-      time: r.match_duration,
+      time: r.time_played_seconds,
       title: r.match_title || r.match_id,
       eventTime: r.connection_time,
     }));
@@ -247,7 +248,7 @@ function calculateStats(data) {
   );
 
   const totalQueueTimeSeconds = queueData.reduce((a, b) => a + b.time, 0);
-  const totalMatchTimeSeconds = matchDurationData.reduce(
+  const totalPlayedTimeSeconds = playedTimeData.reduce(
     (a, b) => a + b.time,
     0
   );
@@ -259,11 +260,11 @@ function calculateStats(data) {
     ? queueData.reduce((m, c) => (c.time < m.time ? c : m), queueData[0])
     : null;
 
-  const longestMatchEntry = matchDurationData.length
-    ? matchDurationData.reduce((m, c) => (c.time > m.time ? c : m), matchDurationData[0])
+  const longestPlayedEntry = playedTimeData.length
+    ? playedTimeData.reduce((m, c) => (c.time > m.time ? c : m), playedTimeData[0])
     : null;
-  const shortestMatchEntry = matchDurationData.length
-    ? matchDurationData.reduce((m, c) => (c.time < m.time ? c : m), matchDurationData[0])
+  const shortestPlayedEntry = playedTimeData.length
+    ? playedTimeData.reduce((m, c) => (c.time < m.time ? c : m), playedTimeData[0])
     : null;
 
   const matchWithMostKills = data.length
@@ -346,28 +347,28 @@ function calculateStats(data) {
     matchesJoinedMid: data.filter((r) => isTruthy(r.joined_after_match_start))
       .length,
 
-    avgMatchTime: matchDurationData.length
-      ? formatDuration(totalMatchTimeSeconds / matchDurationData.length)
+    avgTimePlayed: playedTimeData.length
+      ? formatDuration(totalPlayedTimeSeconds / playedTimeData.length)
       : "N/A",
-    longestMatchTime: longestMatchEntry
-      ? formatDuration(longestMatchEntry.time)
+    longestTimePlayed: longestPlayedEntry
+      ? formatDuration(longestPlayedEntry.time)
       : "N/A",
-    longestMatchTimeDetails: longestMatchEntry
+    longestTimePlayedDetails: longestPlayedEntry
       ? {
-          title: longestMatchEntry.title,
-          time: formatMatchTime(longestMatchEntry.eventTime),
+          title: longestPlayedEntry.title,
+          time: formatMatchTime(longestPlayedEntry.eventTime),
         }
       : null,
-    shortestMatchTime: shortestMatchEntry
-      ? formatDuration(shortestMatchEntry.time)
+    shortestTimePlayed: shortestPlayedEntry
+      ? formatDuration(shortestPlayedEntry.time)
       : "N/A",
-    shortestMatchTimeDetails: shortestMatchEntry
+    shortestTimePlayedDetails: shortestPlayedEntry
       ? {
-          title: shortestMatchEntry.title,
-          time: formatMatchTime(shortestMatchEntry.eventTime),
+          title: shortestPlayedEntry.title,
+          time: formatMatchTime(shortestPlayedEntry.eventTime),
         }
       : null,
-    totalMatchTime: formatDuration(totalMatchTimeSeconds),
+    totalTimePlayed: formatDuration(totalPlayedTimeSeconds),
   };
 }
 
@@ -410,7 +411,7 @@ function renderKeyStats(stats) {
       borderColor: "#c9a227",
     },
     match: {
-      title: "Match Time",
+      title: "Time Played",
       iconColor: "#5885a2", // blu
       badgeBg: "rgba(88, 133, 162, 0.15)",
       borderColor: "#5885a2",
@@ -521,28 +522,28 @@ function renderKeyStats(stats) {
 
     {
       icon: "ri-timer-2-fill",
-      label: "Avg. Match Time",
-      value: stats.avgMatchTime,
+      label: "Avg. Time Played",
+      value: stats.avgTimePlayed,
       category: "match",
     },
     {
       icon: "ri-gamepad-fill",
-      label: "Total Match Time",
-      value: stats.totalMatchTime,
+      label: "Total Time Played",
+      value: stats.totalTimePlayed,
       category: "match",
     },
     {
       icon: "ri-timer-flash-fill",
-      label: "Longest Match",
-      value: stats.longestMatchTime,
-      details: stats.longestMatchTimeDetails,
+      label: "Longest Time Played",
+      value: stats.longestTimePlayed,
+      details: stats.longestTimePlayedDetails,
       category: "match",
     },
     {
       icon: "ri-flashlight-fill",
-      label: "Shortest Match",
-      value: stats.shortestMatchTime,
-      details: stats.shortestMatchTimeDetails,
+      label: "Shortest Time Played",
+      value: stats.shortestTimePlayed,
+      details: stats.shortestTimePlayedDetails,
       category: "match",
     },
   ].filter(
@@ -675,6 +676,7 @@ function renderDataTable(data) {
     "damage",
     "healing",
     "support",
+    "time_played_seconds",
     "match_duration",
     "time_in_queue",
     "winning_team",
@@ -689,6 +691,11 @@ function renderDataTable(data) {
     virtualTable = new VirtualTable(dataTableContainer, {
       headers: sortedHeaders,
       rowKeys: sortedHeaders,
+      formatters: {
+        time_played_seconds: (v) => formatDuration(Number(v) || 0),
+        match_duration: (v) => formatDuration(Number(v) || 0),
+        time_in_queue: (v) => formatDuration(Number(v) || 0),
+      },
     });
   }
   virtualTable.setData(data);

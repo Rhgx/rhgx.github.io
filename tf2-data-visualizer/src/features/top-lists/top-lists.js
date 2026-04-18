@@ -27,9 +27,9 @@ const METRICS = {
   damage: { label: "Most Damage", key: "damage", kind: "number" },
   healing: { label: "Most Healing", key: "healing", kind: "number" },
   support: { label: "Most Support", key: "support", kind: "number" },
-  match_duration: {
-    label: "Longest Match",
-    key: "match_duration",
+  time_played_seconds: {
+    label: "Longest Time Played",
+    key: "time_played_seconds",
     kind: "duration",
   },
   time_in_queue: {
@@ -83,6 +83,7 @@ export function loadTopListRows(rows) {
     out.support = cleanNumeric(r.support);
     out.time_in_queue = cleanNumeric(r.time_in_queue);
     out.match_duration = cleanNumeric(r.match_duration);
+    out.time_played_seconds = cleanNumeric(r.time_played_seconds);
     return out;
   });
 
@@ -220,6 +221,7 @@ function buildTableRows(scored, metricMeta) {
       damage: row.damage ?? 0,
       healing: row.healing ?? 0,
       support: row.support ?? 0,
+      time_played_seconds: Number(row.time_played_seconds) || 0,
       match_duration: Number(row.match_duration) || 0,
       time_in_queue: Number(row.time_in_queue) || 0,
       game_mode: row.game_mode || "-",
@@ -252,6 +254,7 @@ function renderTable(rows, metricMeta) {
     "damage",
     "healing",
     "support",
+    "time_played_seconds",
     "match_duration",
     "time_in_queue",
     "game_mode",
@@ -274,6 +277,7 @@ function renderTable(rows, metricMeta) {
     damage: "Damage",
     healing: "Healing",
     support: "Support",
+    time_played_seconds: "Time Played",
     match_duration: "Match Duration",
     time_in_queue: "Queue Time",
     game_mode: "Game Mode",
@@ -286,6 +290,7 @@ function renderTable(rows, metricMeta) {
   const displayHeaders = headers.map((h) => headerLabels[h] || h);
 
   const formatters = {
+    time_played_seconds: (v) => formatDuration(Number(v) || 0),
     match_duration: (v) => formatDuration(Number(v) || 0),
     time_in_queue: (v) => formatDuration(Number(v) || 0),
   };

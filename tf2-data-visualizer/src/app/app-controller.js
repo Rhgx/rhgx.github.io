@@ -14,6 +14,7 @@ import {
   loadTopListRows,
   resetTopLists,
 } from "../features/top-lists/top-lists.js";
+import { calculateTimePlayedSeconds } from "../shared/core/utils.js";
 import { loadMapNames } from "../shared/data/map-index-service.js";
 import { loadMapModes } from "../shared/data/map-modes-service.js";
 
@@ -259,18 +260,21 @@ async function handleText(text) {
 }
 
 async function handleRows(rows) {
-  allRawRows = rows;
+  allRawRows = (rows || []).map((row) => ({
+    ...row,
+    time_played_seconds: calculateTimePlayedSeconds(row),
+  }));
   mapIndexStates.clear();
   gameModeStates.clear();
 
   // Populate exclusion bar (loads map names + builds checkboxes)
-  await populateExclusionBar(rows);
+  await populateExclusionBar(allRawRows);
   exclusionBar.classList.remove("hidden");
 
   // Feed all visualizers. Each will decide what to show from the rows.
-  loadGCPDRows(rows);
-  loadTF2Rows(rows);
-  loadTopListRows(rows);
+  loadGCPDRows(allRawRows);
+  loadTF2Rows(allRawRows);
+  loadTopListRows(allRawRows);
 
   // We now have data: reveal via tabs, hide upload, show clear
   hasData = true;

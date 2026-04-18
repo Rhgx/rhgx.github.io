@@ -31,7 +31,7 @@ let mapDurationData = {}; // { mapIndex: seconds }
 let totalMatches = 0;
 let uniqueCount = 0;
 let totalDurationSeconds = 0;
-let hasMatchDurationColumn = false;
+let hasTimePlayedColumn = false;
 let lastChartMetric = "count";
 
 // Base list for table (sorted globally per current sort mode)
@@ -107,9 +107,11 @@ export function loadTF2Rows(rows) {
     return;
   }
 
-  const durationKey = findColumnKey(firstRow, "match_duration");
-  hasMatchDurationColumn = Boolean(durationKey);
-  setMetricAvailability(hasMatchDurationColumn);
+  const durationKey =
+    findColumnKey(firstRow, "time_played_seconds") ||
+    findColumnKey(firstRow, "match_duration");
+  hasTimePlayedColumn = Boolean(durationKey);
+  setMetricAvailability(hasTimePlayedColumn);
 
   mapData = {};
   mapDurationData = {};
@@ -151,7 +153,7 @@ export function resetTF2() {
   totalMatches = 0;
   uniqueCount = 0;
   totalDurationSeconds = 0;
-  hasMatchDurationColumn = false;
+  hasTimePlayedColumn = false;
   lastChartMetric = "count";
   tableLayoutKey = "";
 
@@ -180,7 +182,7 @@ export function resetTF2() {
 function updateStats() {
   totalMatchesEl.textContent = totalMatches.toLocaleString();
   uniqueMapsEl.textContent = uniqueCount.toLocaleString();
-  totalHoursEl.textContent = hasMatchDurationColumn
+  totalHoursEl.textContent = hasTimePlayedColumn
     ? formatHoursMinutes(totalDurationSeconds)
     : "N/A";
 
@@ -389,7 +391,7 @@ function updateChart(sortedLimitedEntries, metric) {
 }
 
 function populateTable(sortedEntries, chartingCount) {
-  const includeHours = hasMatchDurationColumn;
+  const includeHours = hasTimePlayedColumn;
   const headers = includeHours
     ? ["Map", "Play Count", "Time Played", "Percentage"]
     : ["Map", "Play Count", "Percentage"];
@@ -501,7 +503,7 @@ function getChartSortMode(sortMode, chartMetric) {
     return sortMode;
   }
 
-  if (chartMetric === "hours" && hasMatchDurationColumn) {
+  if (chartMetric === "hours" && hasTimePlayedColumn) {
     return sortMode === "countAsc" || sortMode === "hoursAsc"
       ? "hoursAsc"
       : "hoursDesc";
@@ -514,7 +516,7 @@ function getChartSortMode(sortMode, chartMetric) {
 
 function getChartMetric(sortMode = sortSelect?.value || "") {
   const isHoursSort = sortMode === "hoursDesc" || sortMode === "hoursAsc";
-  if (isHoursSort && hasMatchDurationColumn) {
+  if (isHoursSort && hasTimePlayedColumn) {
     if (metricSelect && metricSelect.value !== "hours") {
       metricSelect.value = "hours";
     }
@@ -522,7 +524,7 @@ function getChartMetric(sortMode = sortSelect?.value || "") {
   }
 
   const selected = metricSelect?.value || "count";
-  if (selected === "hours" && hasMatchDurationColumn) return "hours";
+  if (selected === "hours" && hasTimePlayedColumn) return "hours";
   return "count";
 }
 
