@@ -50,6 +50,11 @@
     "category": "TC2"
   },
   {
+    "name": "TC2DLE",
+    "path": "tc2dle/",
+    "category": "TC2"
+  },
+  {
     "name": "Rock's Typical Item Shop",
     "path": "rocks-item-shop/",
     "category": "TC2"
