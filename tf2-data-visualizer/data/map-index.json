@@ -655,7 +655,7 @@
       "name": "ctf_doublecross_event"
     },
     "218": {
-      "name": "sd_marshlands"
+      "name": "htf_marshlands"
     },
     "219": {
       "name": "pd_nutcracker"
@@ -674,6 +674,24 @@
     },
     "224": {
       "name": "plr_matterhorn"
+    },
+    "225": {
+      "name": "koth_dryfield"
+    },
+    "226": {
+      "name": "koth_camp_saxton"
+    },
+    "227": {
+      "name": "koth_shorelight"
+    },
+    "228": {
+      "name": "pl_redwood"
+    },
+    "229": {
+      "name": "cp_premuda"
+    },
+    "230": {
+      "name": "cp_mojave"
     }
   }
 }
