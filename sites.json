@@ -65,6 +65,21 @@
     "category": "TF2"
   },
   {
+    "name": "TF2 Warpaint Viewer",
+    "path": "warpaint-viewer/",
+    "category": "TF2"
+  },
+  {
+    "name": "TF2 MOTD Tester",
+    "path": "tf2-motd-tester/",
+    "category": "TF2"
+  },
+  {
+    "name": "TF2 Workshop Bingo",
+    "path": "tf2-workshop-bingo/",
+    "category": "TF2"
+  },
+  {
     "name": "Roblox Region Map",
     "path": "region-map/",
     "category": "Roblox"
@@ -72,6 +87,16 @@
   {
     "name": "Roblox Atlas Generator",
     "path": "video-to-atlas/",
+    "category": "Roblox"
+  },
+  {
+    "name": "Roblox RichText Gradient Generator",
+    "path": "gradient-gen/",
+    "category": "Roblox"
+  },
+  {
+    "name": "RBXLX Script Exporter",
+    "path": "rbxlx-script-exporter/",
     "category": "Roblox"
   },
   {
@@ -97,6 +122,16 @@
   {
     "name": "Turkey Earthquake Tracker",
     "path": "turkey-earthquake-map/",
+    "category": "Other"
+  },
+  {
+    "name": "Znake",
+    "path": "znake/",
+    "category": "Other"
+  },
+  {
+    "name": "Libre Convert",
+    "path": "libre-convert/",
     "category": "Other"
   },
   {
