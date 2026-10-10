@@ -1,2 +1,0 @@
-import "./app-controller.js";
-
