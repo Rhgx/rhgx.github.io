@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="263" height="277" viewBox="0 0 263 277">
+<!-- SVG created with Arrow, by QuiverAI (https://quiver.ai) -->
+  <defs>
+    <radialGradient id="charcoal-background" cx="48%" cy="46%" r="76%">
+      <stop offset="0" stop-color="#292929"/>
+      <stop offset="1" stop-color="#252525"/>
+    </radialGradient>
+    <linearGradient id="warm-spectrum" x1="12" y1="140" x2="250" y2="140" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff574b"/>
+      <stop offset=".23" stop-color="#ff9947"/>
+      <stop offset=".52" stop-color="#ffbf39"/>
+      <stop offset=".77" stop-color="#ffdc32"/>
+      <stop offset="1" stop-color="#f7ed43"/>
+    </linearGradient>
+  </defs>
+  <g id="background">
+    <path fill="url(#charcoal-background)" d="M0 0H263V277H0Z"/>
+  </g>
+  <g id="angular-interlocking-emblem" fill="none" stroke="url(#warm-spectrum)" stroke-width="18" stroke-linejoin="round" stroke-linecap="round">
+    <path id="interior-upper-crossbar" d="M25 143L166 87"/>
+    <path id="interior-descending-diagonal" d="M71 126L198 226"/>
+    <path id="interior-upright" d="M173 38L152 187"/>
+    <path id="rounded-hexagonal-outline" d="M136 22.4C143.5 19.3 150.2 20.1 156.8 25.3L232.6 84.9C240.7 91.3 244.6 97.2 242.9 108.5L230.9 199.2C229.4 210.4 225.3 216.5 214.6 221L126.9 256.3C118.1 259.8 111.1 259.1 103.2 252.9L27.3 193.8C20.6 188.5 18.1 182 19.7 171.9L31.7 82.1C33.1 70.5 36.9 63 47.9 58.3Z"/>
+  </g>
+</svg>
