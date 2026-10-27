@@ -2,7 +2,7 @@
   "name": "rhgx.github.io",
   "private": true,
   "version": "2.0.0",
-  "description": "Rocks's project hub: browser tools for Typical Colors 2, TF2 and Roblox.",
+  "description": "My project hub: browser tools for Typical Colors 2, TF2 and Roblox.",
   "author": "Rocks",
   "type": "module",
   "packageManager": "pnpm@11.3.0",

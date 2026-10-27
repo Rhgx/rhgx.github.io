@@ -1,6 +1,6 @@
 # Credits
 
-Made by Rocks. Unofficial fan site, not affiliated with Valve or Roblox Corporation.
+Made by me, Rocks. This is an unofficial fan site and isn't affiliated with Valve or Roblox Corporation.
 
 ## Icons
 

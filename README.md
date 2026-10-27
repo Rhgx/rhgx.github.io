@@ -5,7 +5,7 @@
 <a href="https://vite.dev"><img src="docs/badges/vite.svg" alt="Built with Vite" /></a>
 <a href="https://pnpm.io"><img src="docs/badges/pnpm.svg" alt="Managed with pnpm" /></a>
 
-The hub for Rocks's browser tools: Typical Colors 2, Team Fortress 2 and Roblox, plus a few other things.
+The hub for my browser tools: Typical Colors 2, Team Fortress 2 and Roblox, plus a few other things.
 
 <a href="https://rhgx.github.io/"><img src="docs/screenshot.webp" alt="The hub with Typical Colors 2 and Team Fortress 2 project cards over the contour-map background" width="600" /></a>
 
@@ -17,9 +17,9 @@ The hub for Rocks's browser tools: Typical Colors 2, Team Fortress 2 and Roblox,
 - Search across names, descriptions and keywords. It finds archived projects too.
 - Category filters you can link to: `/#tc2`, `/#tf2`, `/#roblox` and `/#other`.
 - An animated contour-map background that follows the scroll and bends around the mouse. With reduced motion on, it stays still.
-- An [archive](https://rhgx.github.io/archives/) for older projects. Their old links redirect there.
+- An [archive](https://rhgx.github.io/archives/) for my older projects. Their old links redirect there.
 
-Most tools live in their own repositories, such as [Warpaint Viewer](https://github.com/Rhgx/warpaint-viewer). This repository holds the hub and a few older pages.
+Most of my tools live in their own repositories, such as [Warpaint Viewer](https://github.com/Rhgx/warpaint-viewer). This one holds the hub and a few of my older pages.
 
 ## More
 
@@ -29,4 +29,4 @@ Most tools live in their own repositories, such as [Warpaint Viewer](https://git
 
 ## Credits
 
-Made by Rocks. Unofficial fan site, not affiliated with Valve or Roblox Corporation. Game names, icons and trademarks belong to their owners; see [credits](docs/credits.md).
+Made by me, Rocks. This is an unofficial fan site and isn't affiliated with Valve or Roblox Corporation. Game names, icons and trademarks belong to their owners; see [credits](docs/credits.md).

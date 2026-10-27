@@ -28,12 +28,12 @@ The repository has its own `pnpm-workspace.yaml`, so pnpm won't treat a workspac
 - `public/` is copied into the site as it is. It holds the pages that don't have their own repository yet (`tc2-timeline`, `tc2-bingo`, `tc2-time-calc` and `region-map`), shared files in `others/`, the logo and `404.html`.
 - `docs/` holds these docs, the README screenshot and the badges.
 
-Most tools are separate repositories with their own GitHub Pages sites, such as `/warpaint-viewer/`. The hub only links to them.
+Most of my tools are separate repositories with their own GitHub Pages sites, such as `/warpaint-viewer/`. The hub only links to them.
 
 ## Adding a project
 
 1. Add a thumbnail as `src/assets/previews/<slug>.webp` (see [Thumbnails](#thumbnails)).
-2. Import it in `src/data/projects.ts` and add an entry to `projects`. Within each category, the most used tool goes first.
+2. Import it in `src/data/projects.ts` and add an entry to `projects`. I put the most used tool first in each category.
 3. Set `name` to the short name for the card. Leave out the game prefix, because the section heading already shows it. Put the full name in `fullName`; it shows in the tooltip and search uses it.
 4. Set `icon` only if the site has its own favicon. Add `keywords` for search terms that aren't in the name or description.
 
