@@ -4,7 +4,6 @@
   "version": "2.0.0",
   "description": "Rocks's project hub: browser tools for Typical Colors 2, TF2 and Roblox.",
   "author": "Rocks",
-  "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@11.3.0",
   "scripts": {
