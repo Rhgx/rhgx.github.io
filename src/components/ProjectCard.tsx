@@ -1,16 +1,10 @@
-import { ArrowUpRight } from 'lucide-react';
 import type { Project } from '../data/projects';
 
 export function ProjectCard({ project }: { project: Project }) {
-  const { name, fullName, description, href, preview, icon, external } = project;
+  const { name, fullName, description, href, preview, icon } = project;
 
   return (
-    <a
-      className="card"
-      href={href}
-      title={fullName}
-      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-    >
+    <a className="card" href={href} title={fullName}>
       <div className="thumb">
         <img src={preview} alt="" width={480} height={300} loading="lazy" decoding="async" />
       </div>
@@ -28,7 +22,6 @@ export function ProjectCard({ project }: { project: Project }) {
             />
           )}
           <span>{name}</span>
-          {external && <ArrowUpRight className="ext" aria-label="Opens in a new tab" />}
         </div>
         <div className="desc">{description}</div>
       </div>

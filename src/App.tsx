@@ -104,7 +104,7 @@ export function App() {
               <ul>
                 {archivedMatches.map((a) => (
                   <li key={a.slug}>
-                    <a href={`/archives/${a.slug}/`}>{a.name}</a>
+                    <a href={a.href ?? `/archives/${a.slug}/`}>{a.name}</a>
                   </li>
                 ))}
               </ul>

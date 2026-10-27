@@ -101,7 +101,6 @@ section h2 .count { color: var(--dim); font-weight: 400; font-size: 14px; }
 .name span, .desc { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .name span { text-wrap: balance; }
 .name .icon { width: 16px; height: 16px; flex: none; margin-top: 1px; border-radius: 3px; object-fit: contain; }
-.name svg.ext { width: 14px; height: 14px; margin-top: 2px; color: var(--dim); }
 .desc { margin-top: 3px; color: var(--muted); font-size: 13px; line-height: 1.45; }
 
 /* Archived search matches and empty state */
