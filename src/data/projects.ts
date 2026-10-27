@@ -15,7 +15,6 @@ import rbxlxScriptExporter from '../assets/previews/rbxlx-script-exporter.webp';
 import libreConvert from '../assets/previews/libre-convert.webp';
 import timestampConverter from '../assets/previews/timestamp-converter.webp';
 import znake from '../assets/previews/znake.webp';
-import lurkrUsernameFinder from '../assets/previews/lurkr-username-finder.webp';
 
 export type Category = 'tc2' | 'tf2' | 'roblox' | 'other';
 
@@ -39,13 +38,14 @@ export interface Project {
   icon?: string;
   /** Extra search terms that are not in the name or description. */
   keywords?: string;
-  external?: boolean;
 }
 
 export interface ArchivedProject {
   name: string;
   slug: string;
   keywords?: string;
+  /** For projects hosted elsewhere; otherwise the link is /archives/<slug>/. */
+  href?: string;
 }
 
 // Within each category the most used tool goes first.
@@ -207,20 +207,10 @@ export const projects: Project[] = [
     preview: znake,
     keywords: 'snake game',
   },
-  {
-    name: 'Lurkr.gg Username Finder',
-    fullName: 'Lurkr.gg Username Finder',
-    description: 'Look up usernames on Lurkr.gg.',
-    category: 'other',
-    href: 'https://starlit-shortbread-ca47d4.netlify.app/',
-    preview: lurkrUsernameFinder,
-    keywords: 'lurkr discord',
-    external: true,
-  },
 ];
 
 // Served from the Rhgx/archives repository at /archives/<slug>/.
-// Keep in sync with the redirect list in public/404.html.
+// Keep in sync with the redirect list in public/404.html and the archives index page.
 export const archived: ArchivedProject[] = [
   { name: 'TF2 Data Visualizer (v1)', slug: 'tf2-data-visualizer-v1', keywords: 'tf2 stats old' },
   { name: 'Roblox Atlas Generator', slug: 'video-to-atlas', keywords: 'roblox video sprite sheet' },
@@ -233,4 +223,11 @@ export const archived: ArchivedProject[] = [
   { name: 'TC2 Puzzle Game', slug: 'tc2-puzzle' },
   { name: 'TC2 Server Browser', slug: 'tc2-server-browser', keywords: 'servers' },
   { name: "Rock's Typical Item Shop", slug: 'rocks-item-shop', keywords: 'tc2 store' },
+  // Hosted on Netlify, so it is listed here but not part of the archives repository.
+  {
+    name: 'Lurkr.gg Username Finder',
+    slug: 'lurkr-username-finder',
+    keywords: 'lurkr discord',
+    href: 'https://starlit-shortbread-ca47d4.netlify.app/',
+  },
 ];
