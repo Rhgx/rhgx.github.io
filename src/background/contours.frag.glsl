@@ -110,12 +110,13 @@ void main() {
   float pageY = uScroll + (uRes.y - px.y) / uDpr;
   float fade = mix(1.0, 0.4, smoothstep(0.0, 1100.0, pageY));
 
-  vec3 bg = vec3(0.075, 0.082, 0.094);
-  vec3 ink = vec3(0.19, 0.205, 0.225);
+  // Kept darker and fainter than the cards so they stand out from the map.
+  vec3 bg = vec3(0.051, 0.059, 0.067);
+  vec3 ink = vec3(0.15, 0.163, 0.18);
   vec3 amber = vec3(0.96, 0.62, 0.04);
 
   vec3 col = bg + shade + smoothstep(-0.7, 0.9, h) * 0.012;
-  float lineAlpha = line * fade * (index ? 0.34 : 0.5) * (1.0 + near * 1.1);
+  float lineAlpha = line * fade * (index ? 0.26 : 0.5) * (1.0 + near * 1.1);
   col = mix(col, index ? amber : ink, clamp(lineAlpha, 0.0, 1.0));
 
   // Dither to hide banding in the dark gradients.

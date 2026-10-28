@@ -35,7 +35,7 @@ Most of my tools are separate repositories with their own GitHub Pages sites, su
 1. Add a thumbnail as `src/assets/previews/<slug>.webp` (see [Thumbnails](#thumbnails)).
 2. Import it in `src/data/projects.ts` and add an entry to `projects`. I put the most used tool first in each category.
 3. Set `name` to the short name for the card. Leave out the game prefix, because the section heading already shows it. Put the full name in `fullName`; it shows in the tooltip and search uses it.
-4. Set `icon` only if the site has its own favicon. Add `keywords` for search terms that aren't in the name or description.
+4. Set `icon` only if the site has its own favicon. If the site lives in another repository, use the full `https://rhgx.github.io/...` URL so the icon also shows when running the hub locally. Add `keywords` for search terms that aren't in the name or description.
 
 ## Thumbnails
 

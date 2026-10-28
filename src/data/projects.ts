@@ -34,7 +34,10 @@ export interface Project {
   category: Category;
   href: string;
   preview: string;
-  /** The site's own favicon, when it has one. */
+  /**
+   * The site's own favicon, when it has one. Icons from sites in other repositories use the
+   * full URL, because a local dev server only serves this repository's files.
+   */
   icon?: string;
   /** Extra search terms that are not in the name or description. */
   keywords?: string;
@@ -120,7 +123,7 @@ export const projects: Project[] = [
     category: 'tf2',
     href: '/warpaint-viewer/',
     preview: warpaintViewer,
-    icon: '/warpaint-viewer/favicon.svg',
+    icon: 'https://rhgx.github.io/warpaint-viewer/favicon.svg',
     keywords: 'war paint skins',
   },
   {
@@ -130,7 +133,7 @@ export const projects: Project[] = [
     category: 'tf2',
     href: '/tf2-data-visualizer/',
     preview: tf2DataVisualizer,
-    icon: '/tf2-data-visualizer/ui/glyphs/items.png',
+    icon: 'https://rhgx.github.io/tf2-data-visualizer/ui/glyphs/items.png',
     keywords: 'stats gcpd match history',
   },
   {
@@ -185,7 +188,7 @@ export const projects: Project[] = [
     category: 'other',
     href: '/libre-convert/',
     preview: libreConvert,
-    icon: '/libre-convert/favicon.svg',
+    icon: 'https://rhgx.github.io/libre-convert/favicon.svg',
     keywords: 'pdf word excel powerpoint docx',
   },
   {
@@ -195,7 +198,7 @@ export const projects: Project[] = [
     category: 'other',
     href: '/timestamp-converter/',
     preview: timestampConverter,
-    icon: '/timestamp-converter/favicon.svg',
+    icon: 'https://rhgx.github.io/timestamp-converter/favicon.svg',
     keywords: 'unix time date',
   },
   {

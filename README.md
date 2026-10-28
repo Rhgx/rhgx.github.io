@@ -16,7 +16,7 @@ The hub for my browser tools: Typical Colors 2, Team Fortress 2 and Roblox, plus
 - A card for every live project, with a screenshot, grouped by game.
 - Search across names, descriptions and keywords. It finds archived projects too.
 - Category filters you can link to: `/#tc2`, `/#tf2`, `/#roblox` and `/#other`.
-- An animated contour-map background that follows the scroll and bends around the mouse. With reduced motion on, it stays still.
+- An animated contour-map background that follows the scroll and bends around the mouse. When the browser or system asks for reduced motion, it stays still.
 - An [archive](https://rhgx.github.io/archives/) for my older projects. Their old links redirect there.
 
 Most of my tools live in their own repositories, such as [Warpaint Viewer](https://github.com/Rhgx/warpaint-viewer). This one holds the hub and a few of my older pages.

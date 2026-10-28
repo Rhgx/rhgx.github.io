@@ -3,8 +3,10 @@ export function Header() {
     <header className="header">
       <img className="logo" src="/logo.svg" alt="Rocks logo" width={46} height={48} />
       <div className="who">
-        <h1>Rocks</h1>
-        <p>Browser tools for Typical Colors 2, TF2 and Roblox, plus a few other things.</p>
+        <h1>
+          Hi, I'm <span>Rocks</span>
+        </h1>
+        <p>I make browser tools, mostly for Typical Colors 2, TF2 and Roblox. Here's what I've made so far.</p>
       </div>
       <a className="gh" href="https://github.com/Rhgx" aria-label="GitHub">
         {/* GitHub mark from Simple Icons (CC0); Lucide no longer ships brand icons. */}

@@ -1,9 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 import fragmentSource from './contours.frag.glsl?raw';
 
 const vertexSource = `#version 300 es
 in vec2 position;
 void main() { gl_Position = vec4(position, 0.0, 1.0); }`;
+
+const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+// Follows the setting live, so turning it on in the OS stops the animation without a reload.
+function subscribeToMotion(onChange: () => void) {
+  motionQuery.addEventListener('change', onChange);
+  return () => motionQuery.removeEventListener('change', onChange);
+}
 
 function compile(gl: WebGL2RenderingContext, type: number, source: string) {
   const shader = gl.createShader(type);
@@ -19,10 +27,12 @@ function compile(gl: WebGL2RenderingContext, type: number, source: string) {
 /**
  * Animated topographic contour map behind the page. Fixed to the viewport so it
  * only renders one screen of pixels; the terrain follows the scroll position.
- * Falls back to the plain page background when WebGL2 is unavailable.
+ * With reduced motion it draws a single frame that ignores time, scroll and the
+ * mouse. Falls back to the plain page background when WebGL2 is unavailable.
  */
 export function ShaderBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const still = useSyncExternalStore(subscribeToMotion, () => motionQuery.matches);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -71,8 +81,6 @@ export function ShaderBackground() {
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uDpr, dpr);
     };
-    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     // Resizing clears the canvas, so a still frame has to be drawn again.
     const resizeObserver = new ResizeObserver(() => {
       resize();
@@ -111,7 +119,7 @@ export function ShaderBackground() {
       smooth.on += (target.on - smooth.on) * (1 - Math.exp(-dt * 3));
 
       gl.uniform1f(uTime, still ? 20 : 20 + ms / 1000);
-      gl.uniform1f(uScroll, window.scrollY);
+      gl.uniform1f(uScroll, still ? 0 : window.scrollY);
       gl.uniform3f(uPointer, smooth.x * dpr, canvas.height - smooth.y * dpr, still ? 0 : smooth.on);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
@@ -120,7 +128,7 @@ export function ShaderBackground() {
       draw(ms);
       raf = requestAnimationFrame(loop);
     };
-    // With reduced motion, draw a still frame now and again only when scrolling or resizing.
+    // With reduced motion, draw one frame now and again only after a resize.
     const redrawStill = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(draw);
@@ -137,7 +145,6 @@ export function ShaderBackground() {
     const onVisibility = () => (document.hidden ? stop() : start());
 
     document.addEventListener('visibilitychange', onVisibility);
-    if (still) window.addEventListener('scroll', redrawStill, { passive: true });
     start();
 
     return () => {
@@ -146,10 +153,9 @@ export function ShaderBackground() {
       window.removeEventListener('pointermove', onPointerMove);
       document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
-      window.removeEventListener('scroll', redrawStill);
       gl.deleteProgram(program);
     };
-  }, []);
+  }, [still]);
 
   return <canvas ref={canvasRef} className="bg-canvas" aria-hidden="true" />;
 }
