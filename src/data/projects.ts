@@ -157,10 +157,11 @@ export const projects: Project[] = [
   {
     name: 'Region Map',
     fullName: 'Roblox Region Map',
-    description: 'See where Roblox servers are around the world.',
+    description: 'Find the Roblox server regions closest to you.',
     category: 'roblox',
     href: '/region-map/',
     preview: regionMap,
+    icon: '/region-map/favicon.svg',
     keywords: 'servers regions closest',
   },
   {
