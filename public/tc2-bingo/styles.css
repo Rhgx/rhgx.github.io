@@ -1,0 +1,183 @@
+/* Styled after TC2's own menus, matching the Time Calculator: slate header bar, dark grid
+   panel, beige edges, purple "selected" fill, green Connect button, white-to-gray text and
+   light-blue stat values. The win popup copies the in-game item drop. */
+:root {
+  --edge: #8e8a75;
+  --edge-row: #848070;
+  --edge-bar: #646363;
+  --edge-strong: #e1dcc2;
+  --panel: #1e1f2c;
+  --grid-line: #2f303c;
+  --muted: #b3b3b3;
+
+  color-scheme: dark;
+  color: #fff;
+  background-color: #1e1f2c;
+  font-family: Oswald, sans-serif;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+body { min-width: 320px; margin: 0; }
+/* The map sits on its own fixed layer so it always covers the window (iOS ignores
+   background-attachment: fixed). script.js sets --background. */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1;
+  background: var(--background, none) center / cover no-repeat;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible { outline: 2px solid #eee5bd; outline-offset: 3px; }
+h1, h2, p { margin: 0; font-weight: 400; }
+
+/* In-game labels fade from white to light gray top to bottom; stat numbers do the same in blue. */
+.game-text, .cell-text {
+  background: linear-gradient(#fff 45%, #c4c4c4);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+/* Cell prompts wrap, so the fade repeats per line (sized to the 1.15 line height below)
+   instead of the second line coming out grayer than the first. */
+.cell-text { background-size: 100% 1.15em; }
+.stat-value {
+  background: linear-gradient(#d4ebff 40%, #93b6de);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+.container { width: min(660px, 100%); margin: auto; padding: 28px 24px; }
+
+/* Header bar, a separate box above the panel like the in-game column header. */
+.page-header {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+  margin-bottom: 6px; padding: 10px 12px 10px 18px;
+  border: 1px solid var(--edge-bar);
+  background: linear-gradient(#414254, #2c2d39);
+}
+h1 { flex: 1 1 auto; font-size: clamp(22px, 3.4vw, 28px); line-height: 1.3; }
+.wins { display: flex; align-items: baseline; gap: 8px; font-size: 22px; }
+.wins .stat-value { min-width: 1ch; font-variant-numeric: tabular-nums; }
+
+.connect-button {
+  min-width: 120px; min-height: 42px; padding: 4px 18px;
+  border: 1px solid var(--edge);
+  background: linear-gradient(#4ea349, #2c5c29);
+  font-size: 21px;
+}
+.connect-button:active { transform: scale(0.98); }
+@media (hover: hover) {
+  .connect-button:hover { background: linear-gradient(#58b052, #326a2e); }
+}
+
+/* Main panel. The static CSS grid is the fallback; /others/tc2-grid.js draws the moving grid on the canvas over it. */
+.panel {
+  position: relative; isolation: isolate;
+  padding: 12px;
+  border: 1px solid var(--edge);
+  background-color: var(--panel);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+.grid-background {
+  position: absolute; inset: 0; z-index: -1;
+  width: 100%; height: 100%;
+  pointer-events: none; visibility: hidden;
+}
+
+/* Card. Cells are separate square tiles like the in-game list rows. */
+.bingo-card { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.cell {
+  position: relative;
+  display: grid; place-items: center;
+  aspect-ratio: 1; min-width: 0; padding: 6px;
+  border: 1px solid var(--edge-row);
+  background: linear-gradient(#36364a, #1e1e29);
+  font-size: clamp(11px, 2.5vw, 17px); line-height: 1.15; text-align: center;
+  overflow-wrap: anywhere; hyphens: auto;
+  user-select: none;
+  animation: cell-in 0.32s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+.cell:disabled { cursor: default; }
+@media (hover: hover) {
+  .cell:not(:disabled):hover { border-color: var(--edge-strong); }
+}
+/* Marked: the in-game "selected" fill, with a check badge like the Item Drop Editor's swatches. */
+.cell[aria-pressed='true'] { border-color: var(--edge-strong); background: linear-gradient(#4a3b51, #2b222f); }
+.cell[aria-pressed='true']::after {
+  content: ''; position: absolute; top: 4px; right: 4px;
+  width: 16px; height: 16px;
+  background: #24242c url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 12px no-repeat;
+}
+/* Free space: the gold of the in-game quality banners, with white outlined text like them. */
+.cell.is-free { background: linear-gradient(#f2c230, #b8870e); }
+.cell.is-free .cell-text { background: none; color: #fff; -webkit-text-stroke: 3px #000; paint-order: stroke fill; }
+/* A finished line turns Connect green. */
+.cell.is-complete {
+  border-color: var(--edge-strong);
+  background: linear-gradient(#4ea349, #2c5c29);
+  animation: cell-win 0.3s ease-out both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes cell-in { from { opacity: 0; transform: scale(0.85); } }
+@keyframes cell-win { 50% { transform: scale(1.06); } }
+
+/* Win popup over the card, built like the in-game item drop: dark box, gray ring, divider. */
+.overlay {
+  position: absolute; inset: 0; z-index: 1;
+  display: grid; place-items: center;
+  padding: 16px;
+  background: rgb(20 21 30 / 0.72);
+}
+.overlay[hidden] { display: none; }
+.drop {
+  display: grid; justify-items: start; gap: 14px;
+  width: min(420px, 100%);
+  padding: 16px 20px 18px;
+  border: 6px solid #6e6e6e;
+  outline: 3px solid #313131;
+  background: #313131;
+  animation: drop-in 0.25s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.drop-title { font-size: clamp(26px, 5vw, 36px); line-height: 1.2; }
+.drop-divider { justify-self: stretch; height: 5px; border-radius: 999px; background: #818181; }
+.drop .connect-button { justify-self: end; }
+@keyframes drop-in { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
+
+/* Author credit under the panel, same as the Region Map and the Time Calculator. Muted so it
+   never competes with the card; the shadow keeps it readable on bright maps. */
+.credits { display: flex; justify-content: center; padding-top: 12px; }
+.credits a {
+  display: flex; align-items: center; gap: 8px;
+  color: #d4d1c5; font-size: 14px; line-height: 18px; text-decoration: none;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.85);
+  transition: color 80ms cubic-bezier(0.2, 0, 0, 1);
+}
+.credits a:hover { color: #fff; text-decoration: underline; }
+/* The logo on its dark backdrop (same image as the GitHub avatar) cropped to a circle.
+   Gray to match the text; the colors come back on hover. */
+.credits img {
+  flex: none; display: block; object-fit: cover; border-radius: 50%;
+  filter: grayscale(1); opacity: 0.7;
+  transition: filter 80ms cubic-bezier(0.2, 0, 0, 1), opacity 80ms cubic-bezier(0.2, 0, 0, 1);
+}
+.credits a:hover img { filter: none; opacity: 1; }
+
+@media (width <= 560px) {
+  .container { padding: 10px 8px; }
+  .page-header { padding: 8px 8px 8px 12px; }
+  h1 { flex-basis: 100%; }
+  .wins { font-size: 19px; }
+  .wins + .connect-button { margin-left: auto; }
+  .panel { padding: 8px; }
+  .bingo-card { gap: 4px; }
+  .cell { padding: 3px; }
+  .cell[aria-pressed='true']::after { top: 2px; right: 2px; width: 12px; height: 12px; background-size: 9px; }
+  .cell.is-free .cell-text { -webkit-text-stroke-width: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { transition: none !important; animation: none !important; }
+}
