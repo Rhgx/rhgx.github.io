@@ -1,41 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Typical Colors 2 Update Timeline</title>
+  <meta name="description" content="The update timeline for the Roblox game 'Typical Colors 2'.">
+  <meta property="og:title" content="Typical Colors 2 Update Timeline">
+  <meta property="og:description" content="The update timeline for the Roblox game 'Typical Colors 2'.">
+  <meta property="og:url" content="https://rhgx.github.io/tc2-timeline/">
+  <meta property="og:image" content="https://rhgx.github.io/tc2-timeline/og-image.png">
+  <meta name="theme-color" content="#2c2d39">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-  <!-- Metadata for Open Graph -->
-  <meta content="Typical Colors 2 Update Timeline" property="og:title" />
-  <meta content="The update timeline for the Roblox game 'Typical Colors 2'." property="og:description" />
-  <meta content="https://rhgx.github.io/tc2-timeline/" property="og:url" />
-  <meta content="https://i.imgur.com/YoAihg6.png" property="og:image" />
-  <meta content="#a965da" data-react-helmet="true" name="theme-color" />
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Main Stylesheet -->
-  <link href="styles/main.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald&display=swap">
+  <link rel="stylesheet" href="styles/main.css">
+  <script defer src="scripts/main.js"></script>
 </head>
-
 <body>
-  <div class="container">
-    <h1 class="text-center my-5">Typical Colors 2 Update Timeline</h1>
-    <div class="timeline">
-      <div id="timeline-items"></div>
+  <main class="container">
+    <header class="page-header">
+      <!-- The official TC2 wordmark (/others/tc2-wordmark.png) over "Update Timeline" in Oswald, the in-game UI font. -->
+      <h1 class="logo"><img src="images/logo.webp" alt="Typical Colors 2 Update Timeline" width="506" height="98"></h1>
+      <div class="order" role="group" aria-label="Order">
+        <button type="button" class="side-button" data-order="newest" aria-pressed="true"><span class="game-text">Newest first</span></button>
+        <button type="button" class="side-button" data-order="oldest" aria-pressed="false"><span class="game-text">Oldest first</span></button>
+      </div>
+    </header>
+
+    <!-- One band per year, each with its own sticky year label. -->
+    <div class="timeline" id="timeline"></div>
+
+    <footer class="credits">
+      <a href="/">
+        <img src="/avatar.png" alt="" width="20" height="20">
+        Made by Rocks
+      </a>
+    </footer>
+  </main>
+
+  <!-- Update details, kept as short as the Minecraft timeline's popup. The text comes from
+       data/wiki.json, which scripts/update-timeline-wiki.mjs pulls from the Typical Colors 2 Wiki. -->
+  <dialog class="modal" id="modal" aria-labelledby="modal-title">
+    <div class="modal-bar">
+      <img class="modal-icon" id="modal-icon" alt="" width="32" height="32">
+      <p class="modal-date game-text" id="modal-date"></p>
+      <button type="button" class="close-button" id="modal-close" aria-label="Close">
+        <!-- Lucide "x" (ISC License) -->
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
     </div>
-  </div>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Main Script -->
-  <script src="scripts/main.js"></script>
+    <div class="modal-body">
+      <h2 class="modal-title game-text" id="modal-title"></h2>
+      <p class="modal-summary" id="modal-summary"></p>
+      <div class="modal-features" id="modal-features">
+        <h3 class="modal-heading">Main additions</h3>
+        <ul id="modal-feature-list"></ul>
+      </div>
+      <p class="modal-also" id="modal-also"></p>
+      <p class="modal-more">
+        <a id="modal-wiki" target="_blank" rel="noopener">Read more on the Typical Colors 2 Wiki</a>
+        <small>Summary text from the wiki, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>.</small>
+      </p>
+    </div>
+  </dialog>
 </body>
-
 </html>

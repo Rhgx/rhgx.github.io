@@ -10,7 +10,9 @@
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "timeline:wiki": "node scripts/update-timeline-wiki.mjs",
+    "timeline:icon": "node scripts/update-timeline-icon.mjs"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.3.0",

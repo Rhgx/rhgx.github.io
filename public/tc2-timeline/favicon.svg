@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- TC2 Update Timeline favicon: a diamond on the timeline rail. The hexagon follows the TC emblem: dark purple with an inset purple ring. -->
+  <g transform="translate(32 32) scale(1.034 1) translate(-32 -32)">
+    <polygon points="32.00,2.50 57.55,17.25 57.55,46.75 32.00,61.50 6.45,46.75 6.45,17.25" fill="#211a2a" stroke="#211a2a" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="32.00,3.85 56.38,17.93 56.38,46.07 32.00,60.15 7.62,46.07 7.62,17.92" fill="#684a86" stroke="#684a86" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="32.00,6.50 54.08,19.25 54.08,44.75 32.00,57.50 9.92,44.75 9.92,19.25" fill="#211a2a" stroke="#211a2a" stroke-width="1" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(32 32) scale(1.15) translate(-32 -32)">
+    <g fill="#fff">
+      <rect x="30" y="13" width="4" height="7" rx="2"/>
+      <rect x="30" y="44" width="4" height="7" rx="2"/>
+      <polygon points="32,22.5 41.5,32 32,41.5 22.5,32"/>
+    </g>
+  </g>
+</svg>

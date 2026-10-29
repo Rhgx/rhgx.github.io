@@ -1,165 +1,307 @@
-/* ==========================================================================
-   TC2 Timeline - Main Stylesheet
-   ========================================================================== */
+/* Styled after TC2's own menus, matching the Time Calculator and Bingo: slate header bar,
+   grid panels, beige edges, list-row cards, white-to-gray text and light-blue values. The
+   layout keeps the original timeline (page scroll, big art, cards either side of a center
+   rail) and borrows year bands with sticky year labels from the Minecraft timeline. */
+:root {
+  --edge: #8e8a75;
+  --edge-row: #848070;
+  --edge-dim: #727069;
+  --edge-bar: #646363;
+  --edge-strong: #e1dcc2;
+  --panel: #1e1f2c;
+  --grid-line: #2f303c;
+  --muted: #b3b3b3;
+  /* Groups of controls round only their outer corners, like in-game. */
+  --round: 6px;
+  --rail: 56px;
 
-/* --------------------------------------------------------------------------
-   Base Styles
-   -------------------------------------------------------------------------- */
-
-body {
-  /* Mobile-first: smallest background */
-  background: url('../images/backgrounds/bg-720p.webp') no-repeat center center fixed;
-  background-size: cover;
-  background-color: #3b3b3b;
-  color: #e0e0e0;
-  font-family: 'Oswald', sans-serif;
+  color-scheme: dark;
+  color: #fff;
+  background-color: #1e1f2c;
+  font-family: Oswald, sans-serif;
+  font-synthesis: none;
 }
 
+* { box-sizing: border-box; }
+body { min-width: 320px; margin: 0; }
+/* The Timeline keeps its own citrus background, darkened as before. It is blurred ahead of
+   time (the originals are in /others/tc2-timeline), so there is no live backdrop blur. It
+   sits on a fixed layer so it always covers the window (iOS ignores background-attachment: fixed). */
 body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  z-index: -1;
+  content: ''; position: fixed; inset: 0; z-index: -1;
+  background:
+    linear-gradient(rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.5)),
+    url('../images/background.webp') center / cover no-repeat;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+:is(button, a):focus-visible { outline: 2px solid #eee5bd; outline-offset: 3px; }
+h1, h2, h3, p, ol { margin: 0; font-weight: 400; }
+
+/* In-game labels fade from white to light gray top to bottom; values do the same in blue. */
+.game-text, .card-open, .when-date {
+  background: linear-gradient(#fff 45%, #c4c4c4);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.stat-value {
+  background: linear-gradient(#d4ebff 40%, #93b6de);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
 }
 
-/* --------------------------------------------------------------------------
-   Responsive Background Images
-   -------------------------------------------------------------------------- */
+.container { width: min(1120px, 100%); margin: auto; padding: 24px 24px 12px; }
 
-/* Medium screens: Tablets and small laptops */
-@media (min-width: 768px) {
-  body {
-    background-image: url('../images/backgrounds/bg-1080p.webp');
-  }
+/* Header bar, like the in-game column header: the logo centered, the order switch on the right. */
+.page-header {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px 20px;
+  margin-bottom: 14px; padding: 12px 14px;
+  border: 1px solid var(--edge-bar);
+  background: linear-gradient(#414254, #2c2d39);
+}
+.logo { grid-column: 2; line-height: 0; }
+/* A fixed width (capped to the cell) so the auto middle column can size itself around it. */
+.logo img { display: block; width: 460px; max-width: 100%; height: auto; }
+.page-header .order { grid-column: 3; justify-self: end; }
+
+.order { display: grid; grid-template-columns: 1fr 1fr; }
+.side-button {
+  min-height: 38px; padding: 3px 14px;
+  border: 1px solid var(--edge);
+  background: linear-gradient(#3a2f40, #231d26);
+  font-size: 16px; white-space: nowrap;
+}
+.side-button:first-child { border-radius: var(--round) 0 0 var(--round); }
+.side-button:last-child { border-left: 0; border-radius: 0 var(--round) var(--round) 0; }
+.side-button[aria-pressed='false'] .game-text { background-image: linear-gradient(#d2d2d2 45%, #9e9e9e); }
+.side-button[aria-pressed='true'] { background: linear-gradient(#4a3b51, #2b222f); }
+@media (hover: hover) {
+  .side-button[aria-pressed='false']:hover { background: linear-gradient(#433749, #2a222e); }
 }
 
-/* Large screens: Desktops and 4K displays */
-@media (min-width: 1440px) {
-  body {
-    background-image: url('../images/backgrounds/bg-4k.webp');
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Timeline Layout
-   -------------------------------------------------------------------------- */
-
-.timeline {
-  display: flex;
-  flex-direction: column;
+/* Year bands: one grid panel per year with the rail running down its middle. */
+.timeline { display: grid; }
+.year {
   position: relative;
-  margin: 2rem auto;
-  padding: 1rem;
+  padding: 0 18px 26px;
+  border: 1px solid var(--edge);
+  background-color: var(--panel);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+.year::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 2px; background: var(--edge-row); transform: translateX(-50%);
 }
 
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background-color: #745d8b;
-  transform: translateX(-50%);
+/* The year label sticks to the top of the window while its band scrolls past. */
+.year-label {
+  position: sticky; top: 10px; z-index: 2;
+  display: flex; justify-content: center;
+  padding: 14px 0 18px;
+}
+.year-box {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 4px 16px;
+  border: 1px solid var(--edge-bar);
+  background: linear-gradient(#414254, #2c2d39);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
+}
+.year-box .game-text { font-size: 26px; line-height: 1.2; }
+.year-box .stat-value { font-size: 16px; }
+
+/* Time between two updates, sitting on the rail; between bands it bridges the gap. */
+.gap { position: relative; display: flex; justify-content: center; padding: 6px 0; }
+.gap span { padding: 1px 10px; background: var(--panel); color: var(--muted); font-size: 15px; }
+.year-gap { position: relative; display: flex; justify-content: center; padding: 10px 0; }
+.year-gap::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 2px; background: var(--edge-row); transform: translateX(-50%);
+}
+.year-gap span {
+  position: relative; padding: 2px 12px;
+  border: 1px solid var(--edge-bar); background: #2c2d39;
+  color: var(--muted); font-size: 15px;
 }
 
-/* --------------------------------------------------------------------------
-   Timeline Items
-   -------------------------------------------------------------------------- */
+.updates { display: grid; gap: 6px; padding: 0; list-style: none; }
 
-.timeline-item {
-  display: flex;
-  flex-direction: row;
-  margin: 2rem 0;
+/* An update: the card on one side of the rail and its date on the other, alternating. */
+.update { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) var(--rail) minmax(0, 1fr); align-items: start; }
+.update .card { grid-column: 1; grid-row: 1; justify-self: end; }
+.update .when { grid-column: 3; grid-row: 1; justify-self: start; text-align: left; }
+.update.is-right .card { grid-column: 3; justify-self: start; }
+.update.is-right .when { grid-column: 1; justify-self: end; text-align: right; }
+/* A diamond on the rail and a connector to the card, level with the card's title. */
+.update::after {
+  content: ''; position: absolute; top: 30px; left: 50%;
+  width: 12px; height: 12px;
+  border: 1px solid var(--panel); background: var(--edge-strong);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.update::before {
+  content: ''; position: absolute; top: 30px; left: calc(50% - var(--rail) / 2);
+  width: calc(var(--rail) / 2); height: 1px; background: var(--edge);
+}
+.update.is-right::before { left: 50%; }
+
+.when { display: grid; gap: 2px; padding-top: 12px; }
+.when-date { font-size: 24px; line-height: 1.25; }
+.when .stat-value { font-size: 17px; }
+
+.card {
   position: relative;
+  width: min(100%, 420px);
+  display: grid; gap: 4px;
+  padding: 12px 12px 14px;
+  border: 1px solid var(--edge-row);
+  background: linear-gradient(#36364a, #1e1e29);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+.card.is-visible { opacity: 1; transform: none; }
+.card.is-latest { border-color: var(--edge-strong); }
+
+.update-tag {
+  font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase;
+  background: linear-gradient(#ffe27a 40%, #d9a21b);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.update-name { font-size: 26px; line-height: 1.2; overflow-wrap: anywhere; }
+/* The name's button covers the whole card, so the card opens the popup from anywhere. */
+.card-open {
+  padding: 0; border: 0;
+  font: inherit; text-align: left; cursor: pointer;
+}
+.card-open::after { content: ''; position: absolute; inset: 0; }
+.card-open:focus-visible { outline: none; }
+.card:has(.card-open:focus-visible) { outline: 2px solid #eee5bd; outline-offset: 3px; }
+@media (hover: hover) {
+  .card:hover { border-color: var(--edge-strong); }
+}
+/* The card repeats the date for the single-rail phone layout, where there is no other side. */
+.card-when { display: none; color: var(--muted); font-size: 15px; }
+
+/* Art at its own shape (some are wide banners). */
+.art {
+  margin-top: 8px;
+  border: 1px solid var(--edge-dim);
+  background: #161721;
+}
+.art img { display: block; width: 100%; height: auto; }
+
+/* Update popup: a small in-game window, about as much as the Minecraft timeline's. */
+html:has(.modal[open]) { overflow: hidden; }
+.modal {
+  width: min(560px, calc(100vw - 24px)); max-height: min(86dvh, 760px);
+  padding: 0; overflow: hidden;
+  border: 1px solid var(--edge); color: #fff;
+  background-color: var(--panel);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 15px 15px;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 0.6);
+}
+.modal[open] { display: flex; flex-direction: column; animation: modal-in 0.2s cubic-bezier(0.2, 0.7, 0.3, 1); }
+.modal::backdrop { background: rgb(8 8 14 / 0.7); }
+@keyframes modal-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
+
+.modal-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 7px 7px 8px;
+  border-bottom: 1px solid var(--edge-bar);
+  background: linear-gradient(#414254, #2c2d39);
+}
+.modal-icon { flex: none; width: 32px; height: 32px; object-fit: cover; border: 1px solid var(--edge-dim); background: #161721; }
+.modal-icon[hidden] { display: none; }
+.modal-date { flex: 1; font-size: 18px; }
+/* Same square as the in-game menu buttons. */
+.close-button {
+  display: grid; place-items: center; flex: none;
+  width: 36px; height: 36px; padding: 0;
+  border: 1px solid var(--edge); border-radius: var(--round);
+  background: linear-gradient(#4a3b51, #2b222f);
+}
+.close-button svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; }
+@media (hover: hover) {
+  .close-button:hover { border-color: var(--edge-strong); background: linear-gradient(#54445c, #31273a); }
 }
 
-.timeline-item:nth-child(odd) {
-  justify-content: flex-start;
+.modal-body {
+  display: grid; gap: 12px;
+  padding: 16px 20px 18px; overflow-y: auto;
+  color: #dcdcdc; font-size: 17px; line-height: 1.45;
+  scrollbar-width: thin; scrollbar-color: #77756d transparent;
+}
+.modal-title { font-size: 30px; line-height: 1.15; overflow-wrap: anywhere; }
+.modal-body p, .modal-body ul { margin: 0; }
+.modal-summary[hidden], .modal-features[hidden], .modal-also[hidden] { display: none; }
+.modal-features { padding-top: 10px; border-top: 1px solid var(--edge-dim); }
+.modal-heading {
+  margin: 0 0 4px; font-size: 14px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+  background: linear-gradient(#ffe27a 40%, #d9a21b);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.modal-features ul { display: grid; gap: 2px; padding-left: 18px; }
+.modal-features li::marker { color: var(--edge); }
+.feature-label { color: #fff; }
+.modal-also-label { color: var(--muted); }
+.modal-more { display: grid; gap: 2px; padding-top: 10px; border-top: 1px solid var(--edge-dim); }
+.modal-more > a { color: #fff; }
+.modal-more small { color: var(--muted); font-size: 13px; }
+.modal-more small a { color: inherit; }
+
+/* Author credit under the timeline, same as the other TC2 pages. Muted so it never competes
+   with the content; the shadow keeps it readable on the background. */
+.credits { display: flex; justify-content: center; padding-top: 14px; }
+.credits a {
+  display: flex; align-items: center; gap: 8px;
+  color: #d4d1c5; font-size: 14px; line-height: 18px; text-decoration: none;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.85);
+  transition: color 80ms cubic-bezier(0.2, 0, 0, 1);
+}
+.credits a:hover { color: #fff; text-decoration: underline; }
+/* The logo on its dark backdrop (same image as the GitHub avatar) cropped to a circle.
+   Gray to match the text; the colors come back on hover. */
+.credits img {
+  flex: none; display: block; object-fit: cover; border-radius: 50%;
+  filter: grayscale(1); opacity: 0.7;
+  transition: filter 80ms cubic-bezier(0.2, 0, 0, 1), opacity 80ms cubic-bezier(0.2, 0, 0, 1);
+}
+.credits a:hover img { filter: none; opacity: 1; }
+
+/* Narrow screens: one rail on the left, every card to its right, dates inside the cards. */
+@media (width <= 760px) {
+  :root { --rail: 34px; }
+  .container { padding: 10px 8px 8px; }
+  .page-header { grid-template-columns: minmax(0, 1fr); margin-bottom: 10px; padding: 10px; }
+  .logo { grid-column: 1; justify-self: center; }
+  .page-header .order { grid-column: 1; justify-self: stretch; }
+  .side-button { min-height: 34px; padding-inline: 10px; font-size: 14px; }
+  .year { padding: 0 10px 18px 0; }
+  .year::before, .year-gap::before { left: 17px; }
+  .year-label { justify-content: flex-start; padding: 10px 0 12px 6px; }
+  .year-box .game-text { font-size: 22px; }
+  .year-box .stat-value { font-size: 14px; }
+  .gap, .year-gap { justify-content: flex-start; padding-left: var(--rail); }
+  .update { grid-template-columns: var(--rail) minmax(0, 1fr); }
+  .update .card, .update.is-right .card { grid-column: 2; justify-self: stretch; width: auto; }
+  .update .when { display: none; }
+  .update::after, .update::before, .update.is-right::before { left: 17px; }
+  .update::before { width: calc(var(--rail) - 17px); }
+  .update::after, .update::before { top: 26px; }
+  .card { padding: 10px 10px 12px; }
+  .card-when { display: block; }
+  .update-name { font-size: 21px; }
+  .modal { width: calc(100vw - 16px); }
+  .modal-body { padding: 14px 14px 16px; font-size: 16px; }
+  .modal-title { font-size: 25px; }
 }
 
-.timeline-item:nth-child(even) {
-  justify-content: flex-end;
-}
 
-.timeline-dot {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  background-color: #745d8b;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* --------------------------------------------------------------------------
-   Timeline Content Cards
-   -------------------------------------------------------------------------- */
-
-.timeline-content {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  background: #222;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s, transform 0.4s;
-}
-
-.timeline-content h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: #a68fbd;
-}
-
-.timeline-content p {
-  margin: 0;
-  font-size: 1rem;
-  color: #ccc;
-}
-
-.timeline-content img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 5px;
-  margin-top: 1rem;
-}
-
-/* --------------------------------------------------------------------------
-   Animation States
-   -------------------------------------------------------------------------- */
-
-.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* --------------------------------------------------------------------------
-   Responsive Adjustments
-   -------------------------------------------------------------------------- */
-
-@media (max-width: 768px) {
-  .timeline-content {
-    height: auto;
-    padding: 1rem;
-  }
-
-  .timeline-content h3 {
-    font-size: 1.1rem;
-  }
-
-  .timeline-content p {
-    font-size: 0.9rem;
-  }
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { transition: none !important; animation: none !important; }
 }

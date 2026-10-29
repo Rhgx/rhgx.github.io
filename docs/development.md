@@ -18,6 +18,8 @@ The repository has its own `pnpm-workspace.yaml`, so pnpm won't treat a workspac
 | `pnpm dev` | Starts the Vite dev server at http://localhost:5173 with hot reload. |
 | `pnpm build` | Type-checks the app and builds the site into `dist/`. |
 | `pnpm preview` | Serves the last build in `dist/`. |
+| `pnpm timeline:icon` | Saves TC2's current Roblox game icon as the art for the newest TC2 Timeline update (see [TC2 Timeline updates](#tc2-timeline-updates)). |
+| `pnpm timeline:wiki` | Refreshes the TC2 Timeline's update summaries from the Typical Colors 2 Wiki. |
 
 ## Layout
 
@@ -29,6 +31,14 @@ The repository has its own `pnpm-workspace.yaml`, so pnpm won't treat a workspac
 - `docs/` holds these docs, the README screenshot and the badges.
 
 Most of my tools are separate repositories with their own GitHub Pages sites, such as `/warpaint-viewer/`. The hub only links to them.
+
+## TC2 Timeline updates
+
+The timeline reads `public/tc2-timeline/data/updates.json`. To add an update:
+
+1. Add an entry with its `date` and `name`. Use the title of its page on [typicalcolors2.fandom.com](https://typicalcolors2.fandom.com/wiki/Category:Updates), which is also what the wiki calls the update.
+2. Run `pnpm timeline:icon` while the update is live. TC2 changes its Roblox icon with each update, so this saves the update's art straight from the game at 1024x1024: Roblox's WebP for the page and the PNG in `public/others/tc2-timeline/updates/`. It also fills in `logo`. TC2 changes the icon for events too, so check the picture.
+3. Run `pnpm timeline:wiki`, which saves each page's intro and item lists to `data/wiki.json` for the update popup.
 
 ## Adding a project
 
