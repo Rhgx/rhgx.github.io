@@ -134,10 +134,14 @@ let wiki = {};
 
 const wikiUrl = (title) => wikiBase + encodeURIComponent(title.replaceAll(' ', '_'));
 
+// TC2 names that stay capitalized when a heading is lowercased ("Agent Update", "Intel Store").
+const properNouns = new Set(['Flanker', 'Trooper', 'Arsonist', 'Annihilator', 'Brute', 'Mechanic', 'Doctor', 'Marksman', 'Agent', 'Intel', 'Fittanium', 'Fitten']);
+
 // Wiki headings are title case ("Tweaked Weapons"); this reads them as a sentence,
 // "Tweaked weapons, new weapon models and patches.", keeping acronyms like "HUD".
 function sentenceList(labels) {
-  const words = labels.map((label) => label.split(' ').map((word) => (/^[A-Z][a-z]+$/.test(word) ? word.toLowerCase() : word)).join(' '));
+  const lower = (word) => (/^[A-Z][a-z]+$/.test(word) && !properNouns.has(word) ? word.toLowerCase() : word);
+  const words = labels.map((label) => label.split(' ').map(lower).join(' '));
   const list = words.length < 2 ? words.join('') : `${words.slice(0, -1).join(', ')} and ${words.at(-1)}`;
   return `${list.charAt(0).toUpperCase()}${list.slice(1)}.`;
 }
@@ -159,12 +163,13 @@ function openModal(update) {
   document.getElementById('modal-date').textContent = formatDate(update.date);
   document.getElementById('modal-title').textContent = update.name;
 
-  // The wiki opens with "X is a major update released on <date>", which the bar already says,
-  // so those sentences are dropped. "Also known as" ones stay: they explain names like Homer.
+  // A summary written in updates.json wins: it corrects wiki text that its own page doesn't
+  // back up. Otherwise the wiki's opening "X is a major update released on <date>" sentences
+  // are dropped, since the bar already says that; "also known as" ones stay for names like Homer.
   const [opening = '', changes = ''] = info?.summary ?? [];
   const kept = opening.split(/(?<=\.)\s+/).filter((sentence) => !/released on/i.test(sentence) || /also known as/i.test(sentence));
   const summary = document.getElementById('modal-summary');
-  summary.textContent = [...kept, changes].join(' ').trim();
+  summary.textContent = update.summary || [...kept, changes].join(' ').trim();
   summary.hidden = !summary.textContent;
 
   const features = info?.features ?? [];
@@ -272,7 +277,7 @@ async function init() {
     const text = (value) => (typeof value === 'string' ? value : '');
     updates = data
       .filter((entry) => typeof entry?.name === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(entry?.date ?? ''))
-      .map((entry) => ({ name: entry.name, iso: entry.date, date: parseDate(entry.date), logo: text(entry.logo) }))
+      .map((entry) => ({ name: entry.name, iso: entry.date, date: parseDate(entry.date), logo: text(entry.logo), summary: text(entry.summary) }))
       .sort((a, b) => a.date.serial - b.date.serial);
     wiki = await wikiRequest;
   } catch (error) {

@@ -298,13 +298,20 @@
         "items": [
           "Summer 2021 Yellow Cosmetic Cooler"
         ]
+      },
+      {
+        "label": "Bosses",
+        "items": [
+          "Pirate Captain",
+          "First Mate",
+          "Deckhand"
+        ]
       }
     ],
     "also": [
       "Tweaked Classes",
       "New Weapon Models",
       "Tweaked Weapons",
-      "Bosses",
       "HUD Rehaul",
       "Voting Screen",
       "Loading Screen",
@@ -431,6 +438,7 @@
       {
         "label": "Weapons",
         "items": [
+          "Cold Shoulder",
           "Jolly Gingerbread",
           "Blood Doctor"
         ]
@@ -686,13 +694,19 @@
           "Summer 2022 Cosmetic Crate",
           "Time Capsule"
         ]
+      },
+      {
+        "label": "Bosses",
+        "items": [
+          "King Abrax",
+          "Mummified Warrior"
+        ]
       }
     ],
     "also": [
       "Tweaked Classes",
       "New Weapon Models",
       "Tweaked Weapons",
-      "Bosses",
       "Qualities",
       "Agent Update",
       "Battle Pass",
@@ -906,8 +920,10 @@
       {
         "label": "Weapons",
         "items": [
+          "Hot Coco Blast",
           "Assault",
-          "Delinquent"
+          "Delinquent",
+          "Dagger"
         ]
       },
       {
@@ -941,6 +957,7 @@
       {
         "label": "Tools",
         "items": [
+          "Holiday 2023 Cosmetic Crate",
           "Gift Wrap"
         ]
       },
@@ -1032,6 +1049,13 @@
     ],
     "features": [
       {
+        "label": "Weapons",
+        "items": [
+          "Rubber Chicken",
+          "Buffin' Blitz"
+        ]
+      },
+      {
         "label": "Maps",
         "items": [
           "Blacklung",
@@ -1069,6 +1093,13 @@
         ]
       },
       {
+        "label": "Tools",
+        "items": [
+          "Summer 2024 Pink Cosmetic Cooler",
+          "Coral Dust Paint"
+        ]
+      },
+      {
         "label": "Taunts",
         "items": [
           "Fake Jukebox",
@@ -1086,10 +1117,8 @@
     ],
     "also": [
       "Tweaked Classes",
-      "Weapons",
       "New Weapon Models",
       "Tweaked Weapons",
-      "Tools",
       "Mobile",
       "Settings Revamp",
       "Patches"
@@ -1148,6 +1177,14 @@
     ],
     "features": [
       {
+        "label": "Weapons",
+        "items": [
+          "Spare Hand",
+          "Darkness",
+          "Guardian's Oath"
+        ]
+      },
+      {
         "label": "Maps",
         "items": [
           "Isolated",
@@ -1194,6 +1231,13 @@
         ]
       },
       {
+        "label": "Tools",
+        "items": [
+          "Halloween 2024 Petrifying Jack-o-Crate",
+          "Halloween 2024 Spine-Chilling Jack-o-Crate"
+        ]
+      },
+      {
         "label": "Taunts",
         "items": [
           "Hissy Fit"
@@ -1202,11 +1246,9 @@
     ],
     "also": [
       "Tweaked Classes",
-      "Weapons",
       "New Weapon Models",
       "Tweaked Weapons",
       "New Cosmetic Models",
-      "Tools",
       "Patches"
     ]
   },
@@ -1221,6 +1263,18 @@
       "This update features a complete overhaul of the user interface, along with weapons, reskins, taunts, maps, and cosmetics."
     ],
     "features": [
+      {
+        "label": "Weapons",
+        "items": [
+          "Goala Cola",
+          "Twin-Turbolence",
+          "Cuteness Overload",
+          "Holiday Punch",
+          "Sinister Suit",
+          "Afterimage",
+          "Wraith"
+        ]
+      },
       {
         "label": "Maps",
         "items": [
@@ -1269,6 +1323,13 @@
         ]
       },
       {
+        "label": "Tools",
+        "items": [
+          "Holiday 2024 Green Cosmetic Basket",
+          "Holiday 2024 Pink Cosmetic Basket"
+        ]
+      },
+      {
         "label": "Taunts",
         "items": [
           "Brooklyn Breakdown",
@@ -1282,10 +1343,8 @@
     ],
     "also": [
       "Tweaked Classes",
-      "Weapons",
       "New Weapon Models",
       "Tweaked Weapons",
-      "Tools",
       "Patches"
     ]
   },
@@ -1324,6 +1383,13 @@
       "The headlining features for UNVAULTED are the addition of a Seasonal Battle Pass system, an extensive rework of the contract system, the premium currency Intel and its section in the Fitten Co. Store, developer-created UGC, and an in-beta Competitive Mode."
     ],
     "features": [
+      {
+        "label": "Weapons",
+        "items": [
+          "Counter-Service",
+          "Sumatran Claw"
+        ]
+      },
       {
         "label": "Maps",
         "items": [
@@ -1374,6 +1440,14 @@
         ]
       },
       {
+        "label": "Tools",
+        "items": [
+          "Summer 2025 Brown Cosmetic Cooler",
+          "Neon Tetra Paint",
+          "BP Booster"
+        ]
+      },
+      {
         "label": "Taunts",
         "items": [
           "Comic Relief",
@@ -1386,11 +1460,9 @@
     ],
     "also": [
       "Tweaked Classes",
-      "Weapons",
       "New Weapon Models",
       "New Cosmetic Models",
       "Tweaked Weapons",
-      "Tools",
       "Season Pass",
       "Contract System Revamp",
       "Intel Store",
@@ -1450,6 +1522,12 @@
         ]
       },
       {
+        "label": "Tools",
+        "items": [
+          "Candy Wrapper Paint"
+        ]
+      },
+      {
         "label": "Taunts",
         "items": [
           "Flippin' Finish",
@@ -1465,7 +1543,6 @@
       "New Weapon Models",
       "Tweaked Weapons",
       "New Cosmetic Models",
-      "Tools",
       "Patches"
     ]
   },
@@ -1521,8 +1598,7 @@
     "also": [
       "Tweaked Weapons",
       "New Cosmetic Models",
-      "Patches",
-      "Undocumented"
+      "Patches"
     ]
   },
   "Fittmas 2025": {
@@ -1536,6 +1612,13 @@
       "The headlining additions for Fittmas 2025 are the addition of Unusual taunts, a new season of the Season Pass, and a new Holiday-themed cosmetic crate."
     ],
     "features": [
+      {
+        "label": "Weapons",
+        "items": [
+          "Shooting Star",
+          "AWSM-SCE"
+        ]
+      },
       {
         "label": "Cosmetics",
         "items": [
@@ -1568,7 +1651,8 @@
       {
         "label": "Tools",
         "items": [
-          "Holiday 2025 Yellow Cosmetic Basket"
+          "Holiday 2025 Yellow Cosmetic Basket",
+          "Sugar Floss Paint"
         ]
       },
       {
@@ -1580,9 +1664,7 @@
       }
     ],
     "also": [
-      "Weapons",
-      "Patches",
-      "Undocumented"
+      "Patches"
     ]
   },
   "The February Update": {

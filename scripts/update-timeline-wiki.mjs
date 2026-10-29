@@ -81,6 +81,53 @@ function plain(wikitext) {
     .trim();
 }
 
+// The things a section lists (weapons, maps, cosmetics...). Older pages give each item's
+// image a link=Item. Newer ones leave the image unlinked and name the item in another cell
+// of the same row: before the image in map tables (name, image, gamemode), after it in the
+// others (class, image, name). So an unlinked image takes the row's earlier page link if
+// there is one, otherwise the next one. Only table cells count, so links in a section's
+// prose ("Intel", "developers") are not mistaken for items. Class icons are skipped.
+function listedItems(body) {
+  const items = [];
+  const add = (name) => {
+    if (name && !classes.has(name)) items.push(name);
+  };
+  let waiting = false;
+  let rowLink = null;
+  let i = 0;
+  while (i < body.length) {
+    if (body.startsWith('\n|-', i) || body.startsWith('\n|}', i)) {
+      waiting = false;
+      rowLink = null;
+    }
+    if (!body.startsWith('[[', i)) {
+      i++;
+      continue;
+    }
+    const start = i;
+    const end = balancedEnd(body, i, '[[', ']]');
+    const inner = body.slice(i + 2, end - 2);
+    i = end;
+    // Table cells are lines starting with "|" or "!"; anything else is the section's prose.
+    const inTableCell = /^[|!]/.test(body.slice(body.lastIndexOf('\n', start) + 1, start + 1));
+    if (/^(file|image):/i.test(inner)) {
+      const link = inner.match(/\|link=([^|]+)/i)?.[1].trim();
+      if (link) add(link);
+      else if (rowLink) add(rowLink);
+      else waiting = true;
+    } else if (!/^(category|:)/i.test(inner) && inTableCell) {
+      const name = inner.split('|').at(-1).trim();
+      if (waiting) {
+        add(name);
+        waiting = false;
+      } else if (!rowLink) {
+        rowLink = name;
+      }
+    }
+  }
+  return [...new Set(items)];
+}
+
 function summarize(title, wikitext) {
   const [intro] = wikitext.split(/^==/m);
 
@@ -105,14 +152,13 @@ function summarize(title, wikitext) {
   for (let i = 1; i < parts.length; i += 2) {
     const label = plain(parts[i]);
     const body = parts[i + 1];
+    // "Undocumented" is a heading for unlisted changes, not something the update added.
+    if (/^undocumented$/i.test(label)) continue;
     if (changeSections.test(label)) {
       also.push(label);
       continue;
     }
-    // Every listed thing has an image linking to its page; class icons are skipped.
-    const items = [...new Set([...body.matchAll(/\[\[(?:File|Image):[^\]]*?\|link=([^|\]]+)/gi)]
-      .map((match) => match[1].trim())
-      .filter((item) => item && !classes.has(item)))];
+    const items = listedItems(body);
     if (items.length > 0) features.push({ label, items });
     else also.push(label);
   }

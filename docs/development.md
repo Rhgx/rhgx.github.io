@@ -40,6 +40,8 @@ The timeline reads `public/tc2-timeline/data/updates.json`. To add an update:
 2. Run `pnpm timeline:icon` while the update is live. TC2 changes its Roblox icon with each update, so this saves the update's art straight from the game at 1024x1024: Roblox's WebP for the page and the PNG in `public/others/tc2-timeline/updates/`. It also fills in `logo`. TC2 changes the icon for events too, so check the picture.
 3. Run `pnpm timeline:wiki`, which saves each page's intro and item lists to `data/wiki.json` for the update popup.
 
+The popup shows the wiki's summary. When that summary says something the page's own tables don't back up, add a `summary` to the entry in `updates.json`; the popup shows it instead. Just Enough Slots has one.
+
 ## Adding a project
 
 1. Add a thumbnail as `src/assets/previews/<slug>.webp` (see [Thumbnails](#thumbnails)).

@@ -48,8 +48,9 @@ await writeFile(new URL(`${baseName}.png`, pngFolder), png);
 
 if (latest.logo !== `${baseName}.webp`) {
   latest.logo = `${baseName}.webp`;
-  // Same layout as the hand-written file: one update per line.
-  const lines = updates.map((update) => `  { "date": ${JSON.stringify(update.date)}, "name": ${JSON.stringify(update.name)}, "logo": ${JSON.stringify(update.logo)} }`);
+  // Same layout as the hand-written file: one update per line, keeping extra fields like "summary".
+  const fields = (update) => Object.entries(update).map(([key, value]) => `${JSON.stringify(key)}: ${JSON.stringify(value)}`).join(', ');
+  const lines = updates.map((update) => `  { ${fields(update)} }`);
   await writeFile(updatesPath, `[\n${lines.join(',\n')}\n]\n`);
 }
 
