@@ -7,7 +7,7 @@
 
 The hub for my browser tools: Typical Colors 2, Team Fortress 2 and Roblox, plus a few other things.
 
-<a href="https://rhgx.github.io/"><img src="docs/screenshot.webp" alt="The hub with Typical Colors 2 and Team Fortress 2 project cards over the contour-map background" width="600" /></a>
+<a href="https://rhgx.github.io/"><img src="docs/screenshot.webp" alt="The hub's Typical Colors 2 section, with a card for each tool over the contour-map background" width="600" /></a>
 
 **[Open the site](https://rhgx.github.io/)**
 
