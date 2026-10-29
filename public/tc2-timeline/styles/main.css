@@ -48,6 +48,10 @@ h1, h2, h3, p, ol { margin: 0; font-weight: 400; }
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
 }
+/* Clipped text only paints inside its own box, and Oswald's descenders (g, y, p) hang below
+   tight line heights, so they were cut off. The padding gives them room; the matching
+   negative margin keeps the layout where it was. */
+.game-text, .card-open, .when-date, .stat-value { padding-block: 0.2em; margin-block: -0.2em; }
 
 .container { width: min(1120px, 100%); margin: auto; padding: 24px 24px 12px; }
 
