@@ -70,6 +70,7 @@ export const projects: Project[] = [
     category: 'tc2',
     href: '/tc2-timeline/',
     preview: tc2Timeline,
+    icon: '/tc2-timeline/favicon.svg',
     keywords: 'updates history patch',
   },
   {
@@ -106,6 +107,7 @@ export const projects: Project[] = [
     category: 'tc2',
     href: '/tc2-bingo/',
     preview: tc2Bingo,
+    icon: '/tc2-bingo/favicon.svg',
   },
   {
     name: 'Time Calculator',
@@ -114,6 +116,7 @@ export const projects: Project[] = [
     category: 'tc2',
     href: '/tc2-time-calc/',
     preview: tc2TimeCalc,
+    icon: '/tc2-time-calc/favicon.svg',
     keywords: 'calc hours',
   },
   {
